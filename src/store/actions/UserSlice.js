@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-const qs = require('qs');
 
 import { saveSecure, getValueFor } from "../secure";
 
@@ -10,7 +9,7 @@ export const signup = createAsyncThunk("user/signup",
         try {
 
             const {data} = await formRequest('auth/register/', {
-                method: "POST", data: qs.stringify(params)
+                method: "POST", data: params
             });
             
             if(data && data.access_token && data.expires_in){
@@ -39,7 +38,7 @@ export const signin = createAsyncThunk("user/signin",
         try {
 
             const { data } = await formRequest('auth/login/', {
-                method: "POST", data: qs.stringify(params)
+                method: "POST", data: params
             });
             
             if(data && data.access_token && data.expires_in){
@@ -52,7 +51,7 @@ export const signin = createAsyncThunk("user/signin",
                 return { ...data, ...params, loginStatus: "loaded" };
             }
             
-            return thunkAPI.rejectWithValue(qs.stringify(data));
+            return thunkAPI.rejectWithValue(JSON.stringify(data));
 
         } catch (err) {
 
@@ -113,7 +112,7 @@ const userSlice = createSlice({
         },
         [signup.rejected]: (state, action) => {
             state.status = "rejected";
-            state.reasonForRejection = qs.parse(action.payload);
+            state.reasonForRejection = JSON.stringify(action.payload);
         },
         [signup.fulfilled]: (state, { payload }) => {
             return {
@@ -128,7 +127,7 @@ const userSlice = createSlice({
         },
         [signin.rejected]: (state, action) => {
             state.status = "rejected";
-            state.reasonForRejection = qs.parse(action.payload);
+            state.reasonForRejection = JSON.stringify(action.payload);
         },
         [signin.fulfilled]: (state, { payload }) => {
             return {
