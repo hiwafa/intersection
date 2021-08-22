@@ -1,6 +1,8 @@
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 
+import {Login} from "../src/components/login";
+
 export default function Home() {
   return (
     <div className={styles.container}>
@@ -11,7 +13,7 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <p>Hi dear welcome to intersection</p>
+        <Login />
       </main>
 
       <footer className={styles.footer}>
