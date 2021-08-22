@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 
-import {Login} from "../src/components/login";
+import Login  from "../src/components/Login";
 
 export default function Home() {
   return (
