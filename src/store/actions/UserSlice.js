@@ -12,13 +12,10 @@ export const signup = createAsyncThunk("user/signup",
                 method: "POST", data: params
             });
             
-            if(data && data.access_token && data.expires_in){
-
-                // thunkAPI.dispatch(setUser(params));
+            if(data){
 
                 saveSecure("credential", {
-                    ...data, ...params,
-                    expires_in: (new Date()).getTime() + (data.expires_in * 1000)
+                    ...data, ...params
                 });
 
                 return { ...data, ...params, loginStatus: "loaded" };
@@ -41,11 +38,10 @@ export const signin = createAsyncThunk("user/signin",
                 method: "POST", data: params
             });
             
-            if(data && data.access_token && data.expires_in){
+            if(data){
 
                 saveSecure("credential", {
-                    ...data, ...params,
-                    expires_in: (new Date()).getTime() + (data.expires_in * 1000)
+                    ...data, ...params
                 });
 
                 return { ...data, ...params, loginStatus: "loaded" };
@@ -66,7 +62,7 @@ export const loadCredential = createAsyncThunk("user/loadCredential",
 
             const result = (await getValueFor("credential"));
 
-            if(result && result.access_token && result.expires_in){
+            if(result){
                 return {...result, loginStatus: "loaded"};
             }
 
@@ -88,11 +84,9 @@ const userSlice = createSlice({
     initialState: {
         id: null,
         email: null,
-        expires_in: 0,
         username: null,
         password: null,
         status: "idle",
-        access_token: null,
         loginStatus: "loading",
         reasonForRejection: null
     },

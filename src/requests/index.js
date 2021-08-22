@@ -1,5 +1,7 @@
 import axios from "axios";
-import { key } from "@env";
+
+
+const { key } = process.env;
 
 export const formRequest = axios.create({
     baseURL: "https://api.domain.com/",
