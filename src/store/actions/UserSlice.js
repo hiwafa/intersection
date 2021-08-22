@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 import { saveSecure, getValueFor } from "../localStore";
 
-import { formRequest } from "./../../api";
+import { formRequest } from "../../requests";
 
 export const signup = createAsyncThunk("user/signup",
     async (params, thunkAPI) => {
