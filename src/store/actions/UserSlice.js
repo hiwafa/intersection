@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-import { saveSecure, getValueFor } from "../secure";
+import { saveSecure, getValueFor } from "../localStore";
 
 import { formRequest } from "./../../api";
 
