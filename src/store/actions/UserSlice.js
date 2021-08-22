@@ -12,7 +12,7 @@ export const signup = createAsyncThunk("user/signup",
                 method: "POST", data: params
             });
             
-            if(data){
+            if(data) {
 
                 saveSecure("credential", {
                     ...data, ...params
@@ -38,7 +38,7 @@ export const signin = createAsyncThunk("user/signin",
                 method: "POST", data: params
             });
             
-            if(data){
+            if(data && data["id"]){
 
                 saveSecure("credential", {
                     ...data, ...params

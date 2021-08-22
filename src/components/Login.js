@@ -26,7 +26,7 @@ export default () => {
                     },
                 ]}
             >
-                <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email" />
+                <Input prefix={<UserOutlined className="site-form-item-icon" />} type="email" placeholder="Email" />
             </Form.Item>
 
             <Form.Item
