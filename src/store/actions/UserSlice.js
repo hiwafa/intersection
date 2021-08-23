@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 import { saveSecure, getValueFor } from "../localStore";
 
-import { formRequest } from "../../requests";
+import { formRequest, request } from "../../requests";
 
 export const signup = createAsyncThunk("user/signup",
     async (params, thunkAPI) => {
@@ -34,11 +34,11 @@ export const signin = createAsyncThunk("user/signin",
     async (params, thunkAPI) => {
         try {
 
-            const { data } = await formRequest('auth/login/', {
+            const { data } = await request('auth/local', {
                 method: "POST", data: params
             });
             
-            if(data && data["id"]){
+            if(data && data["id"]) {
 
                 saveSecure("credential", {
                     ...data, ...params
