@@ -8,11 +8,11 @@ export const signup = createAsyncThunk("user/signup",
     async (params, thunkAPI) => {
         try {
 
-            const {data} = await formRequest('auth/register/', {
+            const { data } = await formRequest('auth/register/', {
                 method: "POST", data: params
             });
-            
-            if(data) {
+
+            if (data) {
 
                 saveSecure("credential", {
                     ...data, ...params
@@ -37,16 +37,17 @@ export const signin = createAsyncThunk("user/signin",
             const { data } = await request('auth/local', {
                 method: "POST", data: params
             });
-            
-            if(data && data["id"]) {
 
-                saveSecure("credential", {
-                    ...data, ...params
-                });
+            if (data && data["id"]) {
+
+                if (params && params.remember)
+                    saveSecure("credential", {
+                        ...data, ...params
+                    });
 
                 return { ...data, ...params, loginStatus: "loaded" };
             }
-            
+
             return thunkAPI.rejectWithValue(JSON.stringify(data));
 
         } catch (err) {
@@ -62,8 +63,8 @@ export const loadCredential = createAsyncThunk("user/loadCredential",
 
             const result = (await getValueFor("credential"));
 
-            if(result){
-                return {...result, loginStatus: "loaded"};
+            if (result) {
+                return { ...result, loginStatus: "loaded" };
             }
 
             return {
@@ -91,7 +92,7 @@ const userSlice = createSlice({
         reasonForRejection: null
     },
     reducers: {
-        setUser: (state, {payload})=> {
+        setUser: (state, { payload }) => {
             return {
                 ...state,
                 ...payload
@@ -100,7 +101,7 @@ const userSlice = createSlice({
     },
     extraReducers: {
 
-        /* sign up reducer */ 
+        /* sign up reducer */
         [signup.pending]: (state, action) => {
             state.status = "pending"
         },
@@ -114,8 +115,8 @@ const userSlice = createSlice({
                 status: "fulfilled"
             };
         },
-        
-        /* sign in reducer */ 
+
+        /* sign in reducer */
         [signin.pending]: (state, action) => {
             state.status = "pending"
         },
@@ -130,7 +131,7 @@ const userSlice = createSlice({
             };
         },
 
-        /* loading reducer */ 
+        /* loading reducer */
         [loadCredential.pending]: (state, action) => {
             state.status = "pending"
         },
