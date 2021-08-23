@@ -36,7 +36,7 @@ export const signin = createAsyncThunk("user/signin",
 
             const { username, password, remember } = params;
             const { data } = await request('auth/local', {
-                method: "POST", data: { username, password }
+                method: "POST", data: { identifier: username, password }
             });
 
             if (data && data.user && data.user.id) {
