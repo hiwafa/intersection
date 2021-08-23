@@ -1,11 +1,20 @@
 import { Form, Input, Button, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
+import { signin } from '../store/actions/UserSlice';
+import { useDispatch } from 'react-redux';
+
 export default () => {
 
-    const onFinish = (values) => {
+    const dispatch = useDispatch();
+
+    const onFinish = async (values) => {
         try {
-            console.log('Received values of form: ', values);
+            
+            const { payload } = await dispatch(signin(values));
+
+            console.log("login result: ", payload);
+
         } catch (err) {
             console.log('ERR:Login:onFinish ', err);
         }
