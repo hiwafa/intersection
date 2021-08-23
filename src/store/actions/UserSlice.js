@@ -40,14 +40,16 @@ export const signin = createAsyncThunk("user/signin",
 
             if (data && data.user && data.user.id) {
 
+                const datas = {jwt: data.jwt, ...data.user};
+
                 if (params && params.remember)
                     saveSecure("credential", {
-                        ...data, ...params
+                        ...datas, ...params
                     });
 
-                console.log("the sign result: ", data);
+                console.log("the sign result: ", datas);
 
-                return { ...data, ...params, loginStatus: "loaded" };
+                return { ...datas, ...params, loginStatus: "loaded" };
             }
 
             return thunkAPI.rejectWithValue(JSON.stringify(data));
@@ -86,10 +88,16 @@ const userSlice = createSlice({
     name: "user",
     initialState: {
         id: null,
+        jwt: null,
+        role: null,
         email: null,
         username: null,
         password: null,
         status: "idle",
+        provider: null,
+        confirmed: false,
+        created_at: null,
+        updated_at: null,
         loginStatus: "loading",
         reasonForRejection: null
     },
