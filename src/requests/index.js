@@ -8,11 +8,14 @@ const baseURL = "http://localhost:1337/";
 export const formRequest = axios.create({
     baseURL,
     headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
+        "Content-Type": "application/json",
         "Authorization": `Basic ${JWT_TOKEN}`
     },
 });
 
 export const request = axios.create({
-    baseURL
+    baseURL,
+    headers: {
+        "Content-Type": "application/json"
+    }
 });

@@ -38,12 +38,14 @@ export const signin = createAsyncThunk("user/signin",
                 method: "POST", data: params
             });
 
-            if (data && data["id"]) {
+            if (data && data.user && data.user.id) {
 
                 if (params && params.remember)
                     saveSecure("credential", {
                         ...data, ...params
                     });
+
+                console.log("the sign result: ", data);
 
                 return { ...data, ...params, loginStatus: "loaded" };
             }
@@ -68,7 +70,7 @@ export const loadCredential = createAsyncThunk("user/loadCredential",
             }
 
             return {
-                ...thunkAPI.getState(),
+                ...thunkAPI.getState().user,
                 loginStatus: "failed",
             };
 
