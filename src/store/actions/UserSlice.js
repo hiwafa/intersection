@@ -34,15 +34,16 @@ export const signin = createAsyncThunk("user/signin",
     async (params, thunkAPI) => {
         try {
 
+            const { username, password, remember } = params;
             const { data } = await request('auth/local', {
-                method: "POST", data: params
+                method: "POST", data: { username, password }
             });
 
             if (data && data.user && data.user.id) {
 
-                const datas = {jwt: data.jwt, ...data.user};
+                const datas = { jwt: data.jwt, ...data.user };
 
-                if (params && params.remember)
+                if (remember)
                     saveSecure("credential", {
                         ...datas, ...params
                     });
