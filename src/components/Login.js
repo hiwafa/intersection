@@ -4,7 +4,11 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 export default () => {
 
     const onFinish = (values) => {
-        console.log('Received values of form: ', values);
+        try {
+            console.log('Received values of form: ', values);
+        } catch (err) {
+            console.log('ERR:Login:onFinish ', err);
+        }
     };
 
     return (
@@ -18,15 +22,15 @@ export default () => {
         >
 
             <Form.Item
-                name="email"
+                name="username"
                 rules={[
                     {
                         required: true,
-                        message: 'Please input your email!',
+                        message: 'Please input your username!',
                     },
                 ]}
             >
-                <Input prefix={<UserOutlined className="site-form-item-icon" />} type="email" placeholder="Email" />
+                <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
             </Form.Item>
 
             <Form.Item

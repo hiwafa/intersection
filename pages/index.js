@@ -15,7 +15,7 @@ export default function Home() {
   useEffect(() => {
 
     (async () => {
-      const { payload } = dispatch(loadCredential({}));
+      const {payload} = await dispatch(loadCredential({}));
       console.log("payload: ", payload);
     })();
 
