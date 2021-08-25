@@ -12,7 +12,7 @@ export default () => {
     const onFinish = async (values) => {
         try {
 
-            console.log("user: ", user);
+            console.log("user.jwt: ", user.jwt);
             console.log("values result: ", values);
 
             const { payload } = await dispatch(resetPass({...values, code: user.jwt}));
