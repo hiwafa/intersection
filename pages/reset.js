@@ -1,7 +1,7 @@
 import { Form, Input, Button, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
-import { signin } from '../store/actions/UserSlice';
+import { signin } from '../src/store/actions/UserSlice';
 import { useDispatch } from 'react-redux';
 
 export default () => {
@@ -31,15 +31,19 @@ export default () => {
         >
 
             <Form.Item
-                name="username"
+                name="password"
                 rules={[
                     {
                         required: true,
-                        message: 'Please input your username!',
+                        message: 'Please input your New Password!',
                     },
                 ]}
             >
-                <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+                <Input
+                    prefix={<LockOutlined className="site-form-item-icon" />}
+                    type="password"
+                    placeholder="New Password"
+                />
             </Form.Item>
 
             <Form.Item
@@ -47,32 +51,21 @@ export default () => {
                 rules={[
                     {
                         required: true,
-                        message: 'Please input your Password!',
+                        message: 'Please input your Password again!',
                     },
                 ]}
             >
                 <Input
                     prefix={<LockOutlined className="site-form-item-icon" />}
-                    type="password"
-                    placeholder="Password"
+                    type="confirmPassword"
+                    placeholder="Confirm Password"
                 />
             </Form.Item>
 
             <Form.Item>
-                <Form.Item name="remember" valuePropName="checked" noStyle>
-                    <Checkbox>Remember me</Checkbox>
-                </Form.Item>
-
-                <a target="_blank" className="login-form-forgot" href="/reset">
-                    Forgot password
-                </a>
-            </Form.Item>
-
-            <Form.Item>
                 <Button type="primary" htmlType="submit" className="login-form-button">
-                    Log in
-                </Button> 
-                &nbsp;&nbsp; Or &nbsp;<a href="">register now!</a>
+                    Confirm
+                </Button>
             </Form.Item>
         </Form>
     );
