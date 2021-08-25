@@ -21,7 +21,14 @@ export default () => {
     };
 
     return (
-        <Form
+        <div style={{
+            display: 'flex',
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: "100vh"
+        }}>
+            <Form
             name="normal_login"
             className="login-form"
             initialValues={{
@@ -68,5 +75,6 @@ export default () => {
                 </Button>
             </Form.Item>
         </Form>
+        </div>
     );
 };
