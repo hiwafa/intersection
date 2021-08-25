@@ -1,8 +1,8 @@
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 import Login from "../src/components/Login";
-import { isLoggedIn, loadCredential } from '../src/store/actions/UserSlice';
-import { useSelector, useDispatch } from 'react-redux';
+import { isLoggedIn } from '../src/store/actions/UserSlice';
+import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 
 
@@ -48,16 +48,7 @@ export default function Home() {
   // above is test
 
   const checkLogin = useSelector(isLoggedIn);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-
-    (async () => {
-      const {payload} = await dispatch(loadCredential({}));
-      console.log("payload: ", payload);
-    })();
-
-  }, []);
+  
 
   if (checkLogin === 'loading') return (
     <div className={styles.container}>

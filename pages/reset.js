@@ -7,15 +7,15 @@ import { useDispatch, useSelector } from 'react-redux';
 export default () => {
 
     const dispatch = useDispatch();
-    const { jwt } = useSelector(getUser);
+    const user = useSelector(getUser);
 
     const onFinish = async (values) => {
         try {
 
-            console.log("jwt: ", jwt);
+            console.log("user: ", user);
             console.log("values result: ", values);
 
-            const { payload } = await dispatch(resetPass({...values, code: jwt}));
+            const { payload } = await dispatch(resetPass({...values, code: user.jwt}));
 
             console.log("login result: ", payload);
 
@@ -58,7 +58,7 @@ export default () => {
                 </Form.Item>
 
                 <Form.Item
-                    name="password"
+                    name="confirmPass"
                     rules={[
                         {
                             required: true,
@@ -68,7 +68,7 @@ export default () => {
                 >
                     <Input
                         prefix={<LockOutlined className="site-form-item-icon" />}
-                        type="confirmPassword"
+                        type="password"
                         placeholder="Confirm Password"
                     />
                 </Form.Item>
