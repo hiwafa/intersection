@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-import { saveSecure, getValueFor } from "../localStore";
+import { setCookie, getCookie } from "../coockie";
 
 import { formRequest, request } from "../../requests";
 
@@ -14,7 +14,7 @@ export const signup = createAsyncThunk("user/signup",
 
             if (data) {
 
-                saveSecure("credential", {
+                setCookie("credential", {
                     ...data, ...params
                 });
 
@@ -44,7 +44,7 @@ export const signin = createAsyncThunk("user/signin",
                 const datas = { jwt: data.jwt, ...data.user };
 
                 if (remember)
-                    saveSecure("credential", {
+                setCookie("credential", {
                         ...datas, ...params
                     });
 
@@ -66,7 +66,7 @@ export const loadCredential = createAsyncThunk("user/loadCredential",
     async (params, thunkAPI) => {
         try {
 
-            const result = (await getValueFor("credential"));
+            const result = (await getCookie("credential"));
 
             if (result) {
                 return { ...result, loginStatus: "loaded" };
