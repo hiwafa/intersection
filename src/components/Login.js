@@ -63,7 +63,7 @@ export default () => {
                     <Checkbox>Remember me</Checkbox>
                 </Form.Item>
 
-                <a className="login-form-forgot" href="">
+                <a target="_blank" className="login-form-forgot" href="/reset">
                     Forgot password
                 </a>
             </Form.Item>
