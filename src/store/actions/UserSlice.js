@@ -44,7 +44,7 @@ export const signin = createAsyncThunk("user/signin",
                 const datas = { jwt: data.jwt, ...data.user };
 
                 if (remember)
-                setCookie("credential", {
+                    setCookie("credential", {
                         ...datas, ...params
                     });
 
@@ -52,6 +52,31 @@ export const signin = createAsyncThunk("user/signin",
 
                 return { ...datas, ...params, loginStatus: "loaded" };
             }
+
+            return thunkAPI.rejectWithValue(JSON.stringify(data));
+
+        } catch (err) {
+
+            return thunkAPI.rejectWithValue(err.message);
+        }
+    }
+);
+
+export const resetPass = createAsyncThunk("user/resetPass",
+    async (params, thunkAPI) => {
+        try {
+
+            const { password, confirmPass, code } = params;
+            const { data } = await request('auth/local', {
+                method: "POST", data: {
+                    code, password,
+                    passwordConfirmation: confirmPass
+                }
+            });
+
+            console.log("resetPass: ", data);
+
+            return null;
 
             return thunkAPI.rejectWithValue(JSON.stringify(data));
 
