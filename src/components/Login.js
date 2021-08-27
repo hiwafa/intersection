@@ -4,7 +4,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { signin } from '../store/actions/UserSlice';
 import { useDispatch } from 'react-redux';
 
-export default () => {
+export default Login = () => {
 
     const dispatch = useDispatch();
 
