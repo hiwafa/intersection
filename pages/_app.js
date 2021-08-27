@@ -14,7 +14,7 @@ function MyApp({ Component, pageProps }) {
   useEffect(()=> {
     (async () => {
       const {payload} = await dispatch(loadCredential({}));
-      console.log("payload: ", payload);
+      console.log("payload: ", payload.jwt);
     })();
   }, []);
 
