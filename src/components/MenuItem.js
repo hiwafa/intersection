@@ -1,7 +1,5 @@
 import React from 'react';
-import { bool, func, string } from 'prop-types';
-import { Row } from 'simple-flexbox';
-import { StyleSheet, css } from 'aphrodite';
+import { Row } from 'antd';
 
 const styles = {
     activeBar: {
@@ -45,11 +43,5 @@ const  MenuItem = ({ active, icon, title, ...otherProps }) => {
         </Row>
     );
 }
-
-MenuItem.propTypes = {
-    active: bool,
-    icon: func,
-    title: string
-};
 
 export default MenuItem;

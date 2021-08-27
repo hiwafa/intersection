@@ -4,9 +4,15 @@ import Login from "../src/components/Login";
 import { isLoggedIn } from '../src/store/actions/UserSlice';
 import { useSelector } from 'react-redux';
 
+
+import App from '../src/components/App';
+
  const  Home = ()=> {
 
   const checkLogin = useSelector(isLoggedIn);
+
+
+  return <App />
 
   if (checkLogin === 'loading') return (
     <div className={styles.container}>
