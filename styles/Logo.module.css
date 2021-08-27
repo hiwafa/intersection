@@ -3,6 +3,9 @@
 .container {
     margin-left: 32px;
     margin-right: 32px;
+    display: flex; flex: 1;
+    align-items: center;
+    justify-content: center;
 }
 
 .title {
