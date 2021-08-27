@@ -11,7 +11,7 @@ import TopicMenu from "../src/components/Menu";
 import SideBar from "../src/components/SideBar";
 import NavBar from "../src/components/NavBar";
 
-export default function Home() {
+ const  Home = ()=> {
 
 
   // const topics = ["First topic", "Second topic", "Third topic"];
@@ -105,3 +105,5 @@ export default function Home() {
   );
 
 }
+
+export default Home;
