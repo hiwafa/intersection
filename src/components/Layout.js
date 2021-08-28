@@ -10,6 +10,7 @@ import Login from "./Login";
 import { useSelector } from 'react-redux';
 import { isLoggedIn } from '../store/actions/UserSlice';
 
+import styles from "../../styles/Layout.module.css";
 
 const LayoutCom = ({ children }) => {
 
@@ -31,14 +32,17 @@ const LayoutCom = ({ children }) => {
     );
 
     if (checkLogin === 'failed') return (
-        <div>
+        <div className={styles.container}>
             <Head>
                 <title>Intersection</title>
                 <meta name="description" content="intersection" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <main>
+            <main style={{
+                padding: 50, paddingBottom: 10, borderWidth: 1,
+                borderColor: '#eee', borderStyle: 'solid', borderRadius: 10
+            }}>
                 <Login />
             </main>
         </div>
