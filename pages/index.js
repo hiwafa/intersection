@@ -1,12 +1,12 @@
 import Head from 'next/head';
-import Image from 'next/image';
+// import Image from 'next/image';
 import styles from '../styles/Home.module.css';
 import Login from "../src/components/Login";
 import { isLoggedIn } from '../src/store/actions/UserSlice';
 import { useSelector } from 'react-redux';
 
 
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, Image } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
 import { UserOutlined } from '@ant-design/icons';
 
@@ -17,11 +17,15 @@ const Home = () => {
   return (
     <Layout>
       <Sider
-        breakpoint="lg" collapsedWidth="0"
-        onCollapse={(collapsed, type) => { console.log(collapsed, type); }}
+        breakpoint="lg" collapsedWidth="0" theme="light"
+        zeroWidthTriggerStyle={{ top: 13 }}
       >
-        <Image src="/favicon.ico" width={"100%"} height={50} />
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
+
+        <div style={{ display: 'flex', height: 64, alignItems: 'center', justifyContent: 'center' }}>
+          <Image src="/logo.jpg" />
+        </div>
+
+        <Menu theme="light" mode="inline" defaultSelectedKeys={['4']}>
           <Menu.Item key="1">
             <UserOutlined />
             <span className="nav-text">nav 1</span>
@@ -30,27 +34,34 @@ const Home = () => {
             <UserOutlined />
             <span className="nav-text">nav 2</span>
           </Menu.Item>
-          <Menu.Item key="3">
-            <UserOutlined />
-            <span className="nav-text">nav 3</span>
-          </Menu.Item>
-          <Menu.Item key="4">
-            <UserOutlined />
-            <span className="nav-text">nav 4</span>
-          </Menu.Item>
         </Menu>
+
       </Sider>
+
       <Layout>
-        <Header style={{ background: '#fff', padding: 0 }} />
-        <Content style={{ margin: '24px 16px 0' }}>
+
+        <Header style={{
+          background: '#fff', padding: 0,
+          paddingLeft: 70, paddingRight: 70,
+          display: 'flex', justifyContent: 'flex-end'
+        }}>
+          <span>Sign In</span>
+        </Header>
+
+        <Content style={{
+          margin: '24px 16px 0',
+          overflowY: 'scroll',
+          height: '100vh'
+        }}>
           <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-            content
+            <p>Hi dear</p>
           </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>
           Ant Design ©2016 Created by Ant UED
         </Footer>
       </Layout>
+
     </Layout>
   );
 
