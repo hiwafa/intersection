@@ -4,7 +4,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { getUser, resetPass } from '../src/store/actions/UserSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
-export default () => {
+const Reset =  () => {
 
     const dispatch = useDispatch();
     const user = useSelector(getUser);
@@ -82,3 +82,5 @@ export default () => {
         </div>
     );
 };
+
+export default Reset;
