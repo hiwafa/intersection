@@ -17,6 +17,13 @@ const LayoutCom = ({ children }) => {
     const checkLogin = useSelector(isLoggedIn);
     const {username} = useSelector(getUser);
 
+
+    const router = useRouter();
+    let padname = router.pathname;
+
+    if (padname === "/") padname = "home";
+    else padname = padname.substring(1);
+
     if (checkLogin === 'loading') return (
         <div>
             <Head>
@@ -48,13 +55,6 @@ const LayoutCom = ({ children }) => {
             </main>
         </div>
     );
-
-
-    const router = useRouter();
-    let padname = router.pathname;
-
-    if (padname === "/") padname = "home";
-    else padname = padname.substring(1);
 
     return (
         <Layout>
