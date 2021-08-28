@@ -1,12 +1,12 @@
 import { useRouter } from "next/router";
 
 
-const Sites = () => {
+const Admin = () => {
 
   return (
-   <div>sites</div>
+   <div>Admin</div>
   );
 
 }
 
-export default Sites;
+export default Admin;

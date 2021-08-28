@@ -8,13 +8,14 @@ import { UserOutlined } from '@ant-design/icons';
 
 import Login from "./Login";
 import { useSelector } from 'react-redux';
-import { isLoggedIn } from '../store/actions/UserSlice';
+import { isLoggedIn, getUser } from '../store/actions/UserSlice';
 
 import styles from "../../styles/Layout.module.css";
 
 const LayoutCom = ({ children }) => {
 
     const checkLogin = useSelector(isLoggedIn);
+    const {username} = useSelector(getUser);
 
     if (checkLogin === 'loading') return (
         <div>
@@ -72,12 +73,12 @@ const LayoutCom = ({ children }) => {
                 <Menu theme="light" mode="inline" defaultSelectedKeys={[padname]}>
                     <Menu.Item key="home" icon={<UserOutlined />}>
                         <Link href="/">
-                            <a>Dashboard</a>
+                            <a>Analyst</a>
                         </Link>
                     </Menu.Item>
-                    <Menu.Item key="sites" icon={<UserOutlined />}>
-                        <Link href="/sites">
-                            <a>Sites</a>
+                    <Menu.Item key="admin" icon={<UserOutlined />}>
+                        <Link href="/admin">
+                            <a>Admin</a>
                         </Link>
                     </Menu.Item>
                 </Menu>
@@ -91,7 +92,9 @@ const LayoutCom = ({ children }) => {
                     paddingLeft: 70, paddingRight: 70,
                     display: 'flex', justifyContent: 'flex-end'
                 }}>
-                    <span>Sign In</span>
+                    <span>
+                        {username ? username : "Sign In"}
+                    </span>
                 </Header>
 
                 <Content style={{
