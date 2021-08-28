@@ -4,7 +4,7 @@ import styles from '../styles/Home.module.css';
 import Login from "../src/components/Login";
 import { isLoggedIn } from '../src/store/actions/UserSlice';
 import { useSelector } from 'react-redux';
-
+import { useRouter } from "next/router";
 
 import { Layout, Menu, Image } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
@@ -13,6 +13,13 @@ import { UserOutlined } from '@ant-design/icons';
 const Home = () => {
 
   const checkLogin = useSelector(isLoggedIn);
+  
+  const router = useRouter();
+  let padname = router.pathname;
+
+  if (padname === "/") padname = "home";
+  else padname = padname.substring(1);
+
 
   return (
     <Layout>
