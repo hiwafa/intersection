@@ -23,7 +23,7 @@ const LayoutCom = ({ children }) => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <main className={styles.main}>
+            <main>
                 loading ...
             </main>
 
@@ -31,14 +31,14 @@ const LayoutCom = ({ children }) => {
     );
 
     if (checkLogin === 'failed') return (
-        <div className={styles.container}>
+        <div>
             <Head>
                 <title>Intersection</title>
                 <meta name="description" content="intersection" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <main className={styles.main}>
+            <main>
                 <Login />
             </main>
         </div>
