@@ -67,7 +67,7 @@ const LayoutCom = ({ children }) => {
                     display: 'flex', alignItems: 'center',
                     justifyContent: 'center', height: 64
                 }}>
-                    <Image src="/logo.jpg" />
+                    <Image src="/logo.jpg" alt="logo"/>
                 </div>
 
                 <Menu theme="light" mode="inline" defaultSelectedKeys={[padname]}>

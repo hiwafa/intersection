@@ -14,10 +14,13 @@ function MyApp({ Component, pageProps }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
+
     (async () => {
       const { payload } = await dispatch(loadCredential({}));
       console.log("payload: ", payload.jwt);
     })();
+    
+
   }, []);
 
   return (
@@ -27,8 +30,10 @@ function MyApp({ Component, pageProps }) {
   );
 }
 
-export default ({ Component, pageProps }) => (
+const MainApp = ({ Component, pageProps }) => (
   <Provider store={store}>
     <MyApp Component={Component} pageProps={pageProps} />
   </Provider>
 );
+
+export default MainApp;

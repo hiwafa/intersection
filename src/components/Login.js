@@ -3,6 +3,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
 import { signin } from '../store/actions/UserSlice';
 import { useDispatch } from 'react-redux';
+import Link from "next/link";
 
 const Login = () => {
 
@@ -10,7 +11,7 @@ const Login = () => {
 
     const onFinish = async (values) => {
         try {
-            
+
             const { payload } = await dispatch(signin(values));
 
             console.log("login result: ", payload);
@@ -63,16 +64,19 @@ const Login = () => {
                     <Checkbox>Remember me</Checkbox>
                 </Form.Item>
 
-                <a target="_blank" className="login-form-forgot" href="/reset">
-                    Forgot password
-                </a>
+                <Link target="_blank" href="/reset" className="login-form-forgot">
+                    <a>Forgot password</a>
+                </Link>
             </Form.Item>
 
             <Form.Item>
                 <Button type="primary" htmlType="submit" className="login-form-button">
                     Log in
-                </Button> 
-                &nbsp;&nbsp; Or &nbsp;<a href="">register now!</a>
+                </Button>
+                &nbsp;&nbsp; Or &nbsp;
+                <Link href="">
+                    <a>register now!</a>
+                </Link>
             </Form.Item>
         </Form>
     );
