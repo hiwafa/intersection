@@ -35,9 +35,9 @@ const Admin = () => {
       <Header style={{ width: '100%', backgroundColor: '#fff' }}>
         <div className="logo" />
         <Menu theme="light" mode="horizontal" defaultSelectedKeys={['2']}>
-          <Menu.Item key="1">nav 1</Menu.Item>
-          <Menu.Item key="2">nav 2</Menu.Item>
-          <Menu.Item key="3">nav 3</Menu.Item>
+          <Menu.Item key="1">Descriptive Statistics</Menu.Item>
+          <Menu.Item key="2">Crash Data</Menu.Item>
+          <Menu.Item key="3">Intersection Inventory</Menu.Item>
         </Menu>
       </Header>
       <Content className="site-layout" style={{ padding: '0 50px', marginTop: 64 }}>

@@ -102,7 +102,7 @@ const LayoutCom = ({ children }) => {
                     overflowY: 'scroll',
                     height: '100vh'
                 }}>
-                    <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
+                    <div style={{ background: '#fff', minHeight: 360 }}>
                         {children}
                     </div>
                 </Content>
