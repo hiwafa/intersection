@@ -2,8 +2,34 @@ import React from "react";
 import GoogleMapReact from 'google-map-react';
 import { useRouter } from "next/router";
 
-import { Layout, Menu, Breadcrumb } from 'antd';
+import { Layout, Menu } from 'antd';
 const { Header, Content, Footer } = Layout;
+
+import { Bubble } from 'react-chartjs-2';
+
+
+const data = {
+  datasets: [{
+    label: 'First Dataset',
+    data: [{
+      x: 20,
+      y: 30,
+      r: 15
+    }, {
+      x: 40,
+      y: 10,
+      r: 10
+    }],
+    backgroundColor: 'rgb(255, 99, 132)'
+  }]
+};
+const config = {
+  type: 'bubble',
+  data: data,
+  options: {}
+};
+
+
 
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
@@ -41,8 +67,8 @@ const Admin = () => {
         </Menu>
       </Header>
       <Content className="site-layout" style={{ padding: '0 50px', marginTop: 64 }}>
-        <div className="site-layout-background" style={{ padding: 24, minHeight: 380 }}>
-          Content
+        <div className="site-layout-background" style={{ minHeight: 380 }}>
+          <Bubble {...config} />
         </div>
       </Content>
     </Layout>
