@@ -1,18 +1,18 @@
-import { Form, Input, Button, Checkbox } from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { Form, Input, Button } from 'antd';
+import { UserOutlined, LockOutlined,MailOutlined } from '@ant-design/icons';
 
-import { signin } from '../store/actions/UserSlice';
+import { signup } from '../store/actions/UserSlice';
 import { useDispatch } from 'react-redux';
 import Link from "next/link";
 
-const Login = () => {
+const SignUp = () => {
 
     const dispatch = useDispatch();
 
     const onFinish = async (values) => {
+        console.log("I am here with the value:",values);
         try {
-
-            const { payload } = await dispatch(signin(values));
+            const { payload } = await dispatch(signup(values));
 
             console.log("login result: ", payload);
 
@@ -22,7 +22,6 @@ const Login = () => {
     };
 
     return (
-        <>
         <Form
             name="normal_login"
             className="login-form"
@@ -31,7 +30,7 @@ const Login = () => {
             }}
             onFinish={onFinish}
         >
-
+        <h1 style={{paddingBottom:20,textAlign:'center'}}>SignUp</h1>
             <Form.Item
                 name="username"
                 rules={[
@@ -42,6 +41,23 @@ const Login = () => {
                 ]}
             >
                 <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+            </Form.Item>
+              <Form.Item
+                name="email"
+                rules={[
+                    {
+                        required: true,
+                        message: 'Please input your email!',
+                        type:'email',
+                        message:'Please input correct email'
+                    },
+                ]}
+            >
+                <Input
+                    prefix={<MailOutlined className="site-form-item-icon" />}
+                    type="email"
+                    placeholder="Email"
+                />
             </Form.Item>
 
             <Form.Item
@@ -61,27 +77,16 @@ const Login = () => {
             </Form.Item>
 
             <Form.Item>
-                <Form.Item name="remember" valuePropName="checked" noStyle>
-                    <Checkbox>Remember me</Checkbox>
-                </Form.Item>
-
-                <Link target="_blank" href="/reset" className="login-form-forgot">
-                    <a>Forgot password</a>
-                </Link>
-            </Form.Item>
-
-            <Form.Item>
                 <Button type="primary" htmlType="submit" className="login-form-button">
-                    Log in
+                   SignUp
                 </Button>
                 &nbsp;&nbsp; Or &nbsp;
-                <Link href="/">
-                    <a>register now!</a>
+                <Link href="">
+                    <a>Login Now!!</a>
                 </Link>
             </Form.Item>
         </Form>
-        </>
     );
 };
 
-export default Login;
+export default SignUp;

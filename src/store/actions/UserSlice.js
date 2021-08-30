@@ -20,7 +20,7 @@ export const signup = createAsyncThunk("user/signup",
 
                 return { ...data, ...params, loginStatus: "loaded" };
             }
-
+            
             return thunkAPI.rejectWithValue("No Data for SignUp");
 
         } catch (err) {

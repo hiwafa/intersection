@@ -8,9 +8,10 @@ import { UserOutlined } from '@ant-design/icons';
 
 import Login from "./Login";
 import { useSelector } from 'react-redux';
-import { isLoggedIn, getUser } from '../store/actions/UserSlice';
+import { isLoggedIn, getUser, signin } from '../store/actions/UserSlice';
 
 import styles from "../../styles/Layout.module.css";
+import SignUp from './Signup';
 
 const LayoutCom = ({ children }) => {
 
@@ -38,8 +39,9 @@ const LayoutCom = ({ children }) => {
 
         </div>
     );
-
-    if (checkLogin === 'failed') return (
+    
+    
+    if (checkLogin === 'failed')return (
         <div className={styles.container}>
             <Head>
                 <title>Intersection</title>
@@ -48,13 +50,14 @@ const LayoutCom = ({ children }) => {
             </Head>
 
             <main style={{
-                padding: 50, paddingBottom: 10, borderWidth: 1,
+                padding: 50,paddingTop:20, paddingBottom: 10, borderWidth: 1,
                 borderColor: '#eee', borderStyle: 'solid', borderRadius: 10
             }}>
                 <Login />
             </main>
         </div>
     );
+    
 
     return (
         <Layout>
