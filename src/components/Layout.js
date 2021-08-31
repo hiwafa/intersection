@@ -7,6 +7,8 @@ const { Header, Content, Footer, Sider } = Layout;
 import { UserOutlined } from '@ant-design/icons';
 
 import Login from "./Login";
+import SignUp from './Signup';
+
 import { useSelector } from 'react-redux';
 import { isLoggedIn, getUser } from '../store/actions/UserSlice';
 
@@ -25,17 +27,38 @@ const LayoutCom = ({ children }) => {
     else padname = padname.substring(1);
 
     if (checkLogin === 'loading') return (
-        <div>
+        <div className={styles.container}>
             <Head>
                 <title>Intersection</title>
                 <meta name="description" content="intersection" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <main className={styles.container}>
+            <main>
                 loading ...
             </main>
 
+        </div>
+    );
+
+    console.log("paddname", padname);
+    if (padname === 'register') return (
+        <div className={styles.container}>
+            <Head>
+                <title>Intersection</title>
+                <meta name="description" content="intersection" />
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
+
+            <main className={styles.loginForm}>
+
+                <div className={styles.caption}>
+                    <Image src="/logo.jpg" alt="logo" width={200} />
+                    <p className={styles.captionFont}>Hello User! Please sign up</p>
+                </div>
+
+                {children}
+            </main>
         </div>
     );
 

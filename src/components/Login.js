@@ -68,10 +68,10 @@ const Login = () => {
                     <a className={styles.forgetPass}>Forgot password?</a>
                 </Link>
                 
-                <Link target="_blank" href="/reset">
+                <Link href="/register">
                     <a> &nbsp;&nbsp; register now</a>
                 </Link>
-                
+
             </Form.Item>
 
             <Form.Item>

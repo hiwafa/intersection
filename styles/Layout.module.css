@@ -23,6 +23,7 @@
 
 .loginForm {
   padding: 50px;
+  max-height: 450px;
   padding-bottom: 10px;
   border-width: 1px;
   border-color: #eee;
