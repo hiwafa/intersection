@@ -4,6 +4,7 @@ import axios from "axios";
 const { JWT_TOKEN } = process.env;
 
 const baseURL = "https://intersection-backend.herokuapp.com/";
+// const baseURL = "http://localhost:3000/";
 
 export const formRequest = axios.create({
     baseURL,
