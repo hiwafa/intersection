@@ -8,15 +8,14 @@ import { UserOutlined } from '@ant-design/icons';
 
 import Login from "./Login";
 import { useSelector } from 'react-redux';
-import { isLoggedIn, getUser, signin } from '../store/actions/UserSlice';
+import { isLoggedIn, getUser } from '../store/actions/UserSlice';
 
 import styles from "../../styles/Layout.module.css";
-import SignUp from './Signup';
 
 const LayoutCom = ({ children }) => {
 
     const checkLogin = useSelector(isLoggedIn);
-    const {username} = useSelector(getUser);
+    const { username } = useSelector(getUser);
 
 
     const router = useRouter();
@@ -39,9 +38,8 @@ const LayoutCom = ({ children }) => {
 
         </div>
     );
-    
-    
-    if (checkLogin === 'failed')return (
+
+    if (checkLogin === 'failed') return (
         <div className={styles.container}>
             <Head>
                 <title>Intersection</title>
@@ -50,14 +48,19 @@ const LayoutCom = ({ children }) => {
             </Head>
 
             <main style={{
-                padding: 50,paddingTop:20, paddingBottom: 10, borderWidth: 1,
+                padding: 50, paddingBottom: 10, borderWidth: 1,
                 borderColor: '#eee', borderStyle: 'solid', borderRadius: 10
             }}>
+
+                <div className={styles.caption}>
+                    <Image src="/logo.jpg" alt="logo" width={200} />
+                    <p className={styles.captionFont}>Hello User! Please sign in</p>
+                </div>
+
                 <Login />
             </main>
         </div>
     );
-    
 
     return (
         <Layout>
@@ -70,7 +73,7 @@ const LayoutCom = ({ children }) => {
                     display: 'flex', alignItems: 'center',
                     justifyContent: 'center', height: 64
                 }}>
-                    <Image src="/logo.jpg" alt="logo"/>
+                    <Image src="/logo.jpg" alt="logo" />
                 </div>
 
                 <Menu theme="light" mode="inline" defaultSelectedKeys={[padname]}>
