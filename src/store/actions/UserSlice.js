@@ -8,7 +8,7 @@ export const signup = createAsyncThunk("user/signup",
     async (params, thunkAPI) => {
         try {
 
-            const { data } = await formRequest('auth/local/register/', {
+            const { data } = await formRequest('auth/local/register', {
                 method: "POST", data: params
             });
 
