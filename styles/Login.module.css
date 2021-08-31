@@ -13,6 +13,9 @@
 
 .loginButton {
     background-color: #1393A9;
+    border-color: #1393A9;
+    color: #fff;
+    width: 100%;
 }
 .forgetPass {
     color: #1393A9;

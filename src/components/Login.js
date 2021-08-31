@@ -5,6 +5,7 @@ import { signin } from '../store/actions/UserSlice';
 import { useDispatch } from 'react-redux';
 import Link from "next/link";
 
+import { StyledButton } from './styleds';
 
 const Login = () => {
 
@@ -66,19 +67,19 @@ const Login = () => {
                     <Checkbox>Remember me</Checkbox>
                 </Form.Item> */}
 
-                <Link target="_blank" href="/reset" className={styles.forgetPass}>
-                    <a>Forgot password?</a>
+                <Link target="_blank" href="/reset">
+                    <a className={styles.forgetPass}>Forgot password?</a>
                 </Link>
                 
-                <Link target="_blank" href="/reset" className="login-form-forgot">
+                <Link target="_blank" href="/reset">
                     <a> &nbsp;&nbsp; register now</a>
                 </Link>
             </Form.Item>
 
             <Form.Item>
-                <Button type="primary" htmlType="submit" className={styles.loginButton}>
+                <StyledButton type="submit">
                     Log in
-                </Button>
+                </StyledButton>
             </Form.Item>
         </Form>
         </>
