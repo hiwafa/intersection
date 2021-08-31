@@ -47,10 +47,7 @@ const LayoutCom = ({ children }) => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <main style={{
-                padding: 50, paddingBottom: 10, borderWidth: 1,
-                borderColor: '#eee', borderStyle: 'solid', borderRadius: 10
-            }}>
+            <main className={styles.loginForm}>
 
                 <div className={styles.caption}>
                     <Image src="/logo.jpg" alt="logo" width={200} />

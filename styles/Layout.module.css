@@ -20,3 +20,13 @@
 .captionFont {
   font-size: 13px;
 }
+
+.loginForm {
+  padding: 50px;
+  padding-bottom: 10px;
+  border-width: 1px;
+  border-color: #eee;
+  border-style: solid;
+  border-radius: 10px;
+  background-color: #fff;
+}
