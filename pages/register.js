@@ -1,10 +1,10 @@
 import { Form, Input, Button, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
-import { getUser, resetPass } from '../src/store/actions/UserSlice';
+import { getUser, resetPass, signup } from '../src/store/actions/UserSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
-const Reset =  () => {
+const Register =  () => {
 
     const dispatch = useDispatch();
     const user = useSelector(getUser);
@@ -12,15 +12,12 @@ const Reset =  () => {
     const onFinish = async (values) => {
         try {
 
-            console.log("user.jwt: ", user.jwt);
-            console.log("values result: ", values);
+            const { payload } = await dispatch(signup(values));
 
-            const { payload } = await dispatch(resetPass({...values, code: user.jwt}));
-
-            console.log("login result: ", payload);
+            console.log("register result: ", payload);
 
         } catch (err) {
-            console.log('ERR:Login:onFinish ', err);
+            console.log('ERR:register:onFinish ', err);
         }
     };
 
@@ -36,40 +33,56 @@ const Reset =  () => {
             >
 
                 <Form.Item
-                    name="password"
+                    name="email"
                     rules={[
                         {
                             required: true,
-                            message: 'Please input your New Password!',
+                            message: 'Please input your email!',
                         },
                     ]}
                 >
                     <Input
                         prefix={<LockOutlined className="site-form-item-icon" />}
-                        type="password"
-                        placeholder="New Password"
+                        type="email"
+                        placeholder="Email Address"
                     />
                 </Form.Item>
 
                 <Form.Item
-                    name="confirmPass"
+                    name="username"
                     rules={[
                         {
                             required: true,
-                            message: 'Please input your Password again!',
+                            message: 'Please input your username!',
+                        },
+                    ]}
+                >
+                    <Input
+                        prefix={<LockOutlined className="site-form-item-icon" />}
+                        type="text"
+                        placeholder="Username"
+                    />
+                </Form.Item>
+
+                <Form.Item
+                    name="password"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please input your password!',
                         },
                     ]}
                 >
                     <Input
                         prefix={<LockOutlined className="site-form-item-icon" />}
                         type="password"
-                        placeholder="Confirm Password"
+                        placeholder="Password"
                     />
                 </Form.Item>
 
                 <Form.Item>
                     <Button type="primary" htmlType="submit" className="login-form-button">
-                        Register plaas
+                        Register
                     </Button>
                 </Form.Item>
             </Form>
@@ -77,4 +90,4 @@ const Reset =  () => {
     );
 };
 
-export default Reset;
+export default Register;

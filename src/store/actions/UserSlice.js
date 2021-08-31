@@ -8,7 +8,7 @@ export const signup = createAsyncThunk("user/signup",
     async (params, thunkAPI) => {
         try {
 
-            const { data } = await formRequest('auth/register/', {
+            const { data } = await formRequest('auth/local/register/', {
                 method: "POST", data: params
             });
 
@@ -20,7 +20,7 @@ export const signup = createAsyncThunk("user/signup",
 
                 return { ...data, ...params, loginStatus: "loaded" };
             }
-
+            
             return thunkAPI.rejectWithValue("No Data for SignUp");
 
         } catch (err) {
@@ -34,7 +34,7 @@ export const signin = createAsyncThunk("user/signin",
     async (params, thunkAPI) => {
         try {
 
-            const { username, password } = params;
+            const { username, password, remember } = params;
             const { data } = await request('auth/local', {
                 method: "POST", data: { identifier: username, password }
             });
@@ -43,10 +43,10 @@ export const signin = createAsyncThunk("user/signin",
 
                 const datas = { jwt: data.jwt, ...data.user };
 
-                // if (remember)
-                setCookie("credential", {
-                    ...datas, ...params
-                });
+                if (remember)
+                    setCookie("credential", {
+                        ...datas, ...params
+                    });
 
                 console.log("the sign result: ", datas);
 
