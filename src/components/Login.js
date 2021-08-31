@@ -1,9 +1,11 @@
 import { Form, Input, Button, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-
+import styles from "../../styles/Login.module.css";
 import { signin } from '../store/actions/UserSlice';
 import { useDispatch } from 'react-redux';
 import Link from "next/link";
+
+import { StyledButton } from './styleds';
 
 const Login = () => {
 
@@ -61,23 +63,21 @@ const Login = () => {
             </Form.Item>
 
             <Form.Item>
-                <Form.Item name="remember" valuePropName="checked" noStyle>
-                    <Checkbox>Remember me</Checkbox>
-                </Form.Item>
 
-                <Link target="_blank" href="/reset" className="login-form-forgot">
-                    <a>Forgot password</a>
+                <Link target="_blank" href="/reset">
+                    <a className={styles.forgetPass}>Forgot password?</a>
                 </Link>
+                
+                <Link href="/register">
+                    <a> &nbsp;&nbsp; register now</a>
+                </Link>
+
             </Form.Item>
 
             <Form.Item>
-                <Button type="primary" htmlType="submit" className="login-form-button">
+                <StyledButton type="submit">
                     Log in
-                </Button>
-                &nbsp;&nbsp; Or &nbsp;
-                <Link href="/">
-                    <a>register now!</a>
-                </Link>
+                </StyledButton>
             </Form.Item>
         </Form>
         </>

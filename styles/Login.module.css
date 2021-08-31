@@ -10,3 +10,13 @@
 #components-form-demo-normal-login .login-form-button {
     width: 100%;
 }
+
+.loginButton {
+    background-color: #1393A9;
+    border-color: #1393A9;
+    color: #fff;
+    width: 100%;
+}
+.forgetPass {
+    color: #1393A9;
+}
