@@ -42,7 +42,7 @@ const LayoutCom = ({ children }) => {
     );
 
     console.log("paddname", padname);
-    if (padname === 'register') return (
+    if (checkLogin === 'failed' && padname === 'register') return (
         <div className={styles.container}>
             <Head>
                 <title>Intersection</title>
