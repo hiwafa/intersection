@@ -32,7 +32,7 @@ const LayoutCom = ({ children }) => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <main>
+            <main className={styles.container}>
                 loading ...
             </main>
 

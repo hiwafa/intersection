@@ -63,9 +63,6 @@ const Login = () => {
             </Form.Item>
 
             <Form.Item>
-                {/* <Form.Item name="remember" valuePropName="checked" noStyle>
-                    <Checkbox>Remember me</Checkbox>
-                </Form.Item> */}
 
                 <Link target="_blank" href="/reset">
                     <a className={styles.forgetPass}>Forgot password?</a>
@@ -74,6 +71,7 @@ const Login = () => {
                 <Link target="_blank" href="/reset">
                     <a> &nbsp;&nbsp; register now</a>
                 </Link>
+                
             </Form.Item>
 
             <Form.Item>
