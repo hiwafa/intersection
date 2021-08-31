@@ -2,7 +2,7 @@ import { Form, Input, Button, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
 import Link from 'next/link';
-import { getUser, resetPass, signup } from '../src/store/actions/UserSlice';
+import { signup } from '../src/store/actions/UserSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from "../styles/Register.module.css";
 import { StyledButton } from '../src/components/styleds';
@@ -10,7 +10,6 @@ import { StyledButton } from '../src/components/styleds';
 const Register = () => {
 
     const dispatch = useDispatch();
-    const user = useSelector(getUser);
 
     const onFinish = async (values) => {
         try {
