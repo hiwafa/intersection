@@ -1,7 +1,7 @@
 module.exports = {
   reactStrictMode: true,
   env: {
-    baseURL: process.env.baseURL,
-    JWT_TOKEN: process.env.JWT_TOKEN,
-  },
+    BASE_URL: process.env.BASE_URL,
+    JWT_TOKEN: process.env.JWT_TOKEN
+  }
 };

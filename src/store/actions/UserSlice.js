@@ -1,16 +1,15 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-
 import { setCookie, getCookie } from "../coockie";
-
-import { formRequest, request } from "../../requests";
+import { request } from "../../requests";
 
 export const signup = createAsyncThunk(
   "user/signup",
   async (params, thunkAPI) => {
     try {
-      const { data } = await formRequest("auth/local/register", {
+      
+      const { data } = await request("auth/local/register", {
         method: "POST",
-        data: params,
+        data: params
       });
 
       if (data) {
