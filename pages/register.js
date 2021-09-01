@@ -2,17 +2,22 @@ import { Form, Input, Button, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { signup } from "../src/store/actions/UserSlice";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "../styles/Register.module.css";
 import { StyledButton } from "../src/components/styleds";
 
 const Register = () => {
+
+  const router = useRouter();
   const dispatch = useDispatch();
 
   const onFinish = async (values) => {
     try {
+
       const { payload } = await dispatch(signup(values));
+      router.push("/");
 
       console.log("register result: ", payload);
     } catch (err) {
