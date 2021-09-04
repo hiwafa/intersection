@@ -30,9 +30,11 @@ const Register = () => {
   function onSearch(val) {
     console.log('search:', val);
   }
-  
+
   const onFinish = async (values) => {
     try {
+
+      console.log("values : ", values); return;
 
       const { payload } = await dispatch(signup(values));
       router.push("/");
@@ -113,7 +115,7 @@ const Register = () => {
 
           <Select
             showSearch
-            style={{ width: 200 }}
+            // style={{ width: 200 }}
             placeholder="Select role"
             optionFilterProp="children"
             onChange={onChange}
