@@ -9,9 +9,14 @@ import { loadCredential } from '../src/store/actions/UserSlice';
 import Layout from "../src/components/Layout";
 
 
+import { useGetIntersectionsQuery } from "../src/store/query";
+
 function MyApp({ Component, pageProps }) {
 
   const dispatch = useDispatch();
+  const { data, error, isLoading } = useGetIntersectionsQuery("");
+
+  console.log("INTERSECTIONS DATA: ", data);
 
   useEffect(() => {
 

@@ -11,7 +11,7 @@ export const myAPI = createApi({
     }}),
     endpoints: builder => ({
         getIntersections: builder.query({
-            query: name => "intersection-inventories"
+            query: name => "/intersection-inventories"
         })
     })
 });

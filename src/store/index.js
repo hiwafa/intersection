@@ -5,7 +5,8 @@ import userReducer from "./actions/UserSlice";
 import { myAPI } from "./query";
 
 const allReducers = {
-    user: userReducer
+    user: userReducer,
+    [myAPI.reducerPath]: myAPI.reducer
 };
 
 const store = configureStore({
