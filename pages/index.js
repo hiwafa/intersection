@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
-
+import Analysis from "./analysis"
 const Home = () => {
 
   return (
@@ -12,7 +12,7 @@ const Home = () => {
       </Head>
 
       <main className={styles.main}>
-        Welcome you logged in
+        <Analysis />
       </main>
     </div>
   );
