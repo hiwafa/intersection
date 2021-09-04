@@ -34,7 +34,7 @@ const Register = () => {
   const onFinish = async (values) => {
     try {
 
-      console.log("values : ", values); return;
+      // console.log("values : ", values); return;
 
       const { payload } = await dispatch(signup(values));
       router.push("/");
@@ -126,8 +126,8 @@ const Register = () => {
               option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
             }
           >
-            <Option value="analyst">Project Analyst</Option>
-            <Option value="admin">Admin</Option>
+            <Option value="Project Analyst">Project Analyst</Option>
+            <Option value="Admin">Admin</Option>
           </Select>
 
         </Form.Item>
