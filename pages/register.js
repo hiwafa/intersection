@@ -103,7 +103,7 @@ const Register = () => {
           />
         </Form.Item>
 
-        <Form.Item
+        {/* <Form.Item
           name="role"
           rules={[
             {
@@ -130,7 +130,7 @@ const Register = () => {
             <Option value="Admin">Admin</Option>
           </Select>
 
-        </Form.Item>
+        </Form.Item> */}
 
         <Form.Item>
           <StyledButton type="submit" style={{ marginBottom: 10 }}>
