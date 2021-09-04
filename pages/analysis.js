@@ -1,11 +1,14 @@
-import react from "react"
-import {Row, Col, Tabs, Layout} from "antd"
+import react, { useState } from "react"
 import GoogleMapReact from 'google-map-react';
 import DescriptiveStatistics from "../components/descriptiveStatistics"
 import CrashData from "../components/crashData"
 import IntersectionInventory from "../components/intersectionInverntory"
+import { Form, Row, Col, Input, Tabs, Select, Button, DatePicker } from 'antd';
+import { DownOutlined, UpOutlined } from '@ant-design/icons';
 const { TabPane } = Tabs;
 function Analysis() {
+    const [showMapContainer, setShowMapContainer] = useState(false)
+    const [form] = Form.useForm();
     const defaultProps = {
         center: {
           lat: 10.99835602,
@@ -16,8 +19,88 @@ function Analysis() {
       function callback(key) {
         console.log(key);
       }
+      const onFinish = (values) => {
+        console.log('Received values of form: ', values);
+        setShowMapContainer(true)
+      };
     return <div style={{width: "inherit", height: "100%"}}>
-                <Row gutter={[16]} style={{height: "100%"}}>
+                <Col sm={24} md={24} lg={24} style={{margin: "20px", border: "0.1em solid lightgrey", padding: "5px"}}>
+                <Form
+                    form={form}
+                    name="formData"
+                    onFinish={onFinish}>
+                    <Row gutter={24}>
+                    <Col span={8} key={1}>
+                        <Form.Item
+                            name={`from`}
+                            label={`From Date`}
+                            rules={[
+                            {
+                                required: true,
+                                message: 'This field is required',
+                            },
+                            ]}
+                        >
+                            <DatePicker />
+                        </Form.Item>
+                    </Col>
+                    <Col span={8} key={1}>
+                        <Form.Item
+                            name={`to`}
+                            label={`To Date`}
+                            rules={[
+                            {
+                                required: true,
+                                message: 'This field is required',
+                            },
+                            ]}
+                        >
+                            <DatePicker />
+                        </Form.Item>
+                    </Col>
+                    <Col span={8} key={1}>
+                        <Form.Item
+                            name={`typeOfCrashes`}
+                            label={`Type of Crashes`}
+                            rules={[ {
+                                required: true,
+                                message: 'This field is required',
+                            },]} >
+                            <Select>
+                                <Select.Option value="demo">Demo</Select.Option>
+                            </Select>
+                        </Form.Item>
+                    </Col>
+                    <Col span={8} key={1}>
+                        <Form.Item
+                            name={`collisionType`}
+                            label={`Collision Type`} >
+                            <Select>
+                                <Select.Option value="demo">Demo</Select.Option>
+                            </Select>
+                        </Form.Item>
+                    </Col>
+                    <Col span={8} key={1}>
+                        <Form.Item
+                            name={`intersectionType`}
+                            label={`Intersection Type`} >
+                            <Select>
+                                <Select.Option value="demo">Demo</Select.Option>
+                            </Select>
+                        </Form.Item>
+                    </Col>
+                    </Row>
+                <Row>
+                    <Col span={24} style={{ textAlign: 'right' }}>
+                    <Button type="primary" htmlType="submit">
+                        Submit
+                    </Button>
+                    </Col>
+                </Row>
+                </Form>
+                </Col>
+                <Col sm={24} md={24} lg={24} style={{height: "600px"}}>
+                {showMapContainer && <Row gutter={[16]} style={{height: "inherit"}}>
                     <Col lg={12} md={12}>
                     <GoogleMapReact
                         bootstrapURLKeys={{ key: "" }}
@@ -46,7 +129,8 @@ function Analysis() {
                         </Tabs>
                         </div>
                     </Col>
-                </Row>
+                </Row>}
+                </Col>
             </div>
 }
 export default Analysis
