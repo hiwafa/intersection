@@ -14,6 +14,23 @@ const Register = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
+
+  function onChange(value) {
+    console.log(`selected ${value}`);
+  }
+  
+  function onBlur() {
+    console.log('blur');
+  }
+  
+  function onFocus() {
+    console.log('focus');
+  }
+  
+  function onSearch(val) {
+    console.log('search:', val);
+  }
+  
   const onFinish = async (values) => {
     try {
 
