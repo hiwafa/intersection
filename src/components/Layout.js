@@ -85,7 +85,7 @@ const LayoutCom = ({ children }) => {
     return (
         <Layout>
             <Sider
-                breakpoint="lg" collapsedWidth="0" theme="light"
+                breakpoint="md" collapsedWidth="0" theme="light"
                 zeroWidthTriggerStyle={{ top: 13 }}
             >
 
