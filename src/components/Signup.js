@@ -106,7 +106,7 @@ const SignUp = () => {
 
                 <Select
                     showSearch
-                    // style={{ width: 200 }}
+                    style={{ width: 200 }}
                     placeholder="Select role"
                     optionFilterProp="children"
                     onChange={onChange}
