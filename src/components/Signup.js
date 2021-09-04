@@ -11,7 +11,6 @@ const SignUp = () => {
 
     const dispatch = useDispatch();
 
-
     const onChange = (value) => {
         console.log(`selected ${value}`);
     }
@@ -93,6 +92,35 @@ const SignUp = () => {
                     type="password"
                     placeholder="Password"
                 />
+            </Form.Item>
+
+            <Form.Item
+                name="role"
+                rules={[
+                    {
+                        required: true,
+                        message: 'Please input select a role!',
+                    },
+                ]}
+            >
+
+                <Select
+                    showSearch
+                    // style={{ width: 200 }}
+                    placeholder="Select role"
+                    optionFilterProp="children"
+                    onChange={onChange}
+                    onFocus={onFocus}
+                    onBlur={onBlur}
+                    onSearch={onSearch}
+                    filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                >
+                    <Option value="analyst">Project Analyst</Option>
+                    <Option value="admin">Admin</Option>
+                </Select>
+
             </Form.Item>
 
             <Form.Item>
