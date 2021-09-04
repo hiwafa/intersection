@@ -1,5 +1,7 @@
-import { Form, Input, Button } from 'antd';
-import { UserOutlined, LockOutlined,MailOutlined } from '@ant-design/icons';
+import { Form, Input, Button, Select } from 'antd';
+import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
+const { Option } = Select;
+
 
 import { signup } from '../store/actions/UserSlice';
 import { useDispatch } from 'react-redux';
@@ -9,8 +11,25 @@ const SignUp = () => {
 
     const dispatch = useDispatch();
 
+
+    const onChange = (value) => {
+        console.log(`selected ${value}`);
+    }
+
+    const onBlur = () => {
+        console.log('blur');
+    }
+
+    const onFocus = () => {
+        console.log('focus');
+    }
+
+    const onSearch = (val) => {
+        console.log('search:', val);
+    }
+
     const onFinish = async (values) => {
-        console.log("I am here with the value:",values);
+        console.log("I am here with the value:", values);
         try {
             const { payload } = await dispatch(signup(values));
 
@@ -30,7 +49,7 @@ const SignUp = () => {
             }}
             onFinish={onFinish}
         >
-        <h1 style={{paddingBottom:20,textAlign:'center'}}>SignUp</h1>
+            <h1 style={{ paddingBottom: 20, textAlign: 'center' }}>SignUp</h1>
             <Form.Item
                 name="username"
                 rules={[
@@ -42,14 +61,14 @@ const SignUp = () => {
             >
                 <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
             </Form.Item>
-              <Form.Item
+            <Form.Item
                 name="email"
                 rules={[
                     {
                         required: true,
                         message: 'Please input your email!',
-                        type:'email',
-                        message:'Please input correct email'
+                        type: 'email',
+                        message: 'Please input correct email'
                     },
                 ]}
             >
@@ -78,7 +97,7 @@ const SignUp = () => {
 
             <Form.Item>
                 <Button type="primary" htmlType="submit" className="login-form-button">
-                   SignUp
+                    SignUp
                 </Button>
                 &nbsp;&nbsp; Or &nbsp;
                 <Link href="">
