@@ -2,16 +2,16 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import { setupListeners } from '@reduxjs/toolkit/query';
 import userReducer from "./actions/UserSlice";
-import { myAPI } from "./query";
+import { intersectionAPI } from "./query";
 
 const allReducers = {
     user: userReducer,
-    [myAPI.reducerPath]: myAPI.reducer
+    [intersectionAPI.reducerPath]: intersectionAPI.reducer
 };
 
 const store = configureStore({
     reducer: allReducers,
-    middleware: gdm => gdm().concat(myAPI.middleware)
+    middleware: gdm => gdm().concat(intersectionAPI.middleware)
 });
 
 

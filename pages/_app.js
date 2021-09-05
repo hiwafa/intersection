@@ -14,9 +14,9 @@ import { useGetIntersectionsQuery } from "../src/store/query";
 function MyApp({ Component, pageProps }) {
 
   const dispatch = useDispatch();
-  const { data, error, isLoading } = useGetIntersectionsQuery("");
+  const ints = useGetIntersectionsQuery("intersection-inventories");
 
-  console.log("INTERSECTIONS DATA: ", data);
+  console.log("INTERSECTIONS DATA: ", ints.data);
 
   useEffect(() => {
 
