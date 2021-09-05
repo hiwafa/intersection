@@ -7,7 +7,6 @@ const { Header, Content, Footer, Sider } = Layout;
 import { UserOutlined } from '@ant-design/icons';
 
 import Login from "./Login";
-import SignUp from './Signup';
 
 import { useSelector } from 'react-redux';
 import { isLoggedIn, getUser } from '../store/actions/UserSlice';

@@ -44,7 +44,7 @@ function Analysis() {
                             <DatePicker />
                         </Form.Item>
                     </Col>
-                    <Col span={8} key={1}>
+                    <Col span={8} key={2}>
                         <Form.Item
                             name={`to`}
                             label={`To Date`}
@@ -58,7 +58,7 @@ function Analysis() {
                             <DatePicker />
                         </Form.Item>
                     </Col>
-                    <Col span={8} key={1}>
+                    <Col span={8} key={3}>
                         <Form.Item
                             name={`typeOfCrashes`}
                             label={`Type of Crashes`}
@@ -71,7 +71,7 @@ function Analysis() {
                             </Select>
                         </Form.Item>
                     </Col>
-                    <Col span={8} key={1}>
+                    <Col span={8} key={4}>
                         <Form.Item
                             name={`collisionType`}
                             label={`Collision Type`} >
@@ -80,7 +80,7 @@ function Analysis() {
                             </Select>
                         </Form.Item>
                     </Col>
-                    <Col span={8} key={1}>
+                    <Col span={8} key={5}>
                         <Form.Item
                             name={`intersectionType`}
                             label={`Intersection Type`} >
