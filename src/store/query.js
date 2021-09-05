@@ -5,7 +5,7 @@ const baseUrl = process.env.BASE_URL;
 const headers = {
     "Content-Type": "application/json",
     Authorization: `Bearer ${process.env.JWT_TOKEN}`
-}
+};
 
 export const intersectionAPI = createApi({
     reducerPath: "intersectionAPI",
