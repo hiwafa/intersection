@@ -6,14 +6,23 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { useGetIntersectionsQuery } from "../store/query";
 
 
-const CustomMarker = ({ longitude, latitude, crashId }) => {
+const CustomMarker = ({ crashId, inventories }) => {
+
     const context = useContext(MapContext);
 
-    const [x, y] = context.viewport.project([longitude, latitude]);
+    const lent = inventories.crash_intersections ?
+    inventories.crash_intersections.length : 0;
+
+    const crashes = lent > 0 ? inventories.crash_intersections :
+    [{LATITUDE: 35.1, LONGITUD: -90.1}];
+
+    console.log("crashes::: ", inventories.crash_intersections);
+
+    const [x, y] = context.viewport.project([crashes[0].LONGITUD, crashes[0].LATITUDE]);
 
     const markerStyle = {
         position: 'absolute',
-        background: 'red',
+        background: lent > 4 ? 'red' : lent > 2 ? 'blue' : 'green',
         left: x,
         top: y,
         width: 30,
@@ -23,7 +32,7 @@ const CustomMarker = ({ longitude, latitude, crashId }) => {
 
     return (
         <div style={markerStyle} key={crashId} onClick={()=> alert(crashId)}>
-           
+           {lent}+
         </div>
     );
 }
@@ -36,10 +45,9 @@ const MapView = () => {
         zoom: 4
     });
 
-    const intersections = useGetIntersectionsQuery("crash-intersections");
+    const inventories = useGetIntersectionsQuery("intersection-inventories");
 
-    console.log("intersections", intersections.data)
-
+    console.log("inventories", inventories.data);
 
     return (
         <ReactMapGL
@@ -51,15 +59,14 @@ const MapView = () => {
             onViewportChange={(viewport) => setViewport(viewport)}
         >
 
-            {intersections.data && intersections.data.map(crash => {
+            {inventories.data && inventories.data.map(invnt => {
 
 
 
                 return (
                     <CustomMarker
-                        crashId={crash.id}
-                        latitude={crash.LATITUDE}
-                        longitude={crash.LONGITUD}
+                        crashId={invnt.id}
+                        inventories={invnt}
                     />
                 )
             })}

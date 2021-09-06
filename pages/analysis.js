@@ -11,10 +11,61 @@ import styles from "../styles/Analys.module.css";
 import dynamic from "next/dynamic";
 
 
+const Descriptive = () => {
+
+    return (
+        <div>
+
+            <Row>
+                <Col span={24} style={{
+                    backgroundColor: '#f2f2f2',
+                    textAlign: 'center'
+                }}>Intersection Name</Col>
+            </Row>
+            <Row style={{
+                backgroundColor: '#f9f9f9'
+            }}>
+                <Col span={8}>Description</Col>
+                <Col span={8}>Crashes</Col>
+                <Col span={8}>Percent</Col>
+            </Row>
+            <Row>
+                <Col span={24} style={{
+                    backgroundColor: '#f2f2f2',
+                    textAlign: 'center'
+                }}>Severity</Col>
+            </Row>
+            <Row style={{
+                backgroundColor: '#f9f9f9'
+            }}>
+                <Col span={8} style={{border: '1px solid lightgray'}}>Fatal</Col>
+                <Col span={8} style={{border: '1px solid lightgray'}}></Col>
+                <Col span={8} style={{border: '1px solid lightgray'}}></Col>
+            </Row>
+            <Row style={{
+                backgroundColor: '#f9f9f9'
+            }}>
+                <Col span={8} style={{border: '1px solid lightgray'}}>Injury</Col>
+                <Col span={8} style={{border: '1px solid lightgray'}}></Col>
+                <Col span={8} style={{border: '1px solid lightgray'}}></Col>
+            </Row>
+            <Row style={{
+                backgroundColor: '#f9f9f9'
+            }}>
+                <Col span={8} style={{border: '1px solid lightgray'}}>Property Damage Only(PDO)</Col>
+                <Col span={8} style={{border: '1px solid lightgray'}}></Col>
+                <Col span={8} style={{border: '1px solid lightgray'}}></Col>
+            </Row>
+
+
+        </div>
+    );
+}
+
 const getContent = tab => {
 
     switch (tab) {
-        case "tab1": return <div>content 1</div>;
+        case "tab1": return <Descriptive />;
         case "tab2": return <div>content 2</div>;
         case "tab3": return <div>content 3</div>;
         default: return null;
@@ -26,7 +77,7 @@ function Analysis() {
 
     const [tab, setTab] = useState("tab1");
 
-    const MapBox = useMemo(()=> dynamic(() => import("../src/components/MapBox"), {
+    const MapBox = useMemo(() => dynamic(() => import("../src/components/MapBox"), {
         loading: () => "Loading...",
         ssr: false
     }), []);
