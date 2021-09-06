@@ -21,7 +21,7 @@ function MyApp({ Component, pageProps }) {
 
     (async () => {
       const { payload } = await dispatch(loadCredential({}));
-      console.log("payload:: ", payload.jwt);
+      console.log("payload: ", payload.jwt);
     })();
     
 

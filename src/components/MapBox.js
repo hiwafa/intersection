@@ -51,7 +51,7 @@ const MapView = () => {
             onViewportChange={(viewport) => setViewport(viewport)}
         >
 
-            {intersections.data.map(crash => {
+            {intersections.data && intersections.data.map(crash => {
 
 
 
