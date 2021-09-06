@@ -34,7 +34,10 @@ const Descriptive = ({ inventory }) => {
             <Row>
                 <Col span={24} style={{
                     backgroundColor: '#f2f2f2',
-                    textAlign: 'center'
+                    textAlign: 'center',
+                    height: 30,
+                    paddingTop: 5,
+                    fontWeight: 'bold'
                 }}>Severity</Col>
             </Row>
             {inventory && inventory.crash_intersections && inventory.crash_intersections.map(crash => {
@@ -42,7 +45,7 @@ const Descriptive = ({ inventory }) => {
                     <Row>
                         <Col span={24} style={{
                             paddingLeft: 10,
-                            backgroundColor: '#f2f2f2',
+                            backgroundColor: '#f9f9f9',
                             borderBottom: '1px solid lightgray'
                         }}>{crash.SEVERITY}</Col>
                     </Row>
@@ -53,7 +56,10 @@ const Descriptive = ({ inventory }) => {
             <Row>
                 <Col span={24} style={{
                     backgroundColor: '#f2f2f2',
-                    textAlign: 'center'
+                    textAlign: 'center',
+                    height: 30,
+                    paddingTop: 5,
+                    fontWeight: 'bold'
                 }}>Collision Type</Col>
             </Row>
             {inventory && inventory.crash_intersections && inventory.crash_intersections.map(crash => {
@@ -61,7 +67,7 @@ const Descriptive = ({ inventory }) => {
                     <Row>
                         <Col span={24} style={{
                             paddingLeft: 10,
-                            backgroundColor: '#f2f2f2',
+                            backgroundColor: '#f9f9f9',
                             borderBottom: '1px solid lightgray'
                         }}>{crash.COLLISION_TYPE}</Col>
                     </Row>
@@ -72,7 +78,10 @@ const Descriptive = ({ inventory }) => {
             <Row>
                 <Col span={24} style={{
                     backgroundColor: '#f2f2f2',
-                    textAlign: 'center'
+                    textAlign: 'center',
+                    height: 30,
+                    paddingTop: 5,
+                    fontWeight: 'bold'
                 }}>Light Conditions</Col>
             </Row>
             {inventory && inventory.crash_intersections && inventory.crash_intersections.map(crash => {
@@ -80,7 +89,7 @@ const Descriptive = ({ inventory }) => {
                     <Row>
                         <Col span={24} style={{
                             paddingLeft: 10,
-                            backgroundColor: '#f2f2f2',
+                            backgroundColor: '#f9f9f9',
                             borderBottom: '1px solid lightgray'
                         }}>{crash.LIGHT_CONDITION}</Col>
                     </Row>
@@ -90,7 +99,10 @@ const Descriptive = ({ inventory }) => {
             <Row>
                 <Col span={24} style={{
                     backgroundColor: '#f2f2f2',
-                    textAlign: 'center'
+                    textAlign: 'center',
+                    height: 30,
+                    paddingTop: 5,
+                    fontWeight: 'bold'
                 }}>Weather Conditions</Col>
             </Row>
             {inventory && inventory.crash_intersections && inventory.crash_intersections.map(crash => {
@@ -98,7 +110,7 @@ const Descriptive = ({ inventory }) => {
                     <Row>
                         <Col span={24} style={{
                             paddingLeft: 10,
-                            backgroundColor: '#f2f2f2',
+                            backgroundColor: '#f9f9f9',
                             borderBottom: '1px solid lightgray'
                         }}>{crash.WEATHER_CONDITION}</Col>
                     </Row>
@@ -109,7 +121,10 @@ const Descriptive = ({ inventory }) => {
             <Row>
                 <Col span={24} style={{
                     backgroundColor: '#f2f2f2',
-                    textAlign: 'center'
+                    textAlign: 'center',
+                    height: 30,
+                    paddingTop: 5,
+                    fontWeight: 'bold'
                 }}>Road Surface Conditions</Col>
             </Row>
             {inventory && inventory.crash_intersections && inventory.crash_intersections.map(crash => {
@@ -117,7 +132,7 @@ const Descriptive = ({ inventory }) => {
                     <Row>
                         <Col span={24} style={{
                             paddingLeft: 10,
-                            backgroundColor: '#f2f2f2',
+                            backgroundColor: '#f9f9f9',
                             borderBottom: '1px solid lightgray'
                         }}>{crash.ROAD_SURFACE_CONDITION}</Col>
                     </Row>
