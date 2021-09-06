@@ -20,7 +20,9 @@ function Analysis() {
 
     return (
         <Row className={styles.row}>
-            <Col flex={1} md span={12} className={styles.col1}>col-12</Col>
+            <Col flex={1} md span={12} className={styles.col1}>
+                <MapBox />
+            </Col>
             <Col flex={1} md span={12} className={styles.col2}>col-12</Col>
         </Row>
     );
