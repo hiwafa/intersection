@@ -6,7 +6,7 @@ export const signup = createAsyncThunk(
   "user/signup",
   async (params, thunkAPI) => {
     try {
-      
+
       const { data } = await request("auth/local/register", {
         method: "POST",
         data: params
@@ -32,7 +32,7 @@ export const signin = createAsyncThunk(
   "user/signin",
   async (params, thunkAPI) => {
     try {
-      const { username, password, remember } = params;
+      const { username, password } = params;
       const { data } = await request("auth/local", {
         method: "POST",
         data: { identifier: username, password },
@@ -41,13 +41,10 @@ export const signin = createAsyncThunk(
       if (data && data.user && data.user.id) {
         const datas = { jwt: data.jwt, ...data.user };
 
-        if (remember)
-          setCookie("credential", {
-            ...datas,
-            ...params,
-          });
-
-        console.log("the sign result: ", datas);
+        setCookie("credential", {
+          ...datas,
+          ...params,
+        });
 
         return { ...datas, ...params, loginStatus: "loaded" };
       }
