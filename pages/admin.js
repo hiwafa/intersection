@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 
 import { Layout, Menu } from 'antd';
 const { Header, Content, Footer } = Layout;
-
 import { Bubble } from 'react-chartjs-2';
 
 
@@ -67,7 +66,7 @@ const Admin = () => {
           <AnyReactComponent
             lat={59.955413}
             lng={30.337844}
-            text="My Marker"
+            text="My Marker is here"
           />
         </GoogleMapReact>
       </div>

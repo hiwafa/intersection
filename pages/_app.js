@@ -29,7 +29,7 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <Layout>
-      <Component {...pageProps} data={{
+      <Component {...pageProps} apiData={{
         intersectionInventories: inventories,
         crashIntersections: intersections
       }} />
