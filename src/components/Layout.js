@@ -123,11 +123,11 @@ const LayoutCom = ({ children }) => {
                 </Header>
 
                 <Content style={{
-                    margin: '24px 16px 0',
+                    // margin: '24px 16px 0',
                     overflowY: 'scroll',
                     height: '100vh'
                 }}>
-                    <div style={{ background: '#fff', minHeight: 360 }}>
+                    <div style={{ background: '#eee', minHeight: 360 }}>
                         {children}
                     </div>
                 </Content>
