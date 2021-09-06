@@ -6,24 +6,24 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { useGetIntersectionsQuery } from "../store/query";
 
 
-const CustomMarker = ({ longitude, latitude, key }) => {
+const CustomMarker = ({ longitude, latitude, crashId }) => {
     const context = useContext(MapContext);
 
     const [x, y] = context.viewport.project([longitude, latitude]);
 
-    console.log("LATITUDE!: ", latitude);
-    console.log("LONGITUD!: ", longitude);
-
     const markerStyle = {
         position: 'absolute',
-        background: '#fff',
+        background: 'red',
         left: x,
-        top: y
+        top: y,
+        width: 30,
+        height: 30,
+        borderRadius: 15,
     };
 
     return (
-        <div style={markerStyle} key={key}>
-            ({longitude}, {latitude})
+        <div style={markerStyle} key={crashId} onClick={()=> alert(crashId)}>
+           
         </div>
     );
 }
@@ -31,9 +31,9 @@ const CustomMarker = ({ longitude, latitude, key }) => {
 const MapView = () => {
 
     const [viewport, setViewport] = useState({
-        latitude: 37.7577,
-        longitude: -122.4376,
-        zoom: 8
+        latitude: 35.75,
+        longitude: -96.43,
+        zoom: 4
     });
 
     const intersections = useGetIntersectionsQuery("crash-intersections");
@@ -57,7 +57,7 @@ const MapView = () => {
 
                 return (
                     <CustomMarker
-                        key={crash.id}
+                        crashId={crash.id}
                         latitude={crash.LATITUDE}
                         longitude={crash.LONGITUD}
                     />

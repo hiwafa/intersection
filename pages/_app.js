@@ -14,14 +14,14 @@ import { useGetIntersectionsQuery } from "../src/store/query";
 function MyApp({ Component, pageProps }) {
 
   const dispatch = useDispatch();
-  const inventories = useGetIntersectionsQuery("intersection-inventories");
-  const intersections = useGetIntersectionsQuery("crash-intersections");
+  // const inventories = useGetIntersectionsQuery("intersection-inventories");
+  // const intersections = useGetIntersectionsQuery("crash-intersections");
 
   useEffect(() => {
 
     (async () => {
       const { payload } = await dispatch(loadCredential({}));
-      console.log("payload: ", payload.jwt);
+      console.log("payload:: ", payload.jwt);
     })();
     
 
@@ -29,10 +29,7 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <Layout>
-      <Component {...pageProps} apiData={{
-        intersectionInventories: inventories,
-        crashIntersections: intersections
-      }} />
+      <Component {...pageProps} />
     </Layout>
   );
 }
