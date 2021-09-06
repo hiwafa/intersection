@@ -11,7 +11,7 @@ import styles from "../styles/Analys.module.css";
 import dynamic from "next/dynamic";
 
 
-const Descriptive = ({inventory}) => {
+const Descriptive = ({ inventory }) => {
 
     return (
         <div>
@@ -20,8 +20,9 @@ const Descriptive = ({inventory}) => {
                 <Col span={24} style={{
                     backgroundColor: '#f2f2f2',
                     textAlign: 'center'
-                }}>Intersection Name</Col>
+                }}>{inventory && inventory.INTERSECTION_NAME ? inventory.INTERSECTION_NAME : 'Intersection Name'}</Col>
             </Row>
+
             <Row style={{
                 backgroundColor: '#f9f9f9'
             }}>
@@ -29,33 +30,99 @@ const Descriptive = ({inventory}) => {
                 <Col span={8}>Crashes</Col>
                 <Col span={8}>Percent</Col>
             </Row>
+
             <Row>
                 <Col span={24} style={{
                     backgroundColor: '#f2f2f2',
                     textAlign: 'center'
                 }}>Severity</Col>
             </Row>
-            <Row style={{
-                backgroundColor: '#f9f9f9'
-            }}>
-                <Col span={8} style={{border: '1px solid lightgray'}}>Fatal</Col>
-                <Col span={8} style={{border: '1px solid lightgray'}}></Col>
-                <Col span={8} style={{border: '1px solid lightgray'}}></Col>
+            {inventory && inventory.crash_intersections && inventory.crash_intersections.map(crash => {
+                return (
+                    <Row>
+                        <Col span={24} style={{
+                            paddingLeft: 10,
+                            backgroundColor: '#f2f2f2',
+                            borderBottom: '1px solid lightgray'
+                        }}>{crash.SEVERITY}</Col>
+                    </Row>
+                );
+            })}
+
+
+            <Row>
+                <Col span={24} style={{
+                    backgroundColor: '#f2f2f2',
+                    textAlign: 'center'
+                }}>Collision Type</Col>
             </Row>
-            <Row style={{
-                backgroundColor: '#f9f9f9'
-            }}>
-                <Col span={8} style={{border: '1px solid lightgray'}}>Injury</Col>
-                <Col span={8} style={{border: '1px solid lightgray'}}></Col>
-                <Col span={8} style={{border: '1px solid lightgray'}}></Col>
+            {inventory && inventory.crash_intersections && inventory.crash_intersections.map(crash => {
+                return (
+                    <Row>
+                        <Col span={24} style={{
+                            paddingLeft: 10,
+                            backgroundColor: '#f2f2f2',
+                            borderBottom: '1px solid lightgray'
+                        }}>{crash.COLLISION_TYPE}</Col>
+                    </Row>
+                );
+            })}
+            
+            
+            <Row>
+                <Col span={24} style={{
+                    backgroundColor: '#f2f2f2',
+                    textAlign: 'center'
+                }}>Light Conditions</Col>
             </Row>
-            <Row style={{
-                backgroundColor: '#f9f9f9'
-            }}>
-                <Col span={8} style={{border: '1px solid lightgray'}}>Property Damage Only(PDO)</Col>
-                <Col span={8} style={{border: '1px solid lightgray'}}></Col>
-                <Col span={8} style={{border: '1px solid lightgray'}}></Col>
+            {inventory && inventory.crash_intersections && inventory.crash_intersections.map(crash => {
+                return (
+                    <Row>
+                        <Col span={24} style={{
+                            paddingLeft: 10,
+                            backgroundColor: '#f2f2f2',
+                            borderBottom: '1px solid lightgray'
+                        }}>{crash.LIGHT_CONDITION}</Col>
+                    </Row>
+                );
+            })}
+            
+            <Row>
+                <Col span={24} style={{
+                    backgroundColor: '#f2f2f2',
+                    textAlign: 'center'
+                }}>Weather Conditions</Col>
             </Row>
+            {inventory && inventory.crash_intersections && inventory.crash_intersections.map(crash => {
+                return (
+                    <Row>
+                        <Col span={24} style={{
+                            paddingLeft: 10,
+                            backgroundColor: '#f2f2f2',
+                            borderBottom: '1px solid lightgray'
+                        }}>{crash.WEATHER_CONDITION}</Col>
+                    </Row>
+                );
+            })}
+            
+            
+            <Row>
+                <Col span={24} style={{
+                    backgroundColor: '#f2f2f2',
+                    textAlign: 'center'
+                }}>Road Surface Conditions</Col>
+            </Row>
+            {inventory && inventory.crash_intersections && inventory.crash_intersections.map(crash => {
+                return (
+                    <Row>
+                        <Col span={24} style={{
+                            paddingLeft: 10,
+                            backgroundColor: '#f2f2f2',
+                            borderBottom: '1px solid lightgray'
+                        }}>{crash.ROAD_SURFACE_CONDITION}</Col>
+                    </Row>
+                );
+            })}
 
 
         </div>
@@ -86,7 +153,7 @@ function Analysis() {
     return (
         <Row className={styles.row}>
             <Col flex={1} md span={12} className={styles.col1}>
-                <MapBox onPress={ inventory => setInventory(inventory) } />
+                <MapBox onPress={inventory => setInventory(inventory)} />
             </Col>
             <Col flex={1} md span={12} className={styles.col2}>
                 <Menu theme="light" mode="horizontal" defaultSelectedKeys={['tab1']}>
