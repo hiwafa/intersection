@@ -1,9 +1,29 @@
-import react, { useState } from "react";
+import react, { useState, useContext } from "react";
 
-import ReactMapGL, { Marker } from 'react-map-gl';
+import ReactMapGL, { Marker, MapContext } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 import { useGetIntersectionsQuery } from "../store/query";
+
+
+const CustomMarker = ({ longitude, latitude }) => {
+    const context = useContext(MapContext);
+
+    const [x, y] = context.viewport.project([longitude, latitude]);
+
+    const markerStyle = {
+        position: 'absolute',
+        background: '#fff',
+        left: x,
+        top: y
+    };
+
+    return (
+        <div style={markerStyle} >
+            ({longitude}, {latitude})
+        </div>
+    );
+}
 
 const MapView = () => {
 
@@ -34,15 +54,13 @@ const MapView = () => {
                 console.log("LONGITUD: ", crash.LONGITUD);
 
                 return (
-                    <div key={crash.id}>
-                        <Marker
-                            latitude={crash.LATITUDE}
-                            longitude={crash.LONGITUD}
-                            offsetLeft={-20}
-                            offsetTop={-10}>
-                            <span role="img" aria-label="push-pin">📌</span>
-                        </Marker>
-                    </div>
+                    <Marker
+                        key={crash.id}
+                        latitude={crash.LATITUDE}
+                        longitude={crash.LONGITUD}
+                    >
+                        <span role="img" aria-label="push-pin">📌</span>
+                    </Marker>
                 )
             })}
 
