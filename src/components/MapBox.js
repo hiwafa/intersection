@@ -6,17 +6,17 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { useGetIntersectionsQuery } from "../store/query";
 
 
-const CustomMarker = ({ crashId, inventories }) => {
+const CustomMarker = ({ crashId, inventory, onPress }) => {
 
     const context = useContext(MapContext);
 
-    const lent = inventories.crash_intersections ?
-    inventories.crash_intersections.length : 0;
+    const lent = inventory.crash_intersections ?
+    inventory.crash_intersections.length : 0;
 
-    const crashes = lent > 0 ? inventories.crash_intersections :
+    const crashes = lent > 0 ? inventory.crash_intersections :
     [{LATITUDE: 35.1, LONGITUD: -90.1}];
 
-    console.log("crashes::: ", inventories.crash_intersections);
+    console.log("crashes::: ", inventory.crash_intersections);
 
     const [x, y] = context.viewport.project([crashes[0].LONGITUD, crashes[0].LATITUDE]);
 
@@ -28,16 +28,21 @@ const CustomMarker = ({ crashId, inventories }) => {
         width: 30,
         height: 30,
         borderRadius: 15,
+        display: 'flex',
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        color: '#fff'
     };
 
     return (
-        <div style={markerStyle} key={crashId} onClick={()=> alert(crashId)}>
+        <div style={markerStyle} key={crashId} onClick={()=> onPress(inventory)}>
            {lent}+
         </div>
     );
 }
 
-const MapView = () => {
+const MapView = ({onPress}) => {
 
     const [viewport, setViewport] = useState({
         latitude: 35.75,
@@ -66,7 +71,8 @@ const MapView = () => {
                 return (
                     <CustomMarker
                         crashId={invnt.id}
-                        inventories={invnt}
+                        inventory={invnt}
+                        onPress={onPress}
                     />
                 )
             })}

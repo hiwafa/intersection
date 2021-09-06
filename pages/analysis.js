@@ -11,7 +11,7 @@ import styles from "../styles/Analys.module.css";
 import dynamic from "next/dynamic";
 
 
-const Descriptive = () => {
+const Descriptive = ({inventory}) => {
 
     return (
         <div>
@@ -62,10 +62,10 @@ const Descriptive = () => {
     );
 }
 
-const getContent = tab => {
+const getContent = (tab, inventory) => {
 
     switch (tab) {
-        case "tab1": return <Descriptive />;
+        case "tab1": return <Descriptive inventory={inventory} />;
         case "tab2": return <div>content 2</div>;
         case "tab3": return <div>content 3</div>;
         default: return null;
@@ -76,6 +76,7 @@ const getContent = tab => {
 function Analysis() {
 
     const [tab, setTab] = useState("tab1");
+    const [inventory, setInventory] = useState(null);
 
     const MapBox = useMemo(() => dynamic(() => import("../src/components/MapBox"), {
         loading: () => "Loading...",
@@ -85,7 +86,7 @@ function Analysis() {
     return (
         <Row className={styles.row}>
             <Col flex={1} md span={12} className={styles.col1}>
-                <MapBox />
+                <MapBox onPress={ inventory => setInventory(inventory) } />
             </Col>
             <Col flex={1} md span={12} className={styles.col2}>
                 <Menu theme="light" mode="horizontal" defaultSelectedKeys={['tab1']}>
@@ -95,7 +96,7 @@ function Analysis() {
                 </Menu>
                 <Content className="site-layout" style={{ padding: '0 50px', marginTop: 64 }}>
                     <div className="site-layout-background" style={{ minHeight: 380 }}>
-                        {getContent(tab)}
+                        {getContent(tab, inventory)}
                     </div>
                 </Content>
             </Col>
