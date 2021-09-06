@@ -19,16 +19,11 @@ const Descriptive = ({ inventory }) => {
             <Row>
                 <Col span={24} style={{
                     backgroundColor: '#f2f2f2',
-                    textAlign: 'center'
+                    textAlign: 'center',
+                    height: 30,
+                    paddingTop: 5,
+                    fontWeight: 'bold'
                 }}>{inventory && inventory.INTERSECTION_NAME ? inventory.INTERSECTION_NAME : 'Intersection Name'}</Col>
-            </Row>
-
-            <Row style={{
-                backgroundColor: '#f9f9f9'
-            }}>
-                <Col span={8}>Description</Col>
-                <Col span={8}>Crashes</Col>
-                <Col span={8}>Percent</Col>
             </Row>
 
             <Row>
