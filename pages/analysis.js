@@ -1,4 +1,4 @@
-import react, { useState } from "react"
+import react, { useMemo, useState } from "react"
 import GoogleMapReact from 'google-map-react';
 import DescriptiveStatistics from "../components/descriptiveStatistics"
 import CrashData from "../components/crashData"
@@ -26,10 +26,12 @@ function Analysis() {
 
     const [tab, setTab] = useState("tab1");
 
-    const MapBox = dynamic(() => import("../src/components/MapBox"), {
+    // const MapBox = ;
+
+    const MapBox = useMemo(()=> dynamic(() => import("../src/components/MapBox"), {
         loading: () => "Loading...",
         ssr: false
-    });
+    }), []);
 
     return (
         <Row className={styles.row}>
