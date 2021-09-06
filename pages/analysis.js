@@ -26,8 +26,6 @@ function Analysis() {
 
     const [tab, setTab] = useState("tab1");
 
-    // const MapBox = ;
-
     const MapBox = useMemo(()=> dynamic(() => import("../src/components/MapBox"), {
         loading: () => "Loading...",
         ssr: false

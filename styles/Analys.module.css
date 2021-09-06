@@ -5,10 +5,12 @@
     width: 100%;
     height: 100%;
     justify-content: center;
+    background-color:#fff;
 }
 
 .col1 {
     min-width: 380px;
+    min-height: 320px;
     /* flex: 1 */
 }
 
