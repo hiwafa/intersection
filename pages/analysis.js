@@ -17,23 +17,14 @@ const Descriptive = ({ inventory }) => {
         <div>
 
             <Row>
-                <Col span={24} style={{
-                    backgroundColor: '#f2f2f2',
-                    textAlign: 'center',
-                    height: 30,
-                    paddingTop: 5,
-                    fontWeight: 'bold'
-                }}>{inventory && inventory.INTERSECTION_NAME ? inventory.INTERSECTION_NAME : 'Intersection Name'}</Col>
+                <Col span={24} className={styles.headCol}>
+                    {inventory && inventory.INTERSECTION_NAME ?
+                        inventory.INTERSECTION_NAME : 'Intersection Name'}
+                </Col>
             </Row>
 
             <Row>
-                <Col span={24} style={{
-                    backgroundColor: '#f2f2f2',
-                    textAlign: 'center',
-                    height: 30,
-                    paddingTop: 5,
-                    fontWeight: 'bold'
-                }}>Severity</Col>
+                <Col span={24} className={styles.headCol}>Severity</Col>
             </Row>
             {inventory && inventory.crash_intersections && inventory.crash_intersections.map(crash => {
                 return (
@@ -49,13 +40,7 @@ const Descriptive = ({ inventory }) => {
 
 
             <Row>
-                <Col span={24} style={{
-                    backgroundColor: '#f2f2f2',
-                    textAlign: 'center',
-                    height: 30,
-                    paddingTop: 5,
-                    fontWeight: 'bold'
-                }}>Collision Type</Col>
+                <Col span={24} className={styles.headCol}>Collision Type</Col>
             </Row>
             {inventory && inventory.crash_intersections && inventory.crash_intersections.map(crash => {
                 return (
@@ -68,16 +53,10 @@ const Descriptive = ({ inventory }) => {
                     </Row>
                 );
             })}
-            
-            
+
+
             <Row>
-                <Col span={24} style={{
-                    backgroundColor: '#f2f2f2',
-                    textAlign: 'center',
-                    height: 30,
-                    paddingTop: 5,
-                    fontWeight: 'bold'
-                }}>Light Conditions</Col>
+                <Col span={24} className={styles.headCol}>Light Conditions</Col>
             </Row>
             {inventory && inventory.crash_intersections && inventory.crash_intersections.map(crash => {
                 return (
@@ -90,15 +69,9 @@ const Descriptive = ({ inventory }) => {
                     </Row>
                 );
             })}
-            
+
             <Row>
-                <Col span={24} style={{
-                    backgroundColor: '#f2f2f2',
-                    textAlign: 'center',
-                    height: 30,
-                    paddingTop: 5,
-                    fontWeight: 'bold'
-                }}>Weather Conditions</Col>
+                <Col span={24} className={styles.headCol}>Weather Conditions</Col>
             </Row>
             {inventory && inventory.crash_intersections && inventory.crash_intersections.map(crash => {
                 return (
@@ -111,16 +84,10 @@ const Descriptive = ({ inventory }) => {
                     </Row>
                 );
             })}
-            
-            
+
+
             <Row>
-                <Col span={24} style={{
-                    backgroundColor: '#f2f2f2',
-                    textAlign: 'center',
-                    height: 30,
-                    paddingTop: 5,
-                    fontWeight: 'bold'
-                }}>Road Surface Conditions</Col>
+                <Col span={24} className={styles.headCol}>Road Surface Conditions</Col>
             </Row>
             {inventory && inventory.crash_intersections && inventory.crash_intersections.map(crash => {
                 return (
@@ -139,11 +106,35 @@ const Descriptive = ({ inventory }) => {
     );
 }
 
+const CrashDataCom = ({ }) => {
+
+    return (
+        <div>
+
+            <Row className={styles.row}>
+                <Col flex={1} md span={6} className={styles.headCol}>Intersection</Col>
+                <Col flex={1} md span={6} className={styles.headCol}>CrashRN</Col>
+                <Col flex={1} md span={6} className={styles.headCol}>CrashDate</Col>
+                <Col flex={1} md span={6} className={styles.headCol}>Collision</Col>
+            </Row>
+
+            <Row className={styles.row}>
+                <Col flex={1} md span={12} className={styles.col3}>
+                </Col>
+                <Col flex={1} md span={12} className={styles.col4}>
+
+                </Col>
+            </Row>
+
+        </div>
+    );
+}
+
 const getContent = (tab, inventory) => {
 
     switch (tab) {
         case "tab1": return <Descriptive inventory={inventory} />;
-        case "tab2": return <div>content 2</div>;
+        case "tab2": return <CrashDataCom />;
         case "tab3": return <div>content 3</div>;
         default: return null;
     }
