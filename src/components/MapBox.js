@@ -70,6 +70,7 @@ const MapView = ({onPress}) => {
 
                 return (
                     <CustomMarker
+                        key={invnt.id}
                         crashId={invnt.id}
                         inventory={invnt}
                         onPress={onPress}
