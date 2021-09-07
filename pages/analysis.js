@@ -154,7 +154,7 @@ const MIRE = ({ inventory }) => {
             </Row>
 
             <Row className={styles.row}>
-                <Col span={6} style={{ fontWeight: 'bold', textAlign: 'center', alignSelf: 'center' }}>
+                <Col span={6} className={styles.cell} style={{ fontWeight: 'bold' }}>
                     {inventory.INTERSECTION_NAME}
                 </Col>
                 <Col span={6} className={styles.cell}>
