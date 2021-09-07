@@ -28,7 +28,7 @@ const Descriptive = ({ inventory }) => {
             </Row>
             {inventory && inventory.crash_intersections && inventory.crash_intersections.map(crash => {
                 return (
-                    <Row>
+                    <Row key={crash.id}>
                         <Col span={24} className={styles.cell}>
                             {crash.SEVERITY}
                         </Col>
@@ -42,7 +42,7 @@ const Descriptive = ({ inventory }) => {
             </Row>
             {inventory && inventory.crash_intersections && inventory.crash_intersections.map(crash => {
                 return (
-                    <Row>
+                    <Row key={crash.id}>
                         <Col span={24} className={styles.cell}>
                             {crash.COLLISION_TYPE}
                         </Col>
@@ -56,7 +56,7 @@ const Descriptive = ({ inventory }) => {
             </Row>
             {inventory && inventory.crash_intersections && inventory.crash_intersections.map(crash => {
                 return (
-                    <Row>
+                    <Row key={crash.id}>
                         <Col span={24} className={styles.cell}>
                             {crash.LIGHT_CONDITION}
                         </Col>
@@ -69,7 +69,7 @@ const Descriptive = ({ inventory }) => {
             </Row>
             {inventory && inventory.crash_intersections && inventory.crash_intersections.map(crash => {
                 return (
-                    <Row>
+                    <Row key={crash.id}>
                         <Col span={24} className={styles.cell}>
                             {crash.WEATHER_CONDITION}
                         </Col>
@@ -83,7 +83,7 @@ const Descriptive = ({ inventory }) => {
             </Row>
             {inventory && inventory.crash_intersections && inventory.crash_intersections.map(crash => {
                 return (
-                    <Row>
+                    <Row key={crash.id}>
                         <Col span={24} className={styles.cell}>
                             {crash.ROAD_SURFACE_CONDITION}
                         </Col>
@@ -115,7 +115,7 @@ const CrashDataCom = ({ inventory }) => {
                 <Col span={18} >
                     {inventory && inventory.crash_intersections && inventory.crash_intersections.map(crash => {
                         return (
-                            <Row>
+                            <Row key={crash.id}>
                                 <Col span={8} className={styles.cell}>
                                     <Typography.Text ellipsis={true}>
                                         {crash.CRASH_RECORD_NBR}
