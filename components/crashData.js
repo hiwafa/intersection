@@ -2,7 +2,7 @@ import react from "react";
 import { Row, Col, Typography } from 'antd';
 import styles from "../styles/Analys.module.css";
 
-const crashData = ({inventory})=> (
+const crashData = ({ inventory }) => (
     <div>
 
         <Row className={styles.row}>

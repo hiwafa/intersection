@@ -2,7 +2,7 @@ import react from "react";
 import { Row, Col } from 'antd';
 import styles from "../styles/Analys.module.css";
 
-const  Descriptive = ({inventory}) => {
+const Descriptive = ({ inventory }) => {
     return (
         <div>
             <Row>

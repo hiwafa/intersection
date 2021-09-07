@@ -1,59 +1,20 @@
-import react, { useMemo, useState } from "react"
-import GoogleMapReact from 'google-map-react';
+import react, { useMemo, useState } from "react";
 import Descriptive from "../components/descriptiveStatistics"
 import CrashData from "../components/crashData"
 import IntersectionInventory from "../components/intersectionInverntory";
 
-import { Row, Col, Menu, Layout, Typography } from 'antd';
+import { Row, Col, Menu, Layout } from 'antd';
 const { Content } = Layout;
 
 import styles from "../styles/Analys.module.css";
 import dynamic from "next/dynamic";
-
-
-const MIRE = ({ inventory }) => {
-
-    return (
-        <div>
-
-            <Row className={styles.row}>
-                <Col span={6} className={styles.headCol}> Intersection</Col>
-                <Col span={6} className={styles.headCol}>Intersection Type</Col>
-                <Col span={6} className={styles.headCol}>No. of Approaches</Col>
-                <Col span={6} className={styles.headCol}>AADT</Col>
-            </Row>
-
-            <Row className={styles.row}>
-                <Col span={6} className={styles.cell} style={{ fontWeight: 'bold' }}>
-                    {inventory.INTERSECTION_NAME}
-                </Col>
-                <Col span={6} className={styles.cell}>
-                    <Typography.Text ellipsis={true}>
-                        {inventory.INTERSECTION_TYPE}
-                    </Typography.Text>
-                </Col>
-                <Col span={6} className={styles.cell}>
-                    <Typography.Text ellipsis={true}>
-                        {inventory.NUMBER_OF_APPRAOCHES}
-                    </Typography.Text>
-                </Col>
-                <Col span={6} className={styles.cell}>
-                    <Typography.Text ellipsis={true}>
-                        {inventory.AADT}
-                    </Typography.Text>
-                </Col>
-            </Row>
-
-        </div>
-    );
-}
 
 const getContent = (tab, inventory) => {
 
     switch (tab) {
         case "tab1": return <Descriptive inventory={inventory} />;
         case "tab2": return <CrashData inventory={inventory} />;
-        case "tab3": return <MIRE inventory={inventory} />;
+        case "tab3": return <IntersectionInventory inventory={inventory} />;
         default: return null;
     }
 
