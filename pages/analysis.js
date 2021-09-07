@@ -4,7 +4,7 @@ import DescriptiveStatistics from "../components/descriptiveStatistics"
 import CrashData from "../components/crashData"
 import IntersectionInventory from "../components/intersectionInverntory";
 
-import { Row, Col, Menu, Layout } from 'antd';
+import { Row, Col, Menu, Layout, Typography } from 'antd';
 const { Content } = Layout;
 
 import styles from "../styles/Analys.module.css";
@@ -29,11 +29,9 @@ const Descriptive = ({ inventory }) => {
             {inventory && inventory.crash_intersections && inventory.crash_intersections.map(crash => {
                 return (
                     <Row>
-                        <Col span={24} style={{
-                            paddingLeft: 10,
-                            backgroundColor: '#f9f9f9',
-                            borderBottom: '1px solid lightgray'
-                        }}>{crash.SEVERITY}</Col>
+                        <Col span={24} className={styles.cell}>
+                            {crash.SEVERITY}
+                        </Col>
                     </Row>
                 );
             })}
@@ -45,11 +43,9 @@ const Descriptive = ({ inventory }) => {
             {inventory && inventory.crash_intersections && inventory.crash_intersections.map(crash => {
                 return (
                     <Row>
-                        <Col span={24} style={{
-                            paddingLeft: 10,
-                            backgroundColor: '#f9f9f9',
-                            borderBottom: '1px solid lightgray'
-                        }}>{crash.COLLISION_TYPE}</Col>
+                        <Col span={24} className={styles.cell}>
+                            {crash.COLLISION_TYPE}
+                        </Col>
                     </Row>
                 );
             })}
@@ -61,11 +57,9 @@ const Descriptive = ({ inventory }) => {
             {inventory && inventory.crash_intersections && inventory.crash_intersections.map(crash => {
                 return (
                     <Row>
-                        <Col span={24} style={{
-                            paddingLeft: 10,
-                            backgroundColor: '#f9f9f9',
-                            borderBottom: '1px solid lightgray'
-                        }}>{crash.LIGHT_CONDITION}</Col>
+                        <Col span={24} className={styles.cell}>
+                            {crash.LIGHT_CONDITION}
+                        </Col>
                     </Row>
                 );
             })}
@@ -76,11 +70,9 @@ const Descriptive = ({ inventory }) => {
             {inventory && inventory.crash_intersections && inventory.crash_intersections.map(crash => {
                 return (
                     <Row>
-                        <Col span={24} style={{
-                            paddingLeft: 10,
-                            backgroundColor: '#f9f9f9',
-                            borderBottom: '1px solid lightgray'
-                        }}>{crash.WEATHER_CONDITION}</Col>
+                        <Col span={24} className={styles.cell}>
+                            {crash.WEATHER_CONDITION}
+                        </Col>
                     </Row>
                 );
             })}
@@ -92,11 +84,9 @@ const Descriptive = ({ inventory }) => {
             {inventory && inventory.crash_intersections && inventory.crash_intersections.map(crash => {
                 return (
                     <Row>
-                        <Col span={24} style={{
-                            paddingLeft: 10,
-                            backgroundColor: '#f9f9f9',
-                            borderBottom: '1px solid lightgray'
-                        }}>{crash.ROAD_SURFACE_CONDITION}</Col>
+                        <Col span={24} className={styles.cell}>
+                            {crash.ROAD_SURFACE_CONDITION}
+                        </Col>
                     </Row>
                 );
             })}
@@ -106,23 +96,36 @@ const Descriptive = ({ inventory }) => {
     );
 }
 
-const CrashDataCom = ({ }) => {
+const CrashDataCom = ({ inventory }) => {
 
     return (
         <div>
 
             <Row className={styles.row}>
-                <Col flex={1} md span={6} className={styles.headCol}>Intersection</Col>
-                <Col flex={1} md span={6} className={styles.headCol}>CrashRN</Col>
-                <Col flex={1} md span={6} className={styles.headCol}>CrashDate</Col>
-                <Col flex={1} md span={6} className={styles.headCol}>Collision</Col>
+                <Col span={6} className={styles.headCol}> Intersection</Col>
+                <Col span={6} className={styles.headCol}>CrashRN</Col>
+                <Col span={6} className={styles.headCol}>CrashDate</Col>
+                <Col span={6} className={styles.headCol}>Collision</Col>
             </Row>
 
             <Row className={styles.row}>
-                <Col flex={1} md span={12} className={styles.col3}>
+                <Col span={6} style={{ fontWeight: 'bold', textAlign: 'center', alignSelf: 'center' }}>
+                    {inventory.INTERSECTION_NAME}
                 </Col>
-                <Col flex={1} md span={12} className={styles.col4}>
-
+                <Col span={18} >
+                    {inventory && inventory.crash_intersections && inventory.crash_intersections.map(crash => {
+                        return (
+                            <Row>
+                                <Col span={8} className={styles.cell}> {crash.CRASH_RECORD_NBR} </Col>
+                                <Col span={8} className={styles.cell}> {crash.DATE_OF_CRASH} </Col>
+                                <Col span={8} className={styles.cell}>
+                                    <Typography.Text ellipsis={true}>
+                                        {crash.COLLISION_TYPE}
+                                    </Typography.Text>
+                                </Col>
+                            </Row>
+                        );
+                    })}
                 </Col>
             </Row>
 
@@ -134,7 +137,7 @@ const getContent = (tab, inventory) => {
 
     switch (tab) {
         case "tab1": return <Descriptive inventory={inventory} />;
-        case "tab2": return <CrashDataCom />;
+        case "tab2": return <CrashDataCom inventory={inventory} />;
         case "tab3": return <div>content 3</div>;
         default: return null;
     }
