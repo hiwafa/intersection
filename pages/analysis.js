@@ -1,6 +1,6 @@
 import react, { useMemo, useState } from "react"
 import GoogleMapReact from 'google-map-react';
-import DescriptiveStatistics from "../components/descriptiveStatistics"
+import Descriptive from "../components/descriptiveStatistics"
 import CrashData from "../components/crashData"
 import IntersectionInventory from "../components/intersectionInverntory";
 
@@ -10,136 +10,6 @@ const { Content } = Layout;
 import styles from "../styles/Analys.module.css";
 import dynamic from "next/dynamic";
 
-
-const Descriptive = ({ inventory }) => {
-
-    return (
-        <div>
-
-            <Row>
-                <Col span={24} className={styles.headCol}>
-                    {inventory && inventory.INTERSECTION_NAME ?
-                        inventory.INTERSECTION_NAME : 'Intersection Name'}
-                </Col>
-            </Row>
-
-            <Row>
-                <Col span={24} className={styles.headCol}>Severity</Col>
-            </Row>
-            {inventory && inventory.crash_intersections && inventory.crash_intersections.map(crash => {
-                return (
-                    <Row key={crash.id}>
-                        <Col span={24} className={styles.cell}>
-                            {crash.SEVERITY}
-                        </Col>
-                    </Row>
-                );
-            })}
-
-
-            <Row>
-                <Col span={24} className={styles.headCol}>Collision Type</Col>
-            </Row>
-            {inventory && inventory.crash_intersections && inventory.crash_intersections.map(crash => {
-                return (
-                    <Row key={crash.id}>
-                        <Col span={24} className={styles.cell}>
-                            {crash.COLLISION_TYPE}
-                        </Col>
-                    </Row>
-                );
-            })}
-
-
-            <Row>
-                <Col span={24} className={styles.headCol}>Light Conditions</Col>
-            </Row>
-            {inventory && inventory.crash_intersections && inventory.crash_intersections.map(crash => {
-                return (
-                    <Row key={crash.id}>
-                        <Col span={24} className={styles.cell}>
-                            {crash.LIGHT_CONDITION}
-                        </Col>
-                    </Row>
-                );
-            })}
-
-            <Row>
-                <Col span={24} className={styles.headCol}>Weather Conditions</Col>
-            </Row>
-            {inventory && inventory.crash_intersections && inventory.crash_intersections.map(crash => {
-                return (
-                    <Row key={crash.id}>
-                        <Col span={24} className={styles.cell}>
-                            {crash.WEATHER_CONDITION}
-                        </Col>
-                    </Row>
-                );
-            })}
-
-
-            <Row>
-                <Col span={24} className={styles.headCol}>Road Surface Conditions</Col>
-            </Row>
-            {inventory && inventory.crash_intersections && inventory.crash_intersections.map(crash => {
-                return (
-                    <Row key={crash.id}>
-                        <Col span={24} className={styles.cell}>
-                            {crash.ROAD_SURFACE_CONDITION}
-                        </Col>
-                    </Row>
-                );
-            })}
-
-
-        </div>
-    );
-}
-
-const CrashDataCom = ({ inventory }) => {
-
-    return (
-        <div>
-
-            <Row className={styles.row}>
-                <Col span={6} className={styles.headCol}> Intersection</Col>
-                <Col span={6} className={styles.headCol}>CrashRN</Col>
-                <Col span={6} className={styles.headCol}>CrashDate</Col>
-                <Col span={6} className={styles.headCol}>Collision</Col>
-            </Row>
-
-            <Row className={styles.row}>
-                <Col span={6} style={{ fontWeight: 'bold', textAlign: 'center', alignSelf: 'center' }}>
-                    {inventory.INTERSECTION_NAME}
-                </Col>
-                <Col span={18} >
-                    {inventory && inventory.crash_intersections && inventory.crash_intersections.map(crash => {
-                        return (
-                            <Row key={crash.id}>
-                                <Col span={8} className={styles.cell}>
-                                    <Typography.Text ellipsis={true}>
-                                        {crash.CRASH_RECORD_NBR}
-                                    </Typography.Text>
-                                </Col>
-                                <Col span={8} className={styles.cell}>
-                                    <Typography.Text ellipsis={true}>
-                                        {crash.DATE_OF_CRASH}
-                                    </Typography.Text>
-                                </Col>
-                                <Col span={8} className={styles.cell}>
-                                    <Typography.Text ellipsis={true}>
-                                        {crash.COLLISION_TYPE}
-                                    </Typography.Text>
-                                </Col>
-                            </Row>
-                        );
-                    })}
-                </Col>
-            </Row>
-
-        </div>
-    );
-}
 
 const MIRE = ({ inventory }) => {
 
@@ -182,7 +52,7 @@ const getContent = (tab, inventory) => {
 
     switch (tab) {
         case "tab1": return <Descriptive inventory={inventory} />;
-        case "tab2": return <CrashDataCom inventory={inventory} />;
+        case "tab2": return <CrashData inventory={inventory} />;
         case "tab3": return <MIRE inventory={inventory} />;
         default: return null;
     }
