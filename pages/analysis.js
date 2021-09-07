@@ -116,8 +116,16 @@ const CrashDataCom = ({ inventory }) => {
                     {inventory && inventory.crash_intersections && inventory.crash_intersections.map(crash => {
                         return (
                             <Row>
-                                <Col span={8} className={styles.cell}> {crash.CRASH_RECORD_NBR} </Col>
-                                <Col span={8} className={styles.cell}> {crash.DATE_OF_CRASH} </Col>
+                                <Col span={8} className={styles.cell}>
+                                    <Typography.Text ellipsis={true}>
+                                        {crash.CRASH_RECORD_NBR}
+                                    </Typography.Text>
+                                </Col>
+                                <Col span={8} className={styles.cell}>
+                                    <Typography.Text ellipsis={true}>
+                                        {crash.DATE_OF_CRASH}
+                                    </Typography.Text>
+                                </Col>
                                 <Col span={8} className={styles.cell}>
                                     <Typography.Text ellipsis={true}>
                                         {crash.COLLISION_TYPE}
@@ -133,12 +141,49 @@ const CrashDataCom = ({ inventory }) => {
     );
 }
 
+const MIRE = ({ inventory }) => {
+
+    return (
+        <div>
+
+            <Row className={styles.row}>
+                <Col span={6} className={styles.headCol}> Intersection</Col>
+                <Col span={6} className={styles.headCol}>Intersection Type</Col>
+                <Col span={6} className={styles.headCol}>No. of Approaches</Col>
+                <Col span={6} className={styles.headCol}>AADT</Col>
+            </Row>
+
+            <Row className={styles.row}>
+                <Col span={6} style={{ fontWeight: 'bold', textAlign: 'center', alignSelf: 'center' }}>
+                    {inventory.INTERSECTION_NAME}
+                </Col>
+                <Col span={6} className={styles.cell}>
+                    <Typography.Text ellipsis={true}>
+                        {inventory.INTERSECTION_TYPE}
+                    </Typography.Text>
+                </Col>
+                <Col span={6} className={styles.cell}>
+                    <Typography.Text ellipsis={true}>
+                        {inventory.NUMBER_OF_APPRAOCHES}
+                    </Typography.Text>
+                </Col>
+                <Col span={6} className={styles.cell}>
+                    <Typography.Text ellipsis={true}>
+                        {inventory.AADT}
+                    </Typography.Text>
+                </Col>
+            </Row>
+
+        </div>
+    );
+}
+
 const getContent = (tab, inventory) => {
 
     switch (tab) {
         case "tab1": return <Descriptive inventory={inventory} />;
         case "tab2": return <CrashDataCom inventory={inventory} />;
-        case "tab3": return <div>content 3</div>;
+        case "tab3": return <MIRE inventory={inventory} />;
         default: return null;
     }
 
