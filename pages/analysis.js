@@ -1,6 +1,5 @@
-import react, { useMemo, useState } from "react"
-import GoogleMapReact from 'google-map-react';
-import DescriptiveStatistics from "../components/descriptiveStatistics"
+import react, { useMemo, useState } from "react";
+import Descriptive from "../components/descriptiveStatistics"
 import CrashData from "../components/crashData"
 import IntersectionInventory from "../components/intersectionInverntory";
 
@@ -10,141 +9,12 @@ const { Content } = Layout;
 import styles from "../styles/Analys.module.css";
 import dynamic from "next/dynamic";
 
-
-const Descriptive = ({ inventory }) => {
-
-    return (
-        <div>
-
-            <Row>
-                <Col span={24} style={{
-                    backgroundColor: '#f2f2f2',
-                    textAlign: 'center',
-                    height: 30,
-                    paddingTop: 5,
-                    fontWeight: 'bold'
-                }}>{inventory && inventory.INTERSECTION_NAME ? inventory.INTERSECTION_NAME : 'Intersection Name'}</Col>
-            </Row>
-
-            <Row>
-                <Col span={24} style={{
-                    backgroundColor: '#f2f2f2',
-                    textAlign: 'center',
-                    height: 30,
-                    paddingTop: 5,
-                    fontWeight: 'bold'
-                }}>Severity</Col>
-            </Row>
-            {inventory && inventory.crash_intersections && inventory.crash_intersections.map(crash => {
-                return (
-                    <Row>
-                        <Col span={24} style={{
-                            paddingLeft: 10,
-                            backgroundColor: '#f9f9f9',
-                            borderBottom: '1px solid lightgray'
-                        }}>{crash.SEVERITY}</Col>
-                    </Row>
-                );
-            })}
-
-
-            <Row>
-                <Col span={24} style={{
-                    backgroundColor: '#f2f2f2',
-                    textAlign: 'center',
-                    height: 30,
-                    paddingTop: 5,
-                    fontWeight: 'bold'
-                }}>Collision Type</Col>
-            </Row>
-            {inventory && inventory.crash_intersections && inventory.crash_intersections.map(crash => {
-                return (
-                    <Row>
-                        <Col span={24} style={{
-                            paddingLeft: 10,
-                            backgroundColor: '#f9f9f9',
-                            borderBottom: '1px solid lightgray'
-                        }}>{crash.COLLISION_TYPE}</Col>
-                    </Row>
-                );
-            })}
-            
-            
-            <Row>
-                <Col span={24} style={{
-                    backgroundColor: '#f2f2f2',
-                    textAlign: 'center',
-                    height: 30,
-                    paddingTop: 5,
-                    fontWeight: 'bold'
-                }}>Light Conditions</Col>
-            </Row>
-            {inventory && inventory.crash_intersections && inventory.crash_intersections.map(crash => {
-                return (
-                    <Row>
-                        <Col span={24} style={{
-                            paddingLeft: 10,
-                            backgroundColor: '#f9f9f9',
-                            borderBottom: '1px solid lightgray'
-                        }}>{crash.LIGHT_CONDITION}</Col>
-                    </Row>
-                );
-            })}
-            
-            <Row>
-                <Col span={24} style={{
-                    backgroundColor: '#f2f2f2',
-                    textAlign: 'center',
-                    height: 30,
-                    paddingTop: 5,
-                    fontWeight: 'bold'
-                }}>Weather Conditions</Col>
-            </Row>
-            {inventory && inventory.crash_intersections && inventory.crash_intersections.map(crash => {
-                return (
-                    <Row>
-                        <Col span={24} style={{
-                            paddingLeft: 10,
-                            backgroundColor: '#f9f9f9',
-                            borderBottom: '1px solid lightgray'
-                        }}>{crash.WEATHER_CONDITION}</Col>
-                    </Row>
-                );
-            })}
-            
-            
-            <Row>
-                <Col span={24} style={{
-                    backgroundColor: '#f2f2f2',
-                    textAlign: 'center',
-                    height: 30,
-                    paddingTop: 5,
-                    fontWeight: 'bold'
-                }}>Road Surface Conditions</Col>
-            </Row>
-            {inventory && inventory.crash_intersections && inventory.crash_intersections.map(crash => {
-                return (
-                    <Row>
-                        <Col span={24} style={{
-                            paddingLeft: 10,
-                            backgroundColor: '#f9f9f9',
-                            borderBottom: '1px solid lightgray'
-                        }}>{crash.ROAD_SURFACE_CONDITION}</Col>
-                    </Row>
-                );
-            })}
-
-
-        </div>
-    );
-}
-
 const getContent = (tab, inventory) => {
 
     switch (tab) {
         case "tab1": return <Descriptive inventory={inventory} />;
-        case "tab2": return <div>content 2</div>;
-        case "tab3": return <div>content 3</div>;
+        case "tab2": return <CrashData inventory={inventory} />;
+        case "tab3": return <IntersectionInventory inventory={inventory} />;
         default: return null;
     }
 
