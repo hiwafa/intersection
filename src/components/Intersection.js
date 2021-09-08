@@ -1,6 +1,6 @@
 import react from "react";
 import { Row, Col, Typography } from 'antd';
-import styles from "../styles/Analys.module.css";
+import styles from "../../styles/Analys.module.css";
 
 const IntersectionInventory = ({ inventory }) => (
     <div>
@@ -14,21 +14,21 @@ const IntersectionInventory = ({ inventory }) => (
 
         <Row className={styles.row}>
             <Col span={6} className={styles.cell} style={{ fontWeight: 'bold' }}>
-                {inventory.INTERSECTION_NAME}
+                {inventory && inventory.INTERSECTION_NAME}
             </Col>
             <Col span={6} className={styles.cell}>
                 <Typography.Text ellipsis={true}>
-                    {inventory.INTERSECTION_TYPE}
+                    {inventory && inventory.INTERSECTION_TYPE}
                 </Typography.Text>
             </Col>
             <Col span={6} className={styles.cell}>
                 <Typography.Text ellipsis={true}>
-                    {inventory.NUMBER_OF_APPRAOCHES}
+                    {inventory && inventory.NUMBER_OF_APPRAOCHES}
                 </Typography.Text>
             </Col>
             <Col span={6} className={styles.cell}>
                 <Typography.Text ellipsis={true}>
-                    {inventory.AADT}
+                    {inventory && inventory.AADT}
                 </Typography.Text>
             </Col>
         </Row>
