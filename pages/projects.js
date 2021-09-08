@@ -20,8 +20,8 @@ function Projects(){
         <ButtonContainer>
             <h3>Projects</h3>
             <Row gutter={[50, 10]}>
-                <Col md={12} lg={12}><Button onClick={() => handleClick(true)} size={"large"} type={"primary"} block>Search Projects</Button></Col>
-                <Col md={12} lg={12}><Button onClick={() => handleClick(false)} size={"large"} type={"primary"} block>Create Projects</Button></Col>
+                <Col md={12} lg={12}><Button style={{background: "#00A9B3", color: "white"}} onClick={() => handleClick(true)} size={"large"} type={"primary"} block>Search Projects</Button></Col>
+                <Col md={12} lg={12}><Button style={{background: "#00A9B3", color: "white"}} onClick={() => handleClick(false)} size={"large"} type={"primary"} block>Create Projects</Button></Col>
                 <Col md={24} lg={24}>
                     {search ? <SearchProject setProjectId={setProjectId} setShowDetails={setShowDetails} /> : <CreateProject />}
                 </Col>
