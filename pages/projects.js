@@ -8,7 +8,7 @@ const ButtonContainer = styled.div`
     padding: 10px;
 `
 function Projects(){
-    const [search, setSearch] = useState(false)
+    const [search, setSearch] = useState(true)
     const handleClick = (status) => {
         setSearch(status)
     }
