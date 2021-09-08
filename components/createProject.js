@@ -70,7 +70,7 @@ function CreateProject (){
                     </Col>
                     <Col span={6} key={2}>
                         <Form.Item
-                            name={`route`}
+                            name={`ROUTE`}
                             label={`Route`}
                             rules={[ {
                                 required: true,
@@ -85,7 +85,7 @@ function CreateProject (){
                     </Col>
                     <Col span={6} key={3}>
                         <Form.Item
-                            name={`direction`}
+                            name={`DIRECTION`}
                             label={`Direction`}
                             rules={[ {
                                 required: true,
@@ -98,7 +98,7 @@ function CreateProject (){
                     </Col>
                     <Col span={6} key={4}>
                         <Form.Item
-                            name={`validRange`}
+                            name={`VALID_MILEPOST_RANGE`}
                             label={`Valid Milepost Range`}
                             rules={[ {
                                 required: true,
@@ -111,7 +111,7 @@ function CreateProject (){
                     </Col>
                     <Col span={6} key={5}>
                         <Form.Item
-                            name={`startMp`}
+                            name={`START_MP`}
                             label={`Start MP`} 
                             rules={[
                                 {
@@ -124,7 +124,7 @@ function CreateProject (){
                     </Col>
                     <Col span={6} key={6}>
                         <Form.Item
-                            name={`endMp`}
+                            name={`END_MP`}
                             label={`End MP`}
                             rules={[
                             {
@@ -165,7 +165,7 @@ function CreateProject (){
                     </Col>
                     <Col span={6} key={9}>
                         <Form.Item
-                            name={`emphasisArea`}
+                            name={`EMPHASIS_AREA`}
                             label={`Emphasis Area`}
                              >
                             <Select size={"large"}>
