@@ -14,7 +14,7 @@ const CrashData = ({ inventory }) => (
 
         <Row className={styles.row}>
             <Col span={6} style={{ fontWeight: 'bold', textAlign: 'center', alignSelf: 'center' }}>
-                {inventory.INTERSECTION_NAME}
+                {inventory && inventory.INTERSECTION_NAME}
             </Col>
             <Col span={18} >
                 {inventory && inventory.crash_intersections && inventory.crash_intersections.map(crash => {
