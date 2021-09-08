@@ -1,8 +1,8 @@
 import react, { useState } from "react"
 import styled from "styled-components"
 import {Button, Row, Col} from "antd"
-import CreateProject from "../components/createProject"
-import SearchProject from "../components/searchProject"
+import SearchProject from "../src/components/searchProject"
+import CreateProject from "../src/components/createProject"
 import ProjectDetails from "../src/components/projectDetails"
 const ButtonContainer = styled.div`
     padding: 10px;

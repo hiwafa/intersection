@@ -1,6 +1,6 @@
 import react, { useState, useEffect } from "react"
 import {Button, Table, Space, Input, message} from "antd"
-import {request} from "../src/requests"
+import {request} from "../requests"
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
 import Link from "next/link";
