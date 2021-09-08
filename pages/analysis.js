@@ -2,12 +2,13 @@ import react, { useMemo, useState } from "react";
 import CrashData from "../src/components/CrashData";
 import Descriptive from "../src/components/Descriptive";
 import IntersectionInventory from "../src/components/Intersection";
-
+import { useGetIntersectionsQuery } from "../src/store/query";
+import TopFilter from "../src/components/TopFilter";
+import styles from "../styles/Analys.module.css";
 import { Row, Col, Menu, Layout } from 'antd';
+import dynamic from "next/dynamic";
 const { Content } = Layout;
 
-import styles from "../styles/Analys.module.css";
-import dynamic from "next/dynamic";
 
 const getContent = (tab, inventory) => {
 
@@ -24,6 +25,7 @@ function Analysis() {
 
     const [tab, setTab] = useState("tab1");
     const [inventory, setInventory] = useState(null);
+    const inventories = useGetIntersectionsQuery("intersection-inventories");
 
     const MapBox = useMemo(() => dynamic(() => import("../src/components/MapBox"), {
         loading: () => "Loading...",
@@ -32,12 +34,13 @@ function Analysis() {
 
     return (
         <div style={{ width: '100%', height: '100%' }}>
-            <div style={{ backgroundColor: 'green', width: '100%', height: 200 }}>
-
+            <div style={{ backgroundColor: '#fff', width: '100%' }}>
+                <TopFilter inventories={inventories} />
             </div>
             <Row className={styles.row}>
                 <Col flex={1} md span={12} className={styles.col1}>
-                    <MapBox onPress={inventory => setInventory(inventory)} />
+                    <MapBox onPress={inventory => setInventory(inventory)}
+                        inventories={inventories} />
                 </Col>
                 <Col flex={1} md span={12} className={styles.col2}>
                     <Menu theme="light" mode="horizontal" defaultSelectedKeys={['tab1']}>

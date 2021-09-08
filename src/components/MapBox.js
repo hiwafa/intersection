@@ -42,17 +42,13 @@ const CustomMarker = ({ crashId, inventory, onPress }) => {
     );
 }
 
-const MapView = ({onPress}) => {
+const MapView = ({onPress, inventories}) => {
 
     const [viewport, setViewport] = useState({
         latitude: 35.75,
         longitude: -96.43,
         zoom: 4
     });
-
-    const inventories = useGetIntersectionsQuery("intersection-inventories");
-
-    console.log("inventories", inventories.data);
 
     return (
         <ReactMapGL
