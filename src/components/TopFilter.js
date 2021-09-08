@@ -41,20 +41,16 @@ const TopFilter = ({ onFilter }) => {
 
             <Form.Item style={{ margin: 10 }} label="Crash Type" name="crash">
                 <Select placeholder="Select Crash Type">
-                    {crashType.map(tipe => {
-                        return (
-                            <Option value={tipe}>{tipe}</Option>
-                        )
+                    {crashType.map((tipe, idx) => {
+                        return <Option key={idx} value={tipe}>{tipe}</Option>;
                     })}
                 </Select>
             </Form.Item>
 
             <Form.Item style={{ margin: 10 }} label="Collision Type" name="collision">
                 <Select placeholder="Select Collision Type">
-                    {collisionType.map(tipe => {
-                        return (
-                            <Option value={tipe}>{tipe}</Option>
-                        )
+                    {collisionType.map((tipe, idx) => {
+                        return <Option key={idx} value={tipe}>{tipe}</Option>;
                     })}
                 </Select>
             </Form.Item>
@@ -63,10 +59,8 @@ const TopFilter = ({ onFilter }) => {
 
                 <Form.Item label="Intersection Type" name="intersection">
                     <Select placeholder="Select Intersection Type">
-                        {intersectionType.map(tipe => {
-                            return (
-                                <Option value={tipe}>{tipe}</Option>
-                            )
+                        {intersectionType.map((tipe, idx) => {
+                            return <Option key={idx} value={tipe}>{tipe}</Option>;
                         })}
                     </Select>
                 </Form.Item>
