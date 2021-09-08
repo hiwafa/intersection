@@ -1,6 +1,6 @@
 import react from "react";
 import {Button, Row, Col, Form, Select, DatePicker, Input, message} from "antd"
-import {request} from "../src/requests"
+import {request} from "../requests"
 
 function CreateProject (){
     const [form] = Form.useForm();
