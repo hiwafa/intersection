@@ -3,9 +3,10 @@ import {Button, Table, Space, Input, message} from "antd"
 import {request} from "../src/requests"
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
+import Link from "next/link";
 
 
-function SearchProject(){
+function SearchProject({setShowDetails, setProjectId}){
     const [projects, setProjects] = useState([])
     const [searchText, setSearchText] = useState("")
     const [searchedColumn, setSearchedColumn] = useState("")
@@ -90,7 +91,8 @@ function SearchProject(){
       {
         title: () => <b>{'PROJECT NAME'}</b>,
         dataIndex: 'name',
-        render: text => <a>{text}</a>,
+        key: "1",
+        render: (text, record) => ( <Link href={'user/' + record.name}>{text}</Link>),
         ...getColumnSearchProps('name')
       },
       {
@@ -131,6 +133,7 @@ function SearchProject(){
             setProjects(
               res.data.map((project, index) => ({
                       key: index,
+                      id: project.id,
                       name: project.PROJECT_NAME,
                       route: project.ROUTE,
                       direction: project.DIRECTION,
@@ -146,6 +149,11 @@ function SearchProject(){
         useEffect(()=>{
           loadProjects()
         }, [])
+        const handleRowClick = (record) => {
+          console.log(record)
+          setProjectId(record.id)
+          setShowDetails(true)
+        }
       return <>
           <h2>Search Project</h2>
           <div>
@@ -154,8 +162,11 @@ function SearchProject(){
               dataSource={projects && projects}
               bordered
               filterSearch={true}
-              // title={() => 'Header'}
-              footer={() => 'Footer'}
+              onRow={(record) => {
+                return {
+                  onClick: () => handleRowClick(record), // click row
+                };
+              }}
           />
           </div>
           </>
