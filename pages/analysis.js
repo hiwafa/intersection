@@ -26,26 +26,51 @@ function Analysis() {
     const [tab, setTab] = useState("tab1");
     const [inventory, setInventory] = useState(null);
     const [invntories, setInvntories] = useState([]);
-    const {data} = useGetIntersectionsQuery("intersection-inventories");
+    const { data } = useGetIntersectionsQuery("intersection-inventories");
 
     const MapBox = useMemo(() => dynamic(() => import("../src/components/MapBox"), {
         loading: () => "Loading...",
         ssr: false
     }), []);
 
-    useEffect(()=>{
-        if(data) setInvntories(data);
+    useEffect(() => {
+        if (data) setInvntories(data);
     }, [data]);
+
+    const onFilter = (values) => {
+        // {from, to, collision, crash, intersection}
+
+        const from = new Date(values.from).getTime();
+        const to = new Date(values.to).getTime();
+
+
+        if (data) {
+
+            const newInventories = data.filter(i => {
+            
+                const check1 = i.INTERSECTION_TYPE === values.intersection;
+                const check2 = i.crash_intersections.some( v => v.SEVERITY === values.crash);
+                const check3 = i.crash_intersections.some( v => v.COLLISION_TYPE === values.collision);
+                const check4 = i.crash_intersections.some ( v => v.DATE_OF_CRASH >= from && v.DATE_OF_CRASH <= to );
+
+
+                return check1 || check2 || check3 || check4;
+
+            });
+
+            setInvntories(newInventories);
+        }
+    };
 
     return (
         <div style={{ width: '100%', height: '100%' }}>
             <div style={{ backgroundColor: '#fff', width: '100%' }}>
-                <TopFilter inventories={data} />
+                <TopFilter onFilter={onFilter} />
             </div>
             <Row className={styles.row}>
                 <Col flex={1} md span={12} className={styles.col1}>
                     <MapBox onPress={inventory => setInventory(inventory)}
-                        inventories={data} />
+                        inventories={invntories} />
                 </Col>
                 <Col flex={1} md span={12} className={styles.col2}>
                     <Menu theme="light" mode="horizontal" defaultSelectedKeys={['tab1']}>

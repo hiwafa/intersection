@@ -7,11 +7,11 @@ const { Option } = Select;
 const intersectionType = ['4-way', 'T', 'Y', 'Roundabout', 'Median U-Turn', 'Jughandle', 'Quadrant'];
 const crashType = ['All', 'Fatal', 'Type A', 'Type B', 'Type C', 'PDO', 'Injury'];
 const collisionType = ['Angle', 'Rear End', 'Sideswipe Same Direction'];
-const TopFilter = ({ inventories }) => {
+const TopFilter = ({ onFilter }) => {
 
     const onFinish = async (values) => {
         try {
-            alert(JSON.stringify(values));
+            onFilter(values);
         } catch (err) {
             console.log("ERR:register:onFinish ", err);
         }
@@ -61,7 +61,7 @@ const TopFilter = ({ inventories }) => {
 
             <div style={{ margin: 10, display: 'flex', flex: 1, flexDirection: 'row' }}>
 
-                <Form.Item label="Intersection Type" name="ntersection">
+                <Form.Item label="Intersection Type" name="intersection">
                     <Select placeholder="Select Intersection Type">
                         {intersectionType.map(tipe => {
                             return (
