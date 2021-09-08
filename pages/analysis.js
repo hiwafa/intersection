@@ -31,23 +31,28 @@ function Analysis() {
     }), []);
 
     return (
-        <Row className={styles.row}>
-            <Col flex={1} md span={12} className={styles.col1}>
-                <MapBox onPress={inventory => setInventory(inventory)} />
-            </Col>
-            <Col flex={1} md span={12} className={styles.col2}>
-                <Menu theme="light" mode="horizontal" defaultSelectedKeys={['tab1']}>
-                    <Menu.Item key="tab1" onClick={() => setTab("tab1")}>Descriptive Statistics</Menu.Item>
-                    <Menu.Item key="tab2" onClick={() => setTab("tab2")}>Crash Data</Menu.Item>
-                    <Menu.Item key="tab3" onClick={() => setTab("tab3")}>Intersection Inventory</Menu.Item>
-                </Menu>
-                <Content className="site-layout" style={{ padding: '0 50px', marginTop: 64 }}>
-                    <div className="site-layout-background" style={{ minHeight: 380 }}>
-                        {getContent(tab, inventory)}
-                    </div>
-                </Content>
-            </Col>
-        </Row>
+        <div style={{ width: '100%', height: '100%' }}>
+            <div style={{ backgroundColor: 'green', width: '100%', height: 200 }}>
+
+            </div>
+            <Row className={styles.row}>
+                <Col flex={1} md span={12} className={styles.col1}>
+                    <MapBox onPress={inventory => setInventory(inventory)} />
+                </Col>
+                <Col flex={1} md span={12} className={styles.col2}>
+                    <Menu theme="light" mode="horizontal" defaultSelectedKeys={['tab1']}>
+                        <Menu.Item key="tab1" onClick={() => setTab("tab1")}>Descriptive Statistics</Menu.Item>
+                        <Menu.Item key="tab2" onClick={() => setTab("tab2")}>Crash Data</Menu.Item>
+                        <Menu.Item key="tab3" onClick={() => setTab("tab3")}>Intersection Inventory</Menu.Item>
+                    </Menu>
+                    <Content className="site-layout" style={{ padding: '0 50px', marginTop: 64 }}>
+                        <div className="site-layout-background" style={{ minHeight: 380 }}>
+                            {getContent(tab, inventory)}
+                        </div>
+                    </Content>
+                </Col>
+            </Row>
+        </div>
     );
 }
 export default Analysis
