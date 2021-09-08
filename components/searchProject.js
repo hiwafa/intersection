@@ -47,11 +47,11 @@ function SearchProject(){
               res.data.map((project, index) => ({
                       key: index,
                       name: project.PROJECT_NAME,
-                      route: "Route",
-                      direction: "direction",
-                      startMp: "start mp",
-                      endMp: "end mp",
-                      numberOfCrashes: "number of crashes",
+                      route: project.ROUTE,
+                      direction: project.DIRECTION,
+                      startMp: project.START_MP,
+                      endMp: project.END_MP,
+                      numberOfCrashes: project.CRASH_COUNT,
                       totalTreatment: "total treatment"
               })
               )
