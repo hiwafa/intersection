@@ -94,30 +94,30 @@ function SearchProject(){
         ...getColumnSearchProps('name')
       },
       {
-        title: 'ROUTE',
+        title: () => <b>{'ROUTE'}</b>,
         className: 'column-money',
         dataIndex: 'route',
         align: 'right',
       },
       {
-        title: 'DIRECTION',
+        title: () => <b>{'DIRECTION'}</b>,
         dataIndex: 'direction',
       },
       {
-          title: 'START MP',
-          dataIndex: 'startMp',
+        title: () => <b>{'START MP'}</b>,
+        dataIndex: 'startMp',
       },
       {
-          title: 'END MP',
-          dataIndex: 'endMp',
+        title: () => <b>{'END MP'}</b>,
+        dataIndex: 'endMp',
       },
       {
-          title: 'NO OF CRASHES',
-          dataIndex: 'numberOfCrashes',
+        title: () => <b>{'NO OF CRASHES'}</b>,
+        dataIndex: 'numberOfCrashes',
       },
       {
-          title: 'TOTAL TREATMENT',
-          dataIndex: 'totalTreatment',
+        title: () => <b>{'TOTAL TREATMENT'}</b>,
+        dataIndex: 'totalTreatment',
       },
     ];
     
