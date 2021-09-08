@@ -16,8 +16,6 @@ const CustomMarker = ({ crashId, inventory, onPress }) => {
     const crashes = lent > 0 ? inventory.crash_intersections :
     [{LATITUDE: 35.1, LONGITUD: -90.1}];
 
-    console.log("crashes::: ", inventory.crash_intersections);
-
     const [x, y] = context.viewport.project([crashes[0].LONGITUD, crashes[0].LATITUDE]);
 
     const markerStyle = {
