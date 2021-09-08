@@ -106,6 +106,11 @@ const LayoutCom = ({ children }) => {
                             <a>Admin</a>
                         </Link>
                     </Menu.Item>
+                    <Menu.Item key="projects" icon={<UserOutlined />}>
+                        <Link href="/projects">
+                            <a>Projects</a>
+                        </Link>
+                    </Menu.Item>
                 </Menu>
 
             </Sider>
