@@ -3,7 +3,7 @@ import { LockOutlined } from "@ant-design/icons";
 import { StyledButton } from "./styleds";
 const { Option } = Select;
 
-const TopFilter = () => {
+const TopFilter = ({ inventories }) => {
 
     const onFinish = async (values) => {
         try {
@@ -53,12 +53,15 @@ const TopFilter = () => {
 
                 <Form.Item label="Intersection Type" name="ntersection">
                     <Select placeholder="Select Intersection Type">
-                        <Option value="Zhejiang">Zhejiang</Option>
-                        <Option value="Jiangsu">Jiangsu</Option>
+                        {inventories && inventories.data && inventories.data.map(intr => {
+                            return (
+                                <Option value={intr.INTERSECTION_TYPE}>{intr.INTERSECTION_TYPE}</Option>
+                            )
+                        })}
                     </Select>
                 </Form.Item>
 
-                <Form.Item style={{width: 80}}>
+                <Form.Item style={{ width: 80 }}>
                     <StyledButton type="submit">
                         Submit
                     </StyledButton>
