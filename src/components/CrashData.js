@@ -1,8 +1,8 @@
 import react from "react";
 import { Row, Col, Typography } from 'antd';
-import styles from "../styles/Analys.module.css";
+import styles from "../../styles/Analys.module.css";
 
-const crashData = ({ inventory }) => (
+const CrashData = ({ inventory }) => (
     <div>
 
         <Row className={styles.row}>
@@ -44,4 +44,4 @@ const crashData = ({ inventory }) => (
     </div>
 );
 
-export default crashData;
+export default CrashData;

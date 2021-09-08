@@ -1,6 +1,6 @@
 import react from "react";
 import { Row, Col, Typography } from 'antd';
-import styles from "../styles/Analys.module.css";
+import styles from "../../styles/Analys.module.css";
 
 const IntersectionInventory = ({ inventory }) => (
     <div>

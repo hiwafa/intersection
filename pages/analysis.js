@@ -1,7 +1,7 @@
 import react, { useMemo, useState } from "react";
-import Descriptive from "../components/descriptiveStatistics"
-import CrashData from "../components/crashData"
-import IntersectionInventory from "../components/intersectionInverntory";
+import CrashData from "../src/components/CrashData";
+import Descriptive from "../src/components/Descriptive";
+import IntersectionInventory from "../src/components/Intersection";
 
 import { Row, Col, Menu, Layout } from 'antd';
 const { Content } = Layout;

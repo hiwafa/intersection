@@ -1,6 +1,6 @@
 import react from "react";
 import { Row, Col } from 'antd';
-import styles from "../styles/Analys.module.css";
+import styles from "../../styles/Analys.module.css";
 
 const Descriptive = ({ inventory }) => {
     return (
