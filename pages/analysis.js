@@ -38,24 +38,20 @@ function Analysis() {
     }, [data]);
 
     const onFilter = (values) => {
-        // {from, to, collision, crash, intersection}
 
         const from = new Date(values.from).getTime();
         const to = new Date(values.to).getTime();
 
-
         if (data) {
 
             const newInventories = data.filter(i => {
-            
+
                 const check1 = i.INTERSECTION_TYPE === values.intersection;
-                const check2 = i.crash_intersections.some( v => v.SEVERITY === values.crash);
-                const check3 = i.crash_intersections.some( v => v.COLLISION_TYPE === values.collision);
-                const check4 = i.crash_intersections.some ( v => (new Date(v.DATE_OF_CRASH)).getTime() >= from && (new Date(v.DATE_OF_CRASH)).getTime() <= to );
-
-
+                const check2 = i.crash_intersections.some(v => v.SEVERITY === values.crash);
+                const check3 = i.crash_intersections.some(v => v.COLLISION_TYPE === values.collision);
+                const check4 = i.crash_intersections.some(v => (new Date(v.DATE_OF_CRASH)).getTime()
+                    >= from && (new Date(v.DATE_OF_CRASH)).getTime() <= to);
                 return check1 || check2 || check3 || check4;
-
             });
 
             setInvntories(newInventories);
