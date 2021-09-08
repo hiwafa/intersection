@@ -16,7 +16,7 @@ function Projects(){
     }
     return <>
         {showDetails ?
-         <ProjectDetails projectId={projectId} /> : 
+         <ProjectDetails projectId={projectId} setShowDetails={setShowDetails} /> : 
         <ButtonContainer>
             <h3>Projects</h3>
             <Row gutter={[50, 10]}>
