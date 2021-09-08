@@ -47,6 +47,29 @@ function CreateProject (){
                     </Col>
                     <Col span={6} key={2}>
                         <Form.Item
+                            name={`INTERSECTION`}
+                            label={`Intersection`}
+                            rules={[ {
+                                required: true,
+                                message: 'This field is required',
+                            },]} >
+                            <Select  size={"large"} showSearch
+                            optionFilterProp="children"
+                            filterOption={(input, option) =>
+                              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                            }
+                            filterSort={(optionA, optionB) =>
+                              optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
+                            }
+                            >
+                                <Select.Option value="1">type 1</Select.Option>
+                                <Select.Option value="2">type 2</Select.Option>
+                                <Select.Option value="3">type 3</Select.Option>
+                            </Select>
+                        </Form.Item>
+                    </Col>
+                    <Col span={6} key={2}>
+                        <Form.Item
                             name={`route`}
                             label={`Route`}
                             rules={[ {
@@ -55,6 +78,8 @@ function CreateProject (){
                             },]} >
                             <Select  size={"large"}>
                                 <Select.Option value="demo">Demo</Select.Option>
+                                <Select.Option value="demo">Demo2</Select.Option>
+                                <Select.Option value="demo">semo2</Select.Option>
                             </Select>
                         </Form.Item>
                     </Col>
