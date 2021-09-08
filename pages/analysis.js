@@ -1,4 +1,4 @@
-import react, { useMemo, useState } from "react";
+import react, { useMemo, useState, useEffect } from "react";
 import CrashData from "../src/components/CrashData";
 import Descriptive from "../src/components/Descriptive";
 import IntersectionInventory from "../src/components/Intersection";
@@ -25,22 +25,27 @@ function Analysis() {
 
     const [tab, setTab] = useState("tab1");
     const [inventory, setInventory] = useState(null);
-    const inventories = useGetIntersectionsQuery("intersection-inventories");
+    const [invntories, setInvntories] = useState([]);
+    const {data} = useGetIntersectionsQuery("intersection-inventories");
 
     const MapBox = useMemo(() => dynamic(() => import("../src/components/MapBox"), {
         loading: () => "Loading...",
         ssr: false
     }), []);
 
+    useEffect(()=>{
+        if(data) setInvntories(data);
+    }, [data]);
+
     return (
         <div style={{ width: '100%', height: '100%' }}>
             <div style={{ backgroundColor: '#fff', width: '100%' }}>
-                <TopFilter inventories={inventories} />
+                <TopFilter inventories={data} />
             </div>
             <Row className={styles.row}>
                 <Col flex={1} md span={12} className={styles.col1}>
                     <MapBox onPress={inventory => setInventory(inventory)}
-                        inventories={inventories} />
+                        inventories={data} />
                 </Col>
                 <Col flex={1} md span={12} className={styles.col2}>
                     <Menu theme="light" mode="horizontal" defaultSelectedKeys={['tab1']}>

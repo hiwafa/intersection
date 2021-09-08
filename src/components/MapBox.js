@@ -60,7 +60,7 @@ const MapView = ({onPress, inventories}) => {
             onViewportChange={(viewport) => setViewport(viewport)}
         >
 
-            {inventories.data && inventories.data.map(invnt => {
+            {inventories && inventories.map(invnt => {
 
 
 

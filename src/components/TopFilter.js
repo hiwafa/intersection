@@ -3,6 +3,10 @@ import { LockOutlined } from "@ant-design/icons";
 import { StyledButton } from "./styleds";
 const { Option } = Select;
 
+
+const intersectionType = ['4-way', 'T', 'Y', 'Roundabout', 'Median U-Turn', 'Jughandle', 'Quadrant'];
+const crashType = ['All', 'Fatal', 'Type A', 'Type B', 'Type C', 'PDO', 'Injury'];
+const collisionType = ['Angle', 'Rear End', 'Sideswipe Same Direction'];
 const TopFilter = ({ inventories }) => {
 
     const onFinish = async (values) => {
@@ -37,15 +41,21 @@ const TopFilter = ({ inventories }) => {
 
             <Form.Item style={{ margin: 10 }} label="Crash Type" name="crash">
                 <Select placeholder="Select Crash Type">
-                    <Option value="Zhejiang">Zhejiang</Option>
-                    <Option value="Jiangsu">Jiangsu</Option>
+                    {crashType.map(tipe => {
+                        return (
+                            <Option value={tipe}>{tipe}</Option>
+                        )
+                    })}
                 </Select>
             </Form.Item>
 
             <Form.Item style={{ margin: 10 }} label="Collision Type" name="collision">
                 <Select placeholder="Select Collision Type">
-                    <Option value="Zhejiang">Zhejiang</Option>
-                    <Option value="Jiangsu">Jiangsu</Option>
+                    {collisionType.map(tipe => {
+                        return (
+                            <Option value={tipe}>{tipe}</Option>
+                        )
+                    })}
                 </Select>
             </Form.Item>
 
@@ -53,9 +63,9 @@ const TopFilter = ({ inventories }) => {
 
                 <Form.Item label="Intersection Type" name="ntersection">
                     <Select placeholder="Select Intersection Type">
-                        {inventories && inventories.data && inventories.data.map(intr => {
+                        {intersectionType.map(tipe => {
                             return (
-                                <Option value={intr.INTERSECTION_TYPE}>{intr.INTERSECTION_TYPE}</Option>
+                                <Option value={tipe}>{tipe}</Option>
                             )
                         })}
                     </Select>
