@@ -1,7 +1,6 @@
 import axios from "axios";
 
-// const BASE_URL = process.env.BASE_URL;
-const BASE_URL = "http://localhost:1337";
+const BASE_URL = process.env.BASE_URL;
 const JWT_TOKEN = process.env.JWT_TOKEN;
 // const BASE_URL = "http://localhost:3000/";
 
