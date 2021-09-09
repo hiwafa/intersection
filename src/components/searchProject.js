@@ -14,7 +14,7 @@ function SearchProject({setShowDetails, setProjectId}){
 
 
     const getColumnSearchProps = (dataIndex) => ({
-      filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+      filterDropdown: function selectKeys({ setSelectedKeys, selectedKeys, confirm, clearFilters }) {
         <div style={{ padding: 8 }}>
           <Input
             ref={node => {
@@ -52,8 +52,8 @@ function SearchProject({setShowDetails, setProjectId}){
             </Button>
           </Space>
         </div>
-      ),
-      filterIcon: filtered => <SearchOutlined style={{ fontSize: "20px", color: filtered ? '#1890ff' : undefined }} />,
+      },
+      filterIcon: function setFilter(filtered){<SearchOutlined style={{ fontSize: "20px", color: filtered ? '#1890ff' : undefined }} />},
       onFilter: (value, record) =>
         record[dataIndex]
           ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase())
@@ -63,9 +63,9 @@ function SearchProject({setShowDetails, setProjectId}){
           setTimeout(() => searchInput.select(), 100);
         }
       },
-      render: text =>
+      render: function setHighlight(text, index) {
         searchedColumn === dataIndex ? (
-          <Highlighter
+          <Highlighter key={index}
             highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
             searchWords={[searchText]}
             autoEscape
@@ -73,7 +73,8 @@ function SearchProject({setShowDetails, setProjectId}){
           />
         ) : (
           text
-        ),
+        )
+      }
     });
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
       confirm();
@@ -89,36 +90,36 @@ function SearchProject({setShowDetails, setProjectId}){
 
     const columns = [
       {
-        title: () => <b>{'PROJECT NAME'}</b>,
+        title: <b>{'PROJECT NAME'}</b>,
         dataIndex: 'name',
         key: "1",
-        render: (text, record) => ( <Link href={'user/' + record.name}>{text}</Link>),
+        render: (text, record) => {text},
         ...getColumnSearchProps('name')
       },
       {
-        title: () => <b>{'ROUTE'}</b>,
+        title: <b>{'ROUTE'}</b>,
         className: 'column-money',
         dataIndex: 'route',
         align: 'right',
       },
       {
-        title: () => <b>{'DIRECTION'}</b>,
+        title: <b>{'DIRECTION'}</b>,
         dataIndex: 'direction',
       },
       {
-        title: () => <b>{'START MP'}</b>,
+        title:  <b>{'START MP'}</b>,
         dataIndex: 'startMp',
       },
       {
-        title: () => <b>{'END MP'}</b>,
+        title: <b>{'END MP'}</b>,
         dataIndex: 'endMp',
       },
       {
-        title: () => <b>{'NO OF CRASHES'}</b>,
+        title: <b>{'NO OF CRASHES'}</b>,
         dataIndex: 'numberOfCrashes',
       },
       {
-        title: () => <b>{'TOTAL TREATMENT'}</b>,
+        title: <b>{'TOTAL TREATMENT'}</b>,
         dataIndex: 'totalTreatment',
       },
     ];

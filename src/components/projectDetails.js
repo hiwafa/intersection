@@ -8,15 +8,14 @@ const Wrapper = styled.div`
     padding: 30px;
 `
 const columns = [
-
     {
-    title: () => <b>{'Field'}</b>,
+    title: 'Field',
     dataIndex: 'field',
     align: 'right',
     },
 
     {
-    title: () => <b>{'Value'}</b>,
+    title: 'Value',
     dataIndex: 'value',
     align: 'right',
     }
