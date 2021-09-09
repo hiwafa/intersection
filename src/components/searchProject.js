@@ -2,10 +2,25 @@ import react, { useState, useEffect } from "react"
 import {Button, Table, Space, Input, message} from "antd"
 import {request} from "../requests"
 import Highlighter from 'react-highlight-words';
-import { SearchOutlined } from '@ant-design/icons';
+import { SearchOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 import Link from "next/link";
-
-
+import styled from "styled-components"
+const {Column} = Table
+const ActionContainer = styled.div`
+  text-align: center;
+  .viewDetails{
+    font-size: 18px;
+    margin-left: 5px;
+    margin-right: 5px;
+    color: blue;
+  };
+  .editProject{
+    font-size: 18px;
+    margin-left: 5px;
+    margin-right: 5px;
+    color: red;
+  }
+`
 function SearchProject({setShowDetails, setProjectId}){
     const [projects, setProjects] = useState([])
     const [searchText, setSearchText] = useState("")
@@ -115,6 +130,11 @@ function SearchProject({setShowDetails, setProjectId}){
         title: <b>{'CRASH_END_DATE'}</b>,
         dataIndex: 'crashEndDate',
       },
+      {
+        title: <b>{'ACTION'}</b>,
+        dataIndex: 'action',
+        // render:  (text) => {text},
+      },
     ];
     
 
@@ -134,6 +154,7 @@ function SearchProject({setShowDetails, setProjectId}){
                       programNumber: project.PROGRAM_NUMBER,
                       crashStartDate: project.CRASH_START_DATE,
                       crashEndDate: project.CRASH_END_DATE,
+                      action: <ActionContainer><EditOutlined className={"editProject"} /> <EyeOutlined className={"viewDetails"} onClick={() => handleRowClick(project.id)} /></ActionContainer>
                   })
                   )
                 )
@@ -142,9 +163,8 @@ function SearchProject({setShowDetails, setProjectId}){
         useEffect(()=>{
           loadProjects()
         }, [])
-        const handleRowClick = (record) => {
-          console.log(record)
-          setProjectId(record.id)
+        const handleRowClick = (projectId) => {
+          setProjectId(projectId)
           setShowDetails(true)
         }
       return <>
@@ -154,12 +174,8 @@ function SearchProject({setShowDetails, setProjectId}){
               dataSource={projects && projects}
               bordered
               filterSearch={true}
-              onRow={(record) => {
-                return {
-                  onClick: () => handleRowClick(record), // click row
-                };
-              }}
-          />
+       
+            />
           </div>
           </>
 }
