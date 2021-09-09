@@ -1,8 +1,10 @@
 import react from "react";
 import {Button, Row, Col, Form, Select, DatePicker, Input, message} from "antd"
 import {request} from "../requests"
+import { LeftCircleOutlined } from '@ant-design/icons';
+import {PageTitle} from "./styleds"
 
-function CreateProject (){
+function CreateProject ({handleClick}){
     const [form] = Form.useForm();
     const onFinish = async (values) => {
         console.log('Received values of form: ', values);
@@ -23,7 +25,7 @@ function CreateProject (){
         sm: { span: 24 },
       }
     return <>
-        <h2>Create Project</h2>
+        <PageTitle> <LeftCircleOutlined className={"backButton"} onClick={() => handleClick(true)} /> Create Project</PageTitle>
         <div>
         <Form
                     form={form}

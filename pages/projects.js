@@ -4,9 +4,12 @@ import {Button, Row, Col} from "antd"
 import SearchProject from "../src/components/searchProject"
 import CreateProject from "../src/components/createProject"
 import ProjectDetails from "../src/components/projectDetails"
+import { PlusCircleOutlined } from '@ant-design/icons';
+import {PageTitle} from "../src/components/styleds"
 const ButtonContainer = styled.div`
     padding: 10px;
 `
+
 function Projects(){
     const [search, setSearch] = useState(true)
     const [showDetails, setShowDetails] = useState(false)
@@ -18,12 +21,10 @@ function Projects(){
         {showDetails ?
          <ProjectDetails projectId={projectId} setShowDetails={setShowDetails} /> : 
         <ButtonContainer>
-            <h3>Projects</h3>
+          {search && <PageTitle>Projects <PlusCircleOutlined className={"createProject"} onClick={() => handleClick(false)} /></PageTitle> }
             <Row gutter={[50, 10]}>
-                <Col md={12} lg={12}><Button style={{background: "#00A9B3", color: "white"}} onClick={() => handleClick(true)} size={"large"} type={"primary"} block>Search Projects</Button></Col>
-                <Col md={12} lg={12}><Button style={{background: "#00A9B3", color: "white"}} onClick={() => handleClick(false)} size={"large"} type={"primary"} block>Create Projects</Button></Col>
                 <Col md={24} lg={24}>
-                    {search ? <SearchProject setProjectId={setProjectId} setShowDetails={setShowDetails} /> : <CreateProject />}
+                    {search ? <SearchProject setProjectId={setProjectId} setShowDetails={setShowDetails} /> : <CreateProject handleClick={handleClick} />}
                 </Col>
             </Row>
         </ButtonContainer>}   

@@ -15,7 +15,7 @@ function SearchProject({setShowDetails, setProjectId}){
 
     const getColumnSearchProps = (dataIndex) => ({
       filterDropdown: function selectKeys({ setSelectedKeys, selectedKeys, confirm, clearFilters }) {
-        <div style={{ padding: 8 }}>
+        return <div style={{ padding: 8 }}>
           <Input
             ref={node => {
               searchInput = node;
@@ -53,7 +53,7 @@ function SearchProject({setShowDetails, setProjectId}){
           </Space>
         </div>
       },
-      filterIcon: function setFilter(filtered){<SearchOutlined style={{ fontSize: "20px", color: filtered ? '#1890ff' : undefined }} />},
+      filterIcon: function setFilter(filtered){return <SearchOutlined style={{ fontSize: "20px", color: filtered ? '#1890ff' : undefined }} />},
       onFilter: (value, record) =>
         record[dataIndex]
           ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase())
@@ -64,7 +64,7 @@ function SearchProject({setShowDetails, setProjectId}){
         }
       },
       render: function setHighlight(text, index) {
-        searchedColumn === dataIndex ? (
+       return searchedColumn === dataIndex ? (
           <Highlighter key={index}
             highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
             searchWords={[searchText]}
@@ -92,35 +92,28 @@ function SearchProject({setShowDetails, setProjectId}){
       {
         title: <b>{'PROJECT NAME'}</b>,
         dataIndex: 'name',
-        key: "1",
-        render: (text, record) => {text},
+        // render: function name(text) {return text},
         ...getColumnSearchProps('name')
       },
       {
-        title: <b>{'ROUTE'}</b>,
-        className: 'column-money',
-        dataIndex: 'route',
-        align: 'right',
+        title: <b>{'INTERSECTION'}</b>,
+        dataIndex: 'intersection',
       },
       {
-        title: <b>{'DIRECTION'}</b>,
-        dataIndex: 'direction',
+        title:  <b>{'PROGRAM NAME'}</b>,
+        dataIndex: 'programName',
       },
       {
-        title:  <b>{'START MP'}</b>,
-        dataIndex: 'startMp',
+        title: <b>{'PROGRAM NUMBER'}</b>,
+        dataIndex: 'programNumber',
       },
       {
-        title: <b>{'END MP'}</b>,
-        dataIndex: 'endMp',
+        title: <b>{'CRASH_START_DATE'}</b>,
+        dataIndex: 'crashStartDate',
       },
       {
-        title: <b>{'NO OF CRASHES'}</b>,
-        dataIndex: 'numberOfCrashes',
-      },
-      {
-        title: <b>{'TOTAL TREATMENT'}</b>,
-        dataIndex: 'totalTreatment',
+        title: <b>{'CRASH_END_DATE'}</b>,
+        dataIndex: 'crashEndDate',
       },
     ];
     
@@ -131,17 +124,16 @@ function SearchProject({setShowDetails, setProjectId}){
           });
           if(res.status === 200)
           {
+            console.log(res.data)
             setProjects(
               res.data.map((project, index) => ({
                       key: index,
-                      id: project.id,
                       name: project.PROJECT_NAME,
-                      route: project.ROUTE,
-                      direction: project.DIRECTION,
-                      startMp: project.START_MP,
-                      endMp: project.END_MP,
-                      numberOfCrashes: project.CRASH_COUNT,
-                      totalTreatment: "total treatment"
+                      intersection: project.INTERSECTION,
+                      programName: project.PROGRAM_NAME,
+                      programNumber: project.PROGRAM_NUMBER,
+                      crashStartDate: project.CRASH_START_DATE,
+                      crashEndDate: project.CRASH_END_DATE,
                   })
                   )
                 )
@@ -156,7 +148,6 @@ function SearchProject({setShowDetails, setProjectId}){
           setShowDetails(true)
         }
       return <>
-          <h2>Search Project</h2>
           <div>
           <Table
               columns={columns}
