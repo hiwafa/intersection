@@ -35,7 +35,7 @@ function EditProject ({project, setShowDetails}){
           
     //   })
     return <div style={{margin: "10px"}}>
-        <PageTitle> <LeftCircleOutlined className={"backButton"} onClick={() => setShowDetails(false)}  /> Create Project</PageTitle>
+        <PageTitle> <LeftCircleOutlined className={"backButton"} onClick={() => setShowDetails(false)}  /> Edit Project</PageTitle>
         <div style={{marginTop: "10px"}}>
                 <Form
                     form={form}
