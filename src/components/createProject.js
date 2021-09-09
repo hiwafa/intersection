@@ -68,73 +68,6 @@ function CreateProject (){
                             </Select>
                         </Form.Item>
                     </Col>
-                    <Col span={6} key={2}>
-                        <Form.Item
-                            name={`ROUTE`}
-                            label={`Route`}
-                            rules={[ {
-                                required: true,
-                                message: 'This field is required',
-                            },]} >
-                            <Select  size={"large"}>
-                                <Select.Option value="demo">Demo</Select.Option>
-                                <Select.Option value="demo">Demo2</Select.Option>
-                                <Select.Option value="demo">semo2</Select.Option>
-                            </Select>
-                        </Form.Item>
-                    </Col>
-                    <Col span={6} key={3}>
-                        <Form.Item
-                            name={`DIRECTION`}
-                            label={`Direction`}
-                            rules={[ {
-                                required: true,
-                                message: 'This field is required',
-                            },]} >
-                            <Select  size={"large"}>
-                                <Select.Option value="demo">Demo</Select.Option>
-                            </Select>
-                        </Form.Item>
-                    </Col>
-                    <Col span={6} key={4}>
-                        <Form.Item
-                            name={`VALID_MILEPOST_RANGE`}
-                            label={`Valid Milepost Range`}
-                            rules={[ {
-                                required: true,
-                                message: 'This field is required',
-                            },]} >
-                            <Select  size={"large"}>
-                                <Select.Option value="demo">Demo</Select.Option>
-                            </Select>
-                        </Form.Item>
-                    </Col>
-                    <Col span={6} key={5}>
-                        <Form.Item
-                            name={`START_MP`}
-                            label={`Start MP`} 
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'This field is required',
-                                },
-                                ]}>
-                                <Input size={"large"} id="warning2" />
-                        </Form.Item>
-                    </Col>
-                    <Col span={6} key={6}>
-                        <Form.Item
-                            name={`END_MP`}
-                            label={`End MP`}
-                            rules={[
-                            {
-                                required: true,
-                                message: 'This field is required',
-                            },
-                            ]}>
-                                <Input size={"large"} id="warning2" />
-                        </Form.Item>
-                    </Col>
                     <Col span={6} key={7}>
                         <Form.Item
                             name={`CRASH_START_DATE`}
@@ -161,16 +94,6 @@ function CreateProject (){
                             ]}
                         >
                             <DatePicker size={"large"} style={{width: "100%"}} />
-                        </Form.Item>
-                    </Col>
-                    <Col span={6} key={9}>
-                        <Form.Item
-                            name={`EMPHASIS_AREA`}
-                            label={`Emphasis Area`}
-                             >
-                            <Select size={"large"}>
-                                <Select.Option value="demo">Demo</Select.Option>
-                            </Select>
                         </Form.Item>
                     </Col>
                     <Col span={6} key={10}>
