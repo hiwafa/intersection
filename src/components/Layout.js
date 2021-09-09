@@ -101,11 +101,6 @@ const LayoutCom = ({ children }) => {
                             <a>Analyst</a>
                         </Link>
                     </Menu.Item>
-                    <Menu.Item key="admin" icon={<UserOutlined />}>
-                        <Link href="/admin">
-                            <a>Admin</a>
-                        </Link>
-                    </Menu.Item>
                     <Menu.Item key="projects" icon={<UserOutlined />}>
                         <Link href="/projects">
                             <a>Projects</a>
