@@ -21,7 +21,7 @@ const ActionContainer = styled.div`
     color: red;
   }
 `
-function SearchProject({setShowDetails, setProjectId}){
+function SearchProject({setShowDetails, setProject}){
     const [projects, setProjects] = useState([])
     const [searchText, setSearchText] = useState("")
     const [searchedColumn, setSearchedColumn] = useState("")
@@ -154,7 +154,7 @@ function SearchProject({setShowDetails, setProjectId}){
                       programNumber: project.PROGRAM_NUMBER,
                       crashStartDate: project.CRASH_START_DATE,
                       crashEndDate: project.CRASH_END_DATE,
-                      action: <ActionContainer><EditOutlined className={"editProject"} /> <EyeOutlined className={"viewDetails"} onClick={() => handleRowClick(project.id)} /></ActionContainer>
+                      action: <ActionContainer><EditOutlined className={"editProject"} /> <EyeOutlined className={"viewDetails"} onClick={() => handleRowClick(project)} /></ActionContainer>
                   })
                   )
                 )
@@ -163,8 +163,8 @@ function SearchProject({setShowDetails, setProjectId}){
         useEffect(()=>{
           loadProjects()
         }, [])
-        const handleRowClick = (projectId) => {
-          setProjectId(projectId)
+        const handleRowClick = (project) => {
+          setProject(project)
           setShowDetails(true)
         }
       return <>

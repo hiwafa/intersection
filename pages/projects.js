@@ -13,18 +13,18 @@ const ButtonContainer = styled.div`
 function Projects(){
     const [search, setSearch] = useState(true)
     const [showDetails, setShowDetails] = useState(false)
-    const [projectId, setProjectId] = useState("")
+    const [project, setProject] = useState("")
     const handleClick = (status) => {
         setSearch(status)
     }
     return <>
         {showDetails ?
-         <ProjectDetails projectId={projectId} setShowDetails={setShowDetails} /> : 
+         <ProjectDetails project={project} setShowDetails={setShowDetails} /> : 
         <ButtonContainer>
           {search && <PageTitle>Projects <PlusCircleOutlined className={"createProject"} onClick={() => handleClick(false)} /></PageTitle> }
             <Row gutter={[50, 10]}>
                 <Col md={24} lg={24}>
-                    {search ? <SearchProject setProjectId={setProjectId} setShowDetails={setShowDetails} /> : <CreateProject handleClick={handleClick} />}
+                    {search ? <SearchProject setProject={setProject} setShowDetails={setShowDetails} /> : <CreateProject handleClick={handleClick} />}
                 </Col>
             </Row>
         </ButtonContainer>}   
