@@ -31,46 +31,48 @@ const TopFilter = ({ onFilter }) => {
                 alignItems: 'center'
             }}
         >
-            <Form.Item style={{ margin: 10 }} label="From" name="from">
-                <DatePicker />
+            <Form.Item style={{ margin: 10 }} tooltip="From" name="from">
+                <DatePicker style={{width: 150}} />
             </Form.Item>
 
-            <Form.Item style={{ margin: 10 }} label="To" name="to">
-                <DatePicker />
+            <Form.Item style={{ margin: 10 }} tooltip="To" name="to">
+                <DatePicker style={{width: 150}} />
             </Form.Item>
 
-            <Form.Item style={{ margin: 10 }} label="Crash Type" name="crash">
-                <Select placeholder="Select Crash Type">
+            <Form.Item style={{ margin: 10 }} tooltip="Crash Type" name="crash">
+                <Select style={{width: 150}} placeholder="Select Crash Type">
                     {crashType.map((tipe, idx) => {
                         return <Option key={idx} value={tipe}>{tipe}</Option>;
                     })}
                 </Select>
             </Form.Item>
 
-            <Form.Item style={{ margin: 10 }} label="Collision Type" name="collision">
-                <Select placeholder="Select Collision Type">
+            <Form.Item style={{ margin: 10 }} tooltip="Collision Type" name="collision">
+                <Select style={{width: 150}} placeholder="Select Collision Type">
                     {collisionType.map((tipe, idx) => {
                         return <Option key={idx} value={tipe}>{tipe}</Option>;
                     })}
                 </Select>
             </Form.Item>
 
-            <div style={{ margin: 10, display: 'flex', flex: 1, flexDirection: 'row' }}>
+            <div style={{ margin: 10, display: 'flex', flexDirection: 'row' }}>
 
-                <Form.Item label="Intersection Type" name="intersection">
-                    <Select placeholder="Select Intersection Type">
+                <Form.Item tooltip="Intersection Type" name="intersection">
+                    <Select style={{width: 115}} placeholder="Select Intersection Type">
                         {intersectionType.map((tipe, idx) => {
                             return <Option key={idx} value={tipe}>{tipe}</Option>;
                         })}
                     </Select>
                 </Form.Item>
 
-                <Form.Item style={{ width: 80 }}>
+                <Form.Item style={{ width: 35 }}>
                     <StyledButton type="submit">
-                        Submit
+                        Go
                     </StyledButton>
                 </Form.Item>
             </div>
+
+            <div style={{width: 140}} />
 
         </Form>
     );
