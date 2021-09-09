@@ -29,7 +29,7 @@
 .cell {
     padding-left: 10px;
     background-color: #f9f9f9;
-    border-bottom: 1px solid lightgray;
+    /* border-bottom: 1px solid lightgray; */
 }
 
 .col3 {
