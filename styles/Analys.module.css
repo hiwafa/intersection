@@ -17,17 +17,19 @@
 }
 
 .headCol {
-    background-color: #f2f2f2;
-    text-align: center;
+    background-image: linear-gradient(#16A18C, #1393A9);
+    /* text-align: center; */
     height: 30px;
     padding-top: 5px;
+    padding-left: 10px;
     font-weight: bold;
+    color: rgb(229, 235, 240);
 }
 
 .cell {
     padding-left: 10px;
     background-color: #f9f9f9;
-    border-bottom: 1px solid lightgray;
+    /* border-bottom: 1px solid lightgray; */
 }
 
 .col3 {
@@ -45,4 +47,9 @@
     .col2 {
         min-width: 100%;
     }
-  }
+}
+
+
+.gradientBackround {
+    background-image: linear-gradient(#16A18C, #1393A9);
+}
