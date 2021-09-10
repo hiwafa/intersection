@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { setCookie, getCookie } from "../coockie";
+import { setCookie, getCookie, removeCookie } from "../coockie";
 import { request } from "../../requests";
 
 export const signup = createAsyncThunk(
@@ -50,6 +50,27 @@ export const signin = createAsyncThunk(
       }
 
       return thunkAPI.rejectWithValue(JSON.stringify(data));
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.message);
+    }
+  }
+);
+
+export const signout = createAsyncThunk(
+  "user/signout",
+  async (params, thunkAPI) => {
+    try {
+      const result = await removeCookie("credential");
+
+      if (result) {
+        return {
+          ...thunkAPI.getState().user,
+          loginStatus: "failed",
+        };
+      }
+      
+      return thunkAPI.getState().user;
+
     } catch (err) {
       return thunkAPI.rejectWithValue(err.message);
     }
