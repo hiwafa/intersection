@@ -68,7 +68,7 @@ export const signout = createAsyncThunk(
           loginStatus: "failed",
         };
       }
-      
+
       return thunkAPI.getState().user;
 
     } catch (err) {
@@ -81,6 +81,7 @@ export const resetPass = createAsyncThunk(
   "user/resetPass",
   async (params, thunkAPI) => {
     try {
+
       const { password, confirmPass, code } = params;
       const { data } = await request("auth/local", {
         method: "POST",
@@ -91,11 +92,8 @@ export const resetPass = createAsyncThunk(
         },
       });
 
-      console.log("resetPass: ", data);
-
-      return null;
-
       return thunkAPI.rejectWithValue(JSON.stringify(data));
+
     } catch (err) {
       return thunkAPI.rejectWithValue(err.message);
     }
@@ -116,6 +114,7 @@ export const loadCredential = createAsyncThunk(
         ...thunkAPI.getState().user,
         loginStatus: "failed",
       };
+
     } catch (err) {
       return thunkAPI.rejectWithValue(err.message);
     }
@@ -179,6 +178,20 @@ const userSlice = createSlice({
         status: "fulfilled",
       };
     },
+    
+    /* sign out reducer */
+    [signout.pending]: (state, action) => {
+      state.status = "pending";
+    },
+    [signout.rejected]: (state, action) => {
+      state.status = "rejected";
+      state.reasonForRejection = JSON.stringify(action.payload);
+    },
+    [signout.fulfilled]: (state, { payload }) => ({
+      ...state,
+      ...payload,
+      status: "fulfilled",
+    }),
 
     /* loading reducer */
     [loadCredential.pending]: (state, action) => {
