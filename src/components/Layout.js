@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 
 import { Layout, Menu, Image } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
-import { UserOutlined, ProjectOutlined } from '@ant-design/icons';
+import { UserOutlined, ProjectOutlined, LogoutOutlined } from '@ant-design/icons';
 
 import Login from "./Login";
 
@@ -118,8 +118,9 @@ const LayoutCom = ({ children }) => {
                     display: 'flex', justifyContent: 'flex-end'
                 }}>
                     <span>
-                        {username ? username : "Sign In"}
+                        {username ? <> {username} <LogoutOutlined style={{marginLeft: "10px"}} /></> : "Sign In"} 
                     </span>
+                    
                 </Header>
 
                 <Content style={{
