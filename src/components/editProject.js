@@ -70,13 +70,21 @@ function EditProject ({project, setShowDetails}){
                 </Select>             
                </Form.Item>
               </Col>
+              <Col span={8} key={2}>
+              <Form.Item
+                name="PROJECT_NAME"
+                label={`Project Name`}
+                hasFeedback={true}>
+                <Input size={"large"} name="PROJECT_NAME"  />
+              </Form.Item>
+              </Col>
               {status && (status === "Completed" || status === "Authorized") && <>
             <Col span={8} key={2}>
               <Form.Item
                 name="PROGRAM_NAME"
                 label={`Program Name`}
                 hasFeedback={true}>
-                <Input size={"large"} name="PROGRAM_NAME" placeholder="Validated input" />
+                <Input size={"large"} name="PROGRAM_NAME"  />
               </Form.Item>
               </Col>
             <Col span={8} key={3}>
@@ -84,7 +92,7 @@ function EditProject ({project, setShowDetails}){
                 name="PROGRAM_NUMBER"
                 label={`Program Number`}
                 hasFeedback={true}>
-                <Input size={"large"} name="PROGRAM_NUMBER" placeholder="Validated input" />
+                <Input size={"large"} name="PROGRAM_NUMBER"  />
               </Form.Item>
               </Col> </>}
               {status &&  status === "Authorized" && <>
