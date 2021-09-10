@@ -8,8 +8,8 @@ import { UserOutlined, ProjectOutlined, LogoutOutlined } from '@ant-design/icons
 
 import Login from "./Login";
 
-import { useSelector } from 'react-redux';
-import { isLoggedIn, getUser } from '../store/actions/UserSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { isLoggedIn, getUser, signout } from '../store/actions/UserSlice';
 
 import styles from "../../styles/Layout.module.css";
 
@@ -17,6 +17,7 @@ const LayoutCom = ({ children }) => {
 
     const checkLogin = useSelector(isLoggedIn);
     const { username } = useSelector(getUser);
+    const dispatch = useDispatch();
 
 
     const router = useRouter();
@@ -24,6 +25,14 @@ const LayoutCom = ({ children }) => {
 
     if (padname === "/") padname = "home";
     else padname = padname.substring(1);
+
+    const onLogout = async ()=> {
+        try {
+            await dispatch(signout(null));
+        } catch (err) {
+            
+        }
+    };
 
     if (checkLogin === 'loading') return (
         <div className={styles.container}>
@@ -40,7 +49,6 @@ const LayoutCom = ({ children }) => {
         </div>
     );
 
-    console.log("paddname", padname);
     if (checkLogin === 'failed' && padname === 'register') return (
         <div className={styles.container}>
             <Head>
@@ -118,7 +126,7 @@ const LayoutCom = ({ children }) => {
                     display: 'flex', justifyContent: 'flex-end'
                 }}>
                     <span>
-                        {username ? <> {username} <LogoutOutlined style={{marginLeft: "10px"}} /></> : "Sign In"} 
+                        {username ? <> {username} <LogoutOutlined onClick={onLogout} style={{marginLeft: "10px"}} /></> : "Sign In"} 
                     </span>
                     
                 </Header>

@@ -51,7 +51,7 @@ function Analysis() {
                 const check3 = i.crash_intersections.some(v => v.COLLISION_TYPE === values.collision);
                 const check4 = i.crash_intersections.some(v => (new Date(v.DATE_OF_CRASH)).getTime()
                     >= from && (new Date(v.DATE_OF_CRASH)).getTime() <= to);
-                return check1 || check2 || check3 || check4;
+                return check1 && check2 && check3 && check4;
             });
 
             setInvntories(newInventories);

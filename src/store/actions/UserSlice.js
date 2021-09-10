@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { setCookie, getCookie } from "../coockie";
+import { setCookie, getCookie, removeCookie } from "../coockie";
 import { request } from "../../requests";
 
 export const signup = createAsyncThunk(
@@ -56,10 +56,31 @@ export const signin = createAsyncThunk(
   }
 );
 
+export const signout = createAsyncThunk(
+  "user/signout",
+  async (params, thunkAPI) => {
+    try {
+      const result = await removeCookie("credential");
+
+      if (result) {
+        return {
+          ...thunkAPI.getState().user,
+          loginStatus: "failed",
+        };
+      }
+
+      return thunkAPI.getState().user;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.message);
+    }
+  }
+);
+
 export const resetPass = createAsyncThunk(
   "user/resetPass",
   async (params, thunkAPI) => {
     try {
+
       const { password, confirmPass, code } = params;
       const { data } = await request("auth/local", {
         method: "POST",
@@ -70,11 +91,8 @@ export const resetPass = createAsyncThunk(
         },
       });
 
-      console.log("resetPass: ", data);
-
-      return null;
-
       return thunkAPI.rejectWithValue(JSON.stringify(data));
+
     } catch (err) {
       return thunkAPI.rejectWithValue(err.message);
     }
@@ -87,7 +105,7 @@ export const loadCredential = createAsyncThunk(
     try {
       const result = await getCookie("credential");
 
-      if (result) {
+      if (result && result.jwt) {
         return { ...result, loginStatus: "loaded" };
       }
 
@@ -95,6 +113,7 @@ export const loadCredential = createAsyncThunk(
         ...thunkAPI.getState().user,
         loginStatus: "failed",
       };
+
     } catch (err) {
       return thunkAPI.rejectWithValue(err.message);
     }
@@ -158,6 +177,20 @@ const userSlice = createSlice({
         status: "fulfilled",
       };
     },
+    
+    /* sign out reducer */
+    [signout.pending]: (state, action) => {
+      state.status = "pending";
+    },
+    [signout.rejected]: (state, action) => {
+      state.status = "rejected";
+      state.reasonForRejection = JSON.stringify(action.payload);
+    },
+    [signout.fulfilled]: (state, { payload }) => ({
+      ...state,
+      ...payload,
+      status: "fulfilled",
+    }),
 
     /* loading reducer */
     [loadCredential.pending]: (state, action) => {
