@@ -4,7 +4,9 @@ const cookies = new Cookies();
 
 async function setCookie(key, value) {
     try {
-        cookies.set(key, JSON.stringify(value), { path: '/' });
+        if (value && value.jwt){
+            cookies.set(key, JSON.stringify(value), { path: '/' });
+        }
     } catch (err) {
         console.log("Error:in:setCookie ", err);
     }
@@ -22,4 +24,12 @@ async function getCookie(key) {
     }
 }
 
-module.exports = { setCookie, getCookie };
+async function removeCookie(key) {
+    try {
+        cookies.remove(key);
+    } catch (err) {
+        console.log("Error:in:removeCookie ", err);
+    }
+}
+
+module.exports = { setCookie, getCookie, removeCookie };
