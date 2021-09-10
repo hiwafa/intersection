@@ -12,7 +12,8 @@ async function setCookie(key, value) {
 
 async function getCookie(key) {
     try {
-        let result = cookies.get(key)
+        let result = cookies.get(key);
+        console.log('Cookie result: ',result)
         if (result) return result;
         // return null;
     } catch (err) {

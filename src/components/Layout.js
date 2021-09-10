@@ -25,6 +25,10 @@ const LayoutCom = ({ children }) => {
     if (padname === "/") padname = "home";
     else padname = padname.substring(1);
 
+    const onLogout = ()=> {
+        
+    };
+
     if (checkLogin === 'loading') return (
         <div className={styles.container}>
             <Head>
@@ -40,7 +44,6 @@ const LayoutCom = ({ children }) => {
         </div>
     );
 
-    console.log("paddname", padname);
     if (checkLogin === 'failed' && padname === 'register') return (
         <div className={styles.container}>
             <Head>
@@ -118,7 +121,7 @@ const LayoutCom = ({ children }) => {
                     display: 'flex', justifyContent: 'flex-end'
                 }}>
                     <span>
-                        {username ? <> {username} <LogoutOutlined style={{marginLeft: "10px"}} /></> : "Sign In"} 
+                        {username ? <> {username} <LogoutOutlined onClick={onLogout} style={{marginLeft: "10px"}} /></> : "Sign In"} 
                     </span>
                     
                 </Header>

@@ -87,7 +87,7 @@ export const loadCredential = createAsyncThunk(
     try {
       const result = await getCookie("credential");
 
-      if (result) {
+      if (result && result.jwt) {
         return { ...result, loginStatus: "loaded" };
       }
 
