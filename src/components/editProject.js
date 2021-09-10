@@ -1,79 +1,21 @@
-import react, {useEffect, useState} from "react";
+import react, {useState} from "react";
 import {Button, Row, Col, message, notification} from "antd"
 import { Formik } from "formik"
 import {
-    Checkbox,
     Input,
-    InputNumber,
-    Switch,
     DatePicker,
-    TimePicker,
-    Radio,
-    FormikDebug,
-    FormItem,
-    ResetButton,
     SubmitButton,
     Select,
-    AutoComplete,
-    Rate,
-    Slider,
-    Cascader,
-    TreeSelect,
-    Transfer,
     Form,
-    Mentions,
   } from "formik-antd"
 import {request} from "../requests"
 import { LeftCircleOutlined } from '@ant-design/icons';
 import {PageTitle} from "./styleds"
-import moment from "moment"
-import axios from "axios"
 function EditProject ({project, setShowDetails}){
-    const [pro, setProject] = useState(project)
-    console.log("pro",pro)
-
+ 
     const [status, setStatus] = useState(project.PROJECT_STATUS)
-    // const [form] = Form.useForm();
-    const onFinish = async (values) => {
-        let proj = {...project}
-        if(values.PROJECT_STATUS === "Authorized")
-        {
-            proj.PROJECT_STATUS = values.PROJECT_STATUS;
-            proj.PROGRAM_NAME = values.PROGRAM_NAME && values.PROGRAM_NAME;
-            proj.PROGRAM_NUMBER = values.PROGRAM_NUMBER !== undefined ? values.PROGRAM_NUMBER : project.PROJECT_NUMBER;
-            proj.PROJECT_SUBPHASE = values.PROJECT_SUBPHASE ? values.PROJECT_SUBPHASE : project.PROJECT_SUBPHASE;
-            proj.PROJECT_START_DATE = values.PROJECT_START_DATE && values.PROJECT_START_DATE;
-            proj.PROJECT_END_DATE = values.PROJECT_END_DATE && values.PROJECT_END_DATE;
-        }
-        console.log('new: ', proj && proj);
-        console.log('old: ', project);
-
-        return 3;
-        await request("projects", {
-            method: "PUT",
-            data: values,
-          }).then((res) => {
-              if(res.status === 200)
-              {
-                message.success("Project Edited")
-              }
-          }).catch((e) => {
-              message.error("Project not Updated")
-          });
-      };
-      const   wrapperCol = {
-        xs: { span: 24 },
-        sm: { span: 24 },
-      }
       const selectStatus = (e) => {
-          console.log(e)
         setStatus(e)
-      }
-    //   useEffect(()=>{
-          
-    //   })
-    function validateRequired(value) {
-        return value ? undefined : "required"
       }
       async function handleSubmit(values, actions) {
           await request(`projects/${values.id}`, {
