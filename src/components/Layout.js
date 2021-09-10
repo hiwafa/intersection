@@ -72,7 +72,7 @@ const LayoutCom = ({ children }) => {
             <main className={styles.loginForm}>
 
                 <div className={styles.caption}>
-                    <Image src="/logo.jpg" alt="logo" width={200} />
+                    <Image src="/logo.jpg" preview={false} alt="logo" width={200} />
                     <p className={styles.captionFont}>Hello User! Please sign in</p>
                 </div>
 
@@ -92,7 +92,7 @@ const LayoutCom = ({ children }) => {
                     display: 'flex', alignItems: 'center',
                     justifyContent: 'center', height: 64
                 }}>
-                    <Image src="/logo.jpg" alt="logo" />
+                    <Link href="/"><a><Image src="/logo.jpg" alt="logo" preview={false} /></a></Link>
                 </div>
 
                 <Menu theme="light" mode="inline" defaultSelectedKeys={[padname]}>
