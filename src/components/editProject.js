@@ -1,15 +1,51 @@
 import react, {useEffect, useState} from "react";
-import {Button, Row, Col, Form, Select, DatePicker, Input, message} from "antd"
+import {Button, Row, Col, message, notification} from "antd"
+import { Formik } from "formik"
+import {
+    Checkbox,
+    Input,
+    InputNumber,
+    Switch,
+    DatePicker,
+    TimePicker,
+    Radio,
+    FormikDebug,
+    FormItem,
+    ResetButton,
+    SubmitButton,
+    Select,
+    AutoComplete,
+    Rate,
+    Slider,
+    Cascader,
+    TreeSelect,
+    Transfer,
+    Form,
+    Mentions,
+  } from "formik-antd"
 import {request} from "../requests"
 import { LeftCircleOutlined } from '@ant-design/icons';
 import {PageTitle} from "./styleds"
-
+import moment from "moment"
 function EditProject ({project, setShowDetails}){
-    console.log(project)
+    const [pro, setProject] = useState(project)
+    console.log("pro",pro)
+
     const [status, setStatus] = useState()
-    const [form] = Form.useForm();
+    // const [form] = Form.useForm();
     const onFinish = async (values) => {
-        console.log('Received values of form: ', values);
+        let proj = {...project}
+        if(values.PROJECT_STATUS === "Authorized")
+        {
+            proj.PROJECT_STATUS = values.PROJECT_STATUS;
+            proj.PROGRAM_NAME = values.PROGRAM_NAME && values.PROGRAM_NAME;
+            proj.PROGRAM_NUMBER = values.PROGRAM_NUMBER !== undefined ? values.PROGRAM_NUMBER : project.PROJECT_NUMBER;
+            proj.PROJECT_SUBPHASE = values.PROJECT_SUBPHASE ? values.PROJECT_SUBPHASE : project.PROJECT_SUBPHASE;
+            proj.PROJECT_START_DATE = values.PROJECT_START_DATE && values.PROJECT_START_DATE;
+            proj.PROJECT_END_DATE = values.PROJECT_END_DATE && values.PROJECT_END_DATE;
+        }
+        console.log('new: ', proj && proj);
+        console.log('old: ', project);
 
         return 3;
         await request("projects", {
@@ -29,97 +65,144 @@ function EditProject ({project, setShowDetails}){
         sm: { span: 24 },
       }
       const selectStatus = (e) => {
+          console.log(e)
         setStatus(e)
       }
     //   useEffect(()=>{
           
     //   })
+    function validateRequired(value) {
+        return value ? undefined : "required"
+      }
+      function handleSubmit(values, actions) {
+        notification.open({
+          duration: 0,
+          message: <pre>{JSON.stringify(values, null, 2)}</pre>,
+        })
+        actions.setSubmitting(false)
+      }
+      
     return <div style={{margin: "10px"}}>
         <PageTitle> <LeftCircleOutlined className={"backButton"} onClick={() => setShowDetails(false)}  /> Edit Project</PageTitle>
         <div style={{marginTop: "10px"}}>
-                <Form
-                    form={form}
-                    labelCol={{ span: 24 }}
-                    wrapperCol={wrapperCol}
-                    name="formData"
-                    onFinish={onFinish}>
-                    <Row gutter={24}>
-                    <Col span={6} key={2}>
-                        <Form.Item
-                            name={`PROJECT_STATUS`}
-                            label={`Project Status`}
-                            rules={[ {
-                                required: true,
-                                message: 'This field is required',
-                            },]} >
-                            <Select  size={"large"} onSelect={selectStatus}
-                            >
-                                <Select.Option value="Initiation">Initiation</Select.Option>
-                                <Select.Option value="Authorized">Authorized</Select.Option>
-                                <Select.Option value="Completed">Completed</Select.Option>
-                            </Select>
-                        </Form.Item>
-                    </Col>
-                    {status && (status == "Completed" || status == "Authorized") && 
-                        <>
-                        <Col span={6} key={12}>
-                        <Form.Item
-                            name={`PROGRAM_NAME`}
-                            label={`Program Name`} >
-                                <Input size={"large"} id="warning2" />
-                        </Form.Item>
-                        </Col>
-                        <Col span={6} key={14}>
-                            <Form.Item
-                                name={`PROGRAM_NUMBER`}
-                                label={`Program Number`} >
-                                    <Input size={"large"} id="warning2" />
-                            </Form.Item>
-                        </Col>
-                        </>
-                    }
-                    {status && status === "Authorized" && 
-                        <Col span={6} key={2}>
-                        <Form.Item
-                            name={`PROJECT_SUBPHASE`}
-                            label={`Project Sub Phase`}
-                            rules={status && status === "Completed" && [ {
-                                required: true,
-                                message: 'This field is required',
-                            },]} >
-                            <Select  size={"large"} onSelect={selectStatus}
-                            >
-                                <Select.Option value="ROW">ROW</Select.Option>
-                                <Select.Option value="Design">Design</Select.Option>
-                                <Select.Option value="Planning">Planning</Select.Option>
-                                <Select.Option value="Construction">Construction</Select.Option>
-                            </Select>
-                        </Form.Item>
-                    </Col>
-                    }
-                  {status && status === "Authorized" && 
-                    <>
-                    <Col span={6} key={10}>
-                        <Form.Item
-                            name={`PROJECT_START_DATE`}  label={`Project Start Date`} >
-                            <DatePicker size={"large"} style={{width: "100%"}} />
-                        </Form.Item>
-                    </Col>
-                    <Col span={6} key={11}>
-                        <Form.Item name={`PROJECT_END_DATE`} label={`Project End Date`}>
-                            <DatePicker size={"large"} style={{width: "100%"}} />
-                        </Form.Item>
-                    </Col>
-                    </>}
-                    </Row>
-                <Row>
-                    <Col span={24} style={{ textAlign: 'right' }}>
-                    <Button type="primary" htmlType="submit">
-                        Submit
-                    </Button>
-                    </Col>
-                </Row>
-                </Form>
+        <Formik
+      initialValues={{
+        id: project.id,
+        PROJECT_STATUS: project.PROJECT_STATUS,
+        PROGRAM_NAME: project.PROGRAM_NAME,
+        PROJECT_NUMBER: project.PROGRAM_NUMBER,
+        PROJECT_START_DATE: project.PROJECT_START_DATE,
+        PROJECT_END_DATE: project.PROJECT_END_DATE,
+        PROJECT_SUBPHASE: project.PROJECT_SUBPHASE,
+      }}
+      onSubmit={handleSubmit}
+      validate={values => {
+          console.log(values)
+        // if (!values.userName) {
+        //   return { userName: "required" }
+        // }
+        return undefined
+      }}
+      render={formik => (
+        <Form
+        labelCol={{ span: 24 }}
+        wrapperCol={{span: 24}}>
+          <div className="container">
+            <Row gutter={24} className="component-container">
+            <Col span={8} key={1}>
+            <Form.Item
+                name="PROJECT_STATUS"
+                label={`Project Status`}
+                hasFeedback={true} >
+                    <Select
+                    name="PROJECT_STATUS"
+                    style={{ width: "100%" }}
+                    onSelect={selectStatus}
+                    placeholder="Select multiple" >
+                    <Select.Option value="Initiation">Initiation</Select.Option>
+                    <Select.Option value="Authorized">Authorized</Select.Option>
+                    <Select.Option value="Completed">Completed</Select.Option>
+                </Select>             
+               </Form.Item>
+              </Col>
+              {status && (status === "Completed" || status === "Authorized") && <>
+            <Col span={8} key={2}>
+              <Form.Item
+                name="PROGRAM_NAME"
+                label={`Program Name`}
+                hasFeedback={true}
+              >
+                <Input name="PROGRAM_NAME" placeholder="Validated input" />
+              </Form.Item>
+              </Col>
+            <Col span={8} key={3}>
+              <Form.Item
+                name="PROGRAM_NUMBER"
+                label={`Program Number`}
+                hasFeedback={true}
+              >
+                <Input name="PROGRAM_NUMBER" placeholder="Validated input" />
+              </Form.Item>
+              </Col> </>}
+            <Col span={8} key={4}>
+              <Form.Item
+                name="PROJECT_START_DATE"
+                label={`Project Start Date`}
+                hasFeedback={true}
+              >
+              <DatePicker
+                name="PROJECT_START_DATE"
+                style={{width: "100%"}}
+                placeholder="DatePicker"
+              />             
+               </Form.Item>
+              </Col>
+            <Col span={8} key={5}>
+               <Form.Item
+                name="PROJECT_END_DATE"
+                label={`Project End Date`}
+                hasFeedback={true}
+              >
+              <DatePicker
+                name="PROJECT_END_DATE"
+                style={{width: "100%"}}
+                placeholder="DatePicker"
+              />             
+               </Form.Item>
+              </Col>
+              {status &&  status === "Authorized" &&
+            <Col span={8} key={6}>
+               <Form.Item
+                name="PROJECT_SUBPHASE"
+                label={`Project Sub Phase`}
+                hasFeedback={true}
+              >
+                    <Select
+                    name="PROJECT_SUBPHASE"
+                    style={{ width: "100%" }}
+                    // mode="multiple"
+                >
+                    <Select.Option value="ROW">ROW</Select.Option>
+                    <Select.Option value="Design">Design</Select.Option>
+                    <Select.Option value="Planning">Planning</Select.Option>
+                    <Select.Option value="Construction">Construction</Select.Option>
+                </Select>             
+               </Form.Item>
+              </Col>}
+            <Col span={8} key={7}>
+              <Button.Group size="large">
+                <SubmitButton type="primary" disabled={false}>
+                  Submit
+                </SubmitButton>
+              </Button.Group>
+              </Col>
+            </Row>
+
+            <FormikDebug style={{ maxWidth: 400 }} />
+          </div>
+        </Form>
+      )}
+    />
         </div>
     </div>
 }
