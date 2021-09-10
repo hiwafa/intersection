@@ -15,9 +15,8 @@ async function setCookie(key, value) {
 async function getCookie(key) {
     try {
         let result = cookies.get(key);
-        console.log('Cookie result: ',result)
         if (result) return result;
-        // return null;
+        return null;
     } catch (err) {
         console.log("Error:in:getCookie ", err);
         return null;
@@ -26,10 +25,11 @@ async function getCookie(key) {
 
 async function removeCookie(key) {
     try {
-        cookies.remove(key);
+        cookies.remove(key); return true;
     } catch (err) {
         console.log("Error:in:removeCookie ", err);
     }
+    return false;
 }
 
 module.exports = { setCookie, getCookie, removeCookie };
