@@ -27,11 +27,12 @@ import {request} from "../requests"
 import { LeftCircleOutlined } from '@ant-design/icons';
 import {PageTitle} from "./styleds"
 import moment from "moment"
+import axios from "axios"
 function EditProject ({project, setShowDetails}){
     const [pro, setProject] = useState(project)
     console.log("pro",pro)
 
-    const [status, setStatus] = useState()
+    const [status, setStatus] = useState(project.PROJECT_STATUS)
     // const [form] = Form.useForm();
     const onFinish = async (values) => {
         let proj = {...project}
@@ -74,11 +75,19 @@ function EditProject ({project, setShowDetails}){
     function validateRequired(value) {
         return value ? undefined : "required"
       }
-      function handleSubmit(values, actions) {
-        notification.open({
-          duration: 0,
-          message: <pre>{JSON.stringify(values, null, 2)}</pre>,
-        })
+      async function handleSubmit(values, actions) {
+          await request(`projects/${values.id}`, {
+            method: "PUT",
+            data: values,
+          }).then((res) => {
+            notification.open({
+                duration: 0,
+                message: "Project Edited",
+              })
+          }).catch((e) => {
+              console.log(e)
+          });
+
         actions.setSubmitting(false)
       }
       
@@ -86,20 +95,14 @@ function EditProject ({project, setShowDetails}){
         <PageTitle> <LeftCircleOutlined className={"backButton"} onClick={() => setShowDetails(false)}  /> Edit Project</PageTitle>
         <div style={{marginTop: "10px"}}>
         <Formik
-      initialValues={{
-        id: project.id,
-        PROJECT_STATUS: project.PROJECT_STATUS,
-        PROGRAM_NAME: project.PROGRAM_NAME,
-        PROJECT_NUMBER: project.PROGRAM_NUMBER,
-        PROJECT_START_DATE: project.PROJECT_START_DATE,
-        PROJECT_END_DATE: project.PROJECT_END_DATE,
-        PROJECT_SUBPHASE: project.PROJECT_SUBPHASE,
-      }}
+      initialValues={project}
       onSubmit={handleSubmit}
       validate={values => {
           console.log(values)
-        // if (!values.userName) {
-        //   return { userName: "required" }
+          if(values.PROJECT_STATUS === "Completed" && values.PROJECT_SUBPHASE === null)
+          message.error("Project sub phase can not be null")
+        // if (!values.PROJECT_STATUS) {
+        //   return { PROJECT_STATUS: "required" }
         // }
         return undefined
       }}
@@ -118,7 +121,7 @@ function EditProject ({project, setShowDetails}){
                     name="PROJECT_STATUS"
                     style={{ width: "100%" }}
                     onSelect={selectStatus}
-                    placeholder="Select multiple" >
+                    size={"large"}>
                     <Select.Option value="Initiation">Initiation</Select.Option>
                     <Select.Option value="Authorized">Authorized</Select.Option>
                     <Select.Option value="Completed">Completed</Select.Option>
@@ -130,20 +133,20 @@ function EditProject ({project, setShowDetails}){
               <Form.Item
                 name="PROGRAM_NAME"
                 label={`Program Name`}
-                hasFeedback={true}
-              >
-                <Input name="PROGRAM_NAME" placeholder="Validated input" />
+                hasFeedback={true}>
+                <Input size={"large"} name="PROGRAM_NAME" placeholder="Validated input" />
               </Form.Item>
               </Col>
             <Col span={8} key={3}>
               <Form.Item
                 name="PROGRAM_NUMBER"
                 label={`Program Number`}
-                hasFeedback={true}
-              >
-                <Input name="PROGRAM_NUMBER" placeholder="Validated input" />
+                hasFeedback={true}>
+                <Input size={"large"} name="PROGRAM_NUMBER" placeholder="Validated input" />
               </Form.Item>
               </Col> </>}
+              {status &&  status === "Authorized" && <>
+
             <Col span={8} key={4}>
               <Form.Item
                 name="PROJECT_START_DATE"
@@ -154,9 +157,11 @@ function EditProject ({project, setShowDetails}){
                 name="PROJECT_START_DATE"
                 style={{width: "100%"}}
                 placeholder="DatePicker"
+                size={"large"}
               />             
                </Form.Item>
               </Col>
+
             <Col span={8} key={5}>
                <Form.Item
                 name="PROJECT_END_DATE"
@@ -167,10 +172,10 @@ function EditProject ({project, setShowDetails}){
                 name="PROJECT_END_DATE"
                 style={{width: "100%"}}
                 placeholder="DatePicker"
+                size={"large"}
               />             
                </Form.Item>
               </Col>
-              {status &&  status === "Authorized" &&
             <Col span={8} key={6}>
                <Form.Item
                 name="PROJECT_SUBPHASE"
@@ -180,7 +185,7 @@ function EditProject ({project, setShowDetails}){
                     <Select
                     name="PROJECT_SUBPHASE"
                     style={{ width: "100%" }}
-                    // mode="multiple"
+                    size={"large"}
                 >
                     <Select.Option value="ROW">ROW</Select.Option>
                     <Select.Option value="Design">Design</Select.Option>
@@ -188,8 +193,8 @@ function EditProject ({project, setShowDetails}){
                     <Select.Option value="Construction">Construction</Select.Option>
                 </Select>             
                </Form.Item>
-              </Col>}
-            <Col span={8} key={7}>
+              </Col> </>}
+            <Col span={24} key={7}>
               <Button.Group size="large">
                 <SubmitButton type="primary" disabled={false}>
                   Submit
@@ -198,7 +203,7 @@ function EditProject ({project, setShowDetails}){
               </Col>
             </Row>
 
-            <FormikDebug style={{ maxWidth: 400 }} />
+            {/* <FormikDebug style={{ maxWidth: 400 }} /> */}
           </div>
         </Form>
       )}
