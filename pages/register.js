@@ -16,10 +16,10 @@ const Register = () => {
   const onFinish = async (values) => {
     try {
 
-      const { payload } = await dispatch(signup(values));
+      // const { payload } =
+      await dispatch(signup(values));
       router.push("/");
 
-      console.log("register result: ", payload);
     } catch (err) {
       console.log("ERR:register:onFinish ", err);
     }

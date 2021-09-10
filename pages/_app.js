@@ -9,19 +9,14 @@ import { loadCredential } from '../src/store/actions/UserSlice';
 import Layout from "../src/components/Layout";
 
 
-import { useGetIntersectionsQuery } from "../src/store/query";
-
 function MyApp({ Component, pageProps }) {
 
   const dispatch = useDispatch();
-  // const inventories = useGetIntersectionsQuery("intersection-inventories");
-  // const intersections = useGetIntersectionsQuery("crash-intersections");
-
   useEffect(() => {
 
     (async () => {
-      const { payload } = await dispatch(loadCredential(null));
-      console.log("payload: ", payload.jwt);
+      // const { payload } = 
+      await dispatch(loadCredential(null));
     })();
     
 
