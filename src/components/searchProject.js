@@ -1,11 +1,9 @@
 import react, { useState, useEffect } from "react"
-import {Button, Table, Space, Input, message} from "antd"
+import {Button, Table, Space, Input} from "antd"
 import {request} from "../requests"
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
-import Link from "next/link";
 import styled from "styled-components"
-const {Column} = Table
 const ActionContainer = styled.div`
   text-align: center;
   .viewDetails{
@@ -111,6 +109,10 @@ function SearchProject({setShowDetails, setProject, setSection}){
         ...getColumnSearchProps('name')
       },
       {
+        title: <b>{'STATUS'}</b>,
+        dataIndex: 'status',
+      },
+      {
         title: <b>{'INTERSECTION'}</b>,
         dataIndex: 'intersection',
       },
@@ -123,12 +125,12 @@ function SearchProject({setShowDetails, setProject, setSection}){
         dataIndex: 'programNumber',
       },
       {
-        title: <b>{'CRASH_START_DATE'}</b>,
-        dataIndex: 'crashStartDate',
+        title: <b>{'No. of Crashes'}</b>,
+        dataIndex: 'NumberOfCrashes',
       },
       {
-        title: <b>{'CRASH_END_DATE'}</b>,
-        dataIndex: 'crashEndDate',
+        title: <b>{'Total Treatments'}</b>,
+        dataIndex: 'totalTreatments',
       },
       {
         title: <b>{'ACTION'}</b>,
@@ -149,11 +151,12 @@ function SearchProject({setShowDetails, setProject, setSection}){
               res.data.map((project, index) => ({
                       key: index,
                       name: project.PROJECT_NAME,
+                      status: project.PROJECT_STATUS,
                       intersection: project.INTERSECTION,
                       programName: project.PROGRAM_NAME,
                       programNumber: project.PROGRAM_NUMBER,
-                      crashStartDate: project.CRASH_START_DATE,
-                      crashEndDate: project.CRASH_END_DATE,
+                      NumberOfCrashes: project.CRUSH_COUNT,
+                      totalTreatments: project.project_treatments,
                       action: <ActionContainer><EditOutlined onClick={() => selectProject(project, "edit")} className={"editProject"} /> <EyeOutlined className={"viewDetails"} onClick={() => selectProject(project, "view")} /></ActionContainer>
                   })
                   )
