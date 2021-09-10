@@ -32,15 +32,15 @@ const TopFilter = ({ onFilter }) => {
             }}
         >
             <Form.Item style={{ margin: 10 }} tooltip="From" name="from">
-                <DatePicker style={{width: 150}} />
+                <DatePicker style={{width: 150}} placeholder="From date" />
             </Form.Item>
 
             <Form.Item style={{ margin: 10 }} tooltip="To" name="to">
-                <DatePicker style={{width: 150}} />
+                <DatePicker style={{width: 150}} placeholder="To date" />
             </Form.Item>
 
             <Form.Item style={{ margin: 10 }} tooltip="Crash Type" name="crash">
-                <Select style={{width: 150}} placeholder="Select Crash Type">
+                <Select style={{width: 150}} placeholder="Crash Type">
                     {crashType.map((tipe, idx) => {
                         return <Option key={idx} value={tipe}>{tipe}</Option>;
                     })}
@@ -48,7 +48,7 @@ const TopFilter = ({ onFilter }) => {
             </Form.Item>
 
             <Form.Item style={{ margin: 10 }} tooltip="Collision Type" name="collision">
-                <Select style={{width: 150}} placeholder="Select Collision Type">
+                <Select style={{width: 150}} placeholder="Collision Type">
                     {collisionType.map((tipe, idx) => {
                         return <Option key={idx} value={tipe}>{tipe}</Option>;
                     })}
@@ -58,7 +58,7 @@ const TopFilter = ({ onFilter }) => {
             <div style={{ margin: 10, display: 'flex', flexDirection: 'row' }}>
 
                 <Form.Item tooltip="Intersection Type" name="intersection">
-                    <Select style={{width: 115}} placeholder="Select Intersection Type">
+                    <Select style={{width: 115}} placeholder="Intersection Type">
                         {intersectionType.map((tipe, idx) => {
                             return <Option key={idx} value={tipe}>{tipe}</Option>;
                         })}
