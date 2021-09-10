@@ -64,9 +64,9 @@ const Login = () => {
 
             <Form.Item>
 
-                <Link target="_blank" href="/reset">
+                {/* <Link target="_blank" href="/reset"> */}
                     <a className={styles.forgetPass}>Forgot password?</a>
-                </Link>
+                {/* </Link> */}
             </Form.Item>
 
             <Form.Item>
