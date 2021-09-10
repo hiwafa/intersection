@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 
 import { Layout, Menu, Image } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
-import { UserOutlined } from '@ant-design/icons';
+import { UserOutlined, ProjectOutlined, LogoutOutlined } from '@ant-design/icons';
 
 import Login from "./Login";
 
@@ -72,7 +72,7 @@ const LayoutCom = ({ children }) => {
             <main className={styles.loginForm}>
 
                 <div className={styles.caption}>
-                    <Image src="/logo.jpg" alt="logo" width={200} />
+                    <Image src="/logo.jpg" preview={false} alt="logo" width={200} />
                     <p className={styles.captionFont}>Hello User! Please sign in</p>
                 </div>
 
@@ -92,7 +92,7 @@ const LayoutCom = ({ children }) => {
                     display: 'flex', alignItems: 'center',
                     justifyContent: 'center', height: 64
                 }}>
-                    <Image src="/logo.jpg" alt="logo" />
+                    <Link href="/"><a><Image src="/logo.jpg" alt="logo" preview={false} /></a></Link>
                 </div>
 
                 <Menu theme="light" mode="inline" defaultSelectedKeys={[padname]}>
@@ -101,7 +101,7 @@ const LayoutCom = ({ children }) => {
                             <a>Analyst</a>
                         </Link>
                     </Menu.Item>
-                    <Menu.Item key="projects" icon={<UserOutlined />}>
+                    <Menu.Item key="projects" icon={<ProjectOutlined />}>
                         <Link href="/projects">
                             <a>Projects</a>
                         </Link>
@@ -118,8 +118,9 @@ const LayoutCom = ({ children }) => {
                     display: 'flex', justifyContent: 'flex-end'
                 }}>
                     <span>
-                        {username ? username : "Sign In"}
+                        {username ? <> {username} <LogoutOutlined style={{marginLeft: "10px"}} /></> : "Sign In"} 
                     </span>
+                    
                 </Header>
 
                 <Content style={{
