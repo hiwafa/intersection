@@ -46,12 +46,34 @@ function Analysis() {
 
             const newInventories = data.filter(i => {
 
+                let check4;
                 const check1 = i.INTERSECTION_TYPE === values.intersection;
                 const check2 = i.crash_intersections.some(v => v.SEVERITY === values.crash);
                 const check3 = i.crash_intersections.some(v => v.COLLISION_TYPE === values.collision);
-                const check4 = i.crash_intersections.some(v => (new Date(v.DATE_OF_CRASH)).getTime()
-                    >= from && (new Date(v.DATE_OF_CRASH)).getTime() <= to);
-                return check1 && check2 && check3 && check4;
+                
+                if(values.from && values.to){
+
+                    check4 = i.crash_intersections.some(v => (new Date(v.DATE_OF_CRASH))
+                    .getTime() >= from && (new Date(v.DATE_OF_CRASH)).getTime() <= to);
+
+                }else if(values.from){
+
+                    check4 = i.crash_intersections.some(v => (new Date(v.DATE_OF_CRASH)).getTime() >= from);
+
+                }else if (values.to){
+
+                    check4 = i.crash_intersections.some(v => (new Date(v.DATE_OF_CRASH)).getTime() <= to);
+
+                }else {
+
+                    check4 = true;
+                }
+
+                const check12 = values.intersection ? check1 : true;
+                const check22 = values.crash ? check2 : true;
+                const check32 = values.collision ? check3 : true;
+                
+                return check12 && check22 && check32 && check4;
             });
 
             setInvntories(newInventories);
