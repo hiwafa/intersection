@@ -20,7 +20,7 @@ function MyApp({ Component, pageProps }) {
   useEffect(() => {
 
     (async () => {
-      const { payload } = await dispatch(loadCredential({}));
+      const { payload } = await dispatch(loadCredential(null));
       console.log("payload: ", payload.jwt);
     })();
     

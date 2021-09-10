@@ -70,7 +70,6 @@ export const signout = createAsyncThunk(
       }
 
       return thunkAPI.getState().user;
-
     } catch (err) {
       return thunkAPI.rejectWithValue(err.message);
     }
