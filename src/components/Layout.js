@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 
 import { Layout, Menu, Image } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
-import { UserOutlined } from '@ant-design/icons';
+import { UserOutlined, ProjectOutlined } from '@ant-design/icons';
 
 import Login from "./Login";
 
@@ -101,7 +101,7 @@ const LayoutCom = ({ children }) => {
                             <a>Analyst</a>
                         </Link>
                     </Menu.Item>
-                    <Menu.Item key="projects" icon={<UserOutlined />}>
+                    <Menu.Item key="projects" icon={<ProjectOutlined />}>
                         <Link href="/projects">
                             <a>Projects</a>
                         </Link>
