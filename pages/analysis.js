@@ -75,7 +75,7 @@ function Analysis() {
                 const check12 = values.intersection ? check1 : true;
                 const check22 = values.crash ? check2 : true;
                 const check32 = values.collision ? check3 : true;
-
+                
                 return check12 && check22 && check32 && check4;
             });
 
