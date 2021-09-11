@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
-import Analysis from "./isis";
+import Analysis from './analysis';
 
 import { Layout } from 'antd';
 const { Header, Footer, Sider, Content } = Layout;
