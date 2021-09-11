@@ -17,14 +17,8 @@ function Projects() {
 
     const router = useRouter();
     const [showDetails, setShowDetails] = useState(false)
-    const [section, setSection] = useState("")
-    const [project, setProject] = useState("")
-    // const queryParam = useQueryParam();
-    // useEffect(() => {
-    //     if (queryParam?.create && queryParam?.create == 1) {
-    //         router.push("projects");
-    //     }
-    // })
+    const [section, setSection] = useState("");
+    const [project, setProject] = useState("");
     return <>
         {showDetails ?
             (section && section === "edit" ? <EditProject project={project} setShowDetails={setShowDetails} /> : <ProjectDetails project={project} setShowDetails={setShowDetails} />) :
