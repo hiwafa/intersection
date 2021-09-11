@@ -27,11 +27,11 @@ const LayoutCom = ({ children }) => {
     else if (padname === "/projects/create") padname = "projects";
     else padname = padname.substring(1);
 
-    const onLogout = async ()=> {
+    const onLogout = async () => {
         try {
             await dispatch(signout(null));
         } catch (err) {
-            
+
         }
     };
 
@@ -112,9 +112,9 @@ const LayoutCom = ({ children }) => {
                     display: 'flex', justifyContent: 'flex-end'
                 }}>
                     <span>
-                        {username ? <> {username} <LogoutOutlined onClick={onLogout} style={{marginLeft: "10px"}} /></> : "Sign In"} 
+                        {username ? <> {username} <LogoutOutlined onClick={onLogout} style={{ marginLeft: "10px" }} /></> : "Sign In"}
                     </span>
-                    
+
                 </Header>
 
                 <Content style={{
