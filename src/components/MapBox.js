@@ -51,11 +51,15 @@ const MapView = ({ onPress, inventories }) => {
 
         onPress(inventory);
 
+        console.log('inventory.crash_intersections: ', inventory.crash_intersections);
+
         if (inventory && inventory.crash_intersections) {
 
             const arr = inventory.crash_intersections.map(c => [
                 c.LONGITUD, c.LATITUDE
             ]);
+
+            console.log('lats langs: ', arr);
 
             const { longitude, latitude, zoom } =
                 new WebMercatorViewport(viewport).fitBounds(arr, {
@@ -70,7 +74,7 @@ const MapView = ({ onPress, inventories }) => {
                 zoom,
                 transitionDuration: 5000,
                 transitionInterpolator: new FlyToInterpolator(),
-                transitionEasing: d3.easeCubic
+                // transitionEasing: d3.easeCubicIn
             });
 
         }
