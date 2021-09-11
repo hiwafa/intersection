@@ -50,26 +50,6 @@ const LayoutCom = ({ children }) => {
         </div>
     );
 
-    if (checkLogin === 'failed' && padname === 'register') return (
-        <div className={styles.container}>
-            <Head>
-                <title>Intersection</title>
-                <meta name="description" content="intersection" />
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
-
-            <main className={styles.loginForm}>
-
-                <div className={styles.caption}>
-                    <Image src="/logo.jpg" alt="logo" width={200} />
-                    <p className={styles.captionFont}>Hello User! Please sign up</p>
-                </div>
-
-                {children}
-            </main>
-        </div>
-    );
-
     if (checkLogin === 'failed') return (
         <div className={styles.container}>
             <Head>
