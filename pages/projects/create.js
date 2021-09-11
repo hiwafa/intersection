@@ -31,17 +31,15 @@ function Projects(){
         }
     });
 
-    return <>
-        {showDetails ?
-         (section && section === "edit" ? <EditProject project={project} setShowDetails={setShowDetails} /> :<ProjectDetails project={project} setShowDetails={setShowDetails} />) : 
+    return (
         <ButtonContainer>
             <Row gutter={[50, 10]}>
                 <Col md={24} lg={24}>
                 <CreateProject handleClick={handleClick} />
                 </Col>
             </Row>
-        </ButtonContainer>}   
-        </>
+        </ButtonContainer>
+    )
 }
 
 export default Projects
