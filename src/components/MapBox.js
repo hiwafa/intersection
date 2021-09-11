@@ -61,7 +61,21 @@ const MapView = ({ onPress, inventories }) => {
                 }
             });
 
-            console.log('allArr: ', JSON.stringify(allArr));
+            const { longitude, latitude, zoom } =
+                new WebMercatorViewport(viewport).fitBounds(allArr, {
+                    padding: 20,
+                    offset: [0, -100]
+                });
+
+            setViewport({
+                ...viewport,
+                longitude,
+                latitude,
+                zoom,
+                transitionDuration: 2000,
+                transitionInterpolator: new FlyToInterpolator(),
+                // transitionEasing: d3.easeCubicIn
+            });
 
         } 
 
@@ -88,7 +102,7 @@ const MapView = ({ onPress, inventories }) => {
                 longitude,
                 latitude,
                 zoom,
-                transitionDuration: 5000,
+                transitionDuration: 2000,
                 transitionInterpolator: new FlyToInterpolator(),
                 // transitionEasing: d3.easeCubicIn
             });
