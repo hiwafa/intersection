@@ -22,12 +22,12 @@ function Projects(){
     const [project, setProject] = useState("");
     const queryParam = useQueryParam();
     
-    const handleClick = (status) =>  router.push("/myprojects");
+    const handleClick = (status) =>  router.push("/projects");
 
     useEffect(()=>{
         if(queryParam?.create && queryParam?.create == 1)
         {
-            router.push("/myprojects");
+            router.push("/projects");
         }
     });
 

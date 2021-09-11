@@ -19,17 +19,17 @@ function Projects() {
     const [showDetails, setShowDetails] = useState(false)
     const [section, setSection] = useState("")
     const [project, setProject] = useState("")
-    const queryParam = useQueryParam();
-    useEffect(() => {
-        if (queryParam?.create && queryParam?.create == 1) {
-            router.push("myprojects");
-        }
-    })
+    // const queryParam = useQueryParam();
+    // useEffect(() => {
+    //     if (queryParam?.create && queryParam?.create == 1) {
+    //         router.push("projects");
+    //     }
+    // })
     return <>
         {showDetails ?
             (section && section === "edit" ? <EditProject project={project} setShowDetails={setShowDetails} /> : <ProjectDetails project={project} setShowDetails={setShowDetails} />) :
             <ButtonContainer>
-                <PageTitle>Projects <PlusCircleOutlined className={"createProject"} onClick={() => router.push("myprojects/create")} /></PageTitle>
+                <PageTitle>Projects <PlusCircleOutlined className={"createProject"} onClick={() => router.push("projects/create")} /></PageTitle>
                 <Row gutter={[50, 10]}>
                     <Col md={24} lg={24}>
                         <SearchProject setProject={setProject} setShowDetails={setShowDetails} setSection={setSection} />
