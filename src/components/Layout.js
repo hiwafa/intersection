@@ -87,7 +87,7 @@ const LayoutCom = ({ children }) => {
                 <Menu theme="light" mode="inline" defaultSelectedKeys={[padname]}>
                     <Menu.Item key="home" icon={<UserOutlined />}>
                         <Link href="/">
-                            <a>Analyst</a>
+                            <a>Analysis</a>
                         </Link>
                     </Menu.Item>
                     <Menu.Item key="projects" icon={<ProjectOutlined />}>

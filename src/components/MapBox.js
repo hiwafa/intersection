@@ -1,20 +1,19 @@
-import react, { useState, useContext } from "react";
+import react, { useState, useContext, useEffect } from "react";
 
-import ReactMapGL, { Marker, MapContext } from 'react-map-gl';
+import ReactMapGL, { Marker, MapContext, WebMercatorViewport, FlyToInterpolator } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-import { useGetIntersectionsQuery } from "../store/query";
-
+import d3 from 'd3-ease';
 
 const CustomMarker = ({ crashId, inventory, onPress }) => {
 
     const context = useContext(MapContext);
 
     const lent = inventory.crash_intersections ?
-    inventory.crash_intersections.length : 0;
+        inventory.crash_intersections.length : 0;
 
     const crashes = lent > 0 ? inventory.crash_intersections :
-    [{LATITUDE: 35.1, LONGITUD: -90.1}];
+        [{ LATITUDE: 35.1, LONGITUD: -90.1 }];
 
     const [x, y] = context.viewport.project([crashes[0].LONGITUD, crashes[0].LATITUDE]);
 
@@ -34,19 +33,82 @@ const CustomMarker = ({ crashId, inventory, onPress }) => {
     };
 
     return (
-        <div style={markerStyle} key={crashId} onClick={()=> onPress(inventory)}>
-           {lent}+
+        <div style={markerStyle} key={crashId} onClick={() => onPress(inventory)}>
+            {lent}+
         </div>
     );
 }
 
-const MapView = ({onPress, inventories}) => {
+const MapView = ({ onPress, inventories }) => {
 
     const [viewport, setViewport] = useState({
         latitude: 35.75,
         longitude: -96.43,
         zoom: 4
     });
+
+
+    useEffect(()=> {
+
+        if(inventories && Array.isArray(inventories) && inventories.length > 0){
+
+            let allArr = [];
+            inventories.forEach(i => {
+                if(i.crash_intersections){
+                    allArr = [...allArr, ...i.crash_intersections.map(c => [
+                        c.LONGITUD, c.LATITUDE
+                    ])];
+                }
+            });
+
+            const { longitude, latitude, zoom } =
+                new WebMercatorViewport(viewport).fitBounds(allArr, {
+                    padding: 20,
+                    offset: [0, -50]
+                });
+
+            setViewport({
+                ...viewport,
+                longitude,
+                latitude,
+                zoom,
+                transitionDuration: 2000,
+                transitionInterpolator: new FlyToInterpolator(),
+                // transitionEasing: d3.easeCubicIn
+            });
+
+        } 
+
+    }, [inventories]);
+
+    const goToSF = inventory => {
+
+        onPress(inventory);
+
+        if (inventory && inventory.crash_intersections) {
+
+            const arr = inventory.crash_intersections.map(c => [
+                c.LONGITUD, c.LATITUDE
+            ]);
+
+            const { longitude, latitude, zoom } =
+                new WebMercatorViewport(viewport).fitBounds(arr, {
+                    padding: 20,
+                    offset: [0, -100]
+                });
+
+            setViewport({
+                ...viewport,
+                longitude,
+                latitude,
+                zoom,
+                transitionDuration: 2000,
+                transitionInterpolator: new FlyToInterpolator(),
+                // transitionEasing: d3.easeCubicIn
+            });
+
+        }
+    };
 
     return (
         <ReactMapGL
@@ -67,7 +129,7 @@ const MapView = ({onPress, inventories}) => {
                         key={invnt.id}
                         crashId={invnt.id}
                         inventory={invnt}
-                        onPress={onPress}
+                        onPress={goToSF}
                     />
                 )
             })}
