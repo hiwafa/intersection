@@ -16,10 +16,6 @@ import { useRouter } from "next/router";
 function Projects(){
 
     const router = useRouter();
-
-    const [showDetails, setShowDetails] = useState(false)
-    const [section,setSection] = useState("");
-    const [project, setProject] = useState("");
     const queryParam = useQueryParam();
     
     const handleClick = (status) =>  router.push("/projects");
