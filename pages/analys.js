@@ -23,7 +23,7 @@ const getContent = (tab, inventory) => {
 
 }
 
-function Analysis() {
+function Analys() {
 
     const { push } = useRouter();
     const [tab, setTab] = useState("tab1");
@@ -114,4 +114,4 @@ function Analysis() {
         </div>
     );
 }
-export default Analysis
+export default Analys
