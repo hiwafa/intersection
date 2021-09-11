@@ -95,17 +95,17 @@ function Analysis() {
                 </Col>
                 <Col flex={1} md span={12} className={styles.col2}>
 
-                    <Menu theme="light" mode="horizontal" defaultSelectedKeys={['tab1']}>
+                    <Menu theme="light" style={{backgroundColor: '#f5f5f5'}} mode="horizontal" defaultSelectedKeys={['tab1']}>
                         <Menu.Item key="tab1" onClick={() => setTab("tab1")}>Descriptive Statistics</Menu.Item>
                         <Menu.Item key="tab2" onClick={() => setTab("tab2")}>Crash Data</Menu.Item>
                         <Menu.Item key="tab3" onClick={() => setTab("tab3")}>Intersection Inventory</Menu.Item>
                     </Menu>
 
-                    <Content className="site-layout" style={{ padding: '0 50px', marginTop: 64 }}>
+                    <Content className="site-layout" style={{ padding: '0 50px', marginTop: 20 }}>
                         <StyledButton onClick={()=> push("projects/create")} style={{width: 120, marginBottom: 10}}>
                             Add to projects
                         </StyledButton>
-                        <div className="site-layout-background" style={{ minHeight: 380 }}>
+                        <div className="site-layout-background" style={{ minHeight: 380, width: '100%' }}>
                             {getContent(tab, inventory)}
                         </div>
                     </Content>
