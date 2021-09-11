@@ -1,4 +1,4 @@
-import react, { useState, useContext } from "react";
+import react, { useState, useContext, useEffect } from "react";
 
 import ReactMapGL, { Marker, MapContext, WebMercatorViewport, FlyToInterpolator } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -47,19 +47,35 @@ const MapView = ({ onPress, inventories }) => {
         zoom: 4
     });
 
+
+    useEffect(()=> {
+
+        if(inventories && Array.isArray(inventories) && inventories.length > 0){
+
+            let allArr = [];
+            inventories.forEach(i => {
+                if(i.crash_intersections){
+                    allArr = [...allArr, ...i.crash_intersections.map(c => [
+                        c.LONGITUD, c.LATITUDE
+                    ])];
+                }
+            });
+
+            console.log('allArr: ', JSON.stringify(allArr));
+
+        } 
+
+    }, [inventories]);
+
     const goToSF = inventory => {
 
         onPress(inventory);
-
-        console.log('inventory.crash_intersections: ', inventory.crash_intersections);
 
         if (inventory && inventory.crash_intersections) {
 
             const arr = inventory.crash_intersections.map(c => [
                 c.LONGITUD, c.LATITUDE
             ]);
-
-            console.log('lats langs: ', arr);
 
             const { longitude, latitude, zoom } =
                 new WebMercatorViewport(viewport).fitBounds(arr, {
