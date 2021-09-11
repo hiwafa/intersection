@@ -23,11 +23,13 @@ const LayoutCom = ({ children }) => {
     const router = useRouter();
     let padname = router.pathname;
 
-    
+    console.log("path::::1", padname);
 
     if (padname === "/") padname = "home";
-    if (padname === "/projects/create") padname = "projects";
+    else if (padname === "/projects/create") padname = "projects";
     else padname = padname.substring(1);
+
+    console.log("path::::2", padname);
 
     const onLogout = async ()=> {
         try {
