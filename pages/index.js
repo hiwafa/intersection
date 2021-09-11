@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
-import Analysis from "./analysis";
+import Analys from "./analys";
 
 import { Layout } from 'antd';
 const { Header, Footer, Sider, Content } = Layout;
@@ -17,7 +17,7 @@ const Home = () => {
       </Head>
 
       <main className={styles.main}>
-        <Analysis />
+        <Analys />
       </main>
     </div>
   );

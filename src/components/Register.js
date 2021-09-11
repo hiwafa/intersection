@@ -3,10 +3,10 @@ import { LockOutlined } from "@ant-design/icons";
 
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { signup } from "../src/store/actions/UserSlice";
+import { signup } from "../store/actions/UserSlice";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "../styles/Register.module.css";
-import { StyledButton } from "../src/components/styleds";
+import { StyledButton } from "./styleds";
 
 const Register = () => {
 
