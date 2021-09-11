@@ -101,7 +101,7 @@ function Analysis() {
                         <Menu.Item key="tab3" onClick={() => setTab("tab3")}>Intersection Inventory</Menu.Item>
                     </Menu>
 
-                    <Content className="site-layout" style={{ padding: '0 50px', marginTop: 64 }}>
+                    <Content className="site-layout" style={{ padding: '0 50px', marginTop: 20 }}>
                         <StyledButton onClick={()=> push("projects/create")} style={{width: 120, marginBottom: 10}}>
                             Add to projects
                         </StyledButton>
