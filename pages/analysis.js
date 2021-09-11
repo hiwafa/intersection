@@ -9,6 +9,8 @@ import { Row, Col, Menu, Layout } from 'antd';
 import dynamic from "next/dynamic";
 const { Content } = Layout;
 
+import { StyledButton } from "../src/components/styleds";
+import { useRouter } from "next/router";
 
 const getContent = (tab, inventory) => {
 
@@ -23,6 +25,7 @@ const getContent = (tab, inventory) => {
 
 function Analysis() {
 
+    const { push } = useRouter();
     const [tab, setTab] = useState("tab1");
     const [inventory, setInventory] = useState(null);
     const [invntories, setInvntories] = useState([]);
@@ -50,21 +53,21 @@ function Analysis() {
                 const check1 = i.INTERSECTION_TYPE === values.intersection;
                 const check2 = i.crash_intersections.some(v => v.SEVERITY === values.crash);
                 const check3 = i.crash_intersections.some(v => v.COLLISION_TYPE === values.collision);
-                
-                if(values.from && values.to){
+
+                if (values.from && values.to) {
 
                     check4 = i.crash_intersections.some(v => (new Date(v.DATE_OF_CRASH))
-                    .getTime() >= from && (new Date(v.DATE_OF_CRASH)).getTime() <= to);
+                        .getTime() >= from && (new Date(v.DATE_OF_CRASH)).getTime() <= to);
 
-                }else if(values.from){
+                } else if (values.from) {
 
                     check4 = i.crash_intersections.some(v => (new Date(v.DATE_OF_CRASH)).getTime() >= from);
 
-                }else if (values.to){
+                } else if (values.to) {
 
                     check4 = i.crash_intersections.some(v => (new Date(v.DATE_OF_CRASH)).getTime() <= to);
 
-                }else {
+                } else {
 
                     check4 = true;
                 }
@@ -72,7 +75,7 @@ function Analysis() {
                 const check12 = values.intersection ? check1 : true;
                 const check22 = values.crash ? check2 : true;
                 const check32 = values.collision ? check3 : true;
-                
+
                 return check12 && check22 && check32 && check4;
             });
 
@@ -91,12 +94,17 @@ function Analysis() {
                         inventories={invntories} />
                 </Col>
                 <Col flex={1} md span={12} className={styles.col2}>
+
                     <Menu theme="light" mode="horizontal" defaultSelectedKeys={['tab1']}>
                         <Menu.Item key="tab1" onClick={() => setTab("tab1")}>Descriptive Statistics</Menu.Item>
                         <Menu.Item key="tab2" onClick={() => setTab("tab2")}>Crash Data</Menu.Item>
                         <Menu.Item key="tab3" onClick={() => setTab("tab3")}>Intersection Inventory</Menu.Item>
                     </Menu>
+
                     <Content className="site-layout" style={{ padding: '0 50px', marginTop: 64 }}>
+                        <StyledButton onClick={()=> push("projects/create")} style={{width: 120, marginBottom: 10}}>
+                            Add to projects
+                        </StyledButton>
                         <div className="site-layout-background" style={{ minHeight: 380 }}>
                             {getContent(tab, inventory)}
                         </div>
