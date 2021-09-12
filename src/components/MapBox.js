@@ -47,65 +47,72 @@ const MapView = ({ onPress, inventories }) => {
         zoom: 4
     });
 
+    useEffect(() => {
+        (() => {
+            try {
+                if (inventories && Array.isArray(inventories) && inventories.length > 0) {
 
-    useEffect(()=> {
+                    let allArr = [];
+                    inventories.forEach(i => {
+                        if (i.crash_intersections) {
+                            allArr = [...allArr, ...i.crash_intersections.map(c => [
+                                c.LONGITUD, c.LATITUDE
+                            ])];
+                        }
+                    });
 
-        if(inventories && Array.isArray(inventories) && inventories.length > 0){
+                    console.log("ERR: ", viewport);
 
-            let allArr = [];
-            inventories.forEach(i => {
-                if(i.crash_intersections){
-                    allArr = [...allArr, ...i.crash_intersections.map(c => [
-                        c.LONGITUD, c.LATITUDE
-                    ])];
+                    const { longitude, latitude, zoom } =
+                        new WebMercatorViewport(viewport).fitBounds(allArr, {
+                            padding: 20,
+                            offset: [0, -50]
+                        });
+
+                    setViewport({
+                        ...viewport,
+                        longitude,
+                        latitude,
+                        zoom,
+                        transitionDuration: 2000,
+                        transitionInterpolator: new FlyToInterpolator(),
+                        // transitionEasing: d3.easeCubicIn
+                    });
+
                 }
-            });
+            } catch (err) {
 
-            const { longitude, latitude, zoom } =
-                new WebMercatorViewport(viewport).fitBounds(allArr, {
-                    padding: 20,
-                    offset: [0, -50]
-                });
-
-            setViewport({
-                ...viewport,
-                longitude,
-                latitude,
-                zoom,
-                transitionDuration: 2000,
-                transitionInterpolator: new FlyToInterpolator(),
-                // transitionEasing: d3.easeCubicIn
-            });
-
-        } 
-
+            }
+        })();
     }, [inventories]);
 
     const goToSF = inventory => {
+        try {
+            onPress(inventory);
+            if (inventory && inventory.crash_intersections) {
 
-        onPress(inventory);
+                const arr = inventory.crash_intersections.map(c => [
+                    c.LONGITUD, c.LATITUDE
+                ]);
 
-        if (inventory && inventory.crash_intersections) {
+                const { longitude, latitude, zoom } =
+                    new WebMercatorViewport(viewport).fitBounds(arr, {
+                        padding: 20,
+                        offset: [0, -100]
+                    });
 
-            const arr = inventory.crash_intersections.map(c => [
-                c.LONGITUD, c.LATITUDE
-            ]);
-
-            const { longitude, latitude, zoom } =
-                new WebMercatorViewport(viewport).fitBounds(arr, {
-                    padding: 20,
-                    offset: [0, -100]
+                setViewport({
+                    ...viewport,
+                    longitude,
+                    latitude,
+                    zoom,
+                    transitionDuration: 2000,
+                    transitionInterpolator: new FlyToInterpolator(),
+                    // transitionEasing: d3.easeCubicIn
                 });
 
-            setViewport({
-                ...viewport,
-                longitude,
-                latitude,
-                zoom,
-                transitionDuration: 2000,
-                transitionInterpolator: new FlyToInterpolator(),
-                // transitionEasing: d3.easeCubicIn
-            });
+            }
+        } catch (err) {
 
         }
     };
