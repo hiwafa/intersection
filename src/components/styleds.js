@@ -32,4 +32,12 @@ export const PageTitle = styled.div`
         color: #00A9B3;
       }
     }
+`;
+export const TableContainer = styled.div`
+      .ant-table-content{
+        overflow-y: hidden;
+      };
+      tbody{
+        background: white;
+      }
 `

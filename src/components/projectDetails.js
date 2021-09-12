@@ -2,7 +2,7 @@ import react, { useEffect, useState } from "react"
 import styled from "styled-components"
 import {Table} from "antd"
 import { LeftCircleOutlined } from '@ant-design/icons';
-import {PageTitle} from "./styleds"
+import {PageTitle, TableContainer} from "./styleds"
 
 const Wrapper = styled.div`
     padding: 10px;
@@ -59,9 +59,11 @@ function ProjectDetails({project, setShowDetails}){
                 {field: <b>{"Project Treatments"}</b>, value: project.project_treatments}
               ])
       }, [project])
-    return <Wrapper style={{width: "500px"}}>
+    return <Wrapper style={{width: "380px"}}>
               <PageTitle> <LeftCircleOutlined className={"backButton"} onClick={() => setShowDetails(false)} />Project Details</PageTitle>
+              <TableContainer>
               <Table pagination={false} columns={columns} dataSource={details && details} tableLayout={"horizontal"} />
+              </TableContainer>
             </Wrapper>
 }
 export default ProjectDetails

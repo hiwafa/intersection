@@ -54,7 +54,7 @@ function EditProject ({project, setShowDetails}){
         wrapperCol={{span: 24}}>
           <div className="container">
             <Row gutter={24} className="component-container">
-            <Col span={8} key={1}>
+            <Col xs={24} sm={12} md={6} lg={6} key={1}>
             <Form.Item
                 name="PROJECT_STATUS"
                 label={`Project Status`}
@@ -70,16 +70,17 @@ function EditProject ({project, setShowDetails}){
                 </Select>             
                </Form.Item>
               </Col>
-              <Col span={8} key={2}>
+              {status && status === "Initiation" && 
+              <Col xs={24} sm={12} md={6} lg={6} key={2}>
               <Form.Item
                 name="PROJECT_NAME"
                 label={`Project Name`}
                 hasFeedback={true}>
                 <Input size={"large"} name="PROJECT_NAME"  />
               </Form.Item>
-              </Col>
+              </Col> }
               {status && (status === "Completed" || status === "Authorized") && <>
-            <Col span={8} key={2}>
+            <Col xs={24} sm={12} md={6} lg={6} key={2}>
               <Form.Item
                 name="PROGRAM_NAME"
                 label={`Program Name`}
@@ -87,7 +88,7 @@ function EditProject ({project, setShowDetails}){
                 <Input size={"large"} name="PROGRAM_NAME"  />
               </Form.Item>
               </Col>
-            <Col span={8} key={3}>
+            <Col xs={24} sm={12} md={6} lg={6} key={3}>
               <Form.Item
                 name="PROGRAM_NUMBER"
                 label={`Program Number`}
@@ -97,7 +98,7 @@ function EditProject ({project, setShowDetails}){
               </Col> </>}
               {status &&  status === "Authorized" && <>
 
-            <Col span={8} key={4}>
+            <Col xs={24} sm={12} md={6} lg={6} key={4}>
               <Form.Item
                 name="PROJECT_START_DATE"
                 label={`Project Start Date`}
@@ -112,7 +113,7 @@ function EditProject ({project, setShowDetails}){
                </Form.Item>
               </Col>
 
-            <Col span={8} key={5}>
+            <Col xs={24} sm={12} md={6} lg={6} key={5}>
                <Form.Item
                 name="PROJECT_END_DATE"
                 label={`Project End Date`}
@@ -126,7 +127,7 @@ function EditProject ({project, setShowDetails}){
               />             
                </Form.Item>
               </Col>
-            <Col span={8} key={6}>
+            <Col xs={24} sm={12} md={6} lg={6} key={6}>
                <Form.Item
                 name="PROJECT_SUBPHASE"
                 label={`Project Sub Phase`}

@@ -3,7 +3,8 @@ import {Button, Table, Space, Input} from "antd"
 import {request} from "../requests"
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
-import styled from "styled-components"
+import styled from "styled-components";
+import {TableContainer} from "./styleds"
 const ActionContainer = styled.div`
   text-align: center;
   .viewDetails{
@@ -18,7 +19,7 @@ const ActionContainer = styled.div`
     margin-right: 5px;
     color: red;
   }
-`
+`;
 function SearchProject({setShowDetails, setProject, setSection}){
     const [projects, setProjects] = useState([])
     const [searchText, setSearchText] = useState("")
@@ -111,6 +112,7 @@ function SearchProject({setShowDetails, setProject, setSection}){
       {
         title: <b>{'STATUS'}</b>,
         dataIndex: 'status',
+        responsive: ['xs', 's', 'md', 'lg']
       },
       {
         title: <b>{'INTERSECTION'}</b>,
@@ -172,7 +174,7 @@ function SearchProject({setShowDetails, setProject, setSection}){
           setShowDetails(true)
         }
       return <>
-          <div>
+          <TableContainer className={"projects"}>
           <Table
               columns={columns}
               dataSource={projects && projects}
@@ -180,7 +182,7 @@ function SearchProject({setShowDetails, setProject, setSection}){
               filterSearch={true}
        
             />
-          </div>
+          </TableContainer>
           </>
 }
 
