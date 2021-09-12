@@ -27,7 +27,7 @@ const columns = [
         title: 'Collision Type',
         dataIndex: 'COLLISION_TYPE',
         key: 'COLLISION_TYPE',
-        responsive: ['lg'],
+        responsive: ['md'],
     },
     {
         title: 'County',

@@ -108,6 +108,7 @@ function Analys() {
                         <StyledButton onClick={() => push("projects/create")} style={{ width: 120, marginBottom: 10 }}>
                             Add to projects
                         </StyledButton>
+                        <a style={{ padding: 7, backgroundColor: '#f5f5f5', marginLeft: 10}}> {inventory.INTERSECTION_NAME} </a>
                         <div className="site-layout-background" style={{ minHeight: 380, width: '100%' }}>
                             {getContent(tab, inventory)}
                         </div>
