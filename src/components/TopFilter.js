@@ -1,13 +1,17 @@
 import { Form, Select, DatePicker } from "antd";
 import { LockOutlined } from "@ant-design/icons";
 import { StyledButton } from "./styleds";
+import { useRef } from "react";
 const { Option } = Select;
 
 
 const intersectionType = ['4-way', 'T', 'Y', 'Roundabout', 'Median U-Turn', 'Jughandle', 'Quadrant'];
-const crashType = ['All', 'Fatal', 'Type A', 'Type B', 'Type C', 'PDO', 'Injury'];
-const collisionType = ['Angle', 'Rear End', 'Sideswipe Same Direction'];
+const collisionType = ['RearEnd', 'SingleVehicle', 'SideswipeSameDirection', 'HeadOn'];
+const crashType = ['All', 'Fatal', 'PDO', 'INJ'];
+
 const TopFilter = ({ onFilter }) => {
+
+    const formRef = useRef();
 
     const onFinish = async (values) => {
         try {
@@ -17,8 +21,13 @@ const TopFilter = ({ onFilter }) => {
         }
     };
 
+    const onReset = () => {
+        formRef.current?.resetFields();
+    };
+
     return (
         <Form
+            ref={formRef}
             name="normal_login"
             className="login-form"
             onFinish={onFinish}
@@ -31,16 +40,16 @@ const TopFilter = ({ onFilter }) => {
                 alignItems: 'center'
             }}
         >
-            <Form.Item style={{ margin: 10 }} tooltip="From" name="from">
-                <DatePicker style={{width: 150}} placeholder="From date" />
+            <Form.Item style={{ margin: 10 }} tooltip="From" name="from" rules={[{ required: true }]}>
+                <DatePicker style={{ width: 150 }} placeholder="From date" />
             </Form.Item>
 
-            <Form.Item style={{ margin: 10 }} tooltip="To" name="to">
-                <DatePicker style={{width: 150}} placeholder="To date" />
+            <Form.Item style={{ margin: 10 }} tooltip="To" name="to" rules={[{ required: true }]}>
+                <DatePicker style={{ width: 150 }} placeholder="To date" />
             </Form.Item>
 
-            <Form.Item style={{ margin: 10 }} tooltip="Crash Type" name="crash">
-                <Select style={{width: 150}} placeholder="Crash Type">
+            <Form.Item style={{ margin: 10 }} tooltip="Crash Type" name="crash" rules={[{ required: true }]}>
+                <Select style={{ width: 150 }} placeholder="Crash Type">
                     {crashType.map((tipe, idx) => {
                         return <Option key={idx} value={tipe}>{tipe}</Option>;
                     })}
@@ -48,7 +57,7 @@ const TopFilter = ({ onFilter }) => {
             </Form.Item>
 
             <Form.Item style={{ margin: 10 }} tooltip="Collision Type" name="collision">
-                <Select style={{width: 150}} placeholder="Collision Type">
+                <Select style={{ width: 150 }} placeholder="Collision Type">
                     {collisionType.map((tipe, idx) => {
                         return <Option key={idx} value={tipe}>{tipe}</Option>;
                     })}
@@ -58,7 +67,7 @@ const TopFilter = ({ onFilter }) => {
             <div style={{ margin: 10, display: 'flex', flexDirection: 'row' }}>
 
                 <Form.Item tooltip="Intersection Type" name="intersection">
-                    <Select style={{width: 115}} placeholder="Intersection Type">
+                    <Select style={{ width: 115 }} placeholder="Intersection Type">
                         {intersectionType.map((tipe, idx) => {
                             return <Option key={idx} value={tipe}>{tipe}</Option>;
                         })}
@@ -70,9 +79,13 @@ const TopFilter = ({ onFilter }) => {
                         Go
                     </StyledButton>
                 </Form.Item>
+
+                <a style={{ alignSelf: 'center' }} onClick={onReset}>
+                    reset
+                </a>
             </div>
 
-            <div style={{width: 140}} />
+            <div style={{ width: 140 }} />
 
         </Form>
     );

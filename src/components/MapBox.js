@@ -8,7 +8,6 @@ import d3 from 'd3-ease';
 const CustomMarker = ({ crashId, inventory, onPress }) => {
 
     const context = useContext(MapContext);
-
     const lent = inventory.crash_intersections ?
         inventory.crash_intersections.length : 0;
 
@@ -34,7 +33,7 @@ const CustomMarker = ({ crashId, inventory, onPress }) => {
 
     return (
         <div style={markerStyle} key={crashId} onClick={() => onPress(inventory)}>
-            {lent}+
+            {lent - 1}+
         </div>
     );
 }
@@ -60,8 +59,6 @@ const MapView = ({ onPress, inventories }) => {
                             ])];
                         }
                     });
-
-                    console.log("ERR: ", viewport);
 
                     const { longitude, latitude, zoom } =
                         new WebMercatorViewport(viewport).fitBounds(allArr, {
@@ -128,8 +125,6 @@ const MapView = ({ onPress, inventories }) => {
         >
 
             {inventories && inventories.map(invnt => {
-
-
 
                 return (
                     <CustomMarker

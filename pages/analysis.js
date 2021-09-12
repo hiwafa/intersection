@@ -51,8 +51,11 @@ function Analys() {
 
                 let check4;
                 const check1 = i.INTERSECTION_TYPE === values.intersection;
-                const check2 = i.crash_intersections.some(v => v.SEVERITY === values.crash);
-                const check3 = i.crash_intersections.some(v => v.COLLISION_TYPE === values.collision);
+                const check2 = values.crash === "All" ? true : i.crash_intersections
+                    .some(v => `${v.SEVERITY}`.toLowerCase() === `${values.crash}`.toLowerCase());
+
+                const check3 = i.crash_intersections.some(v => `${v.COLLISION_TYPE}`
+                .toLowerCase() === `${values.collision}`.toLowerCase());
 
                 if (values.from && values.to) {
 
@@ -75,7 +78,7 @@ function Analys() {
                 const check12 = values.intersection ? check1 : true;
                 const check22 = values.crash ? check2 : true;
                 const check32 = values.collision ? check3 : true;
-                
+
                 return check12 && check22 && check32 && check4;
             });
 
@@ -95,16 +98,19 @@ function Analys() {
                 </Col>
                 <Col flex={1} md span={12} className={styles.col2}>
 
-                    <Menu theme="light" style={{backgroundColor: '#f5f5f5'}} mode="horizontal" defaultSelectedKeys={['tab1']}>
+                    <Menu theme="light" style={{ backgroundColor: '#f5f5f5' }} mode="horizontal" defaultSelectedKeys={['tab1']}>
                         <Menu.Item key="tab1" onClick={() => setTab("tab1")}>Descriptive Statistics</Menu.Item>
                         <Menu.Item key="tab2" onClick={() => setTab("tab2")}>Crash Data</Menu.Item>
                         <Menu.Item key="tab3" onClick={() => setTab("tab3")}>Intersection Inventory</Menu.Item>
                     </Menu>
 
                     <Content className="site-layout" style={{ padding: '0 50px', marginTop: 20 }}>
-                        <StyledButton onClick={()=> push("projects/create")} style={{width: 120, marginBottom: 10}}>
+                        <StyledButton onClick={() => push("projects/create")} style={{ width: 120, marginBottom: 10 }}>
                             Add to projects
                         </StyledButton>
+                        <a style={{ padding: 7, backgroundColor: '#f5f5f5', marginLeft: 10}}>
+                            {inventory && inventory.INTERSECTION_NAME && inventory.INTERSECTION_NAME}
+                        </a>
                         <div className="site-layout-background" style={{ minHeight: 380, width: '100%' }}>
                             {getContent(tab, inventory)}
                         </div>

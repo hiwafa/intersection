@@ -5,12 +5,6 @@ import styles from "../../styles/Analys.module.css";
 const Descriptive = ({ inventory }) => {
     return (
         <div>
-            <Row>
-                <Col span={24} className={styles.headCol}>
-                    {inventory && inventory.INTERSECTION_NAME ?
-                        inventory.INTERSECTION_NAME : 'Intersection Name'}
-                </Col>
-            </Row>
 
             <Row>
                 <Col span={24} className={styles.headCol}>Severity</Col>
