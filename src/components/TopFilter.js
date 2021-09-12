@@ -6,8 +6,9 @@ const { Option } = Select;
 
 
 const intersectionType = ['4-way', 'T', 'Y', 'Roundabout', 'Median U-Turn', 'Jughandle', 'Quadrant'];
-const crashType = ['All', 'Fatal', 'Type A', 'Type B', 'Type C', 'PDO', 'Injury'];
 const collisionType = ['RearEnd', 'SingleVehicle', 'SideswipeSameDirection', 'HeadOn'];
+const crashType = ['All', 'Fatal', 'PDO', 'INJ'];
+
 const TopFilter = ({ onFilter }) => {
 
     const formRef = useRef();
