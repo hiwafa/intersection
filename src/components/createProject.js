@@ -10,13 +10,9 @@ function CreateProject ({handleClick}){
         const res = await request("/intersection-inventories", {
             method: "GET",
           });
-          console.log(res)
           if(res.status === 200)
           {
-              console.log("called")
             setIntersections(res.data)
-            console.log("called", intersections)
-
           }
     }
     const [form] = Form.useForm();

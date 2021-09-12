@@ -20,8 +20,7 @@ export const PageTitle = styled.div`
     .createProject{
         float: right;
         margin-right: 20px;
-        font-size: 20px;
-        margin-top: 10px;
+        margin-top: 5px;
         &:hover{
           color: #00A9B3;
         }

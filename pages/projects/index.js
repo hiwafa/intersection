@@ -23,7 +23,17 @@ function Projects() {
         {showDetails ?
             (section && section === "edit" ? <EditProject project={project} setShowDetails={setShowDetails} /> : <ProjectDetails project={project} setShowDetails={setShowDetails} />) :
             <ButtonContainer>
-                <PageTitle>Projects <PlusCircleOutlined className={"createProject"} onClick={() => router.push("projects/create")} /></PageTitle>
+                <PageTitle>Projects 
+                <Button
+                type="primary"
+                className={"createProject"}
+                size={"medium"}
+                icon={<PlusCircleOutlined />}
+                onClick={() => router.push("projects/create")}
+                >
+                Create Project
+                </Button>
+                    </PageTitle>
                 <Row gutter={[50, 10]}>
                     <Col md={24} lg={24}>
                         <SearchProject setProject={setProject} setShowDetails={setShowDetails} setSection={setSection} />
