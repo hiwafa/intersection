@@ -148,27 +148,10 @@ const CrashData = ({ inventory }) => (
                 {inventory && inventory.INTERSECTION_NAME}
             </Col>
             <Col span={18} >
-                {inventory && inventory.crash_intersections && inventory.crash_intersections.map(crash => {
-                    return (
-                        <Row key={crash.id}>
-                            <Col span={8} className={styles.cell}>
-                                <Typography.Text ellipsis={true}>
-                                    {crash.CRASH_RECORD_NBR}
-                                </Typography.Text>
-                            </Col>
-                            <Col span={8} className={styles.cell}>
-                                <Typography.Text ellipsis={true}>
-                                    {crash.DATE_OF_CRASH}
-                                </Typography.Text>
-                            </Col>
-                            <Col span={8} className={styles.cell}>
-                                <Typography.Text ellipsis={true}>
-                                    {crash.COLLISION_TYPE}
-                                </Typography.Text>
-                            </Col>
-                        </Row>
-                    );
-                })}
+                <Table columns={columns} dataSource={
+                    inventory && inventory.crash_intersections ?
+                    inventory.crash_intersections : []
+                } />
             </Col>
         </Row>
 
