@@ -134,26 +134,12 @@ const columns = [
 ];
 
 const CrashData = ({ inventory }) => (
-    <div>
+    <div style={{overflow: 'scroll'}}>
 
-        <Row className={styles.row}>
-            <Col span={6} className={styles.headCol}> Intersection</Col>
-            <Col span={6} className={styles.headCol}>CrashRN</Col>
-            <Col span={6} className={styles.headCol}>CrashDate</Col>
-            <Col span={6} className={styles.headCol}>Collision</Col>
-        </Row>
-
-        <Row className={styles.row}>
-            <Col span={6} style={{ fontWeight: 'bold', textAlign: 'center', alignSelf: 'center' }}>
-                {inventory && inventory.INTERSECTION_NAME}
-            </Col>
-            <Col span={18} >
-                <Table columns={columns} dataSource={
-                    inventory && inventory.crash_intersections ?
-                    inventory.crash_intersections : []
-                } />
-            </Col>
-        </Row>
+        <Table columns={columns} dataSource={
+            inventory && inventory.crash_intersections ?
+                inventory.crash_intersections : []
+        } />
 
     </div>
 );
