@@ -6,16 +6,12 @@ const IntersectionInventory = ({ inventory }) => (
     <div>
 
         <Row className={styles.row}>
-            <Col span={6} className={styles.headCol}> Intersection</Col>
             <Col span={6} className={styles.headCol}>Intersection Type</Col>
             <Col span={6} className={styles.headCol}>No. of Approaches</Col>
             <Col span={6} className={styles.headCol}>AADT</Col>
         </Row>
 
         <Row className={styles.row}>
-            <Col span={6} className={styles.cell} style={{ fontWeight: 'bold' }}>
-                {inventory && inventory.INTERSECTION_NAME}
-            </Col>
             <Col span={6} className={styles.cell}>
                 <Typography.Text ellipsis={true}>
                     {inventory && inventory.INTERSECTION_TYPE}
