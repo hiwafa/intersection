@@ -47,7 +47,6 @@ const MapView = ({ onPress, inventories }) => {
         zoom: 4
     });
 
-
     useEffect(() => {
         (() => {
             try {
