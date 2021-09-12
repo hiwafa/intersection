@@ -9,7 +9,7 @@ const columns = [
         title: 'Crash NBR',
         dataIndex: 'CRASH_RECORD_NBR',
         key: 'CRASH_RECORD_NBR',
-        render: text => <a>{text}</a>,
+        render: text => <a>{text}</a>
     },
     {
         title: 'Crash Date',
@@ -136,7 +136,7 @@ const columns = [
 const CrashData = ({ inventory }) => (
     <div style={{overflow: 'scroll'}}>
 
-        <Table columns={columns} dataSource={
+        <Table id="jaja" pagination={{pageSize: 10}} columns={columns} dataSource={
             inventory && inventory.crash_intersections ?
                 inventory.crash_intersections : []
         } />
