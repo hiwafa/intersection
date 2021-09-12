@@ -39,15 +39,15 @@ const TopFilter = ({ onFilter }) => {
                 alignItems: 'center'
             }}
         >
-            <Form.Item style={{ margin: 10 }} tooltip="From" name="from">
+            <Form.Item style={{ margin: 10 }} tooltip="From" name="from" rules={[{ required: true }]}>
                 <DatePicker style={{ width: 150 }} placeholder="From date" />
             </Form.Item>
 
-            <Form.Item style={{ margin: 10 }} tooltip="To" name="to">
+            <Form.Item style={{ margin: 10 }} tooltip="To" name="to" rules={[{ required: true }]}>
                 <DatePicker style={{ width: 150 }} placeholder="To date" />
             </Form.Item>
 
-            <Form.Item style={{ margin: 10 }} tooltip="Crash Type" name="crash">
+            <Form.Item style={{ margin: 10 }} tooltip="Crash Type" name="crash" rules={[{ required: true }]}>
                 <Select style={{ width: 150 }} placeholder="Crash Type">
                     {crashType.map((tipe, idx) => {
                         return <Option key={idx} value={tipe}>{tipe}</Option>;
