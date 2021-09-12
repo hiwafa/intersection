@@ -88,30 +88,32 @@ const MapView = ({ onPress, inventories }) => {
     }, [inventories]);
 
     const goToSF = inventory => {
+        try {
+            onPress(inventory);
+            if (inventory && inventory.crash_intersections) {
 
-        onPress(inventory);
+                const arr = inventory.crash_intersections.map(c => [
+                    c.LONGITUD, c.LATITUDE
+                ]);
 
-        if (inventory && inventory.crash_intersections) {
+                const { longitude, latitude, zoom } =
+                    new WebMercatorViewport(viewport).fitBounds(arr, {
+                        padding: 20,
+                        offset: [0, -100]
+                    });
 
-            const arr = inventory.crash_intersections.map(c => [
-                c.LONGITUD, c.LATITUDE
-            ]);
-
-            const { longitude, latitude, zoom } =
-                new WebMercatorViewport(viewport).fitBounds(arr, {
-                    padding: 20,
-                    offset: [0, -100]
+                setViewport({
+                    ...viewport,
+                    longitude,
+                    latitude,
+                    zoom,
+                    transitionDuration: 2000,
+                    transitionInterpolator: new FlyToInterpolator(),
+                    // transitionEasing: d3.easeCubicIn
                 });
 
-            setViewport({
-                ...viewport,
-                longitude,
-                latitude,
-                zoom,
-                transitionDuration: 2000,
-                transitionInterpolator: new FlyToInterpolator(),
-                // transitionEasing: d3.easeCubicIn
-            });
+            }
+        } catch (err) {
 
         }
     };
