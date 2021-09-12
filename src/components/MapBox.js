@@ -48,37 +48,43 @@ const MapView = ({ onPress, inventories }) => {
     });
 
 
-    useEffect(()=> {
+    useEffect(() => {
+        (() => {
+            try {
+                if (inventories && Array.isArray(inventories) && inventories.length > 0) {
 
-        if(inventories && Array.isArray(inventories) && inventories.length > 0){
+                    let allArr = [];
+                    inventories.forEach(i => {
+                        if (i.crash_intersections) {
+                            allArr = [...allArr, ...i.crash_intersections.map(c => [
+                                c.LONGITUD, c.LATITUDE
+                            ])];
+                        }
+                    });
 
-            let allArr = [];
-            inventories.forEach(i => {
-                if(i.crash_intersections){
-                    allArr = [...allArr, ...i.crash_intersections.map(c => [
-                        c.LONGITUD, c.LATITUDE
-                    ])];
+                    console.log("ERR: ", viewport);
+
+                    const { longitude, latitude, zoom } =
+                        new WebMercatorViewport(viewport).fitBounds(allArr, {
+                            padding: 20,
+                            offset: [0, -50]
+                        });
+
+                    setViewport({
+                        ...viewport,
+                        longitude,
+                        latitude,
+                        zoom,
+                        transitionDuration: 2000,
+                        transitionInterpolator: new FlyToInterpolator(),
+                        // transitionEasing: d3.easeCubicIn
+                    });
+
                 }
-            });
+            } catch (err) {
 
-            const { longitude, latitude, zoom } =
-                new WebMercatorViewport(viewport).fitBounds(allArr, {
-                    padding: 20,
-                    offset: [0, -50]
-                });
-
-            setViewport({
-                ...viewport,
-                longitude,
-                latitude,
-                zoom,
-                transitionDuration: 2000,
-                transitionInterpolator: new FlyToInterpolator(),
-                // transitionEasing: d3.easeCubicIn
-            });
-
-        } 
-
+            }
+        })();
     }, [inventories]);
 
     const goToSF = inventory => {
