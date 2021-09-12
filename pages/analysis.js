@@ -51,7 +51,8 @@ function Analys() {
 
                 let check4;
                 const check1 = i.INTERSECTION_TYPE === values.intersection;
-                const check2 = i.crash_intersections.some(v => v.SEVERITY === values.crash);
+                const check2 =  values.crash === "All" ? true :
+                i.crash_intersections.some(v => v.SEVERITY === values.crash);
                 const check3 = i.crash_intersections.some(v => v.COLLISION_TYPE === values.collision);
 
                 if (values.from && values.to) {
