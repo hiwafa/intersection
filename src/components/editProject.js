@@ -26,7 +26,7 @@ function EditProject ({project, setShowDetails}){
              values.PROJECT_SUBPHASE !== project.PROJECT_SUBPHASE)
              {
               notification["error"]({
-                duration: 0,
+                duration: 5,
                 message: "You can not change these values when the status is Initiation",
               })
               return
@@ -38,7 +38,7 @@ function EditProject ({project, setShowDetails}){
           if(!values.PROJECT_SUBPHASE)
           {
             notification["error"]({
-              duration: 0,
+              duration: 5,
               message: "Please select project Sub-Phase",
             })
             return
@@ -46,7 +46,7 @@ function EditProject ({project, setShowDetails}){
           if(values.PROJECT_START_DATE === null || project.PROJECT_END_DATE === null)
           {
             notification["error"]({
-              duration: 0,
+              duration: 5,
               message: "Project start date and end date can not be null",
             })
             return
@@ -57,7 +57,7 @@ function EditProject ({project, setShowDetails}){
           if(!values.PROJECT_SUBPHASE)
           {
             notification["error"]({
-              duration: 0,
+              duration: 5,
               message: "Please select project Sub-Phase",
             })
             return
@@ -68,7 +68,7 @@ function EditProject ({project, setShowDetails}){
             data: values,
           }).then((res) => {
             notification["success"]({
-                duration: 0,
+                duration: 5,
                 message: "Project Edited",
               })
           }).catch((e) => {

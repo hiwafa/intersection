@@ -20,7 +20,7 @@ const ActionContainer = styled.div`
     color: #1890ff;
   }
 `;
-function SearchProject({setShowDetails, setProject, setSection}){
+function SearchProject({setShowDetails, setProject, setSection, setInterSection}){
     const [projects, setProjects] = useState([])
     const [searchText, setSearchText] = useState("")
     const [searchedColumn, setSearchedColumn] = useState("")
@@ -127,11 +127,11 @@ function SearchProject({setShowDetails, setProject, setSection}){
         dataIndex: 'programNumber',
       },
       {
-        title: <b>{'No. of Crashes'}</b>,
+        title: <b>{'NO. OF CRASHES'}</b>,
         dataIndex: 'NumberOfCrashes',
       },
       {
-        title: <b>{'Total Treatments'}</b>,
+        title: <b>{'TOTAL TREATMENTS'}</b>,
         dataIndex: 'totalTreatments',
       },
       {
@@ -148,7 +148,6 @@ function SearchProject({setShowDetails, setProject, setSection}){
           });
           if(res.status === 200)
           {
-            console.log(res.data)
             setProjects(
               res.data.map((project, index) => ({
                       key: index,
@@ -165,13 +164,28 @@ function SearchProject({setShowDetails, setProject, setSection}){
                 )
               }
           }
+          const loadIntersections = async (project) => {
+            const res = await request(`/intersection-inventories/${project.INTERSECTION?.id}`, {
+                method: "GET",
+              });
+              if(res.status === 200)
+              {
+                return res.data
+              }
+        }
         useEffect(()=>{
           loadProjects()
         }, [])
-        const selectProject = (project, section) => {
-          setProject(project)
-          setSection(section)
-          setShowDetails(true)
+        const selectProject = async (project, section) => {
+          let inter = await loadIntersections(project)
+          if(inter)
+          {
+            setInterSection(inter)
+            setProject(project)
+            setSection(section)
+            setShowDetails(true)
+          }
+
         }
       return <>
           <TableContainer className={"projects"}>
