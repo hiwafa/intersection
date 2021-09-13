@@ -25,6 +25,11 @@ export const PageTitle = styled.div`
           color: #00A9B3;
         }
     };
+    .downloadButton{
+      float: right;
+      margin-right: 20px;
+      margin-top: 5px;
+    };
     .backButton{
       margin-right: 10px;
       &:hover{

@@ -1,9 +1,11 @@
-import react, { useEffect, useState } from "react"
+import react, { useEffect, useState, createRef } from "react"
 import styled from "styled-components"
-import {Table} from "antd"
+import {Table, Button} from "antd"
 import { LeftCircleOutlined } from '@ant-design/icons';
 import {PageTitle, TableContainer} from "./styleds"
-import { request } from "../requests"
+import { DownloadOutlined } from '@ant-design/icons';
+
+import { PDFExport, savePDF } from '@progress/kendo-react-pdf';
 const Wrapper = styled.div`
     padding: 10px;
 `
@@ -79,13 +81,30 @@ function ProjectDetails({project, setShowDetails, intersection}){
       {field: <b>{"Project Treatments"}</b>, value: project.project_treatments}
     ])
   }
+  const  handleExportWithComponent  = (event) => {
+    pdfExportComponent.current.save();
+}
+const pdfExportComponent = createRef()
   useEffect(()=>{
     setProjectDetails()
       }, [])
     return <Wrapper>
-              <PageTitle> <LeftCircleOutlined className={"backButton"} onClick={() => setShowDetails(false)} />Project Details</PageTitle>
+            <PageTitle> <LeftCircleOutlined className={"backButton"} onClick={() => setShowDetails(false)} />Project Details
+              <Button
+                type="primary"
+                className={"downloadButton"}
+                size={"medium"}
+                icon={<DownloadOutlined />}
+                onClick={handleExportWithComponent}
+                >
+                Download
+              </Button>
+            </PageTitle>
+
               <TableContainer style={{width: "380px", margin: "auto"}}>
+              <PDFExport  ref={pdfExportComponent}  paperSize="A4">
               <Table pagination={false} columns={columns} dataSource={details && details} tableLayout={"horizontal"} />
+              </PDFExport>
               </TableContainer>
             </Wrapper>
 }
