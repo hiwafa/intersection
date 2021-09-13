@@ -19,14 +19,25 @@ function Projects() {
     const [showDetails, setShowDetails] = useState(false)
     const [section, setSection] = useState("");
     const [project, setProject] = useState("");
+    const [intersection, setInterSection] = useState({})
     return <>
         {showDetails ?
-            (section && section === "edit" ? <EditProject project={project} setShowDetails={setShowDetails} /> : <ProjectDetails project={project} setShowDetails={setShowDetails} />) :
+            (section && section === "edit" ? <EditProject project={project} setShowDetails={setShowDetails} /> : <ProjectDetails project={project} setShowDetails={setShowDetails} intersection={intersection} />) :
             <ButtonContainer>
-                <PageTitle>Projects <PlusCircleOutlined className={"createProject"} onClick={() => router.push("projects/create")} /></PageTitle>
+                <PageTitle>Projects 
+                <Button
+                type="primary"
+                className={"createProject"}
+                size={"medium"}
+                icon={<PlusCircleOutlined />}
+                onClick={() => router.push("projects/create")}
+                >
+                Create Project
+                </Button>
+                    </PageTitle>
                 <Row gutter={[50, 10]}>
                     <Col md={24} lg={24}>
-                        <SearchProject setProject={setProject} setShowDetails={setShowDetails} setSection={setSection} />
+                        <SearchProject setProject={setProject} setShowDetails={setShowDetails} setSection={setSection} setInterSection={setInterSection} />
                     </Col>
                 </Row>
             </ButtonContainer>}

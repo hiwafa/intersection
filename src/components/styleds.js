@@ -20,11 +20,12 @@ export const PageTitle = styled.div`
     .createProject{
         float: right;
         margin-right: 20px;
-        font-size: 20px;
-        margin-top: 10px;
-        &:hover{
-          color: #00A9B3;
-        }
+        margin-top: 5px;
+    };
+    .downloadButton{
+      float: right;
+      margin-right: 20px;
+      margin-top: 5px;
     };
     .backButton{
       margin-right: 10px;
@@ -32,4 +33,12 @@ export const PageTitle = styled.div`
         color: #00A9B3;
       }
     }
+`;
+export const TableContainer = styled.div`
+      .ant-table-content{
+        overflow-y: hidden;
+      };
+      tbody{
+        background: white;
+      }
 `

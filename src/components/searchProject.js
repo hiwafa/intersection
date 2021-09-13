@@ -3,23 +3,24 @@ import {Button, Table, Space, Input} from "antd"
 import {request} from "../requests"
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
-import styled from "styled-components"
+import styled from "styled-components";
+import {TableContainer} from "./styleds"
 const ActionContainer = styled.div`
   text-align: center;
   .viewDetails{
     font-size: 18px;
     margin-left: 5px;
     margin-right: 5px;
-    color: blue;
+    color: #1890ff;
   };
   .editProject{
     font-size: 18px;
     margin-left: 5px;
     margin-right: 5px;
-    color: red;
+    color: #1890ff;
   }
-`
-function SearchProject({setShowDetails, setProject, setSection}){
+`;
+function SearchProject({setShowDetails, setProject, setSection, setInterSection}){
     const [projects, setProjects] = useState([])
     const [searchText, setSearchText] = useState("")
     const [searchedColumn, setSearchedColumn] = useState("")
@@ -111,6 +112,7 @@ function SearchProject({setShowDetails, setProject, setSection}){
       {
         title: <b>{'STATUS'}</b>,
         dataIndex: 'status',
+        responsive: ['xs', 's', 'md', 'lg']
       },
       {
         title: <b>{'INTERSECTION'}</b>,
@@ -125,11 +127,11 @@ function SearchProject({setShowDetails, setProject, setSection}){
         dataIndex: 'programNumber',
       },
       {
-        title: <b>{'No. of Crashes'}</b>,
+        title: <b>{'NO. OF CRASHES'}</b>,
         dataIndex: 'NumberOfCrashes',
       },
       {
-        title: <b>{'Total Treatments'}</b>,
+        title: <b>{'TOTAL TREATMENTS'}</b>,
         dataIndex: 'totalTreatments',
       },
       {
@@ -146,33 +148,47 @@ function SearchProject({setShowDetails, setProject, setSection}){
           });
           if(res.status === 200)
           {
-            console.log(res.data)
             setProjects(
               res.data.map((project, index) => ({
                       key: index,
                       name: project.PROJECT_NAME,
                       status: project.PROJECT_STATUS,
-                      intersection: project.INTERSECTION,
+                      intersection: project.INTERSECTION?.INTERSECTION_NAME,
                       programName: project.PROGRAM_NAME,
                       programNumber: project.PROGRAM_NUMBER,
                       NumberOfCrashes: project.CRUSH_COUNT,
-                      totalTreatments: project.project_treatments,
+                      totalTreatments: project.project_treatments.length,
                       action: <ActionContainer><EditOutlined onClick={() => selectProject(project, "edit")} className={"editProject"} /> <EyeOutlined className={"viewDetails"} onClick={() => selectProject(project, "view")} /></ActionContainer>
                   })
                   )
                 )
               }
           }
+          const loadIntersections = async (project) => {
+            const res = await request(`/intersection-inventories/${project.INTERSECTION?.id}`, {
+                method: "GET",
+              });
+              if(res.status === 200)
+              {
+                return res.data
+              }
+        }
         useEffect(()=>{
           loadProjects()
         }, [])
-        const selectProject = (project, section) => {
-          setProject(project)
-          setSection(section)
-          setShowDetails(true)
+        const selectProject = async (project, section) => {
+          let inter = await loadIntersections(project)
+          if(inter)
+          {
+            setInterSection(inter)
+            setProject(project)
+            setSection(section)
+            setShowDetails(true)
+          }
+
         }
       return <>
-          <div>
+          <TableContainer className={"projects"}>
           <Table
               columns={columns}
               dataSource={projects && projects}
@@ -180,7 +196,7 @@ function SearchProject({setShowDetails, setProject, setSection}){
               filterSearch={true}
        
             />
-          </div>
+          </TableContainer>
           </>
 }
 

@@ -18,12 +18,57 @@ function EditProject ({project, setShowDetails}){
         setStatus(e)
       }
       async function handleSubmit(values, actions) {
+
+        if(values.PROJECT_STATUS === "Initiation")
+        {
+          if (values.PROGRAM_NAME !== project.PROGRAM_NAME || values.PROGRAM_NUMBER !== project.PROGRAM_NUMBER ||
+             values.PROJECT_START_DATE !== project.PROJECT_START_DATE || values.PROJECT_END_DATE !== project.PROJECT_END_DATE ||
+             values.PROJECT_SUBPHASE !== project.PROJECT_SUBPHASE)
+             {
+              notification["error"]({
+                duration: 5,
+                message: "You can not change these values when the status is Initiation",
+              })
+              return
+             }
+        }
+        else if(values.PROJECT_STATUS === "Authorized")
+        {
+          console.log(values.PROJECT_START_DATE)
+          if(!values.PROJECT_SUBPHASE)
+          {
+            notification["error"]({
+              duration: 5,
+              message: "Please select project Sub-Phase",
+            })
+            return
+          }
+          if(values.PROJECT_START_DATE === null || project.PROJECT_END_DATE === null)
+          {
+            notification["error"]({
+              duration: 5,
+              message: "Project start date and end date can not be null",
+            })
+            return
+          }
+        }
+        else if(values.PROJECT_STATUS === "Completed")
+        {
+          if(!values.PROJECT_SUBPHASE)
+          {
+            notification["error"]({
+              duration: 5,
+              message: "Please select project Sub-Phase",
+            })
+            return
+          }
+        }
           await request(`projects/${values.id}`, {
             method: "PUT",
             data: values,
           }).then((res) => {
-            notification.open({
-                duration: 0,
+            notification["success"]({
+                duration: 5,
                 message: "Project Edited",
               })
           }).catch((e) => {
@@ -39,22 +84,13 @@ function EditProject ({project, setShowDetails}){
         <Formik
       initialValues={project}
       onSubmit={handleSubmit}
-      validate={values => {
-          console.log(values)
-          if(values.PROJECT_STATUS === "Completed" && values.PROJECT_SUBPHASE === null)
-          message.error("Project sub phase can not be null")
-        // if (!values.PROJECT_STATUS) {
-        //   return { PROJECT_STATUS: "required" }
-        // }
-        return undefined
-      }}
       render={formik => (
         <Form
         labelCol={{ span: 24 }}
         wrapperCol={{span: 24}}>
           <div className="container">
             <Row gutter={24} className="component-container">
-            <Col span={8} key={1}>
+            <Col xs={24} sm={12} md={6} lg={6} key={1}>
             <Form.Item
                 name="PROJECT_STATUS"
                 label={`Project Status`}
@@ -70,34 +106,36 @@ function EditProject ({project, setShowDetails}){
                 </Select>             
                </Form.Item>
               </Col>
-              <Col span={8} key={2}>
+              <Col xs={24} sm={12} md={6} lg={6} key={2}>
               <Form.Item
                 name="PROJECT_NAME"
                 label={`Project Name`}
                 hasFeedback={true}>
                 <Input size={"large"} name="PROJECT_NAME"  />
               </Form.Item>
-              </Col>
-              {status && (status === "Completed" || status === "Authorized") && <>
-            <Col span={8} key={2}>
+              </Col> 
+            <Col xs={24} sm={12} md={6} lg={6} key={2}>
               <Form.Item
                 name="PROGRAM_NAME"
                 label={`Program Name`}
+                rules={[
+                  {
+                      cantChange: 'Can not change this field right now',
+                  },
+                  ]}
                 hasFeedback={true}>
                 <Input size={"large"} name="PROGRAM_NAME"  />
               </Form.Item>
               </Col>
-            <Col span={8} key={3}>
+            <Col xs={24} sm={12} md={6} lg={6} key={3}>
               <Form.Item
                 name="PROGRAM_NUMBER"
                 label={`Program Number`}
                 hasFeedback={true}>
                 <Input size={"large"} name="PROGRAM_NUMBER"  />
               </Form.Item>
-              </Col> </>}
-              {status &&  status === "Authorized" && <>
-
-            <Col span={8} key={4}>
+              </Col>
+            <Col xs={24} sm={12} md={6} lg={6} key={4}>
               <Form.Item
                 name="PROJECT_START_DATE"
                 label={`Project Start Date`}
@@ -112,7 +150,7 @@ function EditProject ({project, setShowDetails}){
                </Form.Item>
               </Col>
 
-            <Col span={8} key={5}>
+            <Col xs={24} sm={12} md={6} lg={6} key={5}>
                <Form.Item
                 name="PROJECT_END_DATE"
                 label={`Project End Date`}
@@ -126,7 +164,7 @@ function EditProject ({project, setShowDetails}){
               />             
                </Form.Item>
               </Col>
-            <Col span={8} key={6}>
+            <Col xs={24} sm={12} md={6} lg={6} key={6}>
                <Form.Item
                 name="PROJECT_SUBPHASE"
                 label={`Project Sub Phase`}
@@ -143,7 +181,7 @@ function EditProject ({project, setShowDetails}){
                     <Select.Option value="Construction">Construction</Select.Option>
                 </Select>             
                </Form.Item>
-              </Col> </>}
+              </Col>
             <Col span={24} key={7}>
               <Button.Group size="large">
                 <SubmitButton type="primary" disabled={false}>
