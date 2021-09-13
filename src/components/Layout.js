@@ -27,11 +27,11 @@ const LayoutCom = ({ children }) => {
     else if (padname === "/projects/create") padname = "projects";
     else padname = padname.substring(1);
 
-    const onLogout = async ()=> {
+    const onLogout = async () => {
         try {
             await dispatch(signout(null));
         } catch (err) {
-            
+
         }
     };
 
@@ -47,26 +47,6 @@ const LayoutCom = ({ children }) => {
                 loading ...
             </main>
 
-        </div>
-    );
-
-    if (checkLogin === 'failed' && padname === 'register') return (
-        <div className={styles.container}>
-            <Head>
-                <title>Intersection</title>
-                <meta name="description" content="intersection" />
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
-
-            <main className={styles.loginForm}>
-
-                <div className={styles.caption}>
-                    <Image src="/logo.jpg" alt="logo" width={200} />
-                    <p className={styles.captionFont}>Hello User! Please sign up</p>
-                </div>
-
-                {children}
-            </main>
         </div>
     );
 
@@ -107,12 +87,17 @@ const LayoutCom = ({ children }) => {
                 <Menu theme="light" mode="inline" defaultSelectedKeys={[padname]}>
                     <Menu.Item key="home" icon={<UserOutlined />}>
                         <Link href="/">
-                            <a>Analyst</a>
+                            <a>Analysis</a>
                         </Link>
                     </Menu.Item>
                     <Menu.Item key="projects" icon={<ProjectOutlined />}>
                         <Link href="/projects">
                             <a>Projects</a>
+                        </Link>
+                    </Menu.Item>
+                    <Menu.Item key="admin" icon={<ProjectOutlined />}>
+                        <Link href="/admin">
+                            <a>User Management</a>
                         </Link>
                     </Menu.Item>
                 </Menu>
@@ -127,9 +112,9 @@ const LayoutCom = ({ children }) => {
                     display: 'flex', justifyContent: 'flex-end'
                 }}>
                     <span>
-                        {username ? <> {username} <LogoutOutlined onClick={onLogout} style={{marginLeft: "10px"}} /></> : "Sign In"} 
+                        {username ? <> {username} <LogoutOutlined onClick={onLogout} style={{ marginLeft: "10px" }} /></> : "Sign In"}
                     </span>
-                    
+
                 </Header>
 
                 <Content style={{
