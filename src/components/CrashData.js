@@ -1,6 +1,7 @@
 import react from "react";
 import { Row, Col, Typography } from 'antd';
 import styles from "../../styles/Analys.module.css";
+import { jsx, css } from '@emotion/react';
 import { Table } from 'antd';
 
 
@@ -133,10 +134,15 @@ const columns = [
     },
 ];
 
+
+const tabelStyle = css({
+    backgroundColor: 'orange'
+})
+
 const CrashData = ({ inventory }) => (
     <div style={{overflow: 'scroll'}}>
 
-        <Table id="jaja" pagination={{pageSize: 10}} columns={columns} dataSource={
+        <Table css={tabelStyle} id="jaja" pagination={{pageSize: 10}} columns={columns} dataSource={
             inventory && inventory.crash_intersections ?
                 inventory.crash_intersections : []
         } />
