@@ -145,7 +145,7 @@ const tabelStyle = css({
 const CrashData = ({ inventory }) => (
     <div style={{ overflow: 'scroll' }}>
 
-        <Table className={tabelStyle} id="jaja" pagination={{ pageSize: 10 }} columns={columns} dataSource={
+        <Table className={tabelStyle} rowKey="id" pagination={{ pageSize: 10 }} columns={columns} dataSource={
             inventory && inventory.crash_intersections ?
                 inventory.crash_intersections : []
         } />
