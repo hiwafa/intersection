@@ -79,6 +79,7 @@ function CreateProject ({handleClick}){
                                
                             <Select  size={"large"} showSearch
                             optionFilterProp="children"
+                            defaultActiveFirstOption={true}
                             filterOption={(input, option) =>
                               option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                             }

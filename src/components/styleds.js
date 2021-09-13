@@ -21,9 +21,6 @@ export const PageTitle = styled.div`
         float: right;
         margin-right: 20px;
         margin-top: 5px;
-        &:hover{
-          color: #00A9B3;
-        }
     };
     .downloadButton{
       float: right;

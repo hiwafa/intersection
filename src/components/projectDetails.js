@@ -1,11 +1,11 @@
 import react, { useEffect, useState, createRef } from "react"
 import styled from "styled-components"
-import {Table, Button} from "antd"
+import {Table, Button, Tooltip, Modal} from "antd"
 import { LeftCircleOutlined } from '@ant-design/icons';
 import {PageTitle, TableContainer} from "./styleds"
 import { DownloadOutlined } from '@ant-design/icons';
-
-import { PDFExport, savePDF } from '@progress/kendo-react-pdf';
+import {request} from "../requests"
+import { PDFExport } from '@progress/kendo-react-pdf';
 const Wrapper = styled.div`
     padding: 10px;
 `
@@ -22,14 +22,53 @@ const columns = [
     align: 'left',
     }
   ];
-  const data = [
-      {
-        field: "name",
-        value: "value"
-      }
-  ]
-
+const modalTableColumns = [ 
+  {
+    title: 'NAME',
+    dataIndex: 'TREATMENT_NAME',
+    align: 'left',
+  },
+  {
+    title: 'TYPE',
+    dataIndex: 'TREATMENT_TYPE',
+    align: 'left',
+  },
+  {
+    title: 'SERVICE LIFE',
+    dataIndex: 'SERVICE_LIFE',
+    align: 'left',
+  },
+  {
+    title: 'CRF',
+    dataIndex: 'CRF',
+    align: 'left',
+  },
+  {
+    title: 'CMF',
+    dataIndex: 'CMF',
+    align: 'left',
+  },
+]
 function ProjectDetails({project, setShowDetails, intersection}){
+  const [visible, setVisible] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [treatments, setTreatments] = useState()
+  const showModal = () => {
+    loadTreatments()
+    setVisible(true);
+  };
+  const handleOk = () => {
+    setConfirmLoading(true);
+    setTimeout(() => {
+      setVisible(false);
+      setConfirmLoading(false);
+    }, 2000);
+  };
+
+  const handleCancel = () => {
+    console.log('Clicked cancel button');
+    setVisible(false);
+  };
   console.log(project)
   const [details, setDetails] = useState()
   const setCrash = () =>{
@@ -78,17 +117,27 @@ function ProjectDetails({project, setShowDetails, intersection}){
       {field: <b>{"Project Start Date"}</b>, value: project.PROJECT_START_DATE},
       {field: <b>{"Project End Date"}</b>, value: project.PROJECT_END_DATE},
       {field: <b>{"Project Sub Phase"}</b>, value: project.PROJECT_SUBPHASE},
-      {field: <b>{"Project Treatments"}</b>, value: project.project_treatments}
+      {field: <b>{"Countermeasures"}</b>, value: <Tooltip title="Countermeasures can be added by clicking" placement="top"><a onClick={showModal}>{project.project_treatments.length}</a></Tooltip>}
     ])
   }
   const  handleExportWithComponent  = (event) => {
     pdfExportComponent.current.save();
 }
 const pdfExportComponent = createRef()
+const loadTreatments = async () => {
+  const res = await request(`/treatments`, {
+      method: "GET",
+    });
+    if(res.status === 200)
+    {
+      console.log("treatments", res.data)
+      setTreatments(res.data)
+    }
+}
   useEffect(()=>{
     setProjectDetails()
       }, [])
-    return <Wrapper>
+    return <><Wrapper>
             <PageTitle> <LeftCircleOutlined className={"backButton"} onClick={() => setShowDetails(false)} />Project Details
               <Button
                 type="primary"
@@ -107,5 +156,17 @@ const pdfExportComponent = createRef()
               </PDFExport>
               </TableContainer>
             </Wrapper>
+            <Modal
+              title="Add Treatment"
+              visible={visible}
+              onOk={handleOk}
+              loading={true}
+              confirmLoading={confirmLoading}
+              onCancel={handleCancel}
+            >
+              {treatments && <Table pagination={false} columns={modalTableColumns} dataSource={treatments && treatments}/>}
+              
+            </Modal>
+            </>
 }
 export default ProjectDetails
