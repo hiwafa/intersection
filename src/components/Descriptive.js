@@ -59,6 +59,7 @@ const getRoadSurfaceCondition = arr => {
 };
 
 const Descriptive = ({ inventory }) => {
+
     return (
         <div>
 
@@ -73,7 +74,7 @@ const Descriptive = ({ inventory }) => {
             </Row>
             {inventory && inventory.crash_intersections && getSeverity(inventory.crash_intersections).map(crash => {
                 return (
-                    <Row key={crash.id}>
+                    <Row key={crash[0]}>
                         <Col span={12} className={styles.cell}>
                             {crash[0]}
                         </Col>
@@ -93,7 +94,7 @@ const Descriptive = ({ inventory }) => {
             </Row>
             {inventory && inventory.crash_intersections && getCollisionType(inventory.crash_intersections).map(crash => {
                 return (
-                    <Row key={crash.id}>
+                    <Row key={crash[0]}>
                         <Col span={12} className={styles.cell}>
                             {crash[0]}
                         </Col>
@@ -113,7 +114,7 @@ const Descriptive = ({ inventory }) => {
             </Row>
             {inventory && inventory.crash_intersections && getLightCondition(inventory.crash_intersections).map(crash => {
                 return (
-                    <Row key={crash.id}>
+                    <Row key={crash[0]}>
                         <Col span={12} className={styles.cell}>
                             {crash[0]}
                         </Col>
@@ -132,7 +133,7 @@ const Descriptive = ({ inventory }) => {
             </Row>
             {inventory && inventory.crash_intersections && getWeatherCondition(inventory.crash_intersections).map(crash => {
                 return (
-                    <Row key={crash.id}>
+                    <Row key={crash[0]}>
                         <Col span={12} className={styles.cell}>
                             {crash[0]}
                         </Col>
@@ -152,7 +153,7 @@ const Descriptive = ({ inventory }) => {
             </Row>
             {inventory && inventory.crash_intersections && getRoadSurfaceCondition(inventory.crash_intersections).map(crash => {
                 return (
-                    <Row key={crash.id}>
+                    <Row key={crash[0]}>
                         <Col span={12} className={styles.cell}>
                             {crash[0]}
                         </Col>
