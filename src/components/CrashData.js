@@ -1,6 +1,7 @@
 import react from "react";
 import { Row, Col, Typography } from 'antd';
 import styles from "../../styles/Analys.module.css";
+import { css } from '@emotion/css';
 import { Table } from 'antd';
 
 
@@ -133,10 +134,18 @@ const columns = [
     },
 ];
 
-const CrashData = ({ inventory }) => (
-    <div style={{overflow: 'scroll'}}>
 
-        <Table id="jaja" pagination={{pageSize: 10}} columns={columns} dataSource={
+const tabelStyle = css({
+    '& thead > tr > th': {
+        backgroundImage: 'linear-gradient(#16A18C, #1393A9)',
+        color: 'white',
+    }
+});
+
+const CrashData = ({ inventory }) => (
+    <div style={{ overflow: 'scroll' }}>
+
+        <Table className={tabelStyle} id="jaja" pagination={{ pageSize: 10 }} columns={columns} dataSource={
             inventory && inventory.crash_intersections ?
                 inventory.crash_intersections : []
         } />
