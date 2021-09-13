@@ -25,37 +25,49 @@ function EditProject ({project, setShowDetails}){
              values.PROJECT_START_DATE !== project.PROJECT_START_DATE || values.PROJECT_END_DATE !== project.PROJECT_END_DATE ||
              values.PROJECT_SUBPHASE !== project.PROJECT_SUBPHASE)
              {
-              notification.open({
+              notification["error"]({
                 duration: 0,
                 message: "You can not change these values when the status is Initiation",
               })
+              return
              }
         }
         else if(values.PROJECT_STATUS === "Authorized")
         {
+          console.log(values.PROJECT_START_DATE)
           if(!values.PROJECT_SUBPHASE)
           {
-            notification.open({
+            notification["error"]({
               duration: 0,
               message: "Please select project Sub-Phase",
             })
+            return
+          }
+          if(values.PROJECT_START_DATE === null || project.PROJECT_END_DATE === null)
+          {
+            notification["error"]({
+              duration: 0,
+              message: "Project start date and end date can not be null",
+            })
+            return
           }
         }
         else if(values.PROJECT_STATUS === "Completed")
         {
           if(!values.PROJECT_SUBPHASE)
           {
-            notification.open({
+            notification["error"]({
               duration: 0,
               message: "Please select project Sub-Phase",
-            })          }
+            })
+            return
+          }
         }
-        return 3;
           await request(`projects/${values.id}`, {
             method: "PUT",
             data: values,
           }).then((res) => {
-            notification.open({
+            notification["success"]({
                 duration: 0,
                 message: "Project Edited",
               })
