@@ -63,9 +63,13 @@ const Descriptive = ({ inventory }) => {
         <div>
 
             <Row>
-                <Col span={12} className={styles.headCol}>Severity</Col>
+                <Col span={12} className={styles.headCol}>Name</Col>
                 <Col span={6} className={styles.headCol}>Number</Col>
                 <Col span={6} className={styles.headCol}>Percent</Col>
+            </Row>
+
+            <Row>
+                <Col span={24} style={{ fontWeight: 'bold', padding: 5, backgroundColor: '#eee' }}>Severity</Col>
             </Row>
             {inventory && inventory.crash_intersections && getSeverity(inventory.crash_intersections).map(crash => {
                 return (
@@ -85,7 +89,7 @@ const Descriptive = ({ inventory }) => {
 
 
             <Row>
-                <Col span={24} style={{ fontSize: 'bold', padding: 5 }}>Collision Type</Col>
+                <Col span={24} style={{ fontWeight: 'bold', padding: 5, backgroundColor: '#eee' }}>Collision Type</Col>
             </Row>
             {inventory && inventory.crash_intersections && getCollisionType(inventory.crash_intersections).map(crash => {
                 return (
@@ -105,7 +109,7 @@ const Descriptive = ({ inventory }) => {
 
 
             <Row>
-                <Col span={24} style={{ fontSize: 'bold', padding: 5 }}>Light Conditions</Col>
+                <Col span={24} style={{ fontWeight: 'bold', padding: 5, backgroundColor: '#eee' }}>Light Conditions</Col>
             </Row>
             {inventory && inventory.crash_intersections && getLightCondition(inventory.crash_intersections).map(crash => {
                 return (
@@ -124,7 +128,7 @@ const Descriptive = ({ inventory }) => {
             })}
 
             <Row>
-                <Col span={24} style={{ fontSize: 'bold', padding: 5 }}>Weather Conditions</Col>
+                <Col span={24} style={{ fontWeight: 'bold', padding: 5, backgroundColor: '#eee' }}>Weather Conditions</Col>
             </Row>
             {inventory && inventory.crash_intersections && getWeatherCondition(inventory.crash_intersections).map(crash => {
                 return (
@@ -144,7 +148,7 @@ const Descriptive = ({ inventory }) => {
 
 
             <Row>
-                <Col span={24} style={{ fontSize: 'bold', padding: 5 }}>Road Surface Conditions</Col>
+                <Col span={24} style={{ fontWeight: 'bold', padding: 5, backgroundColor: '#eee' }}>Road Surface Conditions</Col>
             </Row>
             {inventory && inventory.crash_intersections && getRoadSurfaceCondition(inventory.crash_intersections).map(crash => {
                 return (
