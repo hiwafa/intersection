@@ -11,13 +11,13 @@ const ActionContainer = styled.div`
     font-size: 18px;
     margin-left: 5px;
     margin-right: 5px;
-    color: blue;
+    color: #1890ff;
   };
   .editProject{
     font-size: 18px;
     margin-left: 5px;
     margin-right: 5px;
-    color: red;
+    color: #1890ff;
   }
 `;
 function SearchProject({setShowDetails, setProject, setSection}){
@@ -154,7 +154,7 @@ function SearchProject({setShowDetails, setProject, setSection}){
                       key: index,
                       name: project.PROJECT_NAME,
                       status: project.PROJECT_STATUS,
-                      intersection: project.INTERSECTION,
+                      intersection: project.INTERSECTION?.INTERSECTION_NAME,
                       programName: project.PROGRAM_NAME,
                       programNumber: project.PROGRAM_NUMBER,
                       NumberOfCrashes: project.CRUSH_COUNT,
