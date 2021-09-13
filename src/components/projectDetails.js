@@ -59,9 +59,9 @@ function ProjectDetails({project, setShowDetails}){
                 {field: <b>{"Project Treatments"}</b>, value: project.project_treatments}
               ])
       }, [project])
-    return <Wrapper style={{width: "380px"}}>
+    return <Wrapper>
               <PageTitle> <LeftCircleOutlined className={"backButton"} onClick={() => setShowDetails(false)} />Project Details</PageTitle>
-              <TableContainer>
+              <TableContainer style={{width: "380px", margin: "auto"}}>
               <Table pagination={false} columns={columns} dataSource={details && details} tableLayout={"horizontal"} />
               </TableContainer>
             </Wrapper>
