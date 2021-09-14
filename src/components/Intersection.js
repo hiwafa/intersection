@@ -43,8 +43,7 @@ const IntersectionInventory = ({ inventory }) => (
     <div style={{ overflow: 'scroll' }}>
 
         <Table className={tabelStyle} rowKey="id" pagination={{ pageSize: 10 }} columns={columns} dataSource={
-            inventory && inventory.crash_intersections ?
-                inventory.crash_intersections : []
+            inventory ? [inventory] : []
         } />
 
     </div>
