@@ -55,6 +55,38 @@ const modalTableColumns = [
     align: 'left',
   },
 ]
+const projectTreatmentColumns = [ 
+  {
+    title: 'NAME',
+    dataIndex: 'TREATMENT_NAME',
+    align: 'left',
+  },
+  {
+    title: 'TYPE',
+    dataIndex: 'TREATMENT_TYPE',
+    align: 'left',
+  },
+  {
+    title: 'SERVICE LIFE',
+    dataIndex: 'SERVICE_LIFE',
+    align: 'left',
+  },
+  {
+    title: 'CRF',
+    dataIndex: 'CRF',
+    align: 'left',
+  },
+  {
+    title: 'CMF',
+    dataIndex: 'CMF',
+    align: 'left',
+  },
+  {
+    title: 'Remove',
+    dataIndex: 'remove',
+    align: 'left',
+  },
+]
 function ProjectDetails({project, setShowDetails, intersection}){
   console.log(project)
   const [visible, setVisible] = useState(false);
@@ -62,6 +94,8 @@ function ProjectDetails({project, setShowDetails, intersection}){
   const [treatments, setTreatments] = useState()
   const [addTreatCheckBox, setAddTreatCheckBox] = useState(false)
   const [newTreatments, setNewTreatments] = useState()
+  const [projectTreatments, setProjectTreatments] = useState()
+  const [deleteListTreats, setDeleteListTreats] = useState()
 let newTreats = []
 
   const showModal = () => {
@@ -151,24 +185,30 @@ const loadTreatments = async () => {
 }
 
 const addTreat = (e, treat) =>{
-  // const newPeople = people.filter((person) => person.id !== id);
-  // setPeople( newPeople);
-  if(e.target.checked)
-  {
-    if ((!project.treatments.filter(function(ee) { return ee.id === treat.id; }).length > 0) && !newTreats.filter(function(ee) { return ee.id === treat.id; }).length > 0) {
-      newTreats.push(treat)
-    }
-    console.log("new Treats", newTreats)
-  }
-  else{
-    if (newTreats.filter(function(ee) { return ee.id === treat.id; }).length > 0) {
-      var index = newTreats.indexOf(treat);
-      newTreats.splice(index, 1);
+    if(e.target.checked)
+    {
+      if ((!project.treatments.filter(function(ee) { return ee.id === treat.id; }).length > 0) && !newTreats.filter(function(ee) { return ee.id === treat.id; }).length > 0) {
+        newTreats.push(treat)
       }
-    console.log("new Treats", newTreats)
-
-  }
-  setNewTreatments(newTreats)
+      console.log("new Treats", newTreats)
+    }
+    else{
+      if (newTreats.filter(function(ee) { return ee.id === treat.id; }).length > 0) {
+        var index = newTreats.indexOf(treat);
+        newTreats.splice(index, 1);
+        }
+      console.log("new Treats", newTreats)
+  
+    }
+      setNewTreatments(newTreats)
+  
+}
+const removeTreat = (e, treat) => {
+  const removeTreat = project.treatments.filter((treatment) => treatment.id !== treat.id);
+  if(removeTreat.length === 0)
+  setDeleteListTreats("empty");
+  else
+  setDeleteListTreats(removeTreat);
 }
 const handleOk = async () => {
   // setConfirmLoading(true);
@@ -182,14 +222,20 @@ const handleOk = async () => {
       method: "PUT",
       data: project,
     }).then((res) => {
-      notification["success"]({
+      if(res.status === 200)
+      {
+        setShowDetails(false)
+        notification["success"]({
           duration: 5,
           message: "Treatment Added",
         })
+      }
+
     }).catch((e) => {
         console.log(e)
     });
   }
+  else
   {
     notification["error"]({
       duration: 5,
@@ -198,8 +244,61 @@ const handleOk = async () => {
   }
   
 };
+const handleRemove = async () =>{
+  // setConfirmLoading(true);
+  console.log("remove called")
+  if(deleteListTreats?.length > 0 || deleteListTreats === "empty")
+  {
+    if(deleteListTreats === "empty"){
+      project.treatments = []
+    }
+    else{
+      deleteListTreats.map((tr) => {
+        var index = project.treatments.indexOf(tr);
+        project.treatments.splice(index, 1);
+      })
+    }
+   
+    await request(`projects/${project.id}`, {
+      method: "PUT",
+      data: project,
+    }).then((res) => {
+      if(res.status === 200)
+      {
+        setShowDetails(false)
+        notification["success"]({
+          duration: 5,
+          message: "Treatment Removed",
+        })
+      }
+    }).catch((e) => {
+      notification["error"]({
+        duration: 5,
+        message: "There was an error ",
+      })
+    });
+  }
+  else
+  {
+    notification["error"]({
+      duration: 5,
+      message: "There was an error ",
+    })
+  }
+  
+}
   useEffect(()=>{
     setProjectDetails()
+    setProjectTreatments(project.treatments && project.treatments.map((treat, index) => {
+      return {
+        TREATMENT_NAME: treat.TREATMENT_NAME,
+        TREATMENT_TYPE: treat.TREATMENT_TYPE,
+        SERVICE_LIFE: treat.SERVICE_LIFE,
+        CRF: treat.CRF,
+        CMF: treat.CMF,
+        remove: <Checkbox key={index} onChange={(e) => removeTreat(e, treat)} />
+      }
+    }))
       }, [])
     return <><Wrapper>
             <PageTitle> <LeftCircleOutlined className={"backButton"} onClick={() => setShowDetails(false)} />Project Details
@@ -223,18 +322,20 @@ const handleOk = async () => {
             <Modal
               title="Add Treatment"
               visible={visible}
-              onOk={handleOk}
               loading={true}
               confirmLoading={confirmLoading}
               onCancel={handleCancel}
+              footer={false}
+              width={700}
             >
                 <Tabs defaultActiveKey="1">
-                <TabPane tab="Countermeasures" key="1">
-                {treatments && <Table pagination={false} columns={modalTableColumns} dataSource={project && project.treatments}/>}
+                <TabPane tab="Countermeasures" style={{textAlign: "center"}} key="1">
+                {treatments && <Table pagination={false} columns={projectTreatmentColumns} dataSource={projectTreatments && projectTreatments}/>}
+                <Button style={{marginTop: "10px"}} type={"danger"} onClick={handleRemove}>Remove</Button>
                 </TabPane>
-                <TabPane tab="Treatments" key="2">
+                <TabPane tab="Treatments" style={{textAlign: "center"}} key="2">
                 {treatments && <Table pagination={false} columns={modalTableColumns} dataSource={treatments && treatments}/>}
-
+                <Button style={{marginTop: "10px"}} type={"primary"} onClick={handleOk}>Add Treatment</Button>
                 </TabPane>
               </Tabs>
             </Modal>
