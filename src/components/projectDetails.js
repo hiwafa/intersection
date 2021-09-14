@@ -156,7 +156,7 @@ let newTreats = []
       {field: <b>{"Project Start Date"}</b>, value: project.PROJECT_START_DATE},
       {field: <b>{"Project End Date"}</b>, value: project.PROJECT_END_DATE},
       {field: <b>{"Project Sub Phase"}</b>, value: project.PROJECT_SUBPHASE},
-      {field: <b>{"Countermeasures"}</b>, value: <Tooltip title="Countermeasures can be added by clicking" placement="top"><a onClick={showModal}>{project.treatments?.length}</a></Tooltip>}
+      {field: <b>{"Countermeasures"}</b>, value: <Tooltip title="Countermeasures can be added by clicking" placement="top"><a onClick={showModal}>{project.treatments?.length ? project.treatments?.length : 0}</a></Tooltip>}
     ])
   }
   const  handleExportWithComponent  = (event) => {
