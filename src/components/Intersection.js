@@ -3,12 +3,15 @@ import { Table } from 'antd';
 import styles from "../../styles/Analys.module.css";
 import { css } from '@emotion/css';
 
+const toRender = text => <a>{text}</a>;
+const getFactor = text => <a>3</a>;
+
 const columns = [
     {
         title: 'Intersection Type',
         dataIndex: 'INTERSECTION_TYPE',
         key: 'INTERSECTION_TYPE',
-        render: text => <a>{text}</a>,
+        render: toRender,
         responsive: ['md']
     },
     {
@@ -27,7 +30,7 @@ const columns = [
         title: 'AADT Growth Factor',
         dataIndex: 'AADT_GROWTH_FACTOR',
         key: 'AADT_GROWTH_FACTOR',
-        render: text => <a>3</a>,
+        render: getFactor,
         responsive: ['md']
     }
 ];

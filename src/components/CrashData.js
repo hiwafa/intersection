@@ -1,5 +1,4 @@
 import react from "react";
-import { Row, Col, Typography } from 'antd';
 import styles from "../../styles/Analys.module.css";
 import { css } from '@emotion/css';
 import { Table } from 'antd';
@@ -9,8 +8,7 @@ const columns = [
     {
         title: 'Crash NBR',
         dataIndex: 'CRASH_RECORD_NBR',
-        key: 'CRASH_RECORD_NBR',
-        render: text => <a>{text}</a>
+        key: 'CRASH_RECORD_NBR'
     },
     {
         title: 'Crash Date',
