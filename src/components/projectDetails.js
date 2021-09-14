@@ -117,6 +117,7 @@ let newTreats = []
     let injuries =0;
     let fatalities=0;
     let pdo=0;
+    let epdo=0
     intersection && intersection?.crash_intersections.map((crash) => {
       a += parseInt(crash.NUMBER_OF_A_INJURIES)
       b += parseInt(crash.NUMBER_OF_B_INJURIES)
@@ -126,7 +127,8 @@ let newTreats = []
       pdo += parseInt(crash.NUMBER_OF_PDO)
       
     })
-   return {a, b, c, injuries, fatalities, pdo}
+    epdo = 542* fatalities + 11* injuries + 1*pdo;
+   return {a, b, c, injuries, fatalities, pdo, epdo}
   }
 
   const setProjectDetails = () =>{
@@ -140,7 +142,7 @@ let newTreats = []
       {field: <b>{"Crash Start Date"}</b>, value: project.CRASH_START_DATE},
       {field: <b>{"Crash End Date"}</b>, value: project.CRASH_END_DATE},
       {field: <b>{"Crash Rate AADT"}</b>, value: project.CRASH_RATE_AADT},
-      {field: <b>{"EPDO"}</b>, value: project.EPDO},
+      {field: <b>{"EPDO"}</b>, value: setCrash().epdo},
       {field: <b>{"EUAB"}</b>, value: project.EUAB},
       {field: <b>{"EUAC"}</b>, value: project.EUAC},
       {field: <b>{"Number of A injuries"}</b>, value: setCrash().a},
