@@ -1,33 +1,50 @@
 import react from "react";
-import { Row, Col, Typography } from 'antd';
+import { Table } from 'antd';
 import styles from "../../styles/Analys.module.css";
+import { css } from '@emotion/css';
+
+const columns = [
+    {
+        title: 'Intersection Type',
+        dataIndex: 'INTERSECTION_TYPE',
+        key: 'INTERSECTION_TYPE',
+        render: text => <a>{text}</a>,
+        responsive: ['md']
+    },
+    {
+        title: 'Number of Approach',
+        dataIndex: 'NUMBER_OF_APPRAOCHES',
+        key: 'NUMBER_OF_APPRAOCHES',
+        responsive: ['md']
+    },
+    {
+        title: 'AADT',
+        dataIndex: 'AADT',
+        key: 'AADT',
+        responsive: ['md']
+    },
+    {
+        title: 'AADT Growth Factor',
+        dataIndex: 'AADT_GROWTH_FACTOR',
+        key: 'AADT_GROWTH_FACTOR',
+        render: text => <a>3</a>,
+        responsive: ['md']
+    }
+];
+
+const tabelStyle = css({
+    '& thead > tr > th': {
+        backgroundImage: 'linear-gradient(#16A18C, #1393A9)',
+        color: 'white',
+    }
+});
 
 const IntersectionInventory = ({ inventory }) => (
-    <div>
+    <div style={{ overflow: 'scroll' }}>
 
-        <Row className={styles.row}>
-            <Col span={6} className={styles.headCol}>Intersection Type</Col>
-            <Col span={6} className={styles.headCol}>No. of Approaches</Col>
-            <Col span={6} className={styles.headCol}>AADT</Col>
-        </Row>
-
-        <Row className={styles.row}>
-            <Col span={6} className={styles.cell}>
-                <Typography.Text ellipsis={true}>
-                    {inventory && inventory.INTERSECTION_TYPE}
-                </Typography.Text>
-            </Col>
-            <Col span={6} className={styles.cell}>
-                <Typography.Text ellipsis={true}>
-                    {inventory && inventory.NUMBER_OF_APPRAOCHES}
-                </Typography.Text>
-            </Col>
-            <Col span={6} className={styles.cell}>
-                <Typography.Text ellipsis={true}>
-                    {inventory && inventory.AADT}
-                </Typography.Text>
-            </Col>
-        </Row>
+        <Table className={tabelStyle} rowKey="id" pagination={{ pageSize: 10 }} columns={columns} dataSource={
+            inventory ? [inventory] : []
+        } />
 
     </div>
 );
