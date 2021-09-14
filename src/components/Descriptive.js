@@ -73,6 +73,7 @@ const Descriptive = ({ inventory }) => {
                 <Col span={24} style={{ fontWeight: 'bold', padding: 5, backgroundColor: '#eee' }}>Severity</Col>
             </Row>
             {inventory && inventory.crash_intersections && getSeverity(inventory.crash_intersections).map(crash => {
+                const cal = inventory.crash_intersections.filter(f => f && f.SEVERITY);
                 return (
                     <Row key={crash[0]}>
                         <Col span={12} className={styles.cell}>
@@ -82,7 +83,7 @@ const Descriptive = ({ inventory }) => {
                             {crash[1]}
                         </Col>
                         <Col span={6} className={styles.cell}>
-                            {100 / inventory.crash_intersections.length * crash[1]}%
+                            {100 / cal.length * crash[1]}%
                         </Col>
                     </Row>
                 );
@@ -93,6 +94,7 @@ const Descriptive = ({ inventory }) => {
                 <Col span={24} style={{ fontWeight: 'bold', padding: 5, backgroundColor: '#eee' }}>Collision Type</Col>
             </Row>
             {inventory && inventory.crash_intersections && getCollisionType(inventory.crash_intersections).map(crash => {
+                const cal = inventory.crash_intersections.filter(f => f && f.COLLISION_TYPE);
                 return (
                     <Row key={crash[0]}>
                         <Col span={12} className={styles.cell}>
@@ -102,7 +104,7 @@ const Descriptive = ({ inventory }) => {
                             {crash[1]}
                         </Col>
                         <Col span={6} className={styles.cell}>
-                            {100 / inventory.crash_intersections.length * crash[1]}%
+                            {100 / cal.length * crash[1]}%
                         </Col>
                     </Row>
                 );
