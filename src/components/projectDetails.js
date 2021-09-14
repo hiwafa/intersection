@@ -6,6 +6,7 @@ import {PageTitle, TableContainer} from "./styleds"
 import { DownloadOutlined } from '@ant-design/icons';
 import {request} from "../requests"
 import { PDFExport } from '@progress/kendo-react-pdf';
+import moment from "moment"
 const { TabPane } = Tabs;
 const Wrapper = styled.div`
     padding: 10px;
@@ -118,7 +119,10 @@ let newTreats = []
     let fatalities=0;
     let pdo=0;
     let epdo=0
+    let crashRate =0;
+    let dates=[]
     intersection && intersection?.crash_intersections.map((crash) => {
+      dates.push(crash.DATE_OF_CRASH)
       a += parseInt(crash.NUMBER_OF_A_INJURIES)
       b += parseInt(crash.NUMBER_OF_B_INJURIES)
       c += parseInt(crash.NUMBER_OF_C_INJURIES)
@@ -127,8 +131,15 @@ let newTreats = []
       pdo += parseInt(crash.NUMBER_OF_PDO)
       
     })
+
+    let newdates = dates.sort((a,b) => true ? new Date(b).getTime() - new Date(a).getTime() : new Date(a).getTime() - new Date(b).getTime());
+    console.log("dates", newdates)
+    let last = moment(dates[0])
+    let first = moment(dates[dates.length -1])
+    const yearsDiff =  last.diff(first, "years")
+    crashRate = (parseInt(project.CRASH_COUNT) * Math.pow(10, 6)) / (yearsDiff * 365 * parseInt(intersection && intersection.AADT))
     epdo = 542* fatalities + 11* injuries + 1*pdo;
-   return {a, b, c, injuries, fatalities, pdo, epdo}
+   return {a, b, c, injuries, fatalities, pdo, epdo, crashRate}
   }
 
   const setProjectDetails = () =>{
@@ -141,7 +152,7 @@ let newTreats = []
       {field: <b>{"Crash Count"}</b>, value: project.CRASH_COUNT},
       {field: <b>{"Crash Start Date"}</b>, value: project.CRASH_START_DATE},
       {field: <b>{"Crash End Date"}</b>, value: project.CRASH_END_DATE},
-      {field: <b>{"Crash Rate AADT"}</b>, value: project.CRASH_RATE_AADT},
+      {field: <b>{"Crash Rate AADT"}</b>, value: setCrash().crashRate.toFixed(2)},
       {field: <b>{"EPDO"}</b>, value: setCrash().epdo},
       {field: <b>{"EUAB"}</b>, value: project.EUAB},
       {field: <b>{"EUAC"}</b>, value: project.EUAC},
