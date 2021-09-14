@@ -113,6 +113,7 @@ const Descriptive = ({ inventory }) => {
                 <Col span={24} style={{ fontWeight: 'bold', padding: 5, backgroundColor: '#eee' }}>Light Conditions</Col>
             </Row>
             {inventory && inventory.crash_intersections && getLightCondition(inventory.crash_intersections).map(crash => {
+                const cal = inventory.crash_intersections.filter(f => f && f.LIGHT_CONDITION);
                 return (
                     <Row key={crash[0]}>
                         <Col span={12} className={styles.cell}>
@@ -122,7 +123,7 @@ const Descriptive = ({ inventory }) => {
                             {crash[1]}
                         </Col>
                         <Col span={6} className={styles.cell}>
-                            {100 / crash[1]}%
+                            {100 / cal.length * crash[1]}%
                         </Col>
                     </Row>
                 );
