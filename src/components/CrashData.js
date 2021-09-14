@@ -1,5 +1,4 @@
 import react from "react";
-import { Row, Col, Typography } from 'antd';
 import styles from "../../styles/Analys.module.css";
 import { css } from '@emotion/css';
 import { Table } from 'antd';
