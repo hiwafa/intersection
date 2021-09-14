@@ -102,7 +102,7 @@ const Descriptive = ({ inventory }) => {
                             {crash[1]}
                         </Col>
                         <Col span={6} className={styles.cell}>
-                            {100 / crash[1]}%
+                            {100 / inventory.crash_intersections.length * crash[1]}%
                         </Col>
                     </Row>
                 );
