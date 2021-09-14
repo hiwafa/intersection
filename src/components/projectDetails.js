@@ -1,11 +1,12 @@
 import react, { useEffect, useState, createRef } from "react"
 import styled from "styled-components"
-import {Table, Button, Tooltip, Modal} from "antd"
+import {Table, Button, Tooltip, Modal, Tabs, Checkbox, notification} from "antd"
 import { LeftCircleOutlined } from '@ant-design/icons';
 import {PageTitle, TableContainer} from "./styleds"
 import { DownloadOutlined } from '@ant-design/icons';
 import {request} from "../requests"
 import { PDFExport } from '@progress/kendo-react-pdf';
+const { TabPane } = Tabs;
 const Wrapper = styled.div`
     padding: 10px;
 `
@@ -48,22 +49,26 @@ const modalTableColumns = [
     dataIndex: 'CMF',
     align: 'left',
   },
+  {
+    title: 'Add',
+    dataIndex: 'add',
+    align: 'left',
+  },
 ]
 function ProjectDetails({project, setShowDetails, intersection}){
+  console.log(project)
   const [visible, setVisible] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [treatments, setTreatments] = useState()
+  const [addTreatCheckBox, setAddTreatCheckBox] = useState(false)
+  const [newTreatments, setNewTreatments] = useState()
+let newTreats = []
+
   const showModal = () => {
     loadTreatments()
     setVisible(true);
   };
-  const handleOk = () => {
-    setConfirmLoading(true);
-    setTimeout(() => {
-      setVisible(false);
-      setConfirmLoading(false);
-    }, 2000);
-  };
+
 
   const handleCancel = () => {
     console.log('Clicked cancel button');
@@ -117,7 +122,7 @@ function ProjectDetails({project, setShowDetails, intersection}){
       {field: <b>{"Project Start Date"}</b>, value: project.PROJECT_START_DATE},
       {field: <b>{"Project End Date"}</b>, value: project.PROJECT_END_DATE},
       {field: <b>{"Project Sub Phase"}</b>, value: project.PROJECT_SUBPHASE},
-      {field: <b>{"Countermeasures"}</b>, value: <Tooltip title="Countermeasures can be added by clicking" placement="top"><a onClick={showModal}>{project.project_treatments.length}</a></Tooltip>}
+      {field: <b>{"Countermeasures"}</b>, value: <Tooltip title="Countermeasures can be added by clicking" placement="top"><a onClick={showModal}>{project.treatments?.length}</a></Tooltip>}
     ])
   }
   const  handleExportWithComponent  = (event) => {
@@ -131,9 +136,68 @@ const loadTreatments = async () => {
     if(res.status === 200)
     {
       console.log("treatments", res.data)
-      setTreatments(res.data)
+      setTreatments(res.data && res.data.map((treat, index) => {
+        return {
+          TREATMENT_NAME: treat.TREATMENT_NAME,
+          TREATMENT_TYPE: treat.TREATMENT_TYPE,
+          SERVICE_LIFE: treat.SERVICE_LIFE,
+          CRF: treat.CRF,
+          CMF: treat.CMF,
+          add: <Checkbox key={index} onChange={(e) => addTreat(e, treat)} />
+        }
+      }))
+      
     }
 }
+
+const addTreat = (e, treat) =>{
+  // const newPeople = people.filter((person) => person.id !== id);
+  // setPeople( newPeople);
+  if(e.target.checked)
+  {
+    if ((!project.treatments.filter(function(ee) { return ee.id === treat.id; }).length > 0) && !newTreats.filter(function(ee) { return ee.id === treat.id; }).length > 0) {
+      newTreats.push(treat)
+    }
+    console.log("new Treats", newTreats)
+  }
+  else{
+    if (newTreats.filter(function(ee) { return ee.id === treat.id; }).length > 0) {
+      var index = newTreats.indexOf(treat);
+      newTreats.splice(index, 1);
+      }
+    console.log("new Treats", newTreats)
+
+  }
+  setNewTreatments(newTreats)
+}
+const handleOk = async () => {
+  // setConfirmLoading(true);
+  if(newTreatments?.length > 0)
+  {
+    newTreatments.map((tr) => {
+      project.treatments.push(tr)
+      console.log("ushing")
+    })
+    await request(`projects/${project.id}`, {
+      method: "PUT",
+      data: project,
+    }).then((res) => {
+      notification["success"]({
+          duration: 5,
+          message: "Treatment Added",
+        })
+    }).catch((e) => {
+        console.log(e)
+    });
+  }
+  {
+    notification["error"]({
+      duration: 5,
+      message: "Select a Treatment or the same Treatment may already added",
+    })
+  }
+  
+};
   useEffect(()=>{
     setProjectDetails()
       }, [])
@@ -164,8 +228,15 @@ const loadTreatments = async () => {
               confirmLoading={confirmLoading}
               onCancel={handleCancel}
             >
-              {treatments && <Table pagination={false} columns={modalTableColumns} dataSource={treatments && treatments}/>}
-              
+                <Tabs defaultActiveKey="1">
+                <TabPane tab="Countermeasures" key="1">
+                {treatments && <Table pagination={false} columns={modalTableColumns} dataSource={project && project.treatments}/>}
+                </TabPane>
+                <TabPane tab="Treatments" key="2">
+                {treatments && <Table pagination={false} columns={modalTableColumns} dataSource={treatments && treatments}/>}
+
+                </TabPane>
+              </Tabs>
             </Modal>
             </>
 }
