@@ -88,7 +88,7 @@ function CreateProject ({handleClick}){
                             }
                             >
                                 {intersections.length &&  intersections.map((intersection, index) => {
-                               return <Select.Option value={intersection.id}>{intersection.INTERSECTION_NAME}</Select.Option>
+                               return <Select.Option key={intersection.id} value={intersection.id}>{intersection.INTERSECTION_NAME}</Select.Option>
 
                                 })}
 
