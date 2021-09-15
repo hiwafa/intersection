@@ -12,7 +12,7 @@ const CustomMarker = ({ crashId, inventory, onPress }) => {
         inventory.crash_intersections.length : 0;
 
     const crashes = lent > 0 ? inventory.crash_intersections :
-        [{ LATITUDE: 38.1, LONGITUD: -95.1 }];
+        [{ LATITUDE: 39.048198, LONGITUD: -94.604604 }];
 
     const [x, y] = context.viewport.project([parseFloat(crashes[0].LONGITUD), parseFloat(crashes[0].LATITUDE)]);
 
@@ -41,9 +41,9 @@ const CustomMarker = ({ crashId, inventory, onPress }) => {
 const MapView = ({ onPress, inventories }) => {
 
     const [viewport, setViewport] = useState({
-        latitude: 33.75,
-        longitude: -95.43,
-        zoom: 4
+        latitude: 39.048198,
+        longitude: -94.604604,
+        zoom: 10
     });
 
     useEffect(() => {
@@ -53,11 +53,27 @@ const MapView = ({ onPress, inventories }) => {
 
                     let allArr = [];
                     inventories.forEach(i => {
-                        if (i.crash_intersections) {
-                            allArr = [...allArr, ...i.crash_intersections.map(c => [
-                                parseFloat(c.LONGITUD), parseFloat(c.LATITUDE)
-                            ])];
-                        }
+                        
+                        // if (i.crash_intersections) {
+                        //     allArr = [...allArr, ...i.crash_intersections.map(c => [
+                        //         parseFloat(c.LONGITUD), parseFloat(c.LATITUDE)
+                        //     ])];
+                        // }
+
+                        const lent = i.crash_intersections ?
+                            i.crash_intersections.length : 0;
+
+                        const crashes = lent > 0 ? i.crash_intersections :
+                            [{ LATITUDE: 39.048198, LONGITUD: -94.604604 }];
+
+                        allArr = [
+                            ...allArr,
+                            [
+                                parseFloat(crashes[0].LONGITUD),
+                                parseFloat(crashes[0].LATITUDE)
+                            ]
+                        ];
+
                     });
 
                     const { longitude, latitude, zoom } =
