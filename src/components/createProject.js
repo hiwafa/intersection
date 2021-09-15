@@ -6,6 +6,9 @@ import { PageTitle } from "./styleds"
 import styled from "styled-components";
 
 import { useRouter } from "next/router";
+import moment from 'moment';
+import 'moment/locale/zh-cn';
+
 
 const FormContainer = styled.div`
     margin-right: 10%;
@@ -112,7 +115,7 @@ function CreateProject({ handleClick }) {
                         <Form.Item
                             name={`CRASH_START_DATE`}
                             label={`Crash Start Date`}
-                            initialValue={params && params.startDate}
+                            initialValue={params && moment(new Date(parseInt(params.startDate)), 'YYYY-MM-DD')}
                             rules={[
                                 {
                                     required: true,

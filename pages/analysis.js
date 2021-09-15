@@ -46,12 +46,12 @@ function Analys() {
         const from = new Date(values.from).getTime();
         const to = new Date(values.to).getTime();
 
-        if (inventory)
-            creatProject({
-                ...project,
-                id: inventory.id,
-                startDate: from, endDate: to
-            });
+        creatProject({
+            ...project,
+            id: inventory && inventory.id,
+            startDate: from, endDate: to
+        });
+            
 
         if (data) {
 
