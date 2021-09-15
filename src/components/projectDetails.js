@@ -7,6 +7,7 @@ import { DownloadOutlined } from '@ant-design/icons';
 import {request} from "../requests"
 import { PDFExport } from '@progress/kendo-react-pdf';
 import moment from "moment"
+import crashCost from "../../src/utils/crashCosts"
 const { TabPane } = Tabs;
 const Wrapper = styled.div`
     padding: 10px;
@@ -121,8 +122,8 @@ let newTreats = []
     let epdo=0
     let crashRate =0;
     let dates=[]
-   
-    intersection && intersection?.crash_intersections.map((crash) => {
+    let crashCosts = 0.0;
+    intersection.crash_intersections && intersection.crash_intersections.map((crash) => {
       dates.push(crash.DATE_OF_CRASH)
       a += parseInt(crash.NUMBER_OF_A_INJURIES)
       b += parseInt(crash.NUMBER_OF_B_INJURIES)
@@ -130,16 +131,18 @@ let newTreats = []
       injuries += parseInt(crash.NUMBER_OF_INJURIES)
       fatalities += parseInt(crash.NUMBER_OF_FATALITIES)
       pdo += parseInt(crash.NUMBER_OF_PDO)
-
+      crashCosts += crashCost(crash.SEVERITY)
     })
-    let newdates = dates.sort((a,b) => true ? new Date(b).getTime() - new Date(a).getTime() : new Date(a).getTime() - new Date(b).getTime());
-    console.log("dates", newdates)
-    let last = moment(dates[0])
-    let first = moment(dates[dates.length -1])
+    console.log("costttt", crashCosts)
+    const NumberOfCrashes = intersection.crash_intersections ? intersection.crash_intersections.length : 0;
+    let sortedDate = dates.sort((a,b) => true ? new Date(b).getTime() - new Date(a).getTime() : new Date(a).getTime() - new Date(b).getTime());
+    let last = moment(sortedDate[0])
+    let first = moment(sortedDate[sortedDate.length -1])
     const yearsDiff =  last.diff(first, "years")
     crashRate = (parseInt(project.CRASH_COUNT) * Math.pow(10, 6)) / (yearsDiff * 365 * parseInt(intersection && intersection.AADT))
     epdo = 542* fatalities + 11* injuries + 1*pdo;
-   return {a, b, c, injuries, fatalities, pdo, epdo, crashRate}
+
+   return {a, b, c, injuries, fatalities, pdo, epdo, crashRate, yearsDiff, NumberOfCrashes, crashCosts}
   }
   const calculateTreatments = () => {
     let i = 0.0; // interest rate 
@@ -149,9 +152,21 @@ let newTreats = []
     let cr = 0.0// capital recovery
     let sf = 0.0 // sinking fund
     let sv = 0.0 // salvage value
-    let euac = 0.0;
-        // calculating EUAC
+    let EUAC = 0.0;
+
+    let aadt = intersection && intersection.AADT;
+    let years = setCrash().yearsDiff;
+    let n = years>0 ? years : 1;
+    let cf = setCrash().NumberOfCrashes
+    let m = project.treatments ? project.treatments.length : 0;
+    let cc = setCrash().crashCosts;
+    let crf = 1 //
+    let crb = 0.0
+    let b = 0.0;
+    let EUAB = 0.0;
         project.treatments && project.treatments.map((treat) => {
+        // calculating EUAC
+
         i = parseFloat(treat.INTEREST_RATE);
         Cest = parseFloat(treat.TOTAL_TREATMENT_COST);
         Sper = parseFloat(treat.SALVAGE_PERCENT);
@@ -159,16 +174,27 @@ let newTreats = []
         cr = (i * Math.pow(1+i,l)) / (Math.pow(1+i,l) -1)
         sv = Cest * Sper;
         sf = i / (Math.pow(1+i,l) -1)
-        euac += (Cest * cr) - (sv * sf)
+        EUAC += (Cest * cr) - (sv * sf)
+
+        //calculating EUAB
+        crf *= (1- parseFloat(treat.CRF))
        }) 
-       console.log("i", i)
-       console.log("l", l)
-       console.log("cest", Cest)
-       console.log("sper", Sper)
-       console.log("sv", sv)
-       console.log("cr", cr)
-       console.log("sf", sf)
-       return {euac}
+       crf = 1 - crf;
+       aadt = (1 + Math.pow(aadt, n));
+       crf = aadt * crf;
+       console.log("crf", crf)
+
+       crb = cf * crf;
+
+       crb = cc * crb;
+       console.log("crb*cc", crb)
+
+       b = crb;
+       console.log("b", n)
+       EUAB = (b /n).toFixed(3);
+       EUAC = EUAC.toFixed(3)
+       const BEN_COST = (EUAB/EUAC).toFixed(3);
+       return {EUAC, EUAB, BEN_COST}
   }
   const setProjectDetails = () =>{
     project && setDetails([
@@ -176,14 +202,14 @@ let newTreats = []
       {field: <b>{"Project Number"}</b>, value: project.PROJECT_NUMBER},
       {field: <b>{"Project Status"}</b>, value: project.PROJECT_STATUS},
       {field: <b>{"Intersection"}</b>, value: project.INTERSECTION?.INTERSECTION_NAME},
-      {field: <b>{"Ben_Cost"}</b>, value: project.BEN_COST},
+      {field: <b>{"Ben_Cost"}</b>, value: calculateTreatments().BEN_COST},
       {field: <b>{"Crash Count"}</b>, value: project.CRASH_COUNT},
       {field: <b>{"Crash Start Date"}</b>, value: project.CRASH_START_DATE},
       {field: <b>{"Crash End Date"}</b>, value: project.CRASH_END_DATE},
       {field: <b>{"Crash Rate AADT"}</b>, value: setCrash().crashRate.toFixed(2)},
       {field: <b>{"EPDO"}</b>, value: setCrash().epdo},
-      {field: <b>{"EUAB"}</b>, value: project.EUAB},
-      {field: <b>{"EUAC"}</b>, value: calculateTreatments().euac},
+      {field: <b>{"EUAB"}</b>, value: calculateTreatments().EUAB},
+      {field: <b>{"EUAC"}</b>, value: calculateTreatments().EUAC},
       {field: <b>{"Number of A injuries"}</b>, value: setCrash().a},
       {field: <b>{"Number of B injuries"}</b>, value: setCrash().b},
       {field: <b>{"Number of C injuries"}</b>, value: setCrash().c},
