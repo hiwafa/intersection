@@ -1,6 +1,6 @@
 import react, { useState, useContext, useEffect } from "react";
 
-import ReactMapGL, { Marker, MapContext, WebMercatorViewport, FlyToInterpolator } from 'react-map-gl';
+import ReactMapGL, { MapContext, WebMercatorViewport, FlyToInterpolator } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 import d3 from 'd3-ease';
@@ -12,9 +12,9 @@ const CustomMarker = ({ crashId, inventory, onPress }) => {
         inventory.crash_intersections.length : 0;
 
     const crashes = lent > 0 ? inventory.crash_intersections :
-        [{ LATITUDE: 35.1, LONGITUD: -90.1 }];
+        [{ LATITUDE: 39.048198, LONGITUD: -94.604604 }];
 
-    const [x, y] = context.viewport.project([crashes[0].LONGITUD, crashes[0].LATITUDE]);
+    const [x, y] = context.viewport.project([parseFloat(crashes[0].LONGITUD), parseFloat(crashes[0].LATITUDE)]);
 
     const markerStyle = {
         position: 'absolute',
@@ -41,9 +41,9 @@ const CustomMarker = ({ crashId, inventory, onPress }) => {
 const MapView = ({ onPress, inventories }) => {
 
     const [viewport, setViewport] = useState({
-        latitude: 35.75,
-        longitude: -96.43,
-        zoom: 4
+        latitude: 39.048198,
+        longitude: -94.604604,
+        zoom: 11
     });
 
     useEffect(() => {
@@ -53,17 +53,32 @@ const MapView = ({ onPress, inventories }) => {
 
                     let allArr = [];
                     inventories.forEach(i => {
-                        if (i.crash_intersections) {
-                            allArr = [...allArr, ...i.crash_intersections.map(c => [
-                                c.LONGITUD, c.LATITUDE
-                            ])];
+
+                        // if (i.crash_intersections) {
+                        //     allArr = [...allArr, ...i.crash_intersections.map(c => [
+                        //         parseFloat(c.LONGITUD), parseFloat(c.LATITUDE)
+                        //     ])];
+                        // }
+
+                        const lent = i.crash_intersections ?
+                            i.crash_intersections.length : 0;
+
+                        if (lent > 0) {
+                            allArr = [
+                                ...allArr,
+                                [
+                                    parseFloat(i.crash_intersections[0].LONGITUD),
+                                    parseFloat(i.crash_intersections[0].LATITUDE)
+                                ]
+                            ];
                         }
+
                     });
 
                     const { longitude, latitude, zoom } =
                         new WebMercatorViewport(viewport).fitBounds(allArr, {
-                            padding: 20,
-                            offset: [0, -50]
+                            padding: 50,
+                            offset: [0, -100]
                         });
 
                     setViewport({
@@ -89,7 +104,7 @@ const MapView = ({ onPress, inventories }) => {
             if (inventory && inventory.crash_intersections) {
 
                 const arr = inventory.crash_intersections.map(c => [
-                    c.LONGITUD, c.LATITUDE
+                    parseFloat(c.LONGITUD), parseFloat(c.LATITUDE)
                 ]);
 
                 const { longitude, latitude, zoom } =

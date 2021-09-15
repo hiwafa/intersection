@@ -27,6 +27,7 @@ function Analys() {
 
     const { push } = useRouter();
     const [tab, setTab] = useState("tab1");
+    const [project, creatProject] = useState(null);
     const [inventory, setInventory] = useState(null);
     const [invntories, setInvntories] = useState([]);
     const { data } = useGetIntersectionsQuery("intersection-inventories");
@@ -45,6 +46,13 @@ function Analys() {
         const from = new Date(values.from).getTime();
         const to = new Date(values.to).getTime();
 
+        creatProject({
+            ...project,
+            id: inventory && inventory.id,
+            startDate: from, endDate: to
+        });
+
+
         if (data) {
 
             const newInventories = data.filter(i => {
@@ -55,7 +63,7 @@ function Analys() {
                     .some(v => `${v.SEVERITY}`.toLowerCase() === `${values.crash}`.toLowerCase());
 
                 const check3 = i.crash_intersections.some(v => `${v.COLLISION_TYPE}`
-                .toLowerCase() === `${values.collision}`.toLowerCase());
+                    .toLowerCase() === `${values.collision}`.toLowerCase());
 
                 if (values.from && values.to) {
 
@@ -93,7 +101,13 @@ function Analys() {
             </div>
             <Row className={styles.row}>
                 <Col flex={1} md span={12} className={styles.col1}>
-                    <MapBox onPress={inventory => setInventory(inventory)}
+                    <MapBox onPress={inventory => {
+                        creatProject({
+                            ...project,
+                            id: inventory.id
+                        });
+                        setInventory(inventory);
+                    }}
                         inventories={invntories} />
                 </Col>
                 <Col flex={1} md span={12} className={styles.col2}>
@@ -105,10 +119,16 @@ function Analys() {
                     </Menu>
 
                     <Content className="site-layout" style={{ padding: '0 50px', marginTop: 20 }}>
-                        <StyledButton onClick={() => push("projects/create")} style={{ width: 120, marginBottom: 10 }}>
+                        <StyledButton onClick={() => {
+                            if (inventory && inventory.id && project !== null
+                                && project.startDate && project.endDate) {
+                                push(`projects/create?project=${JSON.stringify(project)}`);
+                            }
+                        }}
+                            style={{ width: 120, marginBottom: 10 }}>
                             Add to projects
                         </StyledButton>
-                        <a style={{ padding: 7, backgroundColor: '#f5f5f5', marginLeft: 10}}>
+                        <a style={{ padding: 7, backgroundColor: '#f5f5f5', marginLeft: 10 }}>
                             {inventory && inventory.INTERSECTION_NAME && inventory.INTERSECTION_NAME}
                         </a>
                         <div className="site-layout-background" style={{ minHeight: 380, width: '100%' }}>
