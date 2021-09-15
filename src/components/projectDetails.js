@@ -90,7 +90,6 @@ const projectTreatmentColumns = [
   },
 ]
 function ProjectDetails({project, setShowDetails, intersection}){
-  console.log(project)
   const [visible, setVisible] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [treatments, setTreatments] = useState()
@@ -107,10 +106,8 @@ let newTreats = []
 
 
   const handleCancel = () => {
-    console.log('Clicked cancel button');
     setVisible(false);
   };
-  console.log(project)
   const [details, setDetails] = useState()
   const setCrash = () =>{
     let a=0;
@@ -133,7 +130,6 @@ let newTreats = []
       pdo += parseInt(crash.NUMBER_OF_PDO)
       crashCosts += crashCost(crash.SEVERITY)
     })
-    console.log("costttt", crashCosts)
     const NumberOfCrashes = intersection.crash_intersections ? intersection.crash_intersections.length : 0;
     let sortedDate = dates.sort((a,b) => true ? new Date(b).getTime() - new Date(a).getTime() : new Date(a).getTime() - new Date(b).getTime());
     let last = moment(sortedDate[0])
@@ -182,15 +178,12 @@ let newTreats = []
        crf = 1 - crf;
        aadt = (1 + Math.pow(aadt, n));
        crf = aadt * crf;
-       console.log("crf", crf)
 
        crb = cf * crf;
 
        crb = cc * crb;
-       console.log("crb*cc", crb)
 
        b = crb;
-       console.log("b", n)
        EUAB = (b /n).toFixed(3);
        EUAC = EUAC.toFixed(3)
        const BEN_COST = (EUAB/EUAC).toFixed(3);
@@ -236,7 +229,6 @@ const loadTreatments = async () => {
     });
     if(res.status === 200)
     {
-      console.log("treatments", res.data)
       setTreatments(res.data && res.data.map((treat, index) => {
         return {
           TREATMENT_NAME: treat.TREATMENT_NAME,
@@ -257,15 +249,12 @@ const addTreat = (e, treat) =>{
       if ((!project.treatments.filter(function(ee) { return ee.id === treat.id; }).length > 0) && !newTreats.filter(function(ee) { return ee.id === treat.id; }).length > 0) {
         newTreats.push(treat)
       }
-      console.log("new Treats", newTreats)
     }
     else{
       if (newTreats.filter(function(ee) { return ee.id === treat.id; }).length > 0) {
         var index = newTreats.indexOf(treat);
         newTreats.splice(index, 1);
-        }
-      console.log("new Treats", newTreats)
-  
+        }  
     }
       setNewTreatments(newTreats)
   
@@ -283,7 +272,6 @@ const handleOk = async () => {
   {
     newTreatments.map((tr) => {
       project.treatments.push(tr)
-      console.log("ushing")
     })
     await request(`projects/${project.id}`, {
       method: "PUT",
@@ -313,7 +301,6 @@ const handleOk = async () => {
 };
 const handleRemove = async () =>{
   // setConfirmLoading(true);
-  console.log("remove called")
   if(deleteListTreats?.length > 0 || deleteListTreats === "empty")
   {
     if(deleteListTreats === "empty"){
