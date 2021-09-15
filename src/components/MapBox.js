@@ -12,9 +12,9 @@ const CustomMarker = ({ crashId, inventory, onPress }) => {
         inventory.crash_intersections.length : 0;
 
     const crashes = lent > 0 ? inventory.crash_intersections :
-        [{ LATITUDE: 35.1, LONGITUD: -90.1 }];
+        [{ LATITUDE: 38.1, LONGITUD: -95.1 }];
 
-    const [x, y] = context.viewport.project([crashes[0].LONGITUD, crashes[0].LATITUDE]);
+    const [x, y] = context.viewport.project([parseFloat(crashes[0].LONGITUD), parseFloat(crashes[0].LATITUDE)]);
 
     const markerStyle = {
         position: 'absolute',
@@ -41,8 +41,8 @@ const CustomMarker = ({ crashId, inventory, onPress }) => {
 const MapView = ({ onPress, inventories }) => {
 
     const [viewport, setViewport] = useState({
-        latitude: 35.75,
-        longitude: -96.43,
+        latitude: 33.75,
+        longitude: -95.43,
         zoom: 4
     });
 
@@ -55,7 +55,7 @@ const MapView = ({ onPress, inventories }) => {
                     inventories.forEach(i => {
                         if (i.crash_intersections) {
                             allArr = [...allArr, ...i.crash_intersections.map(c => [
-                                c.LONGITUD, c.LATITUDE
+                                parseFloat(c.LONGITUD), parseFloat(c.LATITUDE)
                             ])];
                         }
                     });
@@ -89,7 +89,7 @@ const MapView = ({ onPress, inventories }) => {
             if (inventory && inventory.crash_intersections) {
 
                 const arr = inventory.crash_intersections.map(c => [
-                    c.LONGITUD, c.LATITUDE
+                    parseFloat(c.LONGITUD), parseFloat(c.LATITUDE)
                 ]);
 
                 const { longitude, latitude, zoom } =
