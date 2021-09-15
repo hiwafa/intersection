@@ -51,7 +51,7 @@ function Analys() {
             id: inventory && inventory.id,
             startDate: from, endDate: to
         });
-            
+
 
         if (data) {
 
@@ -120,7 +120,8 @@ function Analys() {
 
                     <Content className="site-layout" style={{ padding: '0 50px', marginTop: 20 }}>
                         <StyledButton onClick={() => {
-                            if (inventory && inventory.id && project !== null) {
+                            if (inventory && inventory.id && project !== null
+                                && project.startDate && project.endDate) {
                                 push(`projects/create?project=${JSON.stringify(project)}`);
                             }
                         }}

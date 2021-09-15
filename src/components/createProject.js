@@ -56,7 +56,12 @@ function CreateProject({ handleClick }) {
         sm: { span: 24 },
     }
     useEffect(() => {
-        loadIntersections()
+
+        loadIntersections();
+        return ()=> {
+            params = null;
+        };
+
     }, [])
     console.log(intersections)
     return <>
@@ -130,6 +135,7 @@ function CreateProject({ handleClick }) {
                         <Form.Item
                             name={`CRASH_END_DATE`}
                             label={`Crash End Date`}
+                            initialValue={params && moment(new Date(parseInt(params.endDate)), 'YYYY-MM-DD')}
                             rules={[
                                 {
                                     required: true,
