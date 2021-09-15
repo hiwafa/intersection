@@ -47,7 +47,7 @@ const columns = [
         responsive: ['md'],
     },
     {
-        title: 'ENVI Condition',
+        title: 'Environmental Condition',
         dataIndex: 'ENVI_CONDITION',
         key: 'ENVI_CONDITION',
         responsive: ['md'],
