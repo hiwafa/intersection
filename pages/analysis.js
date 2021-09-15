@@ -46,11 +46,11 @@ function Analys() {
         const from = new Date(values.from).getTime();
         const to = new Date(values.to).getTime();
 
-        creatProject({
-            name: values.intersection,
-            startDate: from,
-            endDate: to
-        });
+        if (inventory && inventory.INTERSECTION_NAME)
+            creatProject({
+                name: inventory.INTERSECTION_NAME,
+                startDate: from, endDate: to
+            });
 
         if (data) {
 
@@ -62,7 +62,7 @@ function Analys() {
                     .some(v => `${v.SEVERITY}`.toLowerCase() === `${values.crash}`.toLowerCase());
 
                 const check3 = i.crash_intersections.some(v => `${v.COLLISION_TYPE}`
-                .toLowerCase() === `${values.collision}`.toLowerCase());
+                    .toLowerCase() === `${values.collision}`.toLowerCase());
 
                 if (values.from && values.to) {
 
@@ -113,14 +113,14 @@ function Analys() {
 
                     <Content className="site-layout" style={{ padding: '0 50px', marginTop: 20 }}>
                         <StyledButton onClick={() => {
-                            if(project !== null){
-                                push(`projects/create?project=${JSON.stringify(project)}`)
+                            if (inventory && inventory.INTERSECTION_NAME && project !== null) {
+                                push(`projects/create?project=${JSON.stringify(project)}`);
                             }
                         }}
-                        style={{ width: 120, marginBottom: 10 }}>
+                            style={{ width: 120, marginBottom: 10 }}>
                             Add to projects
                         </StyledButton>
-                        <a style={{ padding: 7, backgroundColor: '#f5f5f5', marginLeft: 10}}>
+                        <a style={{ padding: 7, backgroundColor: '#f5f5f5', marginLeft: 10 }}>
                             {inventory && inventory.INTERSECTION_NAME && inventory.INTERSECTION_NAME}
                         </a>
                         <div className="site-layout-background" style={{ minHeight: 380, width: '100%' }}>
