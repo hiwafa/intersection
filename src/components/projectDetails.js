@@ -121,6 +121,7 @@ let newTreats = []
     let epdo=0
     let crashRate =0;
     let dates=[]
+   
     intersection && intersection?.crash_intersections.map((crash) => {
       dates.push(crash.DATE_OF_CRASH)
       a += parseInt(crash.NUMBER_OF_A_INJURIES)
@@ -129,9 +130,8 @@ let newTreats = []
       injuries += parseInt(crash.NUMBER_OF_INJURIES)
       fatalities += parseInt(crash.NUMBER_OF_FATALITIES)
       pdo += parseInt(crash.NUMBER_OF_PDO)
-      
-    })
 
+    })
     let newdates = dates.sort((a,b) => true ? new Date(b).getTime() - new Date(a).getTime() : new Date(a).getTime() - new Date(b).getTime());
     console.log("dates", newdates)
     let last = moment(dates[0])
@@ -141,7 +141,35 @@ let newTreats = []
     epdo = 542* fatalities + 11* injuries + 1*pdo;
    return {a, b, c, injuries, fatalities, pdo, epdo, crashRate}
   }
-
+  const calculateTreatments = () => {
+    let i = 0.0; // interest rate 
+    let Cest = 0.0; // estimated total cost
+    let Sper = 0.0; // estimated salvage percent
+    let l = 0; // service life in years
+    let cr = 0.0// capital recovery
+    let sf = 0.0 // sinking fund
+    let sv = 0.0 // salvage value
+    let euac = 0.0;
+        // calculating EUAC
+        project.treatments && project.treatments.map((treat) => {
+        i = parseFloat(treat.INTEREST_RATE);
+        Cest = parseFloat(treat.TOTAL_TREATMENT_COST);
+        Sper = parseFloat(treat.SALVAGE_PERCENT);
+        l = parseInt(treat.SERVICE_LIFE);
+        cr = (i * Math.pow(1+i,l)) / (Math.pow(1+i,l) -1)
+        sv = Cest * Sper;
+        sf = i / (Math.pow(1+i,l) -1)
+        euac += (Cest * cr) - (sv * sf)
+       }) 
+       console.log("i", i)
+       console.log("l", l)
+       console.log("cest", Cest)
+       console.log("sper", Sper)
+       console.log("sv", sv)
+       console.log("cr", cr)
+       console.log("sf", sf)
+       return {euac}
+  }
   const setProjectDetails = () =>{
     project && setDetails([
       {field: <b>{"Project Name"}</b>, value: project.PROJECT_NAME},
@@ -155,7 +183,7 @@ let newTreats = []
       {field: <b>{"Crash Rate AADT"}</b>, value: setCrash().crashRate.toFixed(2)},
       {field: <b>{"EPDO"}</b>, value: setCrash().epdo},
       {field: <b>{"EUAB"}</b>, value: project.EUAB},
-      {field: <b>{"EUAC"}</b>, value: project.EUAC},
+      {field: <b>{"EUAC"}</b>, value: calculateTreatments().euac},
       {field: <b>{"Number of A injuries"}</b>, value: setCrash().a},
       {field: <b>{"Number of B injuries"}</b>, value: setCrash().b},
       {field: <b>{"Number of C injuries"}</b>, value: setCrash().c},
