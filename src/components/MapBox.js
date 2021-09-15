@@ -43,7 +43,7 @@ const MapView = ({ onPress, inventories }) => {
     const [viewport, setViewport] = useState({
         latitude: 39.048198,
         longitude: -94.604604,
-        zoom: 10
+        zoom: 11
     });
 
     useEffect(() => {
@@ -77,8 +77,8 @@ const MapView = ({ onPress, inventories }) => {
 
                     const { longitude, latitude, zoom } =
                         new WebMercatorViewport(viewport).fitBounds(allArr, {
-                            padding: 20,
-                            offset: [0, -50]
+                            padding: 50,
+                            offset: [0, -100]
                         });
 
                     setViewport({
