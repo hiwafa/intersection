@@ -1,6 +1,6 @@
 import react, { useState, useContext, useEffect } from "react";
 
-import ReactMapGL, { Marker, MapContext, WebMercatorViewport, FlyToInterpolator } from 'react-map-gl';
+import ReactMapGL, { MapContext, WebMercatorViewport, FlyToInterpolator } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 import d3 from 'd3-ease';
@@ -75,6 +75,7 @@ const MapView = ({ onPress, inventories }) => {
 
                     });
 
+                    
                     const { longitude, latitude, zoom } =
                         new WebMercatorViewport(viewport).fitBounds(allArr, {
                             padding: 50,
