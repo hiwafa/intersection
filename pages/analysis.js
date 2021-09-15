@@ -46,9 +46,10 @@ function Analys() {
         const from = new Date(values.from).getTime();
         const to = new Date(values.to).getTime();
 
-        if (inventory && inventory.INTERSECTION_NAME)
+        if (inventory)
             creatProject({
-                name: inventory.INTERSECTION_NAME,
+                ...project,
+                id: inventory.id,
                 startDate: from, endDate: to
             });
 
@@ -100,7 +101,13 @@ function Analys() {
             </div>
             <Row className={styles.row}>
                 <Col flex={1} md span={12} className={styles.col1}>
-                    <MapBox onPress={inventory => setInventory(inventory)}
+                    <MapBox onPress={inventory => {
+                        creatProject({
+                            ...project,
+                            id: inventory.id
+                        });
+                        setInventory(inventory);
+                    }}
                         inventories={invntories} />
                 </Col>
                 <Col flex={1} md span={12} className={styles.col2}>
@@ -113,7 +120,7 @@ function Analys() {
 
                     <Content className="site-layout" style={{ padding: '0 50px', marginTop: 20 }}>
                         <StyledButton onClick={() => {
-                            if (inventory && inventory.INTERSECTION_NAME && project !== null) {
+                            if (inventory && inventory.id && project !== null) {
                                 push(`projects/create?project=${JSON.stringify(project)}`);
                             }
                         }}
