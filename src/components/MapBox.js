@@ -53,7 +53,7 @@ const MapView = ({ onPress, inventories }) => {
 
                     let allArr = [];
                     inventories.forEach(i => {
-                        
+
                         // if (i.crash_intersections) {
                         //     allArr = [...allArr, ...i.crash_intersections.map(c => [
                         //         parseFloat(c.LONGITUD), parseFloat(c.LATITUDE)
@@ -63,16 +63,15 @@ const MapView = ({ onPress, inventories }) => {
                         const lent = i.crash_intersections ?
                             i.crash_intersections.length : 0;
 
-                        const crashes = lent > 0 ? i.crash_intersections :
-                            [{ LATITUDE: 39.048198, LONGITUD: -94.604604 }];
-
-                        allArr = [
-                            ...allArr,
-                            [
-                                parseFloat(crashes[0].LONGITUD),
-                                parseFloat(crashes[0].LATITUDE)
-                            ]
-                        ];
+                        if(lent > 0){
+                            allArr = [
+                                ...allArr,
+                                [
+                                    parseFloat(i.crash_intersections[0].LONGITUD),
+                                    parseFloat(i.crash_intersections[0].LATITUDE)
+                                ]
+                            ];
+                        }
 
                     });
 
