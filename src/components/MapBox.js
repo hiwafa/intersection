@@ -63,7 +63,7 @@ const MapView = ({ onPress, inventories }) => {
                         const lent = i.crash_intersections ?
                             i.crash_intersections.length : 0;
 
-                        if(lent > 0){
+                        if (lent > 0) {
                             allArr = [
                                 ...allArr,
                                 [
