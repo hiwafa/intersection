@@ -27,6 +27,7 @@ function Analys() {
 
     const { push } = useRouter();
     const [tab, setTab] = useState("tab1");
+    const [project, creatProject] = useState(null);
     const [inventory, setInventory] = useState(null);
     const [invntories, setInvntories] = useState([]);
     const { data } = useGetIntersectionsQuery("intersection-inventories");
@@ -44,6 +45,12 @@ function Analys() {
 
         const from = new Date(values.from).getTime();
         const to = new Date(values.to).getTime();
+
+        creatProject({
+            name: values.intersection,
+            startDate: from,
+            endDate: to
+        });
 
         if (data) {
 
@@ -105,7 +112,12 @@ function Analys() {
                     </Menu>
 
                     <Content className="site-layout" style={{ padding: '0 50px', marginTop: 20 }}>
-                        <StyledButton onClick={() => push("projects/create")} style={{ width: 120, marginBottom: 10 }}>
+                        <StyledButton onClick={() => {
+                            if(project !== null){
+                                push(`projects/create?project=${JSON.stringify(project)}`)
+                            }
+                        }}
+                        style={{ width: 120, marginBottom: 10 }}>
                             Add to projects
                         </StyledButton>
                         <a style={{ padding: 7, backgroundColor: '#f5f5f5', marginLeft: 10}}>
