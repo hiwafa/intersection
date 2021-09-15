@@ -75,7 +75,6 @@ const MapView = ({ onPress, inventories }) => {
 
                     });
 
-                    
                     const { longitude, latitude, zoom } =
                         new WebMercatorViewport(viewport).fitBounds(allArr, {
                             padding: 50,
