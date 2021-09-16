@@ -4,39 +4,15 @@ import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
 import { useGetIntersectionsQuery } from '../store/query';
 
-const data = [
-    {
-        key: '1',
-        name: 'John Brown',
-        age: 32,
-        address: 'New York No. 1 Lake Park',
-    },
-    {
-        key: '2',
-        name: 'Joe Black',
-        age: 42,
-        address: 'London No. 1 Lake Park',
-    },
-    {
-        key: '3',
-        name: 'Jim Green',
-        age: 32,
-        address: 'Sidney No. 1 Lake Park',
-    },
-    {
-        key: '4',
-        name: 'Jim Red',
-        age: 32,
-        address: 'London No. 2 Lake Park',
-    },
-];
-
 const Users = () => {
 
     const searchInput = useRef();
     const [searchText, setSearchText] = useState("");
     const [searchedColumn, setSearchedColumn] = useState("");
-    const { data } = useGetIntersectionsQuery("users");
+    const users = useGetIntersectionsQuery("users");
+    const data = users.data && users.data.length && users.data.map(user => ({
+        ...user, role: user.role.name, confirmed: `${user.confirmed}`
+    }));
 
 
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
