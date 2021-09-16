@@ -10,7 +10,7 @@ import {
   } from "formik-antd"
 import {request} from "../requests"
 import { LeftCircleOutlined } from '@ant-design/icons';
-import {PageTitle} from "./styleds"
+import {PageTitle, ContentContainer, ThemButton} from "./styleds"
 function EditProject ({project, setShowDetails}){
  
     const [status, setStatus] = useState(project.PROJECT_STATUS)
@@ -71,6 +71,7 @@ function EditProject ({project, setShowDetails}){
                 duration: 5,
                 message: "Project Edited",
               })
+              setShowDetails(false)
           }).catch((e) => {
               console.log(e)
           });
@@ -79,8 +80,8 @@ function EditProject ({project, setShowDetails}){
       }
       
     return <div style={{margin: "10px"}}>
-        <PageTitle> <LeftCircleOutlined className={"backButton"} onClick={() => setShowDetails(false)}  /> Edit Project</PageTitle>
-        <div style={{marginTop: "10px"}}>
+        <PageTitle > <LeftCircleOutlined className={"backButton"} onClick={() => setShowDetails(false)}  /> Edit Project</PageTitle>
+        <ContentContainer style={{marginTop: "10px"}}>
         <Formik
       initialValues={project}
       onSubmit={handleSubmit}
@@ -183,10 +184,10 @@ function EditProject ({project, setShowDetails}){
                </Form.Item>
               </Col>
             <Col span={24} key={7}>
-              <Button.Group size="large">
-                <SubmitButton type="primary" disabled={false}>
+              <Button.Group size="medium">
+                <ThemButton type="primary" htmlType={"submit"} disabled={false}>
                   Submit
-                </SubmitButton>
+                </ThemButton>
               </Button.Group>
               </Col>
             </Row>
@@ -196,7 +197,7 @@ function EditProject ({project, setShowDetails}){
         </Form>
       )}
     />
-        </div>
+        </ContentContainer>
     </div>
 }
 export default EditProject;

@@ -16,7 +16,7 @@ const Home = () => {
         <link href='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet' />
       </Head>
 
-      <main className={styles.main}>
+      <main className={styles.main} style={{height: "100%"}}>
         <Analysis />
       </main>
     </div>

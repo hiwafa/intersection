@@ -2,7 +2,7 @@ import react, { useEffect, useState, createRef } from "react"
 import styled from "styled-components"
 import {Table, Button, Tooltip, Modal, Tabs, Checkbox, notification} from "antd"
 import { LeftCircleOutlined } from '@ant-design/icons';
-import {PageTitle, TableContainer} from "./styleds"
+import {PageTitle, TableContainer, ThemButton} from "./styleds"
 import { DownloadOutlined } from '@ant-design/icons';
 import {request} from "../requests"
 import { PDFExport } from '@progress/kendo-react-pdf';
@@ -356,7 +356,7 @@ const handleRemove = async () =>{
       }, [])
     return <><Wrapper>
             <PageTitle> <LeftCircleOutlined className={"backButton"} onClick={() => setShowDetails(false)} />Project Details
-              <Button
+              <ThemButton
                 type="primary"
                 className={"downloadButton"}
                 size={"medium"}
@@ -364,7 +364,7 @@ const handleRemove = async () =>{
                 onClick={handleExportWithComponent}
                 >
                 Download
-              </Button>
+              </ThemButton>
             </PageTitle>
 
               <TableContainer style={{width: "380px", margin: "auto"}}>

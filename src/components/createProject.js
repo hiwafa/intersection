@@ -1,5 +1,5 @@
 import react, { useEffect, useState } from "react";
-import { Button, Row, Col, Form, Select, DatePicker, Input, message } from "antd"
+import { Button, Row, Col, Form, Select, DatePicker, Input, notification } from "antd"
 import { request } from "../requests"
 import { LeftCircleOutlined } from '@ant-design/icons';
 import { PageTitle } from "./styleds"
@@ -8,15 +8,9 @@ import styled from "styled-components";
 import { useRouter } from "next/router";
 import moment from 'moment';
 import 'moment/locale/zh-cn';
+import {ContentContainer, ThemButton} from "../components/styleds"
 
 
-const FormContainer = styled.div`
-    margin-right: 10%;
-    margin-left: 10%;
-    margin-top: 20px;
-    background: white;
-    padding: 10px;
-`;
 
 let params = null;
 function CreateProject({ handleClick }) {
@@ -45,10 +39,17 @@ function CreateProject({ handleClick }) {
             data: values,
         }).then((res) => {
             if (res.status === 200) {
-                message.success("Project created")
+                notification["success"]({
+                    duration: 5,
+                    message: "Project created",
+                  })
+                  handleClick(true)
             }
         }).catch((e) => {
-            message.error("Project not created")
+            notification["error"]({
+                duration: 5,
+                message: "Project not created",
+              })
         });
     };
     const wrapperCol = {
@@ -66,7 +67,7 @@ function CreateProject({ handleClick }) {
     console.log(intersections)
     return <>
         <PageTitle> <LeftCircleOutlined className={"backButton"} onClick={() => handleClick(true)} /> Create Project</PageTitle>
-        <FormContainer>
+        <ContentContainer>
             <Form
                 form={form}
                 labelCol={{ span: 24 }}
@@ -179,13 +180,13 @@ function CreateProject({ handleClick }) {
                 </Row>
                 <Row>
                     <Col span={24} style={{ textAlign: 'right' }}>
-                        <Button type="primary" htmlType="submit">
+                        <ThemButton htmlType="submit" block={false}>
                             Submit
-                        </Button>
+                        </ThemButton>
                     </Col>
                 </Row>
             </Form>
-        </FormContainer>
+        </ContentContainer>
     </>
 }
 export default CreateProject;
