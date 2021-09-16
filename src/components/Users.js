@@ -19,7 +19,7 @@ const Users = () => {
         }
         
         return [];
-    }, []);
+    }, [users.data]);
 
 
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
