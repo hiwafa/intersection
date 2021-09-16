@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { Table, Input, Button, Space } from 'antd';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
-
+import { useGetIntersectionsQuery } from '../store/query';
 
 const data = [
     {
@@ -36,6 +36,7 @@ const Users = () => {
     const searchInput = useRef();
     const [searchText, setSearchText] = useState("");
     const [searchedColumn, setSearchedColumn] = useState("");
+    const { data } = useGetIntersectionsQuery("users");
 
 
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -118,7 +119,7 @@ const Users = () => {
             title: 'Email',
             dataIndex: 'email',
             key: 'email',
-            width: '40%',
+            width: '30%',
             ...getColumnSearchProps('email'),
         },
         {
