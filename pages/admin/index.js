@@ -1,8 +1,10 @@
+import Users from "../../src/components/Users";
+
 const Admin = () => {
 
   return (
     <div>
-      Admin Page
+      <Users />
     </div>
   );
 

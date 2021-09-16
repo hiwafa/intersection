@@ -46,7 +46,7 @@ const Users = () => {
 
     const handleReset = clearFilters => {
         clearFilters();
-        setSearchText("selectedKeys[0]");;
+        setSearchText("");
     };
 
     const getColumnSearchProps = dataIndex => ({
@@ -73,17 +73,6 @@ const Users = () => {
                     <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 90 }}>
                         Reset
                     </Button>
-                    <Button
-                        type="link"
-                        size="small"
-                        onClick={() => {
-                            confirm({ closeDropdown: false });
-                            setSearchText(selectedKeys[0]);
-                            setSearchedColumn(dataIndex);
-                        }}
-                    >
-                        Filter
-                    </Button>
                 </Space>
             </div>
         ),
@@ -94,7 +83,7 @@ const Users = () => {
                 : '',
         onFilterDropdownVisibleChange: visible => {
             if (visible) {
-                setTimeout(() => searchInput.select(), 100);
+                setTimeout(() => searchInput.current.select(), 100);
             }
         },
         render: text =>
@@ -112,31 +101,45 @@ const Users = () => {
 
     const columns = [
         {
-          title: 'Name',
-          dataIndex: 'name',
-          key: 'name',
-          width: '30%',
-          ...getColumnSearchProps('name'),
+            title: 'Id',
+            dataIndex: 'id',
+            key: 'id',
+            width: '10%',
+            ...getColumnSearchProps('id'),
         },
         {
-          title: 'Age',
-          dataIndex: 'age',
-          key: 'age',
-          width: '20%',
-          ...getColumnSearchProps('age'),
+            title: 'User Name',
+            dataIndex: 'username',
+            key: 'username',
+            width: '20%',
+            ...getColumnSearchProps('username'),
         },
         {
-          title: 'Address',
-          dataIndex: 'address',
-          key: 'address',
-          ...getColumnSearchProps('address'),
-          sorter: (a, b) => a.address.length - b.address.length,
-          sortDirections: ['descend', 'ascend'],
+            title: 'Email',
+            dataIndex: 'email',
+            key: 'email',
+            width: '40%',
+            ...getColumnSearchProps('email'),
         },
-      ];
+        {
+            title: 'Confirmed',
+            dataIndex: 'confirmed',
+            key: 'confirmed',
+            width: '10%',
+            ...getColumnSearchProps('confirmed'),
+        },
+        {
+            title: 'Role',
+            dataIndex: 'role',
+            key: 'role',
+            ...getColumnSearchProps('role'),
+            sorter: (a, b) => a.role.length - b.role.length,
+            sortDirections: ['descend', 'ascend'],
+        },
+    ];
 
 
-      return <Table columns={columns} dataSource={data} />;
+    return <Table columns={columns} dataSource={data} />;
 }
 
 
