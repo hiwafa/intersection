@@ -68,7 +68,7 @@ const Users = () => {
                         onClick={() => {
                             confirm({ closeDropdown: false });
                             setSearchText(selectedKeys[0]);
-                            setSearchedColumn(dataIndex)
+                            setSearchedColumn(dataIndex);
                         }}
                     >
                         Filter
@@ -98,6 +98,17 @@ const Users = () => {
                 text
             ),
     });
+
+    const handleSearch = (selectedKeys, confirm, dataIndex) => {
+        confirm();
+        setSearchText(selectedKeys[0]);
+        setSearchedColumn(dataIndex);
+    };
+
+    const handleReset = clearFilters => {
+        clearFilters();
+        setSearchText("selectedKeys[0]");;
+    };
 
 
 }
