@@ -2,11 +2,12 @@ import react, { useEffect, useState, createRef } from "react"
 import styled from "styled-components"
 import {Table, Button, Tooltip, Modal, Tabs, Checkbox, notification} from "antd"
 import { LeftCircleOutlined } from '@ant-design/icons';
-import {PageTitle, TableContainer} from "./styleds"
+import {PageTitle, TableContainer, ThemButton} from "./styleds"
 import { DownloadOutlined } from '@ant-design/icons';
 import {request} from "../requests"
 import { PDFExport } from '@progress/kendo-react-pdf';
 import moment from "moment"
+import crashCost from "../../src/utils/crashCosts"
 const { TabPane } = Tabs;
 const Wrapper = styled.div`
     padding: 10px;
@@ -89,7 +90,6 @@ const projectTreatmentColumns = [
   },
 ]
 function ProjectDetails({project, setShowDetails, intersection}){
-  console.log(project)
   const [visible, setVisible] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [treatments, setTreatments] = useState()
@@ -106,10 +106,8 @@ let newTreats = []
 
 
   const handleCancel = () => {
-    console.log('Clicked cancel button');
     setVisible(false);
   };
-  console.log(project)
   const [details, setDetails] = useState()
   const setCrash = () =>{
     let a=0;
@@ -121,7 +119,8 @@ let newTreats = []
     let epdo=0
     let crashRate =0;
     let dates=[]
-    intersection && intersection?.crash_intersections.map((crash) => {
+    let crashCosts = 0.0;
+    intersection.crash_intersections && intersection.crash_intersections.map((crash) => {
       dates.push(crash.DATE_OF_CRASH)
       a += parseInt(crash.NUMBER_OF_A_INJURIES)
       b += parseInt(crash.NUMBER_OF_B_INJURIES)
@@ -129,33 +128,81 @@ let newTreats = []
       injuries += parseInt(crash.NUMBER_OF_INJURIES)
       fatalities += parseInt(crash.NUMBER_OF_FATALITIES)
       pdo += parseInt(crash.NUMBER_OF_PDO)
-      
+      crashCosts += crashCost(crash.SEVERITY)
     })
-
-    let newdates = dates.sort((a,b) => true ? new Date(b).getTime() - new Date(a).getTime() : new Date(a).getTime() - new Date(b).getTime());
-    console.log("dates", newdates)
-    let last = moment(dates[0])
-    let first = moment(dates[dates.length -1])
+    const NumberOfCrashes = intersection.crash_intersections ? intersection.crash_intersections.length : 0;
+    let sortedDate = dates.sort((a,b) => true ? new Date(b).getTime() - new Date(a).getTime() : new Date(a).getTime() - new Date(b).getTime());
+    let last = moment(sortedDate[0])
+    let first = moment(sortedDate[sortedDate.length -1])
     const yearsDiff =  last.diff(first, "years")
     crashRate = (parseInt(project.CRASH_COUNT) * Math.pow(10, 6)) / (yearsDiff * 365 * parseInt(intersection && intersection.AADT))
     epdo = 542* fatalities + 11* injuries + 1*pdo;
-   return {a, b, c, injuries, fatalities, pdo, epdo, crashRate}
-  }
 
+   return {a, b, c, injuries, fatalities, pdo, epdo, crashRate, yearsDiff, NumberOfCrashes, crashCosts}
+  }
+  const calculateTreatments = () => {
+    let i = 0.0; // interest rate 
+    let Cest = 0.0; // estimated total cost
+    let Sper = 0.0; // estimated salvage percent
+    let l = 0; // service life in years
+    let cr = 0.0// capital recovery
+    let sf = 0.0 // sinking fund
+    let sv = 0.0 // salvage value
+    let EUAC = 0.0;
+
+    let aadt = intersection && intersection.AADT;
+    let years = setCrash().yearsDiff;
+    let n = years>0 ? years : 1;
+    let cf = setCrash().NumberOfCrashes
+    let m = project.treatments ? project.treatments.length : 0;
+    let cc = setCrash().crashCosts;
+    let crf = 1 //
+    let crb = 0.0
+    let b = 0.0;
+    let EUAB = 0.0;
+        project.treatments && project.treatments.map((treat) => {
+        // calculating EUAC
+
+        i = parseFloat(treat.INTEREST_RATE);
+        Cest = parseFloat(treat.TOTAL_TREATMENT_COST);
+        Sper = parseFloat(treat.SALVAGE_PERCENT);
+        l = parseInt(treat.SERVICE_LIFE);
+        cr = (i * Math.pow(1+i,l)) / (Math.pow(1+i,l) -1)
+        sv = Cest * Sper;
+        sf = i / (Math.pow(1+i,l) -1)
+        EUAC += (Cest * cr) - (sv * sf)
+
+        //calculating EUAB
+        crf *= (1- parseFloat(treat.CRF))
+       }) 
+       crf = 1 - crf;
+       aadt = (1 + Math.pow(aadt, n));
+       crf = aadt * crf;
+
+       crb = cf * crf;
+
+       crb = cc * crb;
+
+       b = crb;
+       EUAB = (b /n).toFixed(3);
+       EUAC = EUAC.toFixed(3)
+       const BEN_COST = (EUAB/EUAC).toFixed(3);
+       return {EUAC, EUAB, BEN_COST}
+  }
   const setProjectDetails = () =>{
     project && setDetails([
       {field: <b>{"Project Name"}</b>, value: project.PROJECT_NAME},
       {field: <b>{"Project Number"}</b>, value: project.PROJECT_NUMBER},
       {field: <b>{"Project Status"}</b>, value: project.PROJECT_STATUS},
       {field: <b>{"Intersection"}</b>, value: project.INTERSECTION?.INTERSECTION_NAME},
-      {field: <b>{"Ben_Cost"}</b>, value: project.BEN_COST},
+      {field: <b>{"Ben_Cost"}</b>, value: calculateTreatments().BEN_COST},
       {field: <b>{"Crash Count"}</b>, value: project.CRASH_COUNT},
       {field: <b>{"Crash Start Date"}</b>, value: project.CRASH_START_DATE},
       {field: <b>{"Crash End Date"}</b>, value: project.CRASH_END_DATE},
       {field: <b>{"Crash Rate AADT"}</b>, value: setCrash().crashRate.toFixed(2)},
       {field: <b>{"EPDO"}</b>, value: setCrash().epdo},
-      {field: <b>{"EUAB"}</b>, value: project.EUAB},
-      {field: <b>{"EUAC"}</b>, value: project.EUAC},
+      {field: <b>{"EUAB"}</b>, value: calculateTreatments().EUAB},
+      {field: <b>{"EUAC"}</b>, value: calculateTreatments().EUAC},
       {field: <b>{"Number of A injuries"}</b>, value: setCrash().a},
       {field: <b>{"Number of B injuries"}</b>, value: setCrash().b},
       {field: <b>{"Number of C injuries"}</b>, value: setCrash().c},
@@ -182,7 +229,6 @@ const loadTreatments = async () => {
     });
     if(res.status === 200)
     {
-      console.log("treatments", res.data)
       setTreatments(res.data && res.data.map((treat, index) => {
         return {
           TREATMENT_NAME: treat.TREATMENT_NAME,
@@ -203,15 +249,12 @@ const addTreat = (e, treat) =>{
       if ((!project.treatments.filter(function(ee) { return ee.id === treat.id; }).length > 0) && !newTreats.filter(function(ee) { return ee.id === treat.id; }).length > 0) {
         newTreats.push(treat)
       }
-      console.log("new Treats", newTreats)
     }
     else{
       if (newTreats.filter(function(ee) { return ee.id === treat.id; }).length > 0) {
         var index = newTreats.indexOf(treat);
         newTreats.splice(index, 1);
-        }
-      console.log("new Treats", newTreats)
-  
+        }  
     }
       setNewTreatments(newTreats)
   
@@ -229,7 +272,6 @@ const handleOk = async () => {
   {
     newTreatments.map((tr) => {
       project.treatments.push(tr)
-      console.log("ushing")
     })
     await request(`projects/${project.id}`, {
       method: "PUT",
@@ -259,7 +301,6 @@ const handleOk = async () => {
 };
 const handleRemove = async () =>{
   // setConfirmLoading(true);
-  console.log("remove called")
   if(deleteListTreats?.length > 0 || deleteListTreats === "empty")
   {
     if(deleteListTreats === "empty"){
@@ -315,7 +356,7 @@ const handleRemove = async () =>{
       }, [])
     return <><Wrapper>
             <PageTitle> <LeftCircleOutlined className={"backButton"} onClick={() => setShowDetails(false)} />Project Details
-              <Button
+              <ThemButton
                 type="primary"
                 className={"downloadButton"}
                 size={"medium"}
@@ -323,7 +364,7 @@ const handleRemove = async () =>{
                 onClick={handleExportWithComponent}
                 >
                 Download
-              </Button>
+              </ThemButton>
             </PageTitle>
 
               <TableContainer style={{width: "380px", margin: "auto"}}>

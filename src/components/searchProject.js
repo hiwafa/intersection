@@ -4,7 +4,8 @@ import {request} from "../requests"
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 import styled from "styled-components";
-import {TableContainer} from "./styleds"
+import {TableContainer, ContentContainer} from "./styleds"
+
 const ActionContainer = styled.div`
   text-align: center;
   .viewDetails{
@@ -187,7 +188,7 @@ function SearchProject({setShowDetails, setProject, setSection, setInterSection}
           }
 
         }
-      return <>
+      return <ContentContainer>
           <TableContainer className={"projects"}>
           <Table
               columns={columns}
@@ -197,7 +198,7 @@ function SearchProject({setShowDetails, setProject, setSection, setInterSection}
        
             />
           </TableContainer>
-          </>
+          </ContentContainer>
 }
 
 export default SearchProject;

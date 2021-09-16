@@ -6,7 +6,7 @@ import ProjectDetails from "../../src/components/projectDetails"
 import EditProject from "../../src/components/editProject"
 import { useQueryParam } from "../../src/utils/useQueryParam"
 import { PlusCircleOutlined } from '@ant-design/icons';
-import { PageTitle } from "../../src/components/styleds"
+import { PageTitle, ThemButton } from "../../src/components/styleds"
 const ButtonContainer = styled.div`
     padding: 10px;
 `
@@ -20,12 +20,12 @@ function Projects() {
     const [section, setSection] = useState("");
     const [project, setProject] = useState("");
     const [intersection, setInterSection] = useState({})
-    return <>
+    return <div>
         {showDetails ?
             (section && section === "edit" ? <EditProject project={project} setShowDetails={setShowDetails} /> : <ProjectDetails project={project} setShowDetails={setShowDetails} intersection={intersection} />) :
             <ButtonContainer>
                 <PageTitle>Projects 
-                <Button
+                <ThemButton
                 type="primary"
                 className={"createProject"}
                 size={"medium"}
@@ -33,7 +33,7 @@ function Projects() {
                 onClick={() => router.push("projects/create")}
                 >
                 Create Project
-                </Button>
+                </ThemButton>
                     </PageTitle>
                 <Row gutter={[50, 10]}>
                     <Col md={24} lg={24}>
@@ -41,7 +41,7 @@ function Projects() {
                     </Col>
                 </Row>
             </ButtonContainer>}
-    </>
+    </div>
 }
 
 export default Projects

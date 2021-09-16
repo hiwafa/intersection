@@ -1,24 +1,62 @@
 import react, {useState} from "react";
-import {Button, Row, Col, message, notification} from "antd"
+import {Button, Row, Col, message, notification, Popconfirm} from "antd"
 import { Formik } from "formik"
 import {
     Input,
     DatePicker,
     SubmitButton,
     Select,
-    Form,
+    Form
   } from "formik-antd"
 import {request} from "../requests"
 import { LeftCircleOutlined } from '@ant-design/icons';
-import {PageTitle} from "./styleds"
+import {PageTitle, ContentContainer, ThemButton} from "./styleds"
+import axios from "axios"
+import styled from "styled-components"
+import { DownloadOutlined, DeleteOutlined } from '@ant-design/icons';
+const BASE_URL = process.env.BASE_URL
+// const BASE_URL = "http://localhost:1337"
+const FileButtonsContainer = styled.div`
+  .removeButton{
+    margin-left: 20px;
+    margin-bottom: 20px;
+  }
+`
+const ProjectFileContainer = styled.div`
+  padding-top: 5px;
+  div{
+    margin-top: 13px;
+  }
+`
 function EditProject ({project, setShowDetails}){
  
     const [status, setStatus] = useState(project.PROJECT_STATUS)
+    const [removeLoading, setRemoveLoading] = useState(false)
+    const [showUploadInput, setShowUploadInput] = useState(false)
+    const text = 'Are you sure to delete the file?';
+
+      const confirmRemove = async (id) => {
+          const remove = await request(`upload/files/${id}`,
+          {method: "DELETE"})
+          if(remove.status === 200)
+          {
+            setRemoveLoading(false)
+            setShowUploadInput(true)
+          }
+      }
       const selectStatus = (e) => {
         setStatus(e)
       }
       async function handleSubmit(values, actions) {
-
+        let files ="";
+        if(values.projectFile !== null)
+        {
+          files = new FormData();
+          files.append("files", values.projectFile);
+          files.append('ref', 'project') 
+          files.append('refId', values.id) 
+          files.append('field', 'projectFile') 
+        }
         if(values.PROJECT_STATUS === "Initiation")
         {
           if (values.PROGRAM_NAME !== project.PROGRAM_NAME || values.PROGRAM_NUMBER !== project.PROGRAM_NUMBER ||
@@ -63,24 +101,50 @@ function EditProject ({project, setShowDetails}){
             return
           }
         }
+
+      try{
+        const upload = await axios.post(`${BASE_URL}/upload`,files, {
+          headers: {
+            'Accept': 'application/json'
+            },
+        })
+          if(upload.status === 200)
+          {
+            let filee = values.files[0];
+            let newFile = upload.data.url;
+            values.projectFile = upload.data
+            setShowUploadInput(true)
+  
+          }
+        }
+        catch(e)
+        {
+          console.log("no file selected")
+        }
+     
+      console.log(32222)
           await request(`projects/${values.id}`, {
             method: "PUT",
             data: values,
+            headers: {
+              'Accept': 'application/json'
+            }
           }).then((res) => {
             notification["success"]({
                 duration: 5,
                 message: "Project Edited",
               })
+              setShowDetails(false)
           }).catch((e) => {
               console.log(e)
           });
 
-        actions.setSubmitting(false)
+        actions.setSubmitting(true)
       }
       
     return <div style={{margin: "10px"}}>
-        <PageTitle> <LeftCircleOutlined className={"backButton"} onClick={() => setShowDetails(false)}  /> Edit Project</PageTitle>
-        <div style={{marginTop: "10px"}}>
+        <PageTitle > <LeftCircleOutlined className={"backButton"} onClick={() => setShowDetails(false)}  /> Edit Project</PageTitle>
+        <ContentContainer style={{marginTop: "10px"}}>
         <Formik
       initialValues={project}
       onSubmit={handleSubmit}
@@ -114,7 +178,7 @@ function EditProject ({project, setShowDetails}){
                 <Input size={"large"} name="PROJECT_NAME"  />
               </Form.Item>
               </Col> 
-            <Col xs={24} sm={12} md={6} lg={6} key={2}>
+            <Col xs={24} sm={12} md={6} lg={6} key={20}>
               <Form.Item
                 name="PROGRAM_NAME"
                 label={`Program Name`}
@@ -182,11 +246,41 @@ function EditProject ({project, setShowDetails}){
                 </Select>             
                </Form.Item>
               </Col>
-            <Col span={24} key={7}>
-              <Button.Group size="large">
-                <SubmitButton type="primary" disabled={false}>
+              <Col xs={24} sm={12} md={6} lg={6} key={7}>
+                {project.projectFile?.id && !showUploadInput ? <ProjectFileContainer>
+                  <span>Project File</span>
+                  <FileButtonsContainer>
+                
+                <a href={`${BASE_URL}${project.projectFile?.url}`}><Button type={"primary"} icon={<DownloadOutlined />} htmlType={"button"} size={"large"} className={"downloadButton"}></Button></a>
+                <Popconfirm placement="top" title={text} onConfirm={() => confirmRemove(project.projectFile.id)} okText="Yes" cancelText="No">
+                <Button type={"danger"} loading={removeLoading} icon={<DeleteOutlined />} htmlType={"button"} size={"large"} className={"removeButton"}></Button>
+              </Popconfirm>
+                </FileButtonsContainer>
+                </ProjectFileContainer> : <Form.Item
+                name="files"
+                label={`Project File`}
+                hasFeedback={true}
+              >
+                  <Input
+              type="file"
+              name="files"
+              value={undefined}
+              onChange={(event) =>{
+                formik.setFieldValue("projectFile", event.target.files[0]);
+              }}
+            /> 
+               </Form.Item>
+                
+                
+                }
+               
+              </Col>
+              
+            <Col span={24} key={8}>
+              <Button.Group size="medium">
+                <ThemButton type="primary" htmlType={"submit"} disabled={false}>
                   Submit
-                </SubmitButton>
+                </ThemButton>
               </Button.Group>
               </Col>
             </Row>
@@ -196,7 +290,7 @@ function EditProject ({project, setShowDetails}){
         </Form>
       )}
     />
-        </div>
+        </ContentContainer>
     </div>
 }
 export default EditProject;

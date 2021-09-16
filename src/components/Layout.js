@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 
 import { Layout, Menu, Image } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
-import { UserOutlined, ProjectOutlined, LogoutOutlined } from '@ant-design/icons';
+import { UserOutlined, ProjectOutlined, LogoutOutlined, FundProjectionScreenOutlined } from '@ant-design/icons';
 
 import Login from "./Login";
 
@@ -12,7 +12,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { isLoggedIn, getUser, signout } from '../store/actions/UserSlice';
 
 import styles from "../../styles/Layout.module.css";
-
+import styled from "styled-components"
+const LogoutIcon = styled.div`
+    span{
+        &:hover{
+            color: #00A9B3;
+        }
+    }
+`
 const LayoutCom = ({ children }) => {
 
     const checkLogin = useSelector(isLoggedIn);
@@ -85,7 +92,7 @@ const LayoutCom = ({ children }) => {
                 </div>
 
                 <Menu theme="light" mode="inline" defaultSelectedKeys={[padname]}>
-                    <Menu.Item key="home" icon={<UserOutlined />}>
+                    <Menu.Item key="home" icon={<FundProjectionScreenOutlined />}>
                         <Link href="/">
                             <a>Analysis</a>
                         </Link>
@@ -95,7 +102,7 @@ const LayoutCom = ({ children }) => {
                             <a>Projects</a>
                         </Link>
                     </Menu.Item>
-                    <Menu.Item key="admin" icon={<ProjectOutlined />}>
+                    <Menu.Item key="admin" icon={<UserOutlined />}>
                         <Link href="/admin">
                             <a>User Management</a>
                         </Link>
@@ -111,23 +118,23 @@ const LayoutCom = ({ children }) => {
                     paddingLeft: 70, paddingRight: 70,
                     display: 'flex', justifyContent: 'flex-end'
                 }}>
-                    <span>
+                    <LogoutIcon>
                         {username ? <> {username} <LogoutOutlined onClick={onLogout} style={{ marginLeft: "10px" }} /></> : "Sign In"}
-                    </span>
+                    </LogoutIcon>
 
                 </Header>
 
                 <Content style={{
                     // margin: '24px 16px 0',
-                    overflowY: 'scroll',
+                    overflow: 'scroll',
                     height: '100vh'
                 }}>
-                    <div style={{ background: '#eee', minHeight: 360 }}>
+                    <div style={{ minHeight: 360, height: "100%" }}>
                         {children}
                     </div>
                 </Content>
                 <Footer style={{ textAlign: 'center' }}>
-                    Ant Design ©2016 Created by Ant UED
+                    Safety Analytica ©2021 Developed by TheCodeGiant
                 </Footer>
             </Layout>
 

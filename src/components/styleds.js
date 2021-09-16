@@ -1,5 +1,5 @@
 import styled from "styled-components";
-
+import {Button} from "antd"
 export const StyledButton = styled.button`
 background-color: #1393A9;
 border: none;
@@ -41,4 +41,23 @@ export const TableContainer = styled.div`
       tbody{
         background: white;
       }
+`;
+export const ContentContainer = styled.div`
+margin-right: 10%;
+margin-left: 10%;
+margin-top: 20px;
+background: white;
+padding: 10px;
+box-shadow: 1px 1px 5px #aaaaaa;
+`;
+export const ThemButton = styled(Button)`
+background-color: #1393A9;
+border: none;
+border-radius: 5px;
+color: #fff;
+cursor: pointer;
+  &:hover {
+    background-color: #00A9B3;
+    color: white;
+  }
 `
