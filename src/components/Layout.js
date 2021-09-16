@@ -126,7 +126,7 @@ const LayoutCom = ({ children }) => {
 
                 <Content style={{
                     // margin: '24px 16px 0',
-                    overflow: 'hidden',
+                    overflow: 'scroll',
                     height: '100vh'
                 }}>
                     <div style={{ minHeight: 360, height: "100%" }}>
