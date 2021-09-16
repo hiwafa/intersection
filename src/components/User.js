@@ -38,6 +38,17 @@ const Users = () => {
     const [searchedColumn, setSearchedColumn] = useState("");
 
 
+    const handleSearch = (selectedKeys, confirm, dataIndex) => {
+        confirm();
+        setSearchText(selectedKeys[0]);
+        setSearchedColumn(dataIndex);
+    };
+
+    const handleReset = clearFilters => {
+        clearFilters();
+        setSearchText("selectedKeys[0]");;
+    };
+
     const getColumnSearchProps = dataIndex => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
             <div style={{ padding: 8 }}>
@@ -99,16 +110,34 @@ const Users = () => {
             ),
     });
 
-    const handleSearch = (selectedKeys, confirm, dataIndex) => {
-        confirm();
-        setSearchText(selectedKeys[0]);
-        setSearchedColumn(dataIndex);
-    };
+    const columns = [
+        {
+          title: 'Name',
+          dataIndex: 'name',
+          key: 'name',
+          width: '30%',
+          ...getColumnSearchProps('name'),
+        },
+        {
+          title: 'Age',
+          dataIndex: 'age',
+          key: 'age',
+          width: '20%',
+          ...getColumnSearchProps('age'),
+        },
+        {
+          title: 'Address',
+          dataIndex: 'address',
+          key: 'address',
+          ...getColumnSearchProps('address'),
+          sorter: (a, b) => a.address.length - b.address.length,
+          sortDirections: ['descend', 'ascend'],
+        },
+      ];
 
-    const handleReset = clearFilters => {
-        clearFilters();
-        setSearchText("selectedKeys[0]");;
-    };
 
-
+      return <Table columns={columns} dataSource={data} />;
 }
+
+
+export default Users;
