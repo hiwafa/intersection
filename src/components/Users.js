@@ -85,35 +85,35 @@ const Users = () => {
 
     const columns = [
         {
-            title: 'Id',
+            title: <p style={{fontWeight: 'bold', fontSize: 15 }}>Id</p>,
             dataIndex: 'id',
             key: 'id',
             width: '10%',
             ...getColumnSearchProps('id'),
         },
         {
-            title: 'User Name',
+            title: <p style={{fontWeight: 'bold', fontSize: 15 }}>User Name</p>,
             dataIndex: 'username',
             key: 'username',
             width: '20%',
             ...getColumnSearchProps('username'),
         },
         {
-            title: 'Email',
+            title: <p style={{fontWeight: 'bold', fontSize: 15 }}>Email</p>,
             dataIndex: 'email',
             key: 'email',
             width: '30%',
             ...getColumnSearchProps('email'),
         },
         {
-            title: 'Confirmed',
+            title: <p style={{fontWeight: 'bold', fontSize: 15 }}>Confirmed</p>,
             dataIndex: 'confirmed',
             key: 'confirmed',
             width: '10%',
             ...getColumnSearchProps('confirmed'),
         },
         {
-            title: 'Role',
+            title: <p style={{fontWeight: 'bold', fontSize: 15 }}>Role</p>,
             dataIndex: 'role',
             key: 'role',
             ...getColumnSearchProps('role'),
