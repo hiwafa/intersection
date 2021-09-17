@@ -17,7 +17,7 @@ const Users = () => {
                 ...user, role: user.role.name, confirmed: `${user.confirmed}`
             }))
         }
-        
+
         return [];
     }, [users.data]);
 
@@ -123,7 +123,8 @@ const Users = () => {
     ];
 
 
-    return <Table columns={columns} dataSource={data} />;
+    return <Table rowKey="id" columns={columns} dataSource={data}
+        style={{ marginLeft: 15, marginRight: 15 }} />;
 }
 
 
