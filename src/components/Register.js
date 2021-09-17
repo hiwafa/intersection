@@ -1,5 +1,5 @@
 import { Form, Input } from "antd";
-import { LockOutlined } from "@ant-design/icons";
+import { LockOutlined, UserOutlined, MailOutlined } from "@ant-design/icons";
 
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -44,7 +44,7 @@ const Register = () => {
           ]}
         >
           <Input
-            prefix={<LockOutlined className="site-form-item-icon" />}
+            prefix={<MailOutlined className="site-form-item-icon" />}
             type="email"
             placeholder="Email Address"
           />
@@ -60,7 +60,7 @@ const Register = () => {
           ]}
         >
           <Input
-            prefix={<LockOutlined className="site-form-item-icon" />}
+            prefix={<UserOutlined className="site-form-item-icon" />}
             type="text"
             placeholder="Username"
           />
@@ -75,7 +75,7 @@ const Register = () => {
             },
           ]}
         >
-          <Input
+          <Input.Password
             prefix={<LockOutlined className="site-form-item-icon" />}
             type="password"
             placeholder="Password"
