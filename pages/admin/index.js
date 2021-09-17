@@ -3,6 +3,7 @@ import Users from "../../src/components/Users";
 import { StyledButton } from "../../src/components/styleds";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { Modal } from "antd";
+import Register from "../../src/components/Register";
 
 
 const Admin = () => {
@@ -49,7 +50,7 @@ const Admin = () => {
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
       >
-        <p>{modalText}</p>
+       <Register />
       </Modal>
 
     </div>

@@ -4,8 +4,7 @@ import { LockOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { signup } from "../store/actions/UserSlice";
-import { useDispatch, useSelector } from "react-redux";
-import styles from "../styles/Register.module.css";
+import { useDispatch } from "react-redux";
 import { StyledButton } from "./styleds";
 
 const Register = () => {
@@ -87,9 +86,6 @@ const Register = () => {
           <StyledButton type="submit" style={{ marginBottom: 10 }}>
             Register
           </StyledButton>
-          <Link href="/" className={styles.linkToLogin}>
-            <a className={styles.forgetPass}>Login</a>
-          </Link>
         </Form.Item>
       </Form>
     </div>
