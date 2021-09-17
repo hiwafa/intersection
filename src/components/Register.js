@@ -1,13 +1,11 @@
 import { Form, Input, Spin, Space } from "antd";
 import { LockOutlined, UserOutlined, MailOutlined } from "@ant-design/icons";
-
-import Link from "next/link";
+import styles from "../../styles/Register.module.css";
 import { useRouter } from "next/router";
 import { signup } from "../store/actions/UserSlice";
 import { useDispatch } from "react-redux";
 import { StyledButton } from "./styleds";
 import React, { useState } from "react";
-import styles from "../../styles/Register.module.css";
 import { css } from '@emotion/css';
 
 const spinStyle = css({
@@ -95,7 +93,7 @@ const Register = ({ setVisible }) => {
 
         <Form.Item>
           <StyledButton type="submit" style={{ marginBottom: 10 }}>
-            { loading === false ? <Spin size="small" className={spinStyle} />  : "Register"  }
+            { loading ? <Spin size="small" className={spinStyle} />  : "Register"  }
           </StyledButton>
         </Form.Item>
       </Form>
