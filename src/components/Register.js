@@ -7,6 +7,12 @@ import { signup } from "../store/actions/UserSlice";
 import { useDispatch } from "react-redux";
 import { StyledButton } from "./styleds";
 import React, { useState } from "react";
+import styles from "../../styles/Register.module.css";
+import { css } from '@emotion/css';
+
+const spinStyle = css({
+  '.ant-spin-dot-item': { backgroundColor: `#fff;` }
+});
 
 const Register = ({ setVisible }) => {
 
@@ -89,13 +95,7 @@ const Register = ({ setVisible }) => {
 
         <Form.Item>
           <StyledButton type="submit" style={{ marginBottom: 10 }}>
-            {
-              loading ?
-                <Space size="middle">
-                  <Spin size="small" />
-                </Space>
-                : "Register"
-            }
+            { loading === false ? <Spin size="small" className={spinStyle} />  : "Register"  }
           </StyledButton>
         </Form.Item>
       </Form>
