@@ -1,4 +1,4 @@
-import { Form, Input } from "antd";
+import { Form, Input, Spin, Space } from "antd";
 import { LockOutlined, UserOutlined, MailOutlined } from "@ant-design/icons";
 
 import Link from "next/link";
@@ -6,18 +6,23 @@ import { useRouter } from "next/router";
 import { signup } from "../store/actions/UserSlice";
 import { useDispatch } from "react-redux";
 import { StyledButton } from "./styleds";
+import React, { useState } from "react";
 
-const Register = () => {
+const Register = ({ setVisible }) => {
 
   const router = useRouter();
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
 
   const onFinish = async (values) => {
     try {
 
+      if (loading === true) return;
+
+      setLoading(true);
       // const { payload } =
       await dispatch(signup(values));
-      router.push("/");
+      setLoading(false); setVisible(false);
 
     } catch (err) {
       console.log("ERR:register:onFinish ", err);
@@ -84,7 +89,13 @@ const Register = () => {
 
         <Form.Item>
           <StyledButton type="submit" style={{ marginBottom: 10 }}>
-            Register
+            {
+              loading ?
+                <Space size="middle">
+                  <Spin size="small" />
+                </Space>
+                : "Register"
+            }
           </StyledButton>
         </Form.Item>
       </Form>

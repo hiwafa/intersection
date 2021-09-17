@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Users from "../../src/components/Users";
 import { StyledButton } from "../../src/components/styleds";
 import { PlusCircleOutlined } from "@ant-design/icons";
@@ -32,9 +32,9 @@ const Admin = () => {
         title="Title"
         visible={visible}
         footer={null}
-        onCancel={()=> setVisible(false)}
+        onCancel={() => setVisible(false)}
       >
-       <Register />
+        <Register setVisible={() => setVisible(false)} />
       </Modal>
 
     </div>
