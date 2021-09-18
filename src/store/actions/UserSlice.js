@@ -35,7 +35,6 @@ export const updateUser = createAsyncThunk(
     try {
 
       const { id, email, username, password, blocked, confirmed, role } = params;
-      console.log("JAJAJAJAJAJ: ", params);
 
       const { data } = await formRequest(`users/${id}`, {
         method: "PUT",

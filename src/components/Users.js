@@ -12,14 +12,11 @@ const Users = ({ refresh, onEditing }) => {
     const users = useGetIntersectionsQuery("users?_sort=created_at:desc");
 
     const data = useMemo(() => {
-
         if (users.data && users.data.length) {
-            console.log(users.data)
             return users.data.map(user => ({
                 ...user, role: user.role.name, confirmed: `${user.confirmed}`
             }))
         }
-
         return [];
     }, [users.data]);
 
