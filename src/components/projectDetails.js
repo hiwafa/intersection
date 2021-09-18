@@ -10,6 +10,7 @@ import moment from "moment"
 import crashCost from "../../src/utils/crashCosts"
 import numeral from "numeral"
 const { TabPane } = Tabs;
+const BASE_URL = process.env.BASE_URL
 const Wrapper = styled.div`
     padding: 10px;
 `
@@ -424,8 +425,9 @@ const handleRemove = async () =>{
                 icon={<DownloadOutlined />}
                 onClick={handleExportWithComponent}
                 >
-                Download
+                Download Project Details
               </ThemButton>
+              {project.projectFile?.url && <a href={`${BASE_URL}${project.projectFile?.url}`}><Button type={"primary"} icon={<DownloadOutlined />} htmlType={"button"} size={"medium"} className={"downloadButton"}>Download Project File</Button></a> }
             </PageTitle>
 
               <TableContainer style={{width: "380px", margin: "auto"}}>
