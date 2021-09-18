@@ -72,7 +72,6 @@ function EditProject ({project, setShowDetails}){
         }
         else if(values.PROJECT_STATUS === "Authorized")
         {
-          console.log(values.PROJECT_START_DATE)
           if(!values.PROJECT_SUBPHASE)
           {
             notification["error"]({
@@ -122,7 +121,6 @@ function EditProject ({project, setShowDetails}){
           console.log("no file selected")
         }
      
-      console.log(32222)
           await request(`projects/${values.id}`, {
             method: "PUT",
             data: values,

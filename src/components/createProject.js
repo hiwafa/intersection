@@ -74,7 +74,6 @@ function CreateProject({ handleClick }) {
         };
 
     }, [])
-    console.log(intersections)
     return <>
         <PageTitle> <LeftCircleOutlined className={"backButton"} onClick={() => handleClick(true)} /> Create Project</PageTitle>
         <ContentContainer>

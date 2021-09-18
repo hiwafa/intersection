@@ -8,7 +8,7 @@ import {request} from "../requests"
 import { PDFExport } from '@progress/kendo-react-pdf';
 import moment from "moment"
 import crashCost from "../../src/utils/crashCosts"
-import numeral from "numeral"
+import numeral, { isNumeral } from "numeral"
 const { TabPane } = Tabs;
 const BASE_URL = process.env.BASE_URL
 const Wrapper = styled.div`
@@ -183,7 +183,7 @@ let newTreats = []
       crashCosts += crashCost(crash.SEVERITY)
     })
     const NumberOfCrashes = intersection.crash_intersections ? intersection.crash_intersections.length : 0;
-    let sortedDate = dates.sort((a,b) => true ? new Date(b).getTime() - new Date(a).getTime() : new Date(a).getTime() - new Date(b).getTime());
+    let sortedDate = dates.sort((a,b) =>  new Date(b).getTime() - new Date(a).getTime());
     let last = moment(sortedDate[0])
     let first = moment(sortedDate[sortedDate.length -1])
     const yearsDiff =  last.diff(first, "years")
@@ -236,7 +236,7 @@ let newTreats = []
        crb = cc * crb;
 
        b = crb;
-       EUAB = (b /n).toFixed(3);
+       EUAB = (b /n);
        EUAC = EUAC.toFixed(3)
        const BEN_COST = (EUAB/EUAC).toFixed(3);
        return {EUAC, EUAB, BEN_COST}
@@ -247,14 +247,14 @@ let newTreats = []
       {field: <b>{"Project Number"}</b>, value: project.PROJECT_NUMBER},
       {field: <b>{"Project Status"}</b>, value: project.PROJECT_STATUS},
       {field: <b>{"Intersection"}</b>, value: project.INTERSECTION?.INTERSECTION_NAME},
-      {field: <b>{"B/C"}</b>, value: isNaN(calculateTreatments().BEN_COST) ? "" : calculateTreatments().BEN_COST},
+      {field: <b>{"B/C"}</b>, value: isNaN(calculateTreatments().BEN_COST) ? "" : numeral(calculateTreatments().BEN_COST).format("$0,0.00")},
       {field: <b>{"Crash Count"}</b>, value: intersection?.crash_intersections?.length},
       {field: <b>{"Crash Start Date"}</b>, value: project.CRASH_START_DATE},
       {field: <b>{"Crash End Date"}</b>, value: project.CRASH_END_DATE},
       {field: <b>{"Crash Rate AADT"}</b>, value: setCrash().crashRate.toFixed(2)},
       {field: <b>{"EPDO"}</b>, value: setCrash().epdo},
-      {field: <b>{"EUAB"}</b>, value: numeral(calculateTreatments().EUAB).format("$0,0.000")},
-      {field: <b>{"EUAC"}</b>, value: numeral(calculateTreatments().EUAC).format("$0,0.000")},
+      {field: <b>{"EUAB"}</b>, value: numeral(calculateTreatments().EUAB).format("$0,0.00")},
+      {field: <b>{"EUAC"}</b>, value: numeral(calculateTreatments().EUAC).format("$0,0.00")},
       {field: <b>{"Number of A injuries"}</b>, value: setCrash().a},
       {field: <b>{"Number of B injuries"}</b>, value: setCrash().b},
       {field: <b>{"Number of C injuries"}</b>, value: setCrash().c},
