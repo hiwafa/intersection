@@ -157,7 +157,7 @@ function SearchProject({setShowDetails, setProject, setSection, setInterSection}
                       intersection: project.INTERSECTION?.INTERSECTION_NAME,
                       programName: project.PROGRAM_NAME,
                       programNumber: project.PROGRAM_NUMBER,
-                      NumberOfCrashes: project.CRUSH_COUNT,
+                      NumberOfCrashes: project.CRASH_COUNT,
                       totalTreatments: project.treatments?.length,
                       action: <ActionContainer><EditOutlined onClick={() => selectProject(project, "edit")} className={"editProject"} /> <EyeOutlined className={"viewDetails"} onClick={() => selectProject(project, "view")} /></ActionContainer>
                   })

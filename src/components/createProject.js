@@ -33,7 +33,7 @@ function CreateProject({ handleClick }) {
     }
     const [form] = Form.useForm();
     const onFinish = async (values) => {
-        console.log('Received values of form: ', values);
+        values = {...values, CRASH_COUNT: selectIntersection(values.INTERSECTION)}
         await request("projects", {
             method: "POST",
             data: values,
@@ -55,6 +55,16 @@ function CreateProject({ handleClick }) {
     const wrapperCol = {
         xs: { span: 24 },
         sm: { span: 24 },
+    }
+    const selectIntersection = (id) => {
+        let crashLength =0;
+        intersections.length >0 && intersections.map((intersection) =>{
+            if(intersection.id == id)
+            {
+                crashLength= intersection?.crash_intersections?.length;
+            }
+        })
+        return crashLength;
     }
     useEffect(() => {
 
