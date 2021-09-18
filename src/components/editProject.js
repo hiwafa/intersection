@@ -103,7 +103,7 @@ function EditProject ({project, setShowDetails}){
         }
 
       try{
-        const upload = await axios.post(`${BASE_URL}/upload`,files, {
+        const upload = await axios.post(`${BASE_URL}upload`,files, {
           headers: {
             'Accept': 'application/json'
             },
