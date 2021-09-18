@@ -35,9 +35,9 @@ const Admin = () => {
       <Users refresh={visible} onEditing={onEdit} />
 
       <Modal
-        title={record && record.username ? "Edit User" : "Register New User"}
-        visible={visible}
-        footer={null}
+        title={record && record.username ?
+          "Edit User" : "Register New User"}
+        visible={visible} footer={null}
         onCancel={() => setVisible(false)}
       >
         {
