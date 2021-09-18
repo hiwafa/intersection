@@ -8,6 +8,7 @@ import {request} from "../requests"
 import { PDFExport } from '@progress/kendo-react-pdf';
 import moment from "moment"
 import crashCost from "../../src/utils/crashCosts"
+import numeral from "numeral"
 const { TabPane } = Tabs;
 const Wrapper = styled.div`
     padding: 10px;
@@ -201,8 +202,8 @@ let newTreats = []
       {field: <b>{"Crash End Date"}</b>, value: project.CRASH_END_DATE},
       {field: <b>{"Crash Rate AADT"}</b>, value: setCrash().crashRate.toFixed(2)},
       {field: <b>{"EPDO"}</b>, value: setCrash().epdo},
-      {field: <b>{"EUAB"}</b>, value: calculateTreatments().EUAB},
-      {field: <b>{"EUAC"}</b>, value: calculateTreatments().EUAC},
+      {field: <b>{"EUAB"}</b>, value: numeral(calculateTreatments().EUAB).format("$0,0.000")},
+      {field: <b>{"EUAC"}</b>, value: numeral(calculateTreatments().EUAC).format("$0,0.000")},
       {field: <b>{"Number of A injuries"}</b>, value: setCrash().a},
       {field: <b>{"Number of B injuries"}</b>, value: setCrash().b},
       {field: <b>{"Number of C injuries"}</b>, value: setCrash().c},
