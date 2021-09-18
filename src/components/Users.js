@@ -4,7 +4,7 @@ import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
 import { useGetIntersectionsQuery } from '../store/query';
 
-const Users = ({refresh}) => {
+const Users = ({ refresh }) => {
 
     const searchInput = useRef();
     const [searchText, setSearchText] = useState("");
@@ -24,7 +24,7 @@ const Users = ({refresh}) => {
     }, [users.data]);
 
 
-    useEffect(()=> {
+    useEffect(() => {
         users.refetch();
     }, [refresh]);
 
@@ -92,35 +92,35 @@ const Users = ({refresh}) => {
 
     const columns = [
         {
-            title: <p style={{fontWeight: 'bold', fontSize: 15 }}>Id</p>,
+            title: <p style={{ fontWeight: 'bold', fontSize: 15 }}>Id</p>,
             dataIndex: 'id',
             key: 'id',
             width: '10%',
             ...getColumnSearchProps('id'),
         },
         {
-            title: <p style={{fontWeight: 'bold', fontSize: 15 }}>User Name</p>,
+            title: <p style={{ fontWeight: 'bold', fontSize: 15 }}>User Name</p>,
             dataIndex: 'username',
             key: 'username',
             width: '20%',
             ...getColumnSearchProps('username'),
         },
         {
-            title: <p style={{fontWeight: 'bold', fontSize: 15 }}>Email</p>,
+            title: <p style={{ fontWeight: 'bold', fontSize: 15 }}>Email</p>,
             dataIndex: 'email',
             key: 'email',
             width: '30%',
             ...getColumnSearchProps('email'),
         },
         {
-            title: <p style={{fontWeight: 'bold', fontSize: 15 }}>Confirmed</p>,
+            title: <p style={{ fontWeight: 'bold', fontSize: 15 }}>Confirmed</p>,
             dataIndex: 'confirmed',
             key: 'confirmed',
             width: '10%',
             ...getColumnSearchProps('confirmed'),
         },
         {
-            title: <p style={{fontWeight: 'bold', fontSize: 15 }}>Role</p>,
+            title: <p style={{ fontWeight: 'bold', fontSize: 15 }}>Role</p>,
             dataIndex: 'role',
             key: 'role',
             ...getColumnSearchProps('role'),
@@ -130,8 +130,38 @@ const Users = ({refresh}) => {
     ];
 
 
-    return <Table rowKey="id" columns={columns} dataSource={data}
-        style={{ marginLeft: 15, marginRight: 15 }} />;
+    return (
+        <Table rowKey="id" dataSource={data}
+            style={{ marginLeft: 15, marginRight: 15 }
+            } >
+
+            <Table.Column title={<p style={{ fontWeight: 'bold', fontSize: 15 }}>Id</p>}
+            dataIndex="id" key="id"  width='10%' {...getColumnSearchProps('id')}/>
+            
+            <Table.Column title={<p style={{ fontWeight: 'bold', fontSize: 15 }}>User Name</p>}
+            dataIndex="username" key="username"  width='20%'  {...getColumnSearchProps('username')}/>
+            
+            <Table.Column title={<p style={{ fontWeight: 'bold', fontSize: 15 }}>Email</p>}
+            dataIndex="email" key="email"  width='30%'  {...getColumnSearchProps('email')}/>
+            
+            <Table.Column title={<p style={{ fontWeight: 'bold', fontSize: 15 }}>Confirmed</p>}
+            dataIndex="confirmed" key="confirmed"  width='10%'  {...getColumnSearchProps('confirmed')}/>
+            
+            <Table.Column title={<p style={{ fontWeight: 'bold', fontSize: 15 }}>Role</p>}
+            dataIndex="role" key="role"  width='20%'  {...getColumnSearchProps('role')}
+            sorter={(a, b) => a.role.length - b.role.length} sortDirections={['descend', 'ascend']}/>
+
+            <Table.Column
+                title="Action"
+                key="action"
+                render={(text, record) => (
+                    <Space size="middle">
+                        <a>Edit</a>
+                    </Space>
+                )}
+            />
+        </Table >
+    );
 }
 
 
