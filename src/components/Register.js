@@ -21,8 +21,6 @@ const Register = ({ setVisible }) => {
   const onFinish = async (values) => {
     try {
 
-      console.log(values); return;
-
       if (loading === true) return;
 
       setLoading(true);

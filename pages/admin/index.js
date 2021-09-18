@@ -29,7 +29,7 @@ const Admin = () => {
       <Users refresh={visible} />
 
       <Modal
-        title="Title"
+        title="Register New User"
         visible={visible}
         footer={null}
         onCancel={() => setVisible(false)}
