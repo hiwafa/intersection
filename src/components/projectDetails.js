@@ -53,6 +53,31 @@ const modalTableColumns = [
     align: 'left',
   },
   {
+    title: 'Salvage Percent',
+    dataIndex: 'SALVAGE_PERCENT',
+    align: 'left',
+  },
+  {
+    title: 'Interest Rate',
+    dataIndex: 'INTEREST_RATE',
+    align: 'left',
+  },
+  {
+    title: 'Total Treatment Cost',
+    dataIndex: 'TOTAL_TREATMENT_COST',
+    align: 'left',
+  },
+  {
+    title: 'OM Cost',
+    dataIndex: 'OM_COST',
+    align: 'left',
+  },
+  {
+    title: 'Treatment Cost',
+    dataIndex: 'TREATMENT_COST',
+    align: 'left',
+  },
+  {
     title: 'Add',
     dataIndex: 'add',
     align: 'left',
@@ -82,6 +107,31 @@ const projectTreatmentColumns = [
   {
     title: 'CMF',
     dataIndex: 'CMF',
+    align: 'left',
+  },
+  {
+    title: 'Salvage Percent',
+    dataIndex: 'SALVAGE_PERCENT',
+    align: 'left',
+  },
+  {
+    title: 'Interest Rate',
+    dataIndex: 'INTEREST_RATE',
+    align: 'left',
+  },
+  {
+    title: 'Total Treatment Cost',
+    dataIndex: 'TOTAL_TREATMENT_COST',
+    align: 'left',
+  },
+  {
+    title: 'OM Cost',
+    dataIndex: 'OM_COST',
+    align: 'left',
+  },
+  {
+    title: 'Treatment Cost',
+    dataIndex: 'TREATMENT_COST',
     align: 'left',
   },
   {
@@ -237,6 +287,11 @@ const loadTreatments = async () => {
           SERVICE_LIFE: treat.SERVICE_LIFE,
           CRF: treat.CRF,
           CMF: treat.CMF,
+          SALVAGE_PERCENT: treat.SALVAGE_PERCENT,
+          INTEREST_RATE: treat.INTEREST_RATE,
+          TOTAL_TREATMENT_COST: treat.TOTAL_TREATMENT_COST,
+          OM_COST: treat.OM_COST,
+          TREATMENT_COST: treat.TREATMENT_COST,
           add: <Checkbox key={index} onChange={(e) => addTreat(e, treat)} />
         }
       }))
@@ -351,6 +406,11 @@ const handleRemove = async () =>{
         SERVICE_LIFE: treat.SERVICE_LIFE,
         CRF: treat.CRF,
         CMF: treat.CMF,
+        SALVAGE_PERCENT: treat.SALVAGE_PERCENT,
+        INTEREST_RATE: treat.INTEREST_RATE,
+        TOTAL_TREATMENT_COST: treat.TOTAL_TREATMENT_COST,
+        OM_COST: treat.OM_COST,
+        TREATMENT_COST: treat.TREATMENT_COST,
         remove: <Checkbox key={index} onChange={(e) => removeTreat(e, treat)} />
       }
     }))
@@ -381,7 +441,7 @@ const handleRemove = async () =>{
               confirmLoading={confirmLoading}
               onCancel={handleCancel}
               footer={false}
-              width={700}
+              width={1200}
             >
                 <Tabs defaultActiveKey="1">
                 <TabPane tab="Countermeasures" style={{textAlign: "center"}} key="1">
