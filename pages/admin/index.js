@@ -39,7 +39,9 @@ const Admin = () => {
         footer={null}
         onCancel={() => setVisible(false)}
       >
-        <Register setVisible={() => setVisible(false)} record={record}/>
+        {
+          visible  && <Register setVisible={() => setVisible(false)} record={record}/>
+        }
       </Modal>
 
     </div>

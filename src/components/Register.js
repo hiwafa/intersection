@@ -18,10 +18,10 @@ const Register = ({ setVisible, record }) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
 
-  useEffect(()=> {
+  useEffect(() => {
     const newRecord = {
       ...record,
-      blocked: record.blocked == "false" || record.blocked == null  ? false : true,
+      blocked: record.blocked == "false" || record.blocked == null ? false : true,
       confirmed: record.confirmed == "true" ? true : false,
     };
     formRef.current?.setFieldsValue(newRecord);
@@ -117,6 +117,7 @@ const Register = ({ setVisible, record }) => {
           <Form.Item label="Confirmed" initialValue={false} name="confirmed" style={{ marginRight: 20 }}>
             <Switch />
           </Form.Item>
+
 
           <Form.Item label="Blocked" initialValue={false} name="blocked">
             <Switch />
