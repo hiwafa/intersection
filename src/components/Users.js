@@ -138,7 +138,7 @@ const Users = ({ refresh, onEditing }) => {
     const onEdit = (text, record) => {
         return (
             <Space size="middle">
-                <a onClick={()=> onEditing(record)}>Edit</a>
+                <a onClick={() => onEditing(record)}>Edit</a>
             </Space>
         );
     };

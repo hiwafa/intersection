@@ -16,7 +16,7 @@ const Admin = () => {
     setVisible(true);
   };
 
-  const onEdit = (rcrd)=> {
+  const onEdit = (rcrd) => {
     setRecord(rcrd);
     setVisible(true);
   };
@@ -41,7 +41,7 @@ const Admin = () => {
         onCancel={() => setVisible(false)}
       >
         {
-          visible  && <Register setVisible={() => setVisible(false)} record={record}/>
+          visible && <Register setVisible={() => setVisible(false)} record={record} />
         }
       </Modal>
 
