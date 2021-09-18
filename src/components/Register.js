@@ -1,24 +1,33 @@
-import { Form, Input } from "antd";
-import { LockOutlined } from "@ant-design/icons";
-
-import Link from "next/link";
-import { useRouter } from "next/router";
+import { Form, Input, Spin, Switch, Select } from "antd";
+import { LockOutlined, UserOutlined, MailOutlined } from "@ant-design/icons";
+import styles from "../../styles/Register.module.css";
 import { signup } from "../store/actions/UserSlice";
-import { useDispatch, useSelector } from "react-redux";
-import styles from "../styles/Register.module.css";
+import { useDispatch } from "react-redux";
 import { StyledButton } from "./styleds";
+import React, { useState, useRef } from "react";
+import { css } from '@emotion/css';
+const { Option } = Select;
 
-const Register = () => {
+const spinStyle = css({
+  '.ant-spin-dot-item': { backgroundColor: `#fff;` }
+});
 
-  const router = useRouter();
+const Register = ({ setVisible }) => {
+
+  const formRef = useRef();
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
 
   const onFinish = async (values) => {
     try {
 
+      if (loading === true) return;
+
+      setLoading(true);
       // const { payload } =
       await dispatch(signup(values));
-      router.push("/");
+      setLoading(false); setVisible(false);
+      formRef.current?.resetFields();
 
     } catch (err) {
       console.log("ERR:register:onFinish ", err);
@@ -28,6 +37,7 @@ const Register = () => {
   return (
     <div>
       <Form
+        ref={formRef}
         name="normal_login"
         className="login-form"
         initialValues={{
@@ -45,7 +55,7 @@ const Register = () => {
           ]}
         >
           <Input
-            prefix={<LockOutlined className="site-form-item-icon" />}
+            prefix={<MailOutlined className="site-form-item-icon" />}
             type="email"
             placeholder="Email Address"
           />
@@ -61,7 +71,7 @@ const Register = () => {
           ]}
         >
           <Input
-            prefix={<LockOutlined className="site-form-item-icon" />}
+            prefix={<UserOutlined className="site-form-item-icon" />}
             type="text"
             placeholder="Username"
           />
@@ -76,20 +86,38 @@ const Register = () => {
             },
           ]}
         >
-          <Input
+          <Input.Password
             prefix={<LockOutlined className="site-form-item-icon" />}
             type="password"
             placeholder="Password"
           />
         </Form.Item>
 
+        <Form.Item name="role" initialValue="1">
+          <Select
+            placeholder="Select a role"
+            allowClear
+          >
+            <Option value="1">Authenticated</Option>
+            <Option value="3">Project Analyst</Option>
+            <Option value="4">Admin</Option>
+          </Select>
+        </Form.Item>
+
+        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+          <Form.Item label="Confirmed" initialValue={false} name="confirmed" style={{ marginRight: 20 }}>
+            <Switch />
+          </Form.Item>
+
+          <Form.Item label="Blocked" initialValue={false} name="blocked">
+            <Switch />
+          </Form.Item>
+        </div>
+
         <Form.Item>
           <StyledButton type="submit" style={{ marginBottom: 10 }}>
-            Register
+            {loading ? <Spin size="small" className={spinStyle} /> : "Register"}
           </StyledButton>
-          <Link href="/" className={styles.linkToLogin}>
-            <a className={styles.forgetPass}>Login</a>
-          </Link>
         </Form.Item>
       </Form>
     </div>

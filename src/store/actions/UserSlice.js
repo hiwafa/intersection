@@ -7,21 +7,22 @@ export const signup = createAsyncThunk(
   async (params, thunkAPI) => {
     try {
 
-      const { data } = await request("auth/local/register", {
+      // const { data } = await request("auth/local/register", {
+      //   method: "POST",
+      //   data: params
+      // });
+
+      const { data } = await request("users", {
         method: "POST",
         data: params
       });
 
       if (data) {
-        setCookie("credential", {
-          ...data,
-          ...params,
-        });
-
         return { ...data, ...params, loginStatus: "loaded" };
       }
 
       return thunkAPI.rejectWithValue("No Data for SignUp");
+
     } catch (err) {
       return thunkAPI.rejectWithValue(err.message);
     }
@@ -155,11 +156,11 @@ const userSlice = createSlice({
       state.reasonForRejection = JSON.stringify(action.payload);
     },
     [signup.fulfilled]: (state, { payload }) => {
-      return {
-        ...state,
-        ...payload,
-        status: "fulfilled",
-      };
+      // return {
+      //   ...state,
+      //   ...payload,
+      //   status: "fulfilled",
+      // };
     },
 
     /* sign in reducer */
