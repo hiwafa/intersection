@@ -105,38 +105,38 @@ function SearchProject({setShowDetails, setProject, setSection, setInterSection}
 
     const columns = [
       {
-        title: <b>{'PROJECT NAME'}</b>,
+        title: <b>{'Project Name'}</b>,
         dataIndex: 'name',
         // render: function name(text) {return text},
         ...getColumnSearchProps('name')
       },
       {
-        title: <b>{'STATUS'}</b>,
+        title: <b>{'Status'}</b>,
         dataIndex: 'status',
         responsive: ['xs', 's', 'md', 'lg']
       },
       {
-        title: <b>{'INTERSECTION'}</b>,
+        title: <b>{'Intersection'}</b>,
         dataIndex: 'intersection',
       },
       {
-        title:  <b>{'PROGRAM NAME'}</b>,
+        title:  <b>{'Program Name'}</b>,
         dataIndex: 'programName',
       },
       {
-        title: <b>{'PROGRAM NUMBER'}</b>,
+        title: <b>{'Program Number'}</b>,
         dataIndex: 'programNumber',
       },
       {
-        title: <b>{'NO. OF CRASHES'}</b>,
+        title: <b>{'No. of Crashes'}</b>,
         dataIndex: 'NumberOfCrashes',
       },
       {
-        title: <b>{'TOTAL TREATMENTS'}</b>,
+        title: <b>{'Total Treatments'}</b>,
         dataIndex: 'totalTreatments',
       },
       {
-        title: <b>{'ACTION'}</b>,
+        title: <b>{'Action'}</b>,
         dataIndex: 'action',
         // render:  (text) => {text},
       },

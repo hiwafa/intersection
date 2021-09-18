@@ -28,17 +28,17 @@ const columns = [
   ];
 const modalTableColumns = [ 
   {
-    title: 'NAME',
+    title: 'Name',
     dataIndex: 'TREATMENT_NAME',
     align: 'left',
   },
   {
-    title: 'TYPE',
+    title: 'Type',
     dataIndex: 'TREATMENT_TYPE',
     align: 'left',
   },
   {
-    title: 'SERVICE LIFE',
+    title: 'Service Live',
     dataIndex: 'SERVICE_LIFE',
     align: 'left',
   },
@@ -60,17 +60,17 @@ const modalTableColumns = [
 ]
 const projectTreatmentColumns = [ 
   {
-    title: 'NAME',
+    title: 'Name',
     dataIndex: 'TREATMENT_NAME',
     align: 'left',
   },
   {
-    title: 'TYPE',
+    title: 'Type',
     dataIndex: 'TREATMENT_TYPE',
     align: 'left',
   },
   {
-    title: 'SERVICE LIFE',
+    title: 'Service Life',
     dataIndex: 'SERVICE_LIFE',
     align: 'left',
   },
