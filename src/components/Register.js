@@ -1,4 +1,4 @@
-import { Form, Input, Spin, Space } from "antd";
+import { Form, Input, Spin, Switch } from "antd";
 import { LockOutlined, UserOutlined, MailOutlined } from "@ant-design/icons";
 import styles from "../../styles/Register.module.css";
 import { useRouter } from "next/router";
@@ -89,6 +89,14 @@ const Register = ({ setVisible }) => {
             type="password"
             placeholder="Password"
           />
+        </Form.Item>
+
+        <Form.Item label="Confirmed" valuePropName="confirmed">
+          <Switch />
+        </Form.Item>
+        
+        <Form.Item label="Blocked" valuePropName="blocked">
+          <Switch />
         </Form.Item>
 
         <Form.Item>
