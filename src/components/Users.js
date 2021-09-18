@@ -1,18 +1,20 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState, useEffect } from 'react';
 import { Table, Input, Button, Space } from 'antd';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
 import { useGetIntersectionsQuery } from '../store/query';
 
-const Users = () => {
+const Users = ({refresh}) => {
 
     const searchInput = useRef();
     const [searchText, setSearchText] = useState("");
     const [searchedColumn, setSearchedColumn] = useState("");
     const users = useGetIntersectionsQuery("users");
+
     const data = useMemo(() => {
 
         if (users.data && users.data.length) {
+            console.log(users.data)
             return users.data.map(user => ({
                 ...user, role: user.role.name, confirmed: `${user.confirmed}`
             }))
@@ -20,6 +22,11 @@ const Users = () => {
 
         return [];
     }, [users.data]);
+
+
+    useEffect(()=> {
+        users.refetch();
+    }, [refresh]);
 
 
     const handleSearch = (selectedKeys, confirm, dataIndex) => {

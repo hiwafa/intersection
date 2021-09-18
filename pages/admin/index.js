@@ -26,7 +26,7 @@ const Admin = () => {
         </StyledButton>
       </div>
 
-      <Users />
+      <Users refresh={visible} />
 
       <Modal
         title="Title"
