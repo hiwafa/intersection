@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { StyledButton } from "./styleds";
 import React, { useState, useRef } from "react";
 import { css } from '@emotion/css';
+const { Option } = Select;
 
 const spinStyle = css({
   '.ant-spin-dot-item': { backgroundColor: `#fff;` }

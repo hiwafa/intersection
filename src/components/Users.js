@@ -130,6 +130,13 @@ const Users = ({ refresh }) => {
     ];
 
 
+    const onEdit = (text, record) => (
+        <Space size="middle">
+            <a>Edit</a>
+        </Space>
+    );
+
+
     return (
         <Table rowKey="id" dataSource={data}
             style={{ marginLeft: 15, marginRight: 15 }
@@ -154,11 +161,7 @@ const Users = ({ refresh }) => {
             <Table.Column
                 title="Action"
                 key="action"
-                render={(text, record) => (
-                    <Space size="middle">
-                        <a>Edit</a>
-                    </Space>
-                )}
+                render={onEdit}
             />
         </Table >
     );
