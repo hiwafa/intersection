@@ -1,11 +1,10 @@
 import { Form, Input, Spin, Switch, Select } from "antd";
 import { LockOutlined, UserOutlined, MailOutlined } from "@ant-design/icons";
 import styles from "../../styles/Register.module.css";
-import { useRouter } from "next/router";
 import { signup } from "../store/actions/UserSlice";
 import { useDispatch } from "react-redux";
 import { StyledButton } from "./styleds";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { css } from '@emotion/css';
 
 const spinStyle = css({
@@ -14,7 +13,7 @@ const spinStyle = css({
 
 const Register = ({ setVisible }) => {
 
-  const router = useRouter();
+  const formRef = useRef();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
 
@@ -27,6 +26,7 @@ const Register = ({ setVisible }) => {
       // const { payload } =
       await dispatch(signup(values));
       setLoading(false); setVisible(false);
+      formRef.current?.resetFields();
 
     } catch (err) {
       console.log("ERR:register:onFinish ", err);
@@ -36,6 +36,7 @@ const Register = ({ setVisible }) => {
   return (
     <div>
       <Form
+        ref={formRef}
         name="normal_login"
         className="login-form"
         initialValues={{
