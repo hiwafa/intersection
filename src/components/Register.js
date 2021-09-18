@@ -1,4 +1,4 @@
-import { Form, Input, Spin, Switch } from "antd";
+import { Form, Input, Spin, Switch, Select } from "antd";
 import { LockOutlined, UserOutlined, MailOutlined } from "@ant-design/icons";
 import styles from "../../styles/Register.module.css";
 import { useRouter } from "next/router";
@@ -91,17 +91,30 @@ const Register = ({ setVisible }) => {
           />
         </Form.Item>
 
-        <Form.Item label="Confirmed" valuePropName="confirmed">
-          <Switch />
+        <Form.Item name="role" initialValue="1">
+          <Select
+            placeholder="Select a role"
+            allowClear
+          >
+            <Option value="1">Authenticated</Option>
+            <Option value="3">Project Analyst</Option>
+            <Option value="4">Admin</Option>
+          </Select>
         </Form.Item>
-        
-        <Form.Item label="Blocked" valuePropName="blocked">
-          <Switch />
-        </Form.Item>
+
+        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+          <Form.Item label="Confirmed" valuePropName="confirmed" style={{ marginRight: 20 }}>
+            <Switch />
+          </Form.Item>
+
+          <Form.Item label="Blocked" valuePropName="blocked">
+            <Switch />
+          </Form.Item>
+        </div>
 
         <Form.Item>
           <StyledButton type="submit" style={{ marginBottom: 10 }}>
-            { loading ? <Spin size="small" className={spinStyle} />  : "Register"  }
+            {loading ? <Spin size="small" className={spinStyle} /> : "Register"}
           </StyledButton>
         </Form.Item>
       </Form>
