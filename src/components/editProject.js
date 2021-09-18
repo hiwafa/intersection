@@ -72,7 +72,6 @@ function EditProject ({project, setShowDetails}){
         }
         else if(values.PROJECT_STATUS === "Authorized")
         {
-          console.log(values.PROJECT_START_DATE)
           if(!values.PROJECT_SUBPHASE)
           {
             notification["error"]({
@@ -81,7 +80,7 @@ function EditProject ({project, setShowDetails}){
             })
             return
           }
-          if(values.PROJECT_START_DATE === null || project.PROJECT_END_DATE === null)
+          if(values.PROJECT_START_DATE === null || values.PROJECT_END_DATE === null)
           {
             notification["error"]({
               duration: 5,
@@ -103,7 +102,7 @@ function EditProject ({project, setShowDetails}){
         }
 
       try{
-        const upload = await axios.post(`${BASE_URL}/upload`,files, {
+        const upload = await axios.post(`${BASE_URL}upload`,files, {
           headers: {
             'Accept': 'application/json'
             },
@@ -122,7 +121,6 @@ function EditProject ({project, setShowDetails}){
           console.log("no file selected")
         }
      
-      console.log(32222)
           await request(`projects/${values.id}`, {
             method: "PUT",
             data: values,

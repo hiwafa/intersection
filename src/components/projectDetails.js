@@ -8,7 +8,9 @@ import {request} from "../requests"
 import { PDFExport } from '@progress/kendo-react-pdf';
 import moment from "moment"
 import crashCost from "../../src/utils/crashCosts"
+import numeral, { isNumeral } from "numeral"
 const { TabPane } = Tabs;
+const BASE_URL = process.env.BASE_URL
 const Wrapper = styled.div`
     padding: 10px;
 `
@@ -27,17 +29,17 @@ const columns = [
   ];
 const modalTableColumns = [ 
   {
-    title: 'NAME',
+    title: 'Name',
     dataIndex: 'TREATMENT_NAME',
     align: 'left',
   },
   {
-    title: 'TYPE',
+    title: 'Type',
     dataIndex: 'TREATMENT_TYPE',
     align: 'left',
   },
   {
-    title: 'SERVICE LIFE',
+    title: 'Service Live',
     dataIndex: 'SERVICE_LIFE',
     align: 'left',
   },
@@ -49,6 +51,31 @@ const modalTableColumns = [
   {
     title: 'CMF',
     dataIndex: 'CMF',
+    align: 'left',
+  },
+  {
+    title: 'Salvage Percent',
+    dataIndex: 'SALVAGE_PERCENT',
+    align: 'left',
+  },
+  {
+    title: 'Interest Rate',
+    dataIndex: 'INTEREST_RATE',
+    align: 'left',
+  },
+  {
+    title: 'Total Treatment Cost',
+    dataIndex: 'TOTAL_TREATMENT_COST',
+    align: 'left',
+  },
+  {
+    title: 'OM Cost',
+    dataIndex: 'OM_COST',
+    align: 'left',
+  },
+  {
+    title: 'Treatment Cost',
+    dataIndex: 'TREATMENT_COST',
     align: 'left',
   },
   {
@@ -59,17 +86,17 @@ const modalTableColumns = [
 ]
 const projectTreatmentColumns = [ 
   {
-    title: 'NAME',
+    title: 'Name',
     dataIndex: 'TREATMENT_NAME',
     align: 'left',
   },
   {
-    title: 'TYPE',
+    title: 'Type',
     dataIndex: 'TREATMENT_TYPE',
     align: 'left',
   },
   {
-    title: 'SERVICE LIFE',
+    title: 'Service Life',
     dataIndex: 'SERVICE_LIFE',
     align: 'left',
   },
@@ -81,6 +108,31 @@ const projectTreatmentColumns = [
   {
     title: 'CMF',
     dataIndex: 'CMF',
+    align: 'left',
+  },
+  {
+    title: 'Salvage Percent',
+    dataIndex: 'SALVAGE_PERCENT',
+    align: 'left',
+  },
+  {
+    title: 'Interest Rate',
+    dataIndex: 'INTEREST_RATE',
+    align: 'left',
+  },
+  {
+    title: 'Total Treatment Cost',
+    dataIndex: 'TOTAL_TREATMENT_COST',
+    align: 'left',
+  },
+  {
+    title: 'OM Cost',
+    dataIndex: 'OM_COST',
+    align: 'left',
+  },
+  {
+    title: 'Treatment Cost',
+    dataIndex: 'TREATMENT_COST',
     align: 'left',
   },
   {
@@ -131,11 +183,11 @@ let newTreats = []
       crashCosts += crashCost(crash.SEVERITY)
     })
     const NumberOfCrashes = intersection.crash_intersections ? intersection.crash_intersections.length : 0;
-    let sortedDate = dates.sort((a,b) => true ? new Date(b).getTime() - new Date(a).getTime() : new Date(a).getTime() - new Date(b).getTime());
+    let sortedDate = dates.sort((a,b) =>  new Date(b).getTime() - new Date(a).getTime());
     let last = moment(sortedDate[0])
     let first = moment(sortedDate[sortedDate.length -1])
     const yearsDiff =  last.diff(first, "years")
-    crashRate = (parseInt(project.CRASH_COUNT) * Math.pow(10, 6)) / (yearsDiff * 365 * parseInt(intersection && intersection.AADT))
+    crashRate = (parseInt(intersection?.crash_intersections?.length) * Math.pow(10, 6)) / (yearsDiff * 365 * parseInt(intersection && intersection.AADT))
     epdo = 542* fatalities + 11* injuries + 1*pdo;
 
    return {a, b, c, injuries, fatalities, pdo, epdo, crashRate, yearsDiff, NumberOfCrashes, crashCosts}
@@ -184,7 +236,7 @@ let newTreats = []
        crb = cc * crb;
 
        b = crb;
-       EUAB = (b /n).toFixed(3);
+       EUAB = (b /n);
        EUAC = EUAC.toFixed(3)
        const BEN_COST = (EUAB/EUAC).toFixed(3);
        return {EUAC, EUAB, BEN_COST}
@@ -195,14 +247,14 @@ let newTreats = []
       {field: <b>{"Project Number"}</b>, value: project.PROJECT_NUMBER},
       {field: <b>{"Project Status"}</b>, value: project.PROJECT_STATUS},
       {field: <b>{"Intersection"}</b>, value: project.INTERSECTION?.INTERSECTION_NAME},
-      {field: <b>{"Ben_Cost"}</b>, value: calculateTreatments().BEN_COST},
-      {field: <b>{"Crash Count"}</b>, value: project.CRASH_COUNT},
+      {field: <b>{"B/C"}</b>, value: isNaN(calculateTreatments().BEN_COST) ? "" : numeral(calculateTreatments().BEN_COST).format("$0,0.00")},
+      {field: <b>{"Crash Count"}</b>, value: intersection?.crash_intersections?.length},
       {field: <b>{"Crash Start Date"}</b>, value: project.CRASH_START_DATE},
       {field: <b>{"Crash End Date"}</b>, value: project.CRASH_END_DATE},
       {field: <b>{"Crash Rate AADT"}</b>, value: setCrash().crashRate.toFixed(2)},
       {field: <b>{"EPDO"}</b>, value: setCrash().epdo},
-      {field: <b>{"EUAB"}</b>, value: calculateTreatments().EUAB},
-      {field: <b>{"EUAC"}</b>, value: calculateTreatments().EUAC},
+      {field: <b>{"EUAB"}</b>, value: numeral(calculateTreatments().EUAB).format("$0,0.00")},
+      {field: <b>{"EUAC"}</b>, value: numeral(calculateTreatments().EUAC).format("$0,0.00")},
       {field: <b>{"Number of A injuries"}</b>, value: setCrash().a},
       {field: <b>{"Number of B injuries"}</b>, value: setCrash().b},
       {field: <b>{"Number of C injuries"}</b>, value: setCrash().c},
@@ -216,7 +268,7 @@ let newTreats = []
       {field: <b>{"Project Start Date"}</b>, value: project.PROJECT_START_DATE},
       {field: <b>{"Project End Date"}</b>, value: project.PROJECT_END_DATE},
       {field: <b>{"Project Sub Phase"}</b>, value: project.PROJECT_SUBPHASE},
-      {field: <b>{"Countermeasures"}</b>, value: <Tooltip title="Countermeasures can be added by clicking" placement="top"><a onClick={showModal}>{project.treatments?.length ? project.treatments?.length : 0}</a></Tooltip>}
+      {field: <b>{"Countermeasures"}</b>, value: <Tooltip title="Countermeasures can be added by clicking" placement="top"><a onClick={showModal} style={{textDecoration: "underline", color: "blue"}}>{project.treatments?.length ? project.treatments?.length : 0}</a></Tooltip>}
     ])
   }
   const  handleExportWithComponent  = (event) => {
@@ -236,6 +288,11 @@ const loadTreatments = async () => {
           SERVICE_LIFE: treat.SERVICE_LIFE,
           CRF: treat.CRF,
           CMF: treat.CMF,
+          SALVAGE_PERCENT: treat.SALVAGE_PERCENT,
+          INTEREST_RATE: treat.INTEREST_RATE,
+          TOTAL_TREATMENT_COST: treat.TOTAL_TREATMENT_COST,
+          OM_COST: treat.OM_COST,
+          TREATMENT_COST: treat.TREATMENT_COST,
           add: <Checkbox key={index} onChange={(e) => addTreat(e, treat)} />
         }
       }))
@@ -350,6 +407,11 @@ const handleRemove = async () =>{
         SERVICE_LIFE: treat.SERVICE_LIFE,
         CRF: treat.CRF,
         CMF: treat.CMF,
+        SALVAGE_PERCENT: treat.SALVAGE_PERCENT,
+        INTEREST_RATE: treat.INTEREST_RATE,
+        TOTAL_TREATMENT_COST: treat.TOTAL_TREATMENT_COST,
+        OM_COST: treat.OM_COST,
+        TREATMENT_COST: treat.TREATMENT_COST,
         remove: <Checkbox key={index} onChange={(e) => removeTreat(e, treat)} />
       }
     }))
@@ -363,8 +425,9 @@ const handleRemove = async () =>{
                 icon={<DownloadOutlined />}
                 onClick={handleExportWithComponent}
                 >
-                Download
+                Download Project Details
               </ThemButton>
+              {project.projectFile?.url && <a href={`${BASE_URL}${project.projectFile?.url}`}><Button type={"primary"} icon={<DownloadOutlined />} htmlType={"button"} size={"medium"} className={"downloadButton"}>Download Project File</Button></a> }
             </PageTitle>
 
               <TableContainer style={{width: "380px", margin: "auto"}}>
@@ -380,7 +443,7 @@ const handleRemove = async () =>{
               confirmLoading={confirmLoading}
               onCancel={handleCancel}
               footer={false}
-              width={700}
+              width={1200}
             >
                 <Tabs defaultActiveKey="1">
                 <TabPane tab="Countermeasures" style={{textAlign: "center"}} key="1">
