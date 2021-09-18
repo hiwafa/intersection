@@ -135,7 +135,7 @@ let newTreats = []
     let last = moment(sortedDate[0])
     let first = moment(sortedDate[sortedDate.length -1])
     const yearsDiff =  last.diff(first, "years")
-    crashRate = (parseInt(project.CRASH_COUNT) * Math.pow(10, 6)) / (yearsDiff * 365 * parseInt(intersection && intersection.AADT))
+    crashRate = (parseInt(intersection?.crash_intersections?.length) * Math.pow(10, 6)) / (yearsDiff * 365 * parseInt(intersection && intersection.AADT))
     epdo = 542* fatalities + 11* injuries + 1*pdo;
 
    return {a, b, c, injuries, fatalities, pdo, epdo, crashRate, yearsDiff, NumberOfCrashes, crashCosts}
@@ -196,7 +196,7 @@ let newTreats = []
       {field: <b>{"Project Status"}</b>, value: project.PROJECT_STATUS},
       {field: <b>{"Intersection"}</b>, value: project.INTERSECTION?.INTERSECTION_NAME},
       {field: <b>{"Ben_Cost"}</b>, value: calculateTreatments().BEN_COST},
-      {field: <b>{"Crash Count"}</b>, value: project.CRASH_COUNT},
+      {field: <b>{"Crash Count"}</b>, value: intersection?.crash_intersections?.length},
       {field: <b>{"Crash Start Date"}</b>, value: project.CRASH_START_DATE},
       {field: <b>{"Crash End Date"}</b>, value: project.CRASH_END_DATE},
       {field: <b>{"Crash Rate AADT"}</b>, value: setCrash().crashRate.toFixed(2)},
