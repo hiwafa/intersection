@@ -22,7 +22,7 @@ const Register = ({ setVisible, record }) => {
     if (record && record.username) {
       const newRecord = {
         ...record,
-        blocked: record.blocked == "false" || record.blocked == null ? false : true,
+        blocked: record.blocked == "true" ? true : false,
         confirmed: record.confirmed == "true" ? true : false,
       };
       formRef.current?.setFieldsValue(newRecord);
