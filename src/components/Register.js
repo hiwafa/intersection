@@ -24,6 +24,8 @@ const Register = ({ setVisible, record }) => {
         ...record,
         blocked: record.blocked == "true" ? true : false,
         confirmed: record.confirmed == "true" ? true : false,
+        role: record.role === "Authenticated" ? "1" :
+          record.role === "Project Analyst" ? "3" : "4"
       };
       formRef.current?.setFieldsValue(newRecord);
     }
@@ -38,7 +40,7 @@ const Register = ({ setVisible, record }) => {
       // const { payload } =
 
       await dispatch(record && record.username ?
-        updateUser(values) : createUser(values));
+        updateUser({ ...record, ...values }) : createUser(values));
 
       setLoading(false); setVisible(false);
       formRef.current?.resetFields();

@@ -34,13 +34,16 @@ export const updateUser = createAsyncThunk(
   async (params, thunkAPI) => {
     try {
 
-      const { data } = await formRequest(`users/${params.id}`, {
+      const {id, email, username, password, blocked, confirmed, role} = params;
+      console.log("JAJAJAJAJAJ: ", params);
+
+      const { data } = await formRequest(`users/${id}`, {
         method: "PUT",
-        data: params
+        data: {email, username, password, blocked, confirmed, role}
       });
 
       if (data) {
-        return { ...data, ...params };
+        return { ...data, ...{email, username, password, blocked, confirmed, role} };
       }
 
       return thunkAPI.rejectWithValue("No Data for Updat eUser");
