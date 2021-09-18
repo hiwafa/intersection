@@ -19,12 +19,14 @@ const Register = ({ setVisible, record }) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const newRecord = {
-      ...record,
-      blocked: record.blocked == "false" || record.blocked == null ? false : true,
-      confirmed: record.confirmed == "true" ? true : false,
-    };
-    formRef.current?.setFieldsValue(newRecord);
+    if (record && record.username) {
+      const newRecord = {
+        ...record,
+        blocked: record.blocked == "false" || record.blocked == null ? false : true,
+        confirmed: record.confirmed == "true" ? true : false,
+      };
+      formRef.current?.setFieldsValue(newRecord);
+    }
   }, [record]);
 
   const onFinish = async (values) => {
@@ -114,7 +116,8 @@ const Register = ({ setVisible, record }) => {
         </Form.Item>
 
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-          <Form.Item valuePropName="checked" label="Confirmed" initialValue={true} name="confirmed" style={{ marginRight: 20 }}>
+          <Form.Item valuePropName="checked" label="Confirmed"
+            initialValue={false} name="confirmed" style={{ marginRight: 20 }}>
             <Switch />
           </Form.Item>
 
