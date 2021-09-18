@@ -246,7 +246,7 @@ let newTreats = []
       {field: <b>{"Project Number"}</b>, value: project.PROJECT_NUMBER},
       {field: <b>{"Project Status"}</b>, value: project.PROJECT_STATUS},
       {field: <b>{"Intersection"}</b>, value: project.INTERSECTION?.INTERSECTION_NAME},
-      {field: <b>{"Ben_Cost"}</b>, value: calculateTreatments().BEN_COST},
+      {field: <b>{"B/C"}</b>, value: isNaN(calculateTreatments().BEN_COST) ? "" : calculateTreatments().BEN_COST},
       {field: <b>{"Crash Count"}</b>, value: intersection?.crash_intersections?.length},
       {field: <b>{"Crash Start Date"}</b>, value: project.CRASH_START_DATE},
       {field: <b>{"Crash End Date"}</b>, value: project.CRASH_END_DATE},
