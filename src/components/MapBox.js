@@ -33,7 +33,7 @@ const CustomMarker = ({ crashId, inventory, onPress }) => {
 
     return (
         <div style={markerStyle} key={crashId} onClick={() => onPress(inventory)}>
-            {lent - 1}+
+            { lent > 4 ? `${(4 + (lent-5))}+` : lent > 2 ? `${(2 + (lent-3))}+` : lent }
         </div>
     );
 }
