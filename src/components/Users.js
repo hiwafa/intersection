@@ -9,7 +9,7 @@ const Users = ({refresh}) => {
     const searchInput = useRef();
     const [searchText, setSearchText] = useState("");
     const [searchedColumn, setSearchedColumn] = useState("");
-    const users = useGetIntersectionsQuery("users");
+    const users = useGetIntersectionsQuery("users?_sort=created_at:desc");
 
     const data = useMemo(() => {
 
