@@ -4,7 +4,7 @@ import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
 import { useGetIntersectionsQuery } from '../store/query';
 
-const Users = ({ refresh }) => {
+const Users = ({ refresh, onEdit }) => {
 
     const searchInput = useRef();
     const [searchText, setSearchText] = useState("");
@@ -138,7 +138,7 @@ const Users = ({ refresh }) => {
     const onEdit = (text, record) => {
         return (
             <Space size="middle">
-                <a>Edit</a>
+                <a onClick={()=> onEdit(record)}>Edit</a>
             </Space>
         );
     };

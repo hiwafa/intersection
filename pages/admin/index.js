@@ -9,11 +9,16 @@ import Register from "../../src/components/Register";
 const Admin = () => {
 
   const [visible, setVisible] = useState(false);
+  const [record, setRecord] = useState(null);
 
   const showModal = () => {
     setVisible(true);
   };
 
+  const onEdit = (rcrd)=> {
+    setRecord(rcrd);
+    setVisible(true);
+  };
 
   return (
     <div>
@@ -26,7 +31,7 @@ const Admin = () => {
         </StyledButton>
       </div>
 
-      <Users refresh={visible} />
+      <Users refresh={visible} onEdit={onEdit} />
 
       <Modal
         title="Register New User"
@@ -34,7 +39,7 @@ const Admin = () => {
         footer={null}
         onCancel={() => setVisible(false)}
       >
-        <Register setVisible={() => setVisible(false)} />
+        <Register setVisible={() => setVisible(false)} record={record}/>
       </Modal>
 
     </div>
