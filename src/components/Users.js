@@ -4,7 +4,7 @@ import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
 import { useGetIntersectionsQuery } from '../store/query';
 
-const Users = ({ refresh }) => {
+const Users = ({ refresh, onEditing }) => {
 
     const searchInput = useRef();
     const [searchText, setSearchText] = useState("");
@@ -12,14 +12,11 @@ const Users = ({ refresh }) => {
     const users = useGetIntersectionsQuery("users?_sort=created_at:desc");
 
     const data = useMemo(() => {
-
         if (users.data && users.data.length) {
-            console.log(users.data)
             return users.data.map(user => ({
                 ...user, role: user.role.name, confirmed: `${user.confirmed}`
             }))
         }
-
         return [];
     }, [users.data]);
 
@@ -41,63 +38,58 @@ const Users = ({ refresh }) => {
     };
 
 
-    const onSearChRender = text =>
-        searchedColumn === dataIndex ? (
-            <Highlighter
-                highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
-                searchWords={[searchText]}
-                autoEscape
-                textToHighlight={text ? text.toString() : ''}
-            />
-        ) : (
-            text
-        );
-
-    const renderFilterIcon = filtered => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />;
-    const onFiltering = (value, record) =>
-        record[dataIndex]
-            ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase())
-            : '';
-
-    const onDropFilter = visible => {
-        if (visible) {
-            setTimeout(() => searchInput.current.select(), 100);
-        }
-    };
-
-    const renderFilterDropDown  = ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
-        <div style={{ padding: 8 }}>
-            <Input
-                ref={searchInput}
-                placeholder={`Search ${dataIndex}`}
-                value={selectedKeys[0]}
-                onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-                onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-                style={{ marginBottom: 8, display: 'block' }}
-            />
-            <Space>
-                <Button
-                    type="primary"
-                    onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-                    icon={<SearchOutlined />}
-                    size="small"
-                    style={{ width: 90 }}
-                >
-                    Search
-                </Button>
-                <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 90 }}>
-                    Reset
-                </Button>
-            </Space>
-        </div>
-    );
-
     const getColumnSearchProps = dataIndex => ({
-        filterDropdown: renderFilterDropDown,
-        filterIcon: renderFilterIcon,
-        onFilter: onFiltering,
-        onFilterDropdownVisibleChange: onDropFilter,
-        render: onSearChRender,
+        filterDropdown: function fun1({ setSelectedKeys, selectedKeys, confirm, clearFilters }) {
+            return (
+                <div style={{ padding: 8 }}>
+                    <Input
+                        ref={searchInput}
+                        placeholder={`Search ${dataIndex}`}
+                        value={selectedKeys[0]}
+                        onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+                        onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                        style={{ marginBottom: 8, display: 'block' }}
+                    />
+                    <Space>
+                        <Button
+                            type="primary"
+                            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                            icon={<SearchOutlined />}
+                            size="small"
+                            style={{ width: 90 }}
+                        >
+                            Search
+                        </Button>
+                        <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 90 }}>
+                            Reset
+                        </Button>
+                    </Space>
+                </div>
+            );
+        },
+        filterIcon: function fun2(filtered) {
+            return <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />;
+        },
+        onFilter: function fun3(value, record) {
+            return record[dataIndex] ? record[dataIndex].toString()
+                .toLowerCase().includes(value.toLowerCase()) : '';
+        },
+        onFilterDropdownVisibleChange: function fun3(visible) {
+            if (visible) {
+                setTimeout(() => searchInput.current.select(), 100);
+            }
+        },
+        render: function fun5(text) {
+            return searchedColumn === dataIndex ? (
+                <Highlighter
+                    highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+                    searchWords={[searchText]} autoEscape
+                    textToHighlight={text ? text.toString() : ''}
+                />
+            ) : (
+                text
+            );
+        },
     });
 
     const columns = [
@@ -140,11 +132,13 @@ const Users = ({ refresh }) => {
     ];
 
 
-    const onEdit = (text, record) => (
-        <Space size="middle">
-            <a>Edit</a>
-        </Space>
-    );
+    const onEdit = (text, record) => {
+        return (
+            <Space size="middle">
+                <a onClick={() => onEditing(record)}>Edit</a>
+            </Space>
+        );
+    };
 
     const onSort = (a, b) => a.role.length - b.role.length;
 

@@ -1,10 +1,10 @@
 import { Form, Input, Spin, Switch, Select } from "antd";
 import { LockOutlined, UserOutlined, MailOutlined } from "@ant-design/icons";
 import styles from "../../styles/Register.module.css";
-import { signup } from "../store/actions/UserSlice";
+import { createUser, updateUser } from "../store/actions/UserSlice";
 import { useDispatch } from "react-redux";
 import { StyledButton } from "./styleds";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { css } from '@emotion/css';
 const { Option } = Select;
 
@@ -12,11 +12,33 @@ const spinStyle = css({
   '.ant-spin-dot-item': { backgroundColor: `#fff;` }
 });
 
-const Register = ({ setVisible }) => {
+function generateUID() {
+  var firstPart = (Math.random() * 46656) | 0;
+  var secondPart = (Math.random() * 46656) | 0;
+  firstPart = ("000" + firstPart.toString(36)).slice(-3);
+  secondPart = ("000" + secondPart.toString(36)).slice(-3);
+  return firstPart + secondPart;
+}
+
+const Register = ({ setVisible, record }) => {
 
   const formRef = useRef();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    formRef.current?.resetFields();
+    if (record && record.username) {
+      const newRecord = {
+        ...record,
+        blocked: record.blocked == "true" ? true : false,
+        confirmed: record.confirmed == "true" ? true : false,
+        role: record.role === "Authenticated" ? "1" :
+          record.role === "Project Analyst" ? "3" : "4"
+      };
+      formRef.current?.setFieldsValue(newRecord);
+    }
+  }, [record]);
 
   const onFinish = async (values) => {
     try {
@@ -25,7 +47,10 @@ const Register = ({ setVisible }) => {
 
       setLoading(true);
       // const { payload } =
-      await dispatch(signup(values));
+
+      await dispatch(record && record.username ?
+        updateUser({ ...record, ...values }) : createUser(values));
+
       setLoading(false); setVisible(false);
       formRef.current?.resetFields();
 
@@ -85,6 +110,7 @@ const Register = ({ setVisible }) => {
               message: "Please input your password!",
             },
           ]}
+          initialValue={!record ? generateUID() : ""}
         >
           <Input.Password
             prefix={<LockOutlined className="site-form-item-icon" />}
@@ -105,18 +131,23 @@ const Register = ({ setVisible }) => {
         </Form.Item>
 
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-          <Form.Item label="Confirmed" initialValue={false} name="confirmed" style={{ marginRight: 20 }}>
+          <Form.Item valuePropName="checked" label="Confirmed"
+            initialValue={false} name="confirmed" style={{ marginRight: 20 }}>
             <Switch />
           </Form.Item>
 
-          <Form.Item label="Blocked" initialValue={false} name="blocked">
+
+          <Form.Item valuePropName="checked" label="Blocked" initialValue={false} name="blocked">
             <Switch />
           </Form.Item>
         </div>
 
         <Form.Item>
           <StyledButton type="submit" style={{ marginBottom: 10 }}>
-            {loading ? <Spin size="small" className={spinStyle} /> : "Register"}
+            {
+              loading ? <Spin size="small" className={spinStyle} /> :
+                record && record.username ? "Update" : "Register"
+            }
           </StyledButton>
         </Form.Item>
       </Form>

@@ -107,7 +107,7 @@ function CreateProject({ handleClick }) {
                                 message: 'This field is required',
                             },]} >
 
-                            <Select size={"large"} showSearch
+                            <Select disabled={params && params.id} size={"large"} showSearch
                                 optionFilterProp="children"
                                 defaultActiveFirstOption={true}
                                 filterOption={(input, option) =>
@@ -138,7 +138,7 @@ function CreateProject({ handleClick }) {
                                 },
                             ]}
                         >
-                            <DatePicker size={"large"} style={{ width: "100%" }} />
+                            <DatePicker disabled={params && params.id} size={"large"} style={{ width: "100%" }} />
                         </Form.Item>
                     </Col>
                     <Col xs={24} sm={12} md={8} lg={6} key={8}>
@@ -153,7 +153,7 @@ function CreateProject({ handleClick }) {
                                 },
                             ]}
                         >
-                            <DatePicker size={"large"} style={{ width: "100%" }} />
+                            <DatePicker disabled={params && params.id} size={"large"} style={{ width: "100%" }} />
                         </Form.Item>
                     </Col>
                     <Col xs={24} sm={12} md={8} lg={6} key={10}>

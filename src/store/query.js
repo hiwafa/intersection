@@ -10,11 +10,19 @@ const headers = {
 export const intersectionAPI = createApi({
     reducerPath: "intersectionAPI",
     baseQuery: fetchBaseQuery({ baseUrl }),
+    tagTypes: ["Intersections"],
     endpoints: builder => ({
         getIntersections: builder.query({
             query: name => ({url: name, method: 'GET', headers})
+        }),
+        setUsers: builder.mutation({
+            query: ({url, record})=> ({
+                url: url,
+                method: "POST",
+                body: record
+            })
         })
     })
 });
 
-export const { useGetIntersectionsQuery } = intersectionAPI;
+export const { useGetIntersectionsQuery, useSetUsersMutation } = intersectionAPI;

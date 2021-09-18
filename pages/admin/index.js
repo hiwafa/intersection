@@ -9,11 +9,17 @@ import Register from "../../src/components/Register";
 const Admin = () => {
 
   const [visible, setVisible] = useState(false);
+  const [record, setRecord] = useState(null);
 
   const showModal = () => {
+    setRecord(null);
     setVisible(true);
   };
 
+  const onEdit = (rcrd) => {
+    setRecord(rcrd);
+    setVisible(true);
+  };
 
   return (
     <div>
@@ -26,16 +32,18 @@ const Admin = () => {
         </StyledButton>
       </div>
 
-      <Users refresh={visible} />
+      <Users refresh={visible} onEditing={onEdit} />
 
-      <Modal
-        title="Register New User"
-        visible={visible}
-        footer={null}
-        onCancel={() => setVisible(false)}
-      >
-        <Register setVisible={() => setVisible(false)} />
-      </Modal>
+      {
+        visible && <Modal
+          title={record && record.username ?
+            "Edit User" : "Register New User"}
+          visible={visible} footer={null}
+          onCancel={() => setVisible(false)}
+        >
+          <Register setVisible={() => setVisible(false)} record={record} />
+        </Modal>
+      }
 
     </div>
   );
