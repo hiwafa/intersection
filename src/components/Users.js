@@ -40,54 +40,64 @@ const Users = ({ refresh }) => {
         setSearchText("");
     };
 
+
+    const onSearChRender = text =>
+        searchedColumn === dataIndex ? (
+            <Highlighter
+                highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+                searchWords={[searchText]}
+                autoEscape
+                textToHighlight={text ? text.toString() : ''}
+            />
+        ) : (
+            text
+        );
+
+    const renderFilterIcon = filtered => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />;
+    const onFiltering = (value, record) =>
+        record[dataIndex]
+            ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase())
+            : '';
+
+    const onDropFilter = visible => {
+        if (visible) {
+            setTimeout(() => searchInput.current.select(), 100);
+        }
+    };
+
+    const renderFilterDropDown  = ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+        <div style={{ padding: 8 }}>
+            <Input
+                ref={searchInput}
+                placeholder={`Search ${dataIndex}`}
+                value={selectedKeys[0]}
+                onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+                onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                style={{ marginBottom: 8, display: 'block' }}
+            />
+            <Space>
+                <Button
+                    type="primary"
+                    onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                    icon={<SearchOutlined />}
+                    size="small"
+                    style={{ width: 90 }}
+                >
+                    Search
+                </Button>
+                <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 90 }}>
+                    Reset
+                </Button>
+            </Space>
+        </div>
+    );
+
     const getColumnSearchProps = dataIndex => ({
-        filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
-            <div style={{ padding: 8 }}>
-                <Input
-                    ref={searchInput}
-                    placeholder={`Search ${dataIndex}`}
-                    value={selectedKeys[0]}
-                    onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-                    onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-                    style={{ marginBottom: 8, display: 'block' }}
-                />
-                <Space>
-                    <Button
-                        type="primary"
-                        onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-                        icon={<SearchOutlined />}
-                        size="small"
-                        style={{ width: 90 }}
-                    >
-                        Search
-                    </Button>
-                    <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 90 }}>
-                        Reset
-                    </Button>
-                </Space>
-            </div>
-        ),
-        filterIcon: filtered => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
-        onFilter: (value, record) =>
-            record[dataIndex]
-                ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase())
-                : '',
-        onFilterDropdownVisibleChange: visible => {
-            if (visible) {
-                setTimeout(() => searchInput.current.select(), 100);
-            }
-        },
-        render: text =>
-            searchedColumn === dataIndex ? (
-                <Highlighter
-                    highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
-                    searchWords={[searchText]}
-                    autoEscape
-                    textToHighlight={text ? text.toString() : ''}
-                />
-            ) : (
-                text
-            ),
+        filterDropdown: renderFilterDropDown,
+        filterIcon: renderFilterIcon,
+        onFilter: onFiltering,
+        onFilterDropdownVisibleChange: onDropFilter,
+        render: onSearChRender,
     });
 
     const columns = [
@@ -124,7 +134,7 @@ const Users = ({ refresh }) => {
             dataIndex: 'role',
             key: 'role',
             ...getColumnSearchProps('role'),
-            sorter: (a, b) => a.role.length - b.role.length,
+            sorter: onSort,
             sortDirections: ['descend', 'ascend'],
         },
     ];
@@ -144,20 +154,20 @@ const Users = ({ refresh }) => {
             } >
 
             <Table.Column title={<p style={{ fontWeight: 'bold', fontSize: 15 }}>Id</p>}
-            dataIndex="id" key="id"  width='10%' {...getColumnSearchProps('id')}/>
-            
+                dataIndex="id" key="id" width='10%' {...getColumnSearchProps('id')} />
+
             <Table.Column title={<p style={{ fontWeight: 'bold', fontSize: 15 }}>User Name</p>}
-            dataIndex="username" key="username"  width='20%'  {...getColumnSearchProps('username')}/>
-            
+                dataIndex="username" key="username" width='20%'  {...getColumnSearchProps('username')} />
+
             <Table.Column title={<p style={{ fontWeight: 'bold', fontSize: 15 }}>Email</p>}
-            dataIndex="email" key="email"  width='30%'  {...getColumnSearchProps('email')}/>
-            
+                dataIndex="email" key="email" width='30%'  {...getColumnSearchProps('email')} />
+
             <Table.Column title={<p style={{ fontWeight: 'bold', fontSize: 15 }}>Confirmed</p>}
-            dataIndex="confirmed" key="confirmed"  width='10%'  {...getColumnSearchProps('confirmed')}/>
-            
+                dataIndex="confirmed" key="confirmed" width='10%'  {...getColumnSearchProps('confirmed')} />
+
             <Table.Column title={<p style={{ fontWeight: 'bold', fontSize: 15 }}>Role</p>}
-            dataIndex="role" key="role"  width='20%'  {...getColumnSearchProps('role')}
-            sorter={onSort} sortDirections={['descend', 'ascend']}/>
+                dataIndex="role" key="role" width='20%'  {...getColumnSearchProps('role')}
+                sorter={onSort} sortDirections={['descend', 'ascend']} />
 
             <Table.Column
                 title="Action"
