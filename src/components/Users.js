@@ -42,53 +42,57 @@ const Users = ({ refresh }) => {
 
 
     const getColumnSearchProps = dataIndex => ({
-        filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
-            <div style={{ padding: 8 }}>
-                <Input
-                    ref={searchInput}
-                    placeholder={`Search ${dataIndex}`}
-                    value={selectedKeys[0]}
-                    onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-                    onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-                    style={{ marginBottom: 8, display: 'block' }}
-                />
-                <Space>
-                    <Button
-                        type="primary"
-                        onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-                        icon={<SearchOutlined />}
-                        size="small"
-                        style={{ width: 90 }}
-                    >
-                        Search
-                    </Button>
-                    <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 90 }}>
-                        Reset
-                    </Button>
-                </Space>
-            </div>
-        ),
-        filterIcon: filtered => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
-        onFilter: (value, record) =>
-            record[dataIndex]
-                ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase())
-                : '',
-        onFilterDropdownVisibleChange: visible => {
+        filterDropdown: function fun1({ setSelectedKeys, selectedKeys, confirm, clearFilters }){
+            return (
+                <div style={{ padding: 8 }}>
+                    <Input
+                        ref={searchInput}
+                        placeholder={`Search ${dataIndex}`}
+                        value={selectedKeys[0]}
+                        onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+                        onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                        style={{ marginBottom: 8, display: 'block' }}
+                    />
+                    <Space>
+                        <Button
+                            type="primary"
+                            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                            icon={<SearchOutlined />}
+                            size="small"
+                            style={{ width: 90 }}
+                        >
+                            Search
+                        </Button>
+                        <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 90 }}>
+                            Reset
+                        </Button>
+                    </Space>
+                </div>
+            );
+        },
+        filterIcon: function fun2(filtered) {
+            return <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />;
+        },
+        onFilter: function fun3(value, record){
+            return record[dataIndex] ? record[dataIndex].toString()
+            .toLowerCase().includes(value.toLowerCase()) : '';
+        },
+        onFilterDropdownVisibleChange: function fun3(visible){
             if (visible) {
                 setTimeout(() => searchInput.current.select(), 100);
             }
         },
-        render: text =>
-            searchedColumn === dataIndex ? (
+        render: function fun5(text){
+            return searchedColumn === dataIndex ? (
                 <Highlighter
                     highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
-                    searchWords={[searchText]}
-                    autoEscape
+                    searchWords={[searchText]} autoEscape
                     textToHighlight={text ? text.toString() : ''}
                 />
             ) : (
                 text
-            ),
+            );
+        },
     });
 
     const columns = [
@@ -131,11 +135,16 @@ const Users = ({ refresh }) => {
     ];
 
 
-    const onEdit = (text, record) => (
-        <Space size="middle">
-            <a>Edit</a>
-        </Space>
-    );
+    const onEdit = (text, record) => {
+
+        console.log("TEXT: ", text, record);
+        
+        return (
+            <Space size="middle">
+                <a>Edit</a>
+            </Space>
+        );
+    };
 
     const onSort = (a, b) => a.role.length - b.role.length;
 
