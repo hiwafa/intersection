@@ -129,7 +129,10 @@ const Register = ({ setVisible, record }) => {
 
         <Form.Item>
           <StyledButton type="submit" style={{ marginBottom: 10 }}>
-            {loading ? <Spin size="small" className={spinStyle} /> : "Register"}
+            {
+              loading ? <Spin size="small" className={spinStyle} /> :
+                record && record.username ? "Update" : "Register"
+            }
           </StyledButton>
         </Form.Item>
       </Form>
