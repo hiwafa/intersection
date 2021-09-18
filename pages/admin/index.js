@@ -31,7 +31,7 @@ const Admin = () => {
         </StyledButton>
       </div>
 
-      <Users refresh={visible} onEdit={onEdit} />
+      <Users refresh={visible} onEditing={onEdit} />
 
       <Modal
         title="Register New User"

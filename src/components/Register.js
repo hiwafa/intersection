@@ -4,7 +4,7 @@ import styles from "../../styles/Register.module.css";
 import { signup } from "../store/actions/UserSlice";
 import { useDispatch } from "react-redux";
 import { StyledButton } from "./styleds";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { css } from '@emotion/css';
 const { Option } = Select;
 
@@ -12,11 +12,20 @@ const spinStyle = css({
   '.ant-spin-dot-item': { backgroundColor: `#fff;` }
 });
 
-const Register = ({ setVisible }) => {
+const Register = ({ setVisible, record }) => {
 
   const formRef = useRef();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
+
+  useEffect(()=> {
+    const newRecord = {
+      ...record,
+      blocked: record.blocked == "false" || record.blocked == null  ? false : true,
+      confirmed: record.confirmed == "true" ? true : false,
+    };
+    formRef.current?.setFieldsValue(newRecord);
+  }, [record]);
 
   const onFinish = async (values) => {
     try {
