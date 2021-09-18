@@ -19,6 +19,7 @@ const Register = ({ setVisible, record }) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    formRef.current?.resetFields();
     if (record && record.username) {
       const newRecord = {
         ...record,
