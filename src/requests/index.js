@@ -1,9 +1,7 @@
 import axios from "axios";
 
 const BASE_URL = process.env.BASE_URL;
-// const BASE_URL = "http://localhost:1337";
 const JWT_TOKEN = process.env.JWT_TOKEN;
-// const BASE_URL = "http://localhost:3000/";
 
 export const formRequest = axios.create({
   baseURL: BASE_URL,

@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { setCookie, getCookie, removeCookie } from "../coockie";
-import { request } from "../../requests";
+import { request, formRequest } from "../../requests";
 
-export const signup = createAsyncThunk(
-  "user/signup",
+export const createUser = createAsyncThunk(
+  "user/createUser",
   async (params, thunkAPI) => {
     try {
 
@@ -12,7 +12,7 @@ export const signup = createAsyncThunk(
       //   data: params
       // });
 
-      const { data } = await request("users", {
+      const { data } = await formRequest("users", {
         method: "POST",
         data: params
       });
@@ -21,9 +21,32 @@ export const signup = createAsyncThunk(
         return { ...data, ...params, loginStatus: "loaded" };
       }
 
-      return thunkAPI.rejectWithValue("No Data for SignUp");
+      return thunkAPI.rejectWithValue("No Data for Create User");
 
     } catch (err) {
+      return thunkAPI.rejectWithValue(err.message);
+    }
+  }
+);
+
+export const updateUser = createAsyncThunk(
+  "user/updateUser",
+  async (params, thunkAPI) => {
+    try {
+
+      const { data } = await formRequest(`users/${params.id}`, {
+        method: "PUT",
+        data: params
+      });
+
+      if (data) {
+        return { ...data, ...params };
+      }
+
+      return thunkAPI.rejectWithValue("No Data for Updat eUser");
+
+    } catch (err) {
+
       return thunkAPI.rejectWithValue(err.message);
     }
   }
@@ -148,14 +171,14 @@ const userSlice = createSlice({
   },
   extraReducers: {
     /* sign up reducer */
-    [signup.pending]: (state, action) => {
+    [createUser.pending]: (state, action) => {
       state.status = "pending";
     },
-    [signup.rejected]: (state, action) => {
+    [createUser.rejected]: (state, action) => {
       state.status = "rejected";
       state.reasonForRejection = JSON.stringify(action.payload);
     },
-    [signup.fulfilled]: (state, { payload }) => {
+    [createUser.fulfilled]: (state, { payload }) => {
       // return {
       //   ...state,
       //   ...payload,

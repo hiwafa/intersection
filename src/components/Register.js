@@ -1,7 +1,7 @@
 import { Form, Input, Spin, Switch, Select } from "antd";
 import { LockOutlined, UserOutlined, MailOutlined } from "@ant-design/icons";
 import styles from "../../styles/Register.module.css";
-import { signup } from "../store/actions/UserSlice";
+import { createUser, updateUser } from "../store/actions/UserSlice";
 import { useDispatch } from "react-redux";
 import { StyledButton } from "./styleds";
 import React, { useState, useRef, useEffect } from "react";
@@ -36,7 +36,10 @@ const Register = ({ setVisible, record }) => {
 
       setLoading(true);
       // const { payload } =
-      await dispatch(signup(values));
+
+      await dispatch(record && record.username ?
+        updateUser(values) : createUser(values));
+
       setLoading(false); setVisible(false);
       formRef.current?.resetFields();
 
