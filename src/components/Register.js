@@ -114,12 +114,12 @@ const Register = ({ setVisible, record }) => {
         </Form.Item>
 
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-          <Form.Item label="Confirmed" initialValue={false} name="confirmed" style={{ marginRight: 20 }}>
+          <Form.Item valuePropName="checked" label="Confirmed" initialValue={true} name="confirmed" style={{ marginRight: 20 }}>
             <Switch />
           </Form.Item>
 
 
-          <Form.Item label="Blocked" initialValue={false} name="blocked">
+          <Form.Item valuePropName="checked" label="Blocked" initialValue={false} name="blocked">
             <Switch />
           </Form.Item>
         </div>
