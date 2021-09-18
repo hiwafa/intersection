@@ -21,6 +21,8 @@ const Register = ({ setVisible }) => {
   const onFinish = async (values) => {
     try {
 
+      console.log(values); return;
+
       if (loading === true) return;
 
       setLoading(true);
@@ -103,11 +105,11 @@ const Register = ({ setVisible }) => {
         </Form.Item>
 
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-          <Form.Item label="Confirmed" valuePropName="confirmed" style={{ marginRight: 20 }}>
+          <Form.Item label="Confirmed" initialValue={false} name="confirmed" style={{ marginRight: 20 }}>
             <Switch />
           </Form.Item>
 
-          <Form.Item label="Blocked" valuePropName="blocked">
+          <Form.Item label="Blocked" initialValue={false} name="blocked">
             <Switch />
           </Form.Item>
         </div>
