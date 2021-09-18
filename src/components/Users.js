@@ -136,6 +136,7 @@ const Users = ({ refresh }) => {
         </Space>
     );
 
+    const onSort = (a, b) => a.role.length - b.role.length;
 
     return (
         <Table rowKey="id" dataSource={data}
@@ -156,7 +157,7 @@ const Users = ({ refresh }) => {
             
             <Table.Column title={<p style={{ fontWeight: 'bold', fontSize: 15 }}>Role</p>}
             dataIndex="role" key="role"  width='20%'  {...getColumnSearchProps('role')}
-            sorter={(a, b) => a.role.length - b.role.length} sortDirections={['descend', 'ascend']}/>
+            sorter={onSort} sortDirections={['descend', 'ascend']}/>
 
             <Table.Column
                 title="Action"
