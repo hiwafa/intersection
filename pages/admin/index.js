@@ -12,6 +12,7 @@ const Admin = () => {
   const [record, setRecord] = useState(null);
 
   const showModal = () => {
+    setRecord(null);
     setVisible(true);
   };
 
