@@ -81,7 +81,7 @@ function EditProject ({project, setShowDetails}){
             })
             return
           }
-          if(values.PROJECT_START_DATE === null || project.PROJECT_END_DATE === null)
+          if(values.PROJECT_START_DATE === null || values.PROJECT_END_DATE === null)
           {
             notification["error"]({
               duration: 5,
