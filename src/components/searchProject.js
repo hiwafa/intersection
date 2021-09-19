@@ -159,7 +159,7 @@ function SearchProject({setShowDetails, setProject, setSection, setInterSection}
                       programNumber: project.PROGRAM_NUMBER,
                       NumberOfCrashes: project.CRASH_COUNT,
                       totalTreatments: project.treatments?.length,
-                      action: <ActionContainer><EditOutlined onClick={() => selectProject(project, "edit")} className={"editProject"} /> <EyeOutlined className={"viewDetails"} onClick={() => selectProject(project, "view")} /></ActionContainer>
+                      action: <ActionContainer> {project.PROJECT_STATUS !== "Completed" && <EditOutlined onClick={() => selectProject(project, "edit")} className={"editProject"} />} <EyeOutlined className={"viewDetails"} onClick={() => selectProject(project, "view")} /></ActionContainer>
                   })
                   )
                 )
