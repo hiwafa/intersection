@@ -7,7 +7,6 @@ import { DownloadOutlined } from '@ant-design/icons';
 import {request} from "../requests"
 import { PDFExport } from '@progress/kendo-react-pdf';
 import moment from "moment"
-import crashCost from "../../src/utils/crashCosts"
 import numeral, { isNumeral } from "numeral"
 const { TabPane } = Tabs;
 const BASE_URL = process.env.BASE_URL
@@ -31,114 +30,114 @@ const modalTableColumns = [
   {
     title: 'Name',
     dataIndex: 'TREATMENT_NAME',
-    align: 'left',
+    align: 'center',
   },
   {
     title: 'Type',
     dataIndex: 'TREATMENT_TYPE',
-    align: 'left',
+    align: 'center',
   },
   {
     title: 'Service Live',
     dataIndex: 'SERVICE_LIFE',
-    align: 'left',
+    align: 'center',
   },
   {
     title: 'CRF',
     dataIndex: 'CRF',
-    align: 'left',
+    align: 'center',
   },
   {
     title: 'CMF',
     dataIndex: 'CMF',
-    align: 'left',
+    align: 'center',
   },
   {
     title: 'Salvage Percent',
     dataIndex: 'SALVAGE_PERCENT',
-    align: 'left',
+    align: 'center',
   },
   {
     title: 'Interest Rate',
     dataIndex: 'INTEREST_RATE',
-    align: 'left',
+    align: 'center',
   },
   {
     title: 'Total Treatment Cost',
     dataIndex: 'TOTAL_TREATMENT_COST',
-    align: 'left',
+    align: 'center',
   },
   {
     title: 'OM Cost',
     dataIndex: 'OM_COST',
-    align: 'left',
+    align: 'center',
   },
   {
     title: 'Treatment Cost',
     dataIndex: 'TREATMENT_COST',
-    align: 'left',
+    align: 'center',
   },
   {
     title: 'Add',
     dataIndex: 'add',
-    align: 'left',
+    align: 'center',
   },
 ]
 const projectTreatmentColumns = [ 
   {
     title: 'Name',
     dataIndex: 'TREATMENT_NAME',
-    align: 'left',
+    align: 'center',
   },
   {
     title: 'Type',
     dataIndex: 'TREATMENT_TYPE',
-    align: 'left',
+    align: 'center',
   },
   {
     title: 'Service Life',
     dataIndex: 'SERVICE_LIFE',
-    align: 'left',
+    align: 'center',
   },
   {
     title: 'CRF',
     dataIndex: 'CRF',
-    align: 'left',
+    align: 'center',
   },
   {
     title: 'CMF',
     dataIndex: 'CMF',
-    align: 'left',
+    align: 'center',
   },
   {
     title: 'Salvage Percent',
     dataIndex: 'SALVAGE_PERCENT',
-    align: 'left',
+    align: 'center',
   },
   {
     title: 'Interest Rate',
     dataIndex: 'INTEREST_RATE',
-    align: 'left',
+    align: 'center',
   },
   {
     title: 'Total Treatment Cost',
     dataIndex: 'TOTAL_TREATMENT_COST',
-    align: 'left',
+    align: 'center',
   },
   {
     title: 'OM Cost',
     dataIndex: 'OM_COST',
-    align: 'left',
+    align: 'center',
   },
   {
     title: 'Treatment Cost',
     dataIndex: 'TREATMENT_COST',
-    align: 'left',
+    align: 'center',
   },
   {
     title: 'Remove',
     dataIndex: 'remove',
-    align: 'left',
+    align: 'center',
   },
 ]
 function ProjectDetails({project, setShowDetails, intersection}){
@@ -149,6 +148,17 @@ function ProjectDetails({project, setShowDetails, intersection}){
   const [newTreatments, setNewTreatments] = useState()
   const [projectTreatments, setProjectTreatments] = useState()
   const [deleteListTreats, setDeleteListTreats] = useState()
+  const [crashCostList,setCrashCostsList] = useState()
+  const crashCost = async (severity) => {
+    let value =""
+    crashCostList && crashCostList.map((cost) =>{
+      if(cost.crashSeverity === severity)
+      {
+        value = cost.crashCost;
+      }
+    })
+    return value
+  }
 let newTreats = []
 
   const showModal = () => {
@@ -187,10 +197,28 @@ let newTreats = []
     let last = moment(sortedDate[0])
     let first = moment(sortedDate[sortedDate.length -1])
     const yearsDiff =  last.diff(first, "years")
-    crashRate = (parseInt(intersection?.crash_intersections?.length) * Math.pow(10, 6)) / (yearsDiff * 365 * parseInt(intersection && intersection.AADT))
+
+    let endDate = moment(project.PROJECT_END_DATE)
+    let startDate = moment(project.PROJECT_START_DATE)
+    if(startDate !== undefined && endDate !== undefined)
+    {
+      const months = parseInt(endDate.diff(startDate, "months")) >0 ? parseInt(endDate.diff(startDate, "days")) / 12 : (parseInt(endDate.diff(startDate, "days")) / 30) / 12
+      crashRate = (parseInt(intersection?.crash_intersections?.length) * Math.pow(10, 6)) / (months * 365 * parseInt(intersection && intersection.AADT))
+    console.log("fuck", (months * 365 * parseInt(intersection && intersection.AADT)))
+    }
     epdo = 542* fatalities + 11* injuries + 1*pdo;
 
    return {a, b, c, injuries, fatalities, pdo, epdo, crashRate, yearsDiff, NumberOfCrashes, crashCosts}
+  }
+  const loadCrashCost = async () => {
+    const costs = await request('crash-costs', {
+      method: "GET"
+    });
+    if(costs.status === 200)
+    {
+      setCrashCostsList(costs.data)
+    }
+    return
   }
   const calculateTreatments = () => {
     let i = 0.0; // interest rate 
@@ -247,7 +275,7 @@ let newTreats = []
       {field: <b>{"Project Number"}</b>, value: project.PROJECT_NUMBER},
       {field: <b>{"Project Status"}</b>, value: project.PROJECT_STATUS},
       {field: <b>{"Intersection"}</b>, value: project.INTERSECTION?.INTERSECTION_NAME},
-      {field: <b>{"B/C"}</b>, value: isNaN(calculateTreatments().BEN_COST) ? "" : numeral(calculateTreatments().BEN_COST).format("$0,0.00")},
+      {field: <b>{"B/C"}</b>, value: isNaN(calculateTreatments().BEN_COST) ? "" : numeral(calculateTreatments().BEN_COST).format("0,0.00")},
       {field: <b>{"Crash Count"}</b>, value: intersection?.crash_intersections?.length},
       {field: <b>{"Crash Start Date"}</b>, value: project.CRASH_START_DATE},
       {field: <b>{"Crash End Date"}</b>, value: project.CRASH_END_DATE},
@@ -290,9 +318,9 @@ const loadTreatments = async () => {
           CMF: treat.CMF,
           SALVAGE_PERCENT: treat.SALVAGE_PERCENT,
           INTEREST_RATE: treat.INTEREST_RATE,
-          TOTAL_TREATMENT_COST: treat.TOTAL_TREATMENT_COST,
-          OM_COST: treat.OM_COST,
-          TREATMENT_COST: treat.TREATMENT_COST,
+          TOTAL_TREATMENT_COST: numeral(treat.TOTAL_TREATMENT_COST).format("$0,0.00"),
+          OM_COST: numeral(treat.OM_COST).format("$0,0"),
+          TREATMENT_COST: numeral(treat.TREATMENT_COST).format("$0,0"),
           add: <Checkbox key={index} onChange={(e) => addTreat(e, treat)} />
         }
       }))
@@ -400,6 +428,7 @@ const handleRemove = async () =>{
 }
   useEffect(()=>{
     setProjectDetails()
+    loadCrashCost()
     setProjectTreatments(project.treatments && project.treatments.map((treat, index) => {
       return {
         TREATMENT_NAME: treat.TREATMENT_NAME,
@@ -409,9 +438,9 @@ const handleRemove = async () =>{
         CMF: treat.CMF,
         SALVAGE_PERCENT: treat.SALVAGE_PERCENT,
         INTEREST_RATE: treat.INTEREST_RATE,
-        TOTAL_TREATMENT_COST: treat.TOTAL_TREATMENT_COST,
-        OM_COST: treat.OM_COST,
-        TREATMENT_COST: treat.TREATMENT_COST,
+        TOTAL_TREATMENT_COST: numeral(treat.TOTAL_TREATMENT_COST).format("$0,0.00"),
+        OM_COST: numeral(treat.OM_COST).format("$0,0"),
+        TREATMENT_COST: numeral(treat.TREATMENT_COST).format("$0,0"),
         remove: <Checkbox key={index} onChange={(e) => removeTreat(e, treat)} />
       }
     }))
@@ -448,11 +477,11 @@ const handleRemove = async () =>{
                 <Tabs defaultActiveKey="1">
                 <TabPane tab="Countermeasures" style={{textAlign: "center"}} key="1">
                 {treatments && <Table pagination={false} columns={projectTreatmentColumns} dataSource={projectTreatments && projectTreatments}/>}
-                <Button style={{marginTop: "10px"}} type={"danger"} onClick={handleRemove}>Remove</Button>
+                {project.PROJECT_STATUS !== "Completed" && <Button style={{marginTop: "10px"}} type={"danger"} onClick={handleRemove}>Remove</Button>}
                 </TabPane>
                 <TabPane tab="Treatments" style={{textAlign: "center"}} key="2">
                 {treatments && <Table pagination={false} columns={modalTableColumns} dataSource={treatments && treatments}/>}
-                <Button style={{marginTop: "10px"}} type={"primary"} onClick={handleOk}>Add Treatment</Button>
+                {project.PROJECT_STATUS !== "Completed" && <Button style={{marginTop: "10px"}} type={"primary"} onClick={handleOk}>Add Treatment</Button>}
                 </TabPane>
               </Tabs>
             </Modal>
