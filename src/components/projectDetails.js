@@ -7,7 +7,6 @@ import { DownloadOutlined } from '@ant-design/icons';
 import {request} from "../requests"
 import { PDFExport } from '@progress/kendo-react-pdf';
 import moment from "moment"
-import crashCost from "../../src/utils/crashCosts"
 import numeral, { isNumeral } from "numeral"
 const { TabPane } = Tabs;
 const BASE_URL = process.env.BASE_URL
@@ -149,6 +148,17 @@ function ProjectDetails({project, setShowDetails, intersection}){
   const [newTreatments, setNewTreatments] = useState()
   const [projectTreatments, setProjectTreatments] = useState()
   const [deleteListTreats, setDeleteListTreats] = useState()
+  const [crashCostList,setCrashCostsList] = useState()
+  const crashCost = async (severity) => {
+    let value =""
+    crashCostList && crashCostList.map((cost) =>{
+      if(cost.crashSeverity === severity)
+      {
+        value = cost.crashCost;
+      }
+    })
+    return value
+  }
 let newTreats = []
 
   const showModal = () => {
@@ -169,7 +179,7 @@ let newTreats = []
     let fatalities=0;
     let pdo=0;
     let epdo=0
-    let crashRate ="0";
+    let crashRate =0;
     let dates=[]
     let crashCosts = 0.0;
     intersection.crash_intersections && intersection.crash_intersections.map((crash) => {
@@ -194,10 +204,21 @@ let newTreats = []
     {
       const months = parseInt(endDate.diff(startDate, "months")) >0 ? parseInt(endDate.diff(startDate, "days")) / 12 : (parseInt(endDate.diff(startDate, "days")) / 30) / 12
       crashRate = (parseInt(intersection?.crash_intersections?.length) * Math.pow(10, 6)) / (months * 365 * parseInt(intersection && intersection.AADT))
+    console.log("fuck", (months * 365 * parseInt(intersection && intersection.AADT)))
     }
     epdo = 542* fatalities + 11* injuries + 1*pdo;
 
    return {a, b, c, injuries, fatalities, pdo, epdo, crashRate, yearsDiff, NumberOfCrashes, crashCosts}
+  }
+  const loadCrashCost = async () => {
+    const costs = await request('crash-costs', {
+      method: "GET"
+    });
+    if(costs.status === 200)
+    {
+      setCrashCostsList(costs.data)
+    }
+    return
   }
   const calculateTreatments = () => {
     let i = 0.0; // interest rate 
@@ -407,6 +428,7 @@ const handleRemove = async () =>{
 }
   useEffect(()=>{
     setProjectDetails()
+    loadCrashCost()
     setProjectTreatments(project.treatments && project.treatments.map((treat, index) => {
       return {
         TREATMENT_NAME: treat.TREATMENT_NAME,
