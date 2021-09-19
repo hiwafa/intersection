@@ -169,7 +169,7 @@ let newTreats = []
     let fatalities=0;
     let pdo=0;
     let epdo=0
-    let crashRate =0;
+    let crashRate ="0";
     let dates=[]
     let crashCosts = 0.0;
     intersection.crash_intersections && intersection.crash_intersections.map((crash) => {
@@ -187,7 +187,14 @@ let newTreats = []
     let last = moment(sortedDate[0])
     let first = moment(sortedDate[sortedDate.length -1])
     const yearsDiff =  last.diff(first, "years")
-    crashRate = (parseInt(intersection?.crash_intersections?.length) * Math.pow(10, 6)) / (yearsDiff * 365 * parseInt(intersection && intersection.AADT))
+
+    let endDate = moment(project.PROJECT_END_DATE)
+    let startDate = moment(project.PROJECT_START_DATE)
+    if(startDate !== undefined && endDate !== undefined)
+    {
+      const months = parseInt(endDate.diff(startDate, "months")) >0 ? parseInt(endDate.diff(startDate, "days")) / 12 : (parseInt(endDate.diff(startDate, "days")) / 30) / 12
+      crashRate = (parseInt(intersection?.crash_intersections?.length) * Math.pow(10, 6)) / (months * 365 * parseInt(intersection && intersection.AADT))
+    }
     epdo = 542* fatalities + 11* injuries + 1*pdo;
 
    return {a, b, c, injuries, fatalities, pdo, epdo, crashRate, yearsDiff, NumberOfCrashes, crashCosts}
