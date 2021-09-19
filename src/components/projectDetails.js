@@ -31,114 +31,114 @@ const modalTableColumns = [
   {
     title: 'Name',
     dataIndex: 'TREATMENT_NAME',
-    align: 'left',
+    align: 'center',
   },
   {
     title: 'Type',
     dataIndex: 'TREATMENT_TYPE',
-    align: 'left',
+    align: 'center',
   },
   {
     title: 'Service Live',
     dataIndex: 'SERVICE_LIFE',
-    align: 'left',
+    align: 'center',
   },
   {
     title: 'CRF',
     dataIndex: 'CRF',
-    align: 'left',
+    align: 'center',
   },
   {
     title: 'CMF',
     dataIndex: 'CMF',
-    align: 'left',
+    align: 'center',
   },
   {
     title: 'Salvage Percent',
     dataIndex: 'SALVAGE_PERCENT',
-    align: 'left',
+    align: 'center',
   },
   {
     title: 'Interest Rate',
     dataIndex: 'INTEREST_RATE',
-    align: 'left',
+    align: 'center',
   },
   {
     title: 'Total Treatment Cost',
     dataIndex: 'TOTAL_TREATMENT_COST',
-    align: 'left',
+    align: 'center',
   },
   {
     title: 'OM Cost',
     dataIndex: 'OM_COST',
-    align: 'left',
+    align: 'center',
   },
   {
     title: 'Treatment Cost',
     dataIndex: 'TREATMENT_COST',
-    align: 'left',
+    align: 'center',
   },
   {
     title: 'Add',
     dataIndex: 'add',
-    align: 'left',
+    align: 'center',
   },
 ]
 const projectTreatmentColumns = [ 
   {
     title: 'Name',
     dataIndex: 'TREATMENT_NAME',
-    align: 'left',
+    align: 'center',
   },
   {
     title: 'Type',
     dataIndex: 'TREATMENT_TYPE',
-    align: 'left',
+    align: 'center',
   },
   {
     title: 'Service Life',
     dataIndex: 'SERVICE_LIFE',
-    align: 'left',
+    align: 'center',
   },
   {
     title: 'CRF',
     dataIndex: 'CRF',
-    align: 'left',
+    align: 'center',
   },
   {
     title: 'CMF',
     dataIndex: 'CMF',
-    align: 'left',
+    align: 'center',
   },
   {
     title: 'Salvage Percent',
     dataIndex: 'SALVAGE_PERCENT',
-    align: 'left',
+    align: 'center',
   },
   {
     title: 'Interest Rate',
     dataIndex: 'INTEREST_RATE',
-    align: 'left',
+    align: 'center',
   },
   {
     title: 'Total Treatment Cost',
     dataIndex: 'TOTAL_TREATMENT_COST',
-    align: 'left',
+    align: 'center',
   },
   {
     title: 'OM Cost',
     dataIndex: 'OM_COST',
-    align: 'left',
+    align: 'center',
   },
   {
     title: 'Treatment Cost',
     dataIndex: 'TREATMENT_COST',
-    align: 'left',
+    align: 'center',
   },
   {
     title: 'Remove',
     dataIndex: 'remove',
-    align: 'left',
+    align: 'center',
   },
 ]
 function ProjectDetails({project, setShowDetails, intersection}){
@@ -247,7 +247,7 @@ let newTreats = []
       {field: <b>{"Project Number"}</b>, value: project.PROJECT_NUMBER},
       {field: <b>{"Project Status"}</b>, value: project.PROJECT_STATUS},
       {field: <b>{"Intersection"}</b>, value: project.INTERSECTION?.INTERSECTION_NAME},
-      {field: <b>{"B/C"}</b>, value: isNaN(calculateTreatments().BEN_COST) ? "" : numeral(calculateTreatments().BEN_COST).format("$0,0.00")},
+      {field: <b>{"B/C"}</b>, value: isNaN(calculateTreatments().BEN_COST) ? "" : numeral(calculateTreatments().BEN_COST).format("0,0.00")},
       {field: <b>{"Crash Count"}</b>, value: intersection?.crash_intersections?.length},
       {field: <b>{"Crash Start Date"}</b>, value: project.CRASH_START_DATE},
       {field: <b>{"Crash End Date"}</b>, value: project.CRASH_END_DATE},
@@ -290,9 +290,9 @@ const loadTreatments = async () => {
           CMF: treat.CMF,
           SALVAGE_PERCENT: treat.SALVAGE_PERCENT,
           INTEREST_RATE: treat.INTEREST_RATE,
-          TOTAL_TREATMENT_COST: treat.TOTAL_TREATMENT_COST,
-          OM_COST: treat.OM_COST,
-          TREATMENT_COST: treat.TREATMENT_COST,
+          TOTAL_TREATMENT_COST: numeral(treat.TOTAL_TREATMENT_COST).format("$0,0.00"),
+          OM_COST: numeral(treat.OM_COST).format("$0,0"),
+          TREATMENT_COST: numeral(treat.TREATMENT_COST).format("$0,0"),
           add: <Checkbox key={index} onChange={(e) => addTreat(e, treat)} />
         }
       }))
@@ -409,9 +409,9 @@ const handleRemove = async () =>{
         CMF: treat.CMF,
         SALVAGE_PERCENT: treat.SALVAGE_PERCENT,
         INTEREST_RATE: treat.INTEREST_RATE,
-        TOTAL_TREATMENT_COST: treat.TOTAL_TREATMENT_COST,
-        OM_COST: treat.OM_COST,
-        TREATMENT_COST: treat.TREATMENT_COST,
+        TOTAL_TREATMENT_COST: numeral(treat.TOTAL_TREATMENT_COST).format("$0,0.00"),
+        OM_COST: numeral(treat.OM_COST).format("$0,0"),
+        TREATMENT_COST: numeral(treat.TREATMENT_COST).format("$0,0"),
         remove: <Checkbox key={index} onChange={(e) => removeTreat(e, treat)} />
       }
     }))
