@@ -2,7 +2,7 @@ import Head from 'next/head';
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { Layout, Menu, Image } from 'antd';
+import { Layout, Menu, Image, Dropdown } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
 import { UserOutlined, ProjectOutlined, LogoutOutlined, FundProjectionScreenOutlined } from '@ant-design/icons';
 
@@ -20,20 +20,18 @@ const LogoutIcon = styled.div`
         }
     }
 `
+const UserNameLabel = styled.span`
+    &:hover{
+        cursor: pointer
+    }
+`
+
+
 const LayoutCom = ({ children }) => {
 
     const checkLogin = useSelector(isLoggedIn);
     const { username } = useSelector(getUser);
     const dispatch = useDispatch();
-
-
-    const router = useRouter();
-    let padname = router.pathname;
-
-    if (padname === "/") padname = "home";
-    else if (padname === "/projects/create") padname = "projects";
-    else padname = padname.substring(1);
-
     const onLogout = async () => {
         try {
             await dispatch(signout(null));
@@ -41,6 +39,25 @@ const LayoutCom = ({ children }) => {
 
         }
     };
+    const menu = (
+        <Menu>
+          <Menu.Item>
+            <a target="_blank" rel="" href="#">
+              Reset Password
+            </a>
+          </Menu.Item>
+          <Menu.Item>
+            <LogoutOutlined onClick={onLogout} style={{ marginRight: "10px" }} /> Log Out
+          </Menu.Item>
+        </Menu>
+      );
+
+    const router = useRouter();
+    let padname = router.pathname;
+
+    if (padname === "/") padname = "home";
+    else if (padname === "/projects/create") padname = "projects";
+    else padname = padname.substring(1);
 
     if (checkLogin === 'loading') return (
         <div className={styles.container}>
@@ -119,7 +136,11 @@ const LayoutCom = ({ children }) => {
                     display: 'flex', justifyContent: 'flex-end'
                 }}>
                     <LogoutIcon>
-                        {username ? <> {username} <LogoutOutlined onClick={onLogout} style={{ marginLeft: "10px" }} /></> : "Sign In"}
+                        {username ? 
+                        <Dropdown overlay={menu} trigger={"click"} placement="bottomLeft" arrow>
+                        <UserNameLabel>{username}</UserNameLabel>
+                      </Dropdown>
+                        : "Login"}
                     </LogoutIcon>
 
                 </Header>
