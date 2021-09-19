@@ -43,8 +43,8 @@ export const TableContainer = styled.div`
       }
 `;
 export const ContentContainer = styled.div`
-margin-right: 10%;
-margin-left: 10%;
+margin-right: 7%;
+margin-left: 7%;
 margin-top: 20px;
 background: white;
 padding: 10px;

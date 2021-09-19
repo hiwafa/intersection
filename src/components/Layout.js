@@ -46,8 +46,8 @@ const LayoutCom = ({ children }) => {
               Reset Password
             </a>
           </Menu.Item>
-          <Menu.Item>
-            <LogoutOutlined onClick={onLogout} style={{ marginRight: "10px" }} /> Log Out
+          <Menu.Item onClick={onLogout}>
+            <LogoutOutlined style={{ marginRight: "10px" }} /> Log Out
           </Menu.Item>
         </Menu>
       );
