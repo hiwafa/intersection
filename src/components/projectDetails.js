@@ -448,11 +448,11 @@ const handleRemove = async () =>{
                 <Tabs defaultActiveKey="1">
                 <TabPane tab="Countermeasures" style={{textAlign: "center"}} key="1">
                 {treatments && <Table pagination={false} columns={projectTreatmentColumns} dataSource={projectTreatments && projectTreatments}/>}
-                <Button style={{marginTop: "10px"}} type={"danger"} onClick={handleRemove}>Remove</Button>
+                {project.PROJECT_STATUS !== "Completed" && <Button style={{marginTop: "10px"}} type={"danger"} onClick={handleRemove}>Remove</Button>}
                 </TabPane>
                 <TabPane tab="Treatments" style={{textAlign: "center"}} key="2">
                 {treatments && <Table pagination={false} columns={modalTableColumns} dataSource={treatments && treatments}/>}
-                <Button style={{marginTop: "10px"}} type={"primary"} onClick={handleOk}>Add Treatment</Button>
+                {project.PROJECT_STATUS !== "Completed" && <Button style={{marginTop: "10px"}} type={"primary"} onClick={handleOk}>Add Treatment</Button>}
                 </TabPane>
               </Tabs>
             </Modal>
