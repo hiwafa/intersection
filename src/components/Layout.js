@@ -2,9 +2,9 @@ import Head from 'next/head';
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { Layout, Menu, Image, Dropdown } from 'antd';
+import { Layout, Menu, Image, Dropdown, Modal } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
-import { UserOutlined, ProjectOutlined, LogoutOutlined, FundProjectionScreenOutlined } from '@ant-design/icons';
+import { UserOutlined, EditOutlined, ProjectOutlined, LogoutOutlined, FundProjectionScreenOutlined } from '@ant-design/icons';
 
 import Login from "./Login";
 
@@ -13,6 +13,7 @@ import { isLoggedIn, getUser, signout } from '../store/actions/UserSlice';
 
 import styles from "../../styles/Layout.module.css";
 import styled from "styled-components"
+import { useState } from 'react';
 const LogoutIcon = styled.div`
     span{
         &:hover{
@@ -29,6 +30,7 @@ const UserNameLabel = styled.span`
 
 const LayoutCom = ({ children }) => {
 
+    const [show, setShow] = useState(false);
     const checkLogin = useSelector(isLoggedIn);
     const { username, role } = useSelector(getUser);
     const dispatch = useDispatch();
@@ -50,10 +52,8 @@ const LayoutCom = ({ children }) => {
 
     const menu = (
         <Menu>
-            <Menu.Item>
-                <a target="_blank" rel="" href="#">
-                    Reset Password
-                </a>
+            <Menu.Item onClick={() => setShow(true)}>
+                <EditOutlined style={{ marginRight: "10px" }} /> Reset Password
             </Menu.Item>
             <Menu.Item onClick={onLogout}>
                 <LogoutOutlined style={{ marginRight: "10px" }} /> Log Out
@@ -118,7 +118,7 @@ const LayoutCom = ({ children }) => {
             </Menu>
         );
 
-        if(role.id === 3) return (
+        if (role.id === 3) return (
             <Menu theme="light" mode="inline" defaultSelectedKeys={[padname]}>
                 <Menu.Item key="home" icon={<FundProjectionScreenOutlined />}>
                     <Link href="/">
@@ -131,7 +131,7 @@ const LayoutCom = ({ children }) => {
                     </Link>
                 </Menu.Item>
             </Menu>
-        ); 
+        );
 
         return (
             <Menu theme="light" mode="inline" defaultSelectedKeys={[padname]}>
@@ -186,6 +186,15 @@ const LayoutCom = ({ children }) => {
                         {children}
                     </div>
                 </Content>
+
+                <Modal
+                    title="Edit Password"
+                    visible={show} footer={null}
+                    onCancel={() => setShow(false)}
+                >
+
+                </Modal>
+
                 <Footer style={{ textAlign: 'center' }}>
                     Safety Analytica ©2021 Developed by TheCodeGiant
                 </Footer>
