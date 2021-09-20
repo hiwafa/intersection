@@ -98,7 +98,7 @@ const LayoutCom = ({ children }) => {
 
     const conditionalRendering = () => {
 
-        if (role.id === "1") return (
+        if (role.id === 1) return (
             <Menu theme="light" mode="inline" defaultSelectedKeys={[padname]}>
                 <Menu.Item key="home" icon={<FundProjectionScreenOutlined />}>
                     <Link href="/">
@@ -118,7 +118,7 @@ const LayoutCom = ({ children }) => {
             </Menu>
         );
 
-        if(role.id === "3") return (
+        if(role.id === 3) return (
             <Menu theme="light" mode="inline" defaultSelectedKeys={[padname]}>
                 <Menu.Item key="home" icon={<FundProjectionScreenOutlined />}>
                     <Link href="/">
