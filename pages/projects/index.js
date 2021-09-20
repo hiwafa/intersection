@@ -32,7 +32,9 @@ function Projects() {
 
     return <div>
         {showDetails ?
-            (section && section === "edit" ? <EditProject project={project} setShowDetails={setShowDetails} /> : <ProjectDetails project={project} setShowDetails={setShowDetails} intersection={intersection} />) :
+            ((role.id === "1" || role.id === "3") && section && section === "edit" ?
+            <EditProject project={project} setShowDetails={setShowDetails} /> :
+            <ProjectDetails project={project} setShowDetails={setShowDetails} intersection={intersection} />) :
             <ButtonContainer>
                 <PageTitle>Projects 
                 <ThemButton
@@ -41,11 +43,7 @@ function Projects() {
                 size={"medium"}
                 icon={<PlusCircleOutlined />}
                 disabled={role.id !== "1" && role.id !== "3"}
-                onClick={() => {
-                    if(role.id === "1" || role.id === "3"){
-                        router.push("projects/create")
-                    }
-                }}
+                onClick={() => router.push("projects/create")}
                 >
                 Create Project
                 </ThemButton>
