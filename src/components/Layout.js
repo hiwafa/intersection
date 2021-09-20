@@ -32,13 +32,6 @@ const LayoutCom = ({ children }) => {
     const checkLogin = useSelector(isLoggedIn);
     const { username, role } = useSelector(getUser);
     const dispatch = useDispatch();
-    const onLogout = async () => {
-        try {
-            await dispatch(signout(null));
-        } catch (err) {
-
-        }
-    };
 
     const router = useRouter();
     let padname = router.pathname;
@@ -46,6 +39,14 @@ const LayoutCom = ({ children }) => {
     if (padname === "/") padname = "home";
     else if (padname === "/projects/create") padname = "projects";
     else padname = padname.substring(1);
+
+    const onLogout = async () => {
+        try {
+            await dispatch(signout(null));
+        } catch (err) {
+
+        }
+    };
 
     const menu = (
         <Menu>
@@ -97,7 +98,7 @@ const LayoutCom = ({ children }) => {
 
     const conditionalRendering = () => {
 
-        if (role === "1") return (
+        if (role.id === "1") return (
             <Menu theme="light" mode="inline" defaultSelectedKeys={[padname]}>
                 <Menu.Item key="home" icon={<FundProjectionScreenOutlined />}>
                     <Link href="/">
@@ -117,7 +118,7 @@ const LayoutCom = ({ children }) => {
             </Menu>
         );
 
-        if(role === "3") return (
+        if(role.id === "3") return (
             <Menu theme="light" mode="inline" defaultSelectedKeys={[padname]}>
                 <Menu.Item key="home" icon={<FundProjectionScreenOutlined />}>
                     <Link href="/">
@@ -161,7 +162,6 @@ const LayoutCom = ({ children }) => {
                 {conditionalRendering()}
 
             </Sider>
-
             <Layout>
 
                 <Header style={{
