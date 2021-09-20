@@ -18,10 +18,10 @@ const Admin = () => {
 
   useEffect(() => {
 
-    if (role.id !== "1") {
-      if (role.id === "3") {
+    if (role.id !== 1) {
+      if (role.id === 3) {
         router.push("/");
-      } else if (role.id === "4") {
+      } else if (role.id === 4) {
         router.push("projects");
       }else {
         router.push("deny");

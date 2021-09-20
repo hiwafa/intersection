@@ -21,8 +21,8 @@ function Projects() {
 
     useEffect(() => {
 
-        if (role.id !== "1" && role.id !== "3") {
-            if (role.id === "4") {
+        if (role.id !== 1 && role.id !== 3) {
+            if (role.id === 4) {
                 router.push("/projects");
             } else {
                 router.push("deny");

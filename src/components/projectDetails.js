@@ -13,6 +13,10 @@ const BASE_URL = process.env.BASE_URL
 const Wrapper = styled.div`
     padding: 10px;
 `
+import { useSelector } from "react-redux";
+import { getUser } from "../store/actions/UserSlice";
+
+
 const columns = [
     {
     title: 'Field',
@@ -141,6 +145,8 @@ const projectTreatmentColumns = [
   },
 ]
 function ProjectDetails({project, setShowDetails, intersection}){
+
+  const { role } = useSelector(getUser);
   const [visible, setVisible] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [treatments, setTreatments] = useState()
@@ -385,6 +391,7 @@ const handleOk = async () => {
   
 };
 const handleRemove = async () =>{
+
   // setConfirmLoading(true);
   if(deleteListTreats?.length > 0 || deleteListTreats === "empty")
   {
@@ -477,7 +484,9 @@ const handleRemove = async () =>{
                 <Tabs defaultActiveKey="1">
                 <TabPane tab="Countermeasures" style={{textAlign: "center"}} key="1">
                 {treatments && <Table pagination={false} columns={projectTreatmentColumns} dataSource={projectTreatments && projectTreatments}/>}
-                {project.PROJECT_STATUS !== "Completed" && <Button style={{marginTop: "10px"}} type={"danger"} onClick={handleRemove}>Remove</Button>}
+
+                {project.PROJECT_STATUS !== "Completed" && <Button disabled={role.id !== 1 && role.id !== 3} style={{marginTop: "10px"}} type={"danger"} onClick={handleRemove}>Remove</Button>}
+                
                 </TabPane>
                 <TabPane tab="Treatments" style={{textAlign: "center"}} key="2">
                 {treatments && <Table pagination={false} columns={modalTableColumns} dataSource={treatments && treatments}/>}
