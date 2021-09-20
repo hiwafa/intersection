@@ -18,7 +18,7 @@ export const createUser = createAsyncThunk(
       });
 
       if (data) {
-        return { ...data, ...params, loginStatus: "loaded" };
+        return { ...params, loginStatus: "loaded" };
       }
 
       return thunkAPI.rejectWithValue("No Data for Create User");

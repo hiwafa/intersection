@@ -2,7 +2,7 @@ import Head from 'next/head';
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { Layout, Menu, Image, Dropdown, Modal, Form } from 'antd';
+import { Layout, Menu, Image, Dropdown, Modal, Form, Input } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
 import {
     UserOutlined, EditOutlined, ProjectOutlined,
@@ -15,6 +15,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { isLoggedIn, getUser, signout, updatePass } from '../store/actions/UserSlice';
 
+import { StyledButton } from './styleds';
 import styles from "../../styles/Layout.module.css";
 import styled from "styled-components"
 import { useState } from 'react';
