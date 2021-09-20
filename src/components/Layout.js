@@ -117,6 +117,21 @@ const LayoutCom = ({ children }) => {
             </Menu>
         );
 
+        if(role === "3") return (
+            <Menu theme="light" mode="inline" defaultSelectedKeys={[padname]}>
+                <Menu.Item key="home" icon={<FundProjectionScreenOutlined />}>
+                    <Link href="/">
+                        <a>Analysis</a>
+                    </Link>
+                </Menu.Item>
+                <Menu.Item key="projects" icon={<ProjectOutlined />}>
+                    <Link href="/projects">
+                        <a>Projects</a>
+                    </Link>
+                </Menu.Item>
+            </Menu>
+        ); 
+
     }
 
     return (
