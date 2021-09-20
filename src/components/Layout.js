@@ -39,6 +39,14 @@ const LayoutCom = ({ children }) => {
 
         }
     };
+
+    const router = useRouter();
+    let padname = router.pathname;
+
+    if (padname === "/") padname = "home";
+    else if (padname === "/projects/create") padname = "projects";
+    else padname = padname.substring(1);
+
     const menu = (
         <Menu>
           <Menu.Item>
@@ -51,13 +59,6 @@ const LayoutCom = ({ children }) => {
           </Menu.Item>
         </Menu>
       );
-
-    const router = useRouter();
-    let padname = router.pathname;
-
-    if (padname === "/") padname = "home";
-    else if (padname === "/projects/create") padname = "projects";
-    else padname = padname.substring(1);
 
     if (checkLogin === 'loading') return (
         <div className={styles.container}>
