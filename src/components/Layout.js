@@ -2,7 +2,7 @@ import Head from 'next/head';
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { Layout, Menu, Image, Dropdown, Modal, Form, Input } from 'antd';
+import { Layout, Menu, Image, Dropdown, Modal, Form, Input, Spin } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
 import {
     UserOutlined, EditOutlined, ProjectOutlined,
@@ -11,15 +11,19 @@ import {
 } from '@ant-design/icons';
 
 
-
 import { useSelector, useDispatch } from 'react-redux';
 import { isLoggedIn, getUser, signout, updatePass } from '../store/actions/UserSlice';
 
+import { css } from '@emotion/css';
 import { StyledButton } from './styleds';
 import styles from "../../styles/Layout.module.css";
 import styled from "styled-components"
 import { useState } from 'react';
 import Login from "./Login";
+
+const spinStyle = css({
+    '.ant-spin-dot-item': { backgroundColor: `#fff;` }
+});
 
 const LogoutIcon = styled.div`
     span{
@@ -60,16 +64,16 @@ const LayoutCom = ({ children }) => {
 
     const onFinish = async (values) => {
         try {
-    
-          if (spining === true) return;
-          setSpining(true);
-          await dispatch(updatePass({...values, id }));
-          setSpining(false); setVisible(false);
-    
+
+            if (spining === true) return;
+            setSpining(true);
+            await dispatch(updatePass({ ...values, id }));
+            setSpining(false); setVisible(false);
+
         } catch (err) {
-          console.log("ERR:register:onFinish ", err);
+            console.log("ERR:register:onFinish ", err);
         }
-      };
+    };
 
     const menu = (
         <Menu>
