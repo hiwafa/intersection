@@ -21,7 +21,7 @@ const Admin = () => {
       router.push("projects");
     } else if (role.id === "3") {
       router.push("/");
-    }else {
+    }else if(role.id !== "1") {
       router.push("deny");
     }
   }, []);

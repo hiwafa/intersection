@@ -17,10 +17,12 @@ const Home = () => {
   const { role } = useSelector(getUser);
 
   useEffect(() => {
-    if (role.id === "4") {
-      router.push("projects");
-    } else if (role.id === "3") {
-      router.push("/");
+     if (role.id !== "1" && role.id !== "3") {
+      if (role.id === "4") {
+        router.push("projects");
+      }else {
+        router.push("deny");
+      }
     }
   }, []);
 
