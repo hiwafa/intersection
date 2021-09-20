@@ -30,7 +30,7 @@ const UserNameLabel = styled.span`
 const LayoutCom = ({ children }) => {
 
     const checkLogin = useSelector(isLoggedIn);
-    const { username } = useSelector(getUser);
+    const { username, role } = useSelector(getUser);
     const dispatch = useDispatch();
     const onLogout = async () => {
         try {
@@ -49,16 +49,16 @@ const LayoutCom = ({ children }) => {
 
     const menu = (
         <Menu>
-          <Menu.Item>
-            <a target="_blank" rel="" href="#">
-              Reset Password
-            </a>
-          </Menu.Item>
-          <Menu.Item onClick={onLogout}>
-            <LogoutOutlined style={{ marginRight: "10px" }} /> Log Out
-          </Menu.Item>
+            <Menu.Item>
+                <a target="_blank" rel="" href="#">
+                    Reset Password
+                </a>
+            </Menu.Item>
+            <Menu.Item onClick={onLogout}>
+                <LogoutOutlined style={{ marginRight: "10px" }} /> Log Out
+            </Menu.Item>
         </Menu>
-      );
+    );
 
     if (checkLogin === 'loading') return (
         <div className={styles.container}>
@@ -137,11 +137,9 @@ const LayoutCom = ({ children }) => {
                     display: 'flex', justifyContent: 'flex-end'
                 }}>
                     <LogoutIcon>
-                        {username ? 
                         <Dropdown overlay={menu} trigger={"click"} placement="bottomLeft" arrow>
-                        <UserNameLabel>{username}</UserNameLabel>
-                      </Dropdown>
-                        : "Login"}
+                            <UserNameLabel>{username}</UserNameLabel>
+                        </Dropdown>
                     </LogoutIcon>
 
                 </Header>

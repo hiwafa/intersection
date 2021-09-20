@@ -124,9 +124,9 @@ const Register = ({ setVisible, record }) => {
             placeholder="Select a role"
             allowClear
           >
-            <Option value="1">Authenticated</Option>
-            <Option value="3">Project Analyst</Option>
-            <Option value="4">Admin</Option>
+            <Option value="1">Super Admin</Option>
+            <Option value="3">Super User</Option>
+            <Option value="4">Project Anlyst</Option>
           </Select>
         </Form.Item>
 
