@@ -68,7 +68,7 @@ const LayoutCom = ({ children }) => {
             if (spining === true) return;
             setSpining(true);
             await dispatch(updatePass({ ...values, id }));
-            setSpining(false); setVisible(false);
+            setSpining(false); setShow(false);
 
         } catch (err) {
             console.log("ERR:register:onFinish ", err);
