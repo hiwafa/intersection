@@ -18,7 +18,7 @@ export const createUser = createAsyncThunk(
       });
 
       if (data) {
-        return { ...params, loginStatus: "loaded" };
+        return { ...data, ...params, loginStatus: "loaded" };
       }
 
       return thunkAPI.rejectWithValue("No Data for Create User");
@@ -41,9 +41,7 @@ export const updatePass = createAsyncThunk(
       });
 
       if (data) {
-        return {
-          ...data, ...{ password }
-        };
+        return { password };
       }
 
       return thunkAPI.rejectWithValue("No Data for Updat eUser");
