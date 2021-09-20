@@ -17,11 +17,12 @@ const Admin = () => {
   const [record, setRecord] = useState(null);
 
   useEffect(() => {
-    alert(role.id);
     if (role.id === "4") {
       router.push("projects");
     } else if (role.id === "3") {
       router.push("/");
+    }else {
+      router.push("deny");
     }
   }, []);
 
