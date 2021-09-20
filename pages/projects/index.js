@@ -40,7 +40,12 @@ function Projects() {
                 className={"createProject"}
                 size={"medium"}
                 icon={<PlusCircleOutlined />}
-                onClick={() => router.push("projects/create")}
+                disabled={role.id !== "1" && role.id !== "3"}
+                onClick={() => {
+                    if(role.id === "1" || role.id === "3"){
+                        router.push("projects/create")
+                    }
+                }}
                 >
                 Create Project
                 </ThemButton>
