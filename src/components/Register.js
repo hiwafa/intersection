@@ -33,8 +33,8 @@ const Register = ({ setVisible, record }) => {
         ...record,
         blocked: record.blocked == "true" ? true : false,
         confirmed: record.confirmed == "true" ? true : false,
-        role: record.role === "Authenticated" ? "1" :
-          record.role === "Project Analyst" ? "3" : "4"
+        role: record.role === "Super Admin" ? "1" :
+          record.role === "Super User" ? "3" : "4"
       };
       formRef.current?.setFieldsValue(newRecord);
     }
@@ -102,31 +102,35 @@ const Register = ({ setVisible, record }) => {
           />
         </Form.Item>
 
-        <Form.Item
-          name="password"
-          rules={[
-            {
-              required: true,
-              message: "Please input your password!",
-            },
-          ]}
-          initialValue={!record ? generateUID() : ""}
-        >
-          <Input.Password
-            prefix={<LockOutlined className="site-form-item-icon" />}
-            type="password"
-            placeholder="Password"
-          />
-        </Form.Item>
+        {
+          !(record && record.username) &&
+          <Form.Item
+            name="password"
+            rules={[
+              {
+                required: true,
+                message: "Please input your password!",
+              },
+            ]}
+            initialValue={!record ? generateUID() : ""}
+          >
+            <Input.Password
+              prefix={<LockOutlined className="site-form-item-icon" />}
+              type="password"
+              placeholder="Password"
+            />
+          </Form.Item>
+        }
+
 
         <Form.Item name="role" initialValue="1">
           <Select
             placeholder="Select a role"
             allowClear
           >
-            <Option value="1">Authenticated</Option>
-            <Option value="3">Project Analyst</Option>
-            <Option value="4">Admin</Option>
+            <Option value="1">Super Admin</Option>
+            <Option value="3">Super User</Option>
+            <Option value="4">Project Anlyst</Option>
           </Select>
         </Form.Item>
 

@@ -30,27 +30,8 @@ const UserNameLabel = styled.span`
 const LayoutCom = ({ children }) => {
 
     const checkLogin = useSelector(isLoggedIn);
-    const { username } = useSelector(getUser);
+    const { username, role } = useSelector(getUser);
     const dispatch = useDispatch();
-    const onLogout = async () => {
-        try {
-            await dispatch(signout(null));
-        } catch (err) {
-
-        }
-    };
-    const menu = (
-        <Menu>
-          <Menu.Item>
-            <a target="_blank" rel="" href="#">
-              Reset Password
-            </a>
-          </Menu.Item>
-          <Menu.Item onClick={onLogout}>
-            <LogoutOutlined style={{ marginRight: "10px" }} /> Log Out
-          </Menu.Item>
-        </Menu>
-      );
 
     const router = useRouter();
     let padname = router.pathname;
@@ -58,6 +39,27 @@ const LayoutCom = ({ children }) => {
     if (padname === "/") padname = "home";
     else if (padname === "/projects/create") padname = "projects";
     else padname = padname.substring(1);
+
+    const onLogout = async () => {
+        try {
+            await dispatch(signout(null));
+        } catch (err) {
+
+        }
+    };
+
+    const menu = (
+        <Menu>
+            <Menu.Item>
+                <a target="_blank" rel="" href="#">
+                    Reset Password
+                </a>
+            </Menu.Item>
+            <Menu.Item onClick={onLogout}>
+                <LogoutOutlined style={{ marginRight: "10px" }} /> Log Out
+            </Menu.Item>
+        </Menu>
+    );
 
     if (checkLogin === 'loading') return (
         <div className={styles.container}>
@@ -94,6 +96,55 @@ const LayoutCom = ({ children }) => {
         </div>
     );
 
+    const conditionalRendering = () => {
+
+        if (role.id === 1) return (
+            <Menu theme="light" mode="inline" defaultSelectedKeys={[padname]}>
+                <Menu.Item key="home" icon={<FundProjectionScreenOutlined />}>
+                    <Link href="/">
+                        <a>Analysis</a>
+                    </Link>
+                </Menu.Item>
+                <Menu.Item key="projects" icon={<ProjectOutlined />}>
+                    <Link href="/projects">
+                        <a>Projects</a>
+                    </Link>
+                </Menu.Item>
+                <Menu.Item key="admin" icon={<UserOutlined />}>
+                    <Link href="/admin">
+                        <a>Super Admin</a>
+                    </Link>
+                </Menu.Item>
+            </Menu>
+        );
+
+        if(role.id === 3) return (
+            <Menu theme="light" mode="inline" defaultSelectedKeys={[padname]}>
+                <Menu.Item key="home" icon={<FundProjectionScreenOutlined />}>
+                    <Link href="/">
+                        <a>Analysis</a>
+                    </Link>
+                </Menu.Item>
+                <Menu.Item key="projects" icon={<ProjectOutlined />}>
+                    <Link href="/projects">
+                        <a>Projects</a>
+                    </Link>
+                </Menu.Item>
+            </Menu>
+        ); 
+
+        return (
+            <Menu theme="light" mode="inline" defaultSelectedKeys={[padname]}>
+                <Menu.Item key="projects" icon={<ProjectOutlined />}>
+                    <Link href="/projects">
+                        <a>Projects</a>
+                    </Link>
+                </Menu.Item>
+            </Menu>
+        );
+
+    }
+
     return (
         <Layout>
             <Sider
@@ -108,26 +159,9 @@ const LayoutCom = ({ children }) => {
                     <Link href="/"><a><Image src="/logo.jpg" alt="logo" preview={false} /></a></Link>
                 </div>
 
-                <Menu theme="light" mode="inline" defaultSelectedKeys={[padname]}>
-                    <Menu.Item key="home" icon={<FundProjectionScreenOutlined />}>
-                        <Link href="/">
-                            <a>Analysis</a>
-                        </Link>
-                    </Menu.Item>
-                    <Menu.Item key="projects" icon={<ProjectOutlined />}>
-                        <Link href="/projects">
-                            <a>Projects</a>
-                        </Link>
-                    </Menu.Item>
-                    <Menu.Item key="admin" icon={<UserOutlined />}>
-                        <Link href="/admin">
-                            <a>User Management</a>
-                        </Link>
-                    </Menu.Item>
-                </Menu>
+                {conditionalRendering()}
 
             </Sider>
-
             <Layout>
 
                 <Header style={{
@@ -136,11 +170,9 @@ const LayoutCom = ({ children }) => {
                     display: 'flex', justifyContent: 'flex-end'
                 }}>
                     <LogoutIcon>
-                        {username ? 
                         <Dropdown overlay={menu} trigger={"click"} placement="bottomLeft" arrow>
-                        <UserNameLabel>{username}</UserNameLabel>
-                      </Dropdown>
-                        : "Login"}
+                            <UserNameLabel>{username}</UserNameLabel>
+                        </Dropdown>
                     </LogoutIcon>
 
                 </Header>

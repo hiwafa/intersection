@@ -11,18 +11,30 @@ const ButtonContainer = styled.div`
     padding: 10px;
 `
 
+import { useSelector } from "react-redux";
+import { getUser } from "../../src/store/actions/UserSlice";
 import { useRouter } from "next/router";
 
 function Projects() {
 
     const router = useRouter();
+    const { role } = useSelector(getUser);
     const [showDetails, setShowDetails] = useState(false)
     const [section, setSection] = useState("");
     const [project, setProject] = useState("");
-    const [intersection, setInterSection] = useState({})
+    const [intersection, setInterSection] = useState({});
+
+    useEffect(() => {
+        if (role.id !== 1 && role.id !== 3 && role.id !== 4) {
+            router.push("deny");
+        }
+      }, []);
+
     return <div>
         {showDetails ?
-            (section && section === "edit" ? <EditProject project={project} setShowDetails={setShowDetails} /> : <ProjectDetails project={project} setShowDetails={setShowDetails} intersection={intersection} />) :
+            ((role.id === 1 || role.id === 3) && section && section === "edit" ?
+            <EditProject project={project} setShowDetails={setShowDetails} /> :
+            <ProjectDetails project={project} setShowDetails={setShowDetails} intersection={intersection} />) :
             <ButtonContainer>
                 <PageTitle>Projects 
                 <ThemButton
@@ -30,6 +42,7 @@ function Projects() {
                 className={"createProject"}
                 size={"medium"}
                 icon={<PlusCircleOutlined />}
+                disabled={role.id !== 1 && role.id !== 3}
                 onClick={() => router.push("projects/create")}
                 >
                 Create Project
@@ -37,7 +50,7 @@ function Projects() {
                     </PageTitle>
                 <Row gutter={[50, 10]}>
                     <Col md={24} lg={24}>
-                        <SearchProject setProject={setProject} setShowDetails={setShowDetails} setSection={setSection} setInterSection={setInterSection} />
+                        <SearchProject role={role} setProject={setProject} setShowDetails={setShowDetails} setSection={setSection} setInterSection={setInterSection} />
                     </Col>
                 </Row>
             </ButtonContainer>}
