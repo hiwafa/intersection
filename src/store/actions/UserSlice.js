@@ -29,20 +29,43 @@ export const createUser = createAsyncThunk(
   }
 );
 
-export const updateUser = createAsyncThunk(
-  "user/updateUser",
-  async (params, thunkAPI) => {
+export const updatePass = createAsyncThunk(
+  "user/updateUser", async (params, thunkAPI) => {
     try {
 
-      const { id, email, username, password, blocked, confirmed, role } = params;
+      const { id, password } = params;
 
       const { data } = await formRequest(`users/${id}`, {
         method: "PUT",
-        data: { email, username, password, blocked, confirmed, role }
+        data: { password }
       });
 
       if (data) {
-        return { ...data, ...{ email, username, password, blocked, confirmed, role } };
+        return { ...data, ...{ password } };
+      }
+
+      return thunkAPI.rejectWithValue("No Data for Updat eUser");
+
+    } catch (err) {
+
+      return thunkAPI.rejectWithValue(err.message);
+    }
+  }
+);
+
+export const updateUser = createAsyncThunk(
+  "user/updateUser", async (params, thunkAPI) => {
+    try {
+
+      const { id, email, username, blocked, confirmed, role } = params;
+
+      const { data } = await formRequest(`users/${id}`, {
+        method: "PUT",
+        data: { email, username, blocked, confirmed, role }
+      });
+
+      if (data) {
+        return { ...data, ...{ email, username, blocked, confirmed, role } };
       }
 
       return thunkAPI.rejectWithValue("No Data for Updat eUser");

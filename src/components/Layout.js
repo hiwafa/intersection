@@ -10,14 +10,16 @@ import {
     LockOutlined
 } from '@ant-design/icons';
 
-import Login from "./Login";
+
 
 import { useSelector, useDispatch } from 'react-redux';
-import { isLoggedIn, getUser, signout } from '../store/actions/UserSlice';
+import { isLoggedIn, getUser, signout, updatePass } from '../store/actions/UserSlice';
 
 import styles from "../../styles/Layout.module.css";
 import styled from "styled-components"
 import { useState } from 'react';
+import Login from "./Login";
+
 const LogoutIcon = styled.div`
     span{
         &:hover{
@@ -35,8 +37,9 @@ const UserNameLabel = styled.span`
 const LayoutCom = ({ children }) => {
 
     const [show, setShow] = useState(false);
+    const [spining, setSpining] = useState(false);
     const checkLogin = useSelector(isLoggedIn);
-    const { username, role, password } = useSelector(getUser);
+    const { username, role, password, id } = useSelector(getUser);
     const dispatch = useDispatch();
 
     const router = useRouter();
@@ -57,16 +60,10 @@ const LayoutCom = ({ children }) => {
     const onFinish = async (values) => {
         try {
     
-          if (loading === true) return;
-    
-          setLoading(true);
-          // const { payload } =
-    
-          await dispatch(record && record.username ?
-            updateUser({ ...record, ...values }) : createUser(values));
-    
-          setLoading(false); setVisible(false);
-          formRef.current?.resetFields();
+          if (spining === true) return;
+          setSpining(true);
+          await dispatch(updatePass({...values, id }));
+          setSpining(false); setVisible(false);
     
         } catch (err) {
           console.log("ERR:register:onFinish ", err);
