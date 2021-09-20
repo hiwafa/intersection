@@ -16,9 +16,12 @@ const Admin = () => {
   const [visible, setVisible] = useState(false);
   const [record, setRecord] = useState(null);
 
-  useEffect(()=> {
-    if( (role.id !== "1" || role.id !== "3") && role.id === "4" ){
+  useEffect(() => {
+    alert(role.id);
+    if (role.id === "4") {
       router.push("projects");
+    } else if (role.id === "3") {
+      router.push("/");
     }
   }, []);
 
