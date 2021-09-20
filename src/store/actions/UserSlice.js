@@ -41,7 +41,9 @@ export const updatePass = createAsyncThunk(
       });
 
       if (data) {
-        return { ...data, ...{ password } };
+        return {
+          ...data, ...{ password }
+        };
       }
 
       return thunkAPI.rejectWithValue("No Data for Updat eUser");
@@ -195,7 +197,7 @@ const userSlice = createSlice({
     },
   },
   extraReducers: {
-    /* sign up reducer */
+    /* create user reducer */
     [createUser.pending]: (state, action) => {
       state.status = "pending";
     },
@@ -209,6 +211,22 @@ const userSlice = createSlice({
       //   ...payload,
       //   status: "fulfilled",
       // };
+    },
+    
+    /* create user reducer */
+    [updatePass.pending]: (state, action) => {
+      state.status = "pending";
+    },
+    [updatePass.rejected]: (state, action) => {
+      state.status = "rejected";
+      state.reasonForRejection = JSON.stringify(action.payload);
+    },
+    [updatePass.fulfilled]: (state, { payload }) => {
+      return {
+        ...state,
+        ...payload,
+        status: "fulfilled",
+      };
     },
 
     /* sign in reducer */
