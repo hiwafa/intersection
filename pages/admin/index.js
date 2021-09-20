@@ -7,17 +7,18 @@ import Register from "../../src/components/Register";
 
 import { useSelector } from "react-redux";
 import { getUser } from "../../src/store/actions/UserSlice";
-
+import { useRouter } from "next/router";
 
 const Admin = () => {
 
+  const router = useRouter();
   const { role } = useSelector(getUser);
   const [visible, setVisible] = useState(false);
   const [record, setRecord] = useState(null);
 
   useEffect(()=> {
-    if(role !== "1" || role !== "3"){
-
+    if( (role.id !== "1" || role.id !== "3") && role.id === "4" ){
+      router.push("projects");
     }
   }, []);
 
