@@ -30,7 +30,7 @@ export const createUser = createAsyncThunk(
 );
 
 export const updatePass = createAsyncThunk(
-  "user/updateUser", async (params, thunkAPI) => {
+  "user/updatePass", async (params, thunkAPI) => {
     try {
 
       const { id, password } = params;
@@ -65,7 +65,7 @@ export const updateUser = createAsyncThunk(
       });
 
       if (data) {
-        return { ...data, ...{ email, username, blocked, confirmed, role } };
+        return { email, username, blocked, confirmed, role };
       }
 
       return thunkAPI.rejectWithValue("No Data for Updat eUser");
