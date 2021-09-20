@@ -11,15 +11,25 @@ const ButtonContainer = styled.div`
     padding: 10px;
 `
 
+import { useSelector } from "react-redux";
+import { getUser } from "../../src/store/actions/UserSlice";
 import { useRouter } from "next/router";
 
 function Projects() {
 
     const router = useRouter();
+    const { role } = useSelector(getUser);
     const [showDetails, setShowDetails] = useState(false)
     const [section, setSection] = useState("");
     const [project, setProject] = useState("");
-    const [intersection, setInterSection] = useState({})
+    const [intersection, setInterSection] = useState({});
+
+    useEffect(() => {
+        if (role.id !== "1" && role.id !== "3" && role.id !== "4") {
+            router.push("deny");
+        }
+      }, []);
+
     return <div>
         {showDetails ?
             (section && section === "edit" ? <EditProject project={project} setShowDetails={setShowDetails} /> : <ProjectDetails project={project} setShowDetails={setShowDetails} intersection={intersection} />) :
