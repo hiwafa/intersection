@@ -21,7 +21,8 @@ const ActionContainer = styled.div`
     color: #1890ff;
   }
 `;
-function SearchProject({setShowDetails, setProject, setSection, setInterSection}){
+function SearchProject({role, setShowDetails, setProject, setSection, setInterSection}){
+
     const [projects, setProjects] = useState([])
     const [searchText, setSearchText] = useState("")
     const [searchedColumn, setSearchedColumn] = useState("")

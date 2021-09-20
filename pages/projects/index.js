@@ -32,7 +32,7 @@ function Projects() {
 
     return <div>
         {showDetails ?
-            ((role.id === "1" || role.id === "3") && section && section === "edit" ?
+            ((role.id === 1 || role.id === 3) && section && section === "edit" ?
             <EditProject project={project} setShowDetails={setShowDetails} /> :
             <ProjectDetails project={project} setShowDetails={setShowDetails} intersection={intersection} />) :
             <ButtonContainer>
@@ -42,7 +42,7 @@ function Projects() {
                 className={"createProject"}
                 size={"medium"}
                 icon={<PlusCircleOutlined />}
-                disabled={role.id !== "1" && role.id !== "3"}
+                disabled={role.id !== 1 && role.id !== 3}
                 onClick={() => router.push("projects/create")}
                 >
                 Create Project
@@ -50,7 +50,7 @@ function Projects() {
                     </PageTitle>
                 <Row gutter={[50, 10]}>
                     <Col md={24} lg={24}>
-                        <SearchProject setProject={setProject} setShowDetails={setShowDetails} setSection={setSection} setInterSection={setInterSection} />
+                        <SearchProject role={role} setProject={setProject} setShowDetails={setShowDetails} setSection={setSection} setInterSection={setInterSection} />
                     </Col>
                 </Row>
             </ButtonContainer>}

@@ -454,7 +454,6 @@ function ProjectDetails({ project, setShowDetails, intersection }) {
       </ThemButton>
       {project.projectFile?.url && <a href={`${BASE_URL}${project.projectFile?.url}`}><Button type={"primary"} icon={<DownloadOutlined />} htmlType={"button"} size={"medium"} className={"downloadButton"}>Download Project File</Button></a>}
     </PageTitle>
-
     <TableContainer style={{ width: "380px", margin: "auto" }}>
       <PDFExport ref={pdfExportComponent} paperSize="A4">
         <Table pagination={false} columns={columns} dataSource={details && details} tableLayout={"horizontal"} />
