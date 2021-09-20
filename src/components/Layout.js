@@ -95,6 +95,30 @@ const LayoutCom = ({ children }) => {
         </div>
     );
 
+    const conditionalRendering = () => {
+
+        if (role === "1") return (
+            <Menu theme="light" mode="inline" defaultSelectedKeys={[padname]}>
+                <Menu.Item key="home" icon={<FundProjectionScreenOutlined />}>
+                    <Link href="/">
+                        <a>Analysis</a>
+                    </Link>
+                </Menu.Item>
+                <Menu.Item key="projects" icon={<ProjectOutlined />}>
+                    <Link href="/projects">
+                        <a>Projects</a>
+                    </Link>
+                </Menu.Item>
+                <Menu.Item key="admin" icon={<UserOutlined />}>
+                    <Link href="/admin">
+                        <a>Super Admin</a>
+                    </Link>
+                </Menu.Item>
+            </Menu>
+        );
+
+    }
+
     return (
         <Layout>
             <Sider
@@ -109,23 +133,7 @@ const LayoutCom = ({ children }) => {
                     <Link href="/"><a><Image src="/logo.jpg" alt="logo" preview={false} /></a></Link>
                 </div>
 
-                <Menu theme="light" mode="inline" defaultSelectedKeys={[padname]}>
-                    <Menu.Item key="home" icon={<FundProjectionScreenOutlined />}>
-                        <Link href="/">
-                            <a>Analysis</a>
-                        </Link>
-                    </Menu.Item>
-                    <Menu.Item key="projects" icon={<ProjectOutlined />}>
-                        <Link href="/projects">
-                            <a>Projects</a>
-                        </Link>
-                    </Menu.Item>
-                    <Menu.Item key="admin" icon={<UserOutlined />}>
-                        <Link href="/admin">
-                            <a>User Management</a>
-                        </Link>
-                    </Menu.Item>
-                </Menu>
+                {conditionalRendering()}
 
             </Sider>
 
