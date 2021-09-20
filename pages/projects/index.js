@@ -25,7 +25,6 @@ function Projects() {
     const [intersection, setInterSection] = useState({});
 
     useEffect(() => {
-        console.log("role.id", role.id);
         if (role.id !== 1 && role.id !== 3 && role.id !== 4) {
             router.push("deny");
         }
