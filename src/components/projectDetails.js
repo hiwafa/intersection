@@ -4,7 +4,7 @@ import { Table, Button, Tooltip, Modal, Tabs, Checkbox, notification } from "ant
 import { LeftCircleOutlined } from '@ant-design/icons';
 import { PageTitle, TableContainer, ThemButton } from "./styleds"
 import { DownloadOutlined } from '@ant-design/icons';
-import { request } from "../requests"
+import { request, formRequest } from "../requests"
 import { PDFExport } from '@progress/kendo-react-pdf';
 import moment from "moment"
 import numeral, { isNumeral } from "numeral"
@@ -215,7 +215,7 @@ function ProjectDetails({ project, setShowDetails, intersection }) {
     return { a, b, c, injuries, fatalities, pdo, epdo, crashRate, yearsDiff, NumberOfCrashes, crashCosts }
   }
   const loadCrashCost = async () => {
-    const costs = await request('crash-costs', {
+    const costs = await formRequest('crash-costs', {
       method: "GET"
     });
     if (costs.status === 200) {
@@ -307,7 +307,7 @@ function ProjectDetails({ project, setShowDetails, intersection }) {
   }
   const pdfExportComponent = createRef()
   const loadTreatments = async () => {
-    const res = await request(`/treatments`, {
+    const res = await formRequest(`/treatments`, {
       method: "GET",
     });
     if (res.status === 200) {
@@ -358,7 +358,7 @@ function ProjectDetails({ project, setShowDetails, intersection }) {
       newTreatments.map((tr) => {
         project.treatments.push(tr)
       })
-      await request(`projects/${project.id}`, {
+      await formRequest(`projects/${project.id}`, {
         method: "PUT",
         data: project,
       }).then((res) => {
@@ -396,7 +396,7 @@ function ProjectDetails({ project, setShowDetails, intersection }) {
         })
       }
 
-      await request(`projects/${project.id}`, {
+      await formRequest(`projects/${project.id}`, {
         method: "PUT",
         data: project,
       }).then((res) => {
