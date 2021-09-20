@@ -102,22 +102,26 @@ const Register = ({ setVisible, record }) => {
           />
         </Form.Item>
 
-        <Form.Item
-          name="password"
-          rules={[
-            {
-              required: true,
-              message: "Please input your password!",
-            },
-          ]}
-          initialValue={!record ? generateUID() : ""}
-        >
-          <Input.Password
-            prefix={<LockOutlined className="site-form-item-icon" />}
-            type="password"
-            placeholder="Password"
-          />
-        </Form.Item>
+        {
+          !(record && record.username) &&
+          <Form.Item
+            name="password"
+            rules={[
+              {
+                required: true,
+                message: "Please input your password!",
+              },
+            ]}
+            initialValue={!record ? generateUID() : ""}
+          >
+            <Input.Password
+              prefix={<LockOutlined className="site-form-item-icon" />}
+              type="password"
+              placeholder="Password"
+            />
+          </Form.Item>
+        }
+
 
         <Form.Item name="role" initialValue="1">
           <Select
