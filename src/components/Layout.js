@@ -132,6 +132,16 @@ const LayoutCom = ({ children }) => {
             </Menu>
         ); 
 
+        return (
+            <Menu theme="light" mode="inline" defaultSelectedKeys={[padname]}>
+                <Menu.Item key="projects" icon={<ProjectOutlined />}>
+                    <Link href="/projects">
+                        <a>Projects</a>
+                    </Link>
+                </Menu.Item>
+            </Menu>
+        );
+
     }
 
     return (
