@@ -1,6 +1,6 @@
 import react, { useEffect, useState } from "react";
 import { Button, Row, Col, Form, Select, DatePicker, Input, notification } from "antd"
-import { request } from "../requests"
+import { formRequest } from "../requests"
 import { LeftCircleOutlined } from '@ant-design/icons';
 import { PageTitle } from "./styleds"
 import styled from "styled-components";
@@ -24,7 +24,7 @@ function CreateProject({ handleClick }) {
 
     const [intersections, setIntersections] = useState({})
     const loadIntersections = async () => {
-        const res = await request("/intersection-inventories", {
+        const res = await formRequest("/intersection-inventories", {
             method: "GET",
         });
         if (res.status === 200) {
@@ -34,7 +34,7 @@ function CreateProject({ handleClick }) {
     const [form] = Form.useForm();
     const onFinish = async (values) => {
         values = {...values, CRASH_COUNT: selectIntersection(values.INTERSECTION)}
-        await request("projects", {
+        await formRequest("projects", {
             method: "POST",
             data: values,
         }).then((res) => {

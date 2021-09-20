@@ -8,7 +8,7 @@ import {
     Select,
     Form
   } from "formik-antd"
-import {request} from "../requests"
+import { formRequest } from "../requests"
 import { LeftCircleOutlined } from '@ant-design/icons';
 import {PageTitle, ContentContainer, ThemButton} from "./styleds"
 import axios from "axios"
@@ -36,7 +36,7 @@ function EditProject ({project, setShowDetails}){
     const text = 'Are you sure to delete the file?';
 
       const confirmRemove = async (id) => {
-          const remove = await request(`upload/files/${id}`,
+          const remove = await formRequest(`upload/files/${id}`,
           {method: "DELETE"})
           if(remove.status === 200)
           {
@@ -121,7 +121,7 @@ function EditProject ({project, setShowDetails}){
           console.log("no file selected")
         }
      
-          await request(`projects/${values.id}`, {
+          await formRequest(`projects/${values.id}`, {
             method: "PUT",
             data: values,
             headers: {

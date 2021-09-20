@@ -1,6 +1,6 @@
 import react, { useState, useEffect } from "react"
 import { Button, Table, Space, Input } from "antd"
-import { request } from "../requests"
+import { request, formRequest } from "../requests"
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 import styled from "styled-components";
@@ -145,7 +145,7 @@ function SearchProject({ role, setShowDetails, setProject, setSection, setInterS
 
 
   const loadProjects = async () => {
-    const res = await request("projects", {
+    const res = await formRequest("projects", {
       method: "GET",
     });
     if (res.status === 200) {
@@ -167,7 +167,7 @@ function SearchProject({ role, setShowDetails, setProject, setSection, setInterS
   }
   const loadIntersections = async (project) => {
     try {
-      const res = await request(`/intersection-inventories/${project.INTERSECTION?.id}`, {
+      const res = await formRequest(`/intersection-inventories/${project.INTERSECTION?.id}`, {
         method: "GET",
       });
       if (res.status === 200) {
