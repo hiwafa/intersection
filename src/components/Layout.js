@@ -2,17 +2,29 @@ import Head from 'next/head';
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { Layout, Menu, Image, Dropdown } from 'antd';
+import { Layout, Menu, Image, Dropdown, Modal, Form, Input, Spin } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
-import { UserOutlined, ProjectOutlined, LogoutOutlined, FundProjectionScreenOutlined } from '@ant-design/icons';
+import {
+    UserOutlined, EditOutlined, ProjectOutlined,
+    LogoutOutlined, FundProjectionScreenOutlined,
+    LockOutlined
+} from '@ant-design/icons';
 
-import Login from "./Login";
 
 import { useSelector, useDispatch } from 'react-redux';
-import { isLoggedIn, getUser, signout } from '../store/actions/UserSlice';
+import { isLoggedIn, getUser, signout, updatePass } from '../store/actions/UserSlice';
 
+import { css } from '@emotion/css';
+import { StyledButton } from './styleds';
 import styles from "../../styles/Layout.module.css";
 import styled from "styled-components"
+import { useState } from 'react';
+import Login from "./Login";
+
+const spinStyle = css({
+    '.ant-spin-dot-item': { backgroundColor: `#fff;` }
+});
+
 const LogoutIcon = styled.div`
     span{
         &:hover{
@@ -29,8 +41,10 @@ const UserNameLabel = styled.span`
 
 const LayoutCom = ({ children }) => {
 
+    const [show, setShow] = useState(false);
+    const [spining, setSpining] = useState(false);
     const checkLogin = useSelector(isLoggedIn);
-    const { username, role } = useSelector(getUser);
+    const { username, role, password, id } = useSelector(getUser);
     const dispatch = useDispatch();
 
     const router = useRouter();
@@ -48,12 +62,23 @@ const LayoutCom = ({ children }) => {
         }
     };
 
+    const onFinish = async (values) => {
+        try {
+
+            if (spining === true) return;
+            setSpining(true);
+            await dispatch(updatePass({ ...values, id }));
+            setSpining(false); setShow(false);
+
+        } catch (err) {
+            console.log("ERR:register:onFinish ", err);
+        }
+    };
+
     const menu = (
         <Menu>
-            <Menu.Item>
-                <a target="_blank" rel="" href="#">
-                    Reset Password
-                </a>
+            <Menu.Item onClick={() => setShow(true)}>
+                <EditOutlined style={{ marginRight: "10px" }} /> Reset Password
             </Menu.Item>
             <Menu.Item onClick={onLogout}>
                 <LogoutOutlined style={{ marginRight: "10px" }} /> Log Out
@@ -118,7 +143,7 @@ const LayoutCom = ({ children }) => {
             </Menu>
         );
 
-        if(role.id === 3) return (
+        if (role.id === 3) return (
             <Menu theme="light" mode="inline" defaultSelectedKeys={[padname]}>
                 <Menu.Item key="home" icon={<FundProjectionScreenOutlined />}>
                     <Link href="/">
@@ -131,7 +156,7 @@ const LayoutCom = ({ children }) => {
                     </Link>
                 </Menu.Item>
             </Menu>
-        ); 
+        );
 
         return (
             <Menu theme="light" mode="inline" defaultSelectedKeys={[padname]}>
@@ -186,6 +211,43 @@ const LayoutCom = ({ children }) => {
                         {children}
                     </div>
                 </Content>
+
+                <Modal
+                    title="Edit Password"
+                    visible={show} footer={null}
+                    onCancel={() => setShow(false)}
+                >
+                    <Form
+                        name="normal_login"
+                        className="login-form"
+                        onFinish={onFinish}
+                    >
+                        <Form.Item
+                            name="password"
+                            initialValue={password}
+                            rules={[{
+                                required: true,
+                                message: "Please input your password!",
+                            }]}
+                        >
+                            <Input.Password
+                                prefix={<LockOutlined className="site-form-item-icon" />}
+                                type="password"
+                                placeholder="Password"
+                            />
+                        </Form.Item>
+
+                        <Form.Item>
+                            <StyledButton type="submit" style={{ marginBottom: 10 }}>
+                                {
+                                    spining ? <Spin size="small" className={spinStyle} /> : "Update"
+                                }
+                            </StyledButton>
+                        </Form.Item>
+
+                    </Form>
+                </Modal>
+
                 <Footer style={{ textAlign: 'center' }}>
                     Safety Analytica ©2021 Developed by TheCodeGiant
                 </Footer>

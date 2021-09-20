@@ -29,20 +29,43 @@ export const createUser = createAsyncThunk(
   }
 );
 
-export const updateUser = createAsyncThunk(
-  "user/updateUser",
-  async (params, thunkAPI) => {
+export const updatePass = createAsyncThunk(
+  "user/updatePass", async (params, thunkAPI) => {
     try {
 
-      const { id, email, username, password, blocked, confirmed, role } = params;
+      const { id, password } = params;
 
       const { data } = await formRequest(`users/${id}`, {
         method: "PUT",
-        data: { email, username, password, blocked, confirmed, role }
+        data: { password }
       });
 
       if (data) {
-        return { ...data, ...{ email, username, password, blocked, confirmed, role } };
+        return { password };
+      }
+
+      return thunkAPI.rejectWithValue("No Data for Updat eUser");
+
+    } catch (err) {
+
+      return thunkAPI.rejectWithValue(err.message);
+    }
+  }
+);
+
+export const updateUser = createAsyncThunk(
+  "user/updateUser", async (params, thunkAPI) => {
+    try {
+
+      const { id, email, username, blocked, confirmed, role } = params;
+
+      const { data } = await formRequest(`users/${id}`, {
+        method: "PUT",
+        data: { email, username, blocked, confirmed, role }
+      });
+
+      if (data) {
+        return { email, username, blocked, confirmed, role };
       }
 
       return thunkAPI.rejectWithValue("No Data for Updat eUser");
@@ -172,7 +195,7 @@ const userSlice = createSlice({
     },
   },
   extraReducers: {
-    /* sign up reducer */
+    /* create user reducer */
     [createUser.pending]: (state, action) => {
       state.status = "pending";
     },
@@ -186,6 +209,22 @@ const userSlice = createSlice({
       //   ...payload,
       //   status: "fulfilled",
       // };
+    },
+    
+    /* create user reducer */
+    [updatePass.pending]: (state, action) => {
+      state.status = "pending";
+    },
+    [updatePass.rejected]: (state, action) => {
+      state.status = "rejected";
+      state.reasonForRejection = JSON.stringify(action.payload);
+    },
+    [updatePass.fulfilled]: (state, { payload }) => {
+      return {
+        ...state,
+        ...payload,
+        status: "fulfilled",
+      };
     },
 
     /* sign in reducer */
