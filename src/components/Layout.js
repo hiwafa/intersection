@@ -2,9 +2,13 @@ import Head from 'next/head';
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { Layout, Menu, Image, Dropdown, Modal } from 'antd';
+import { Layout, Menu, Image, Dropdown, Modal, Form } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
-import { UserOutlined, EditOutlined, ProjectOutlined, LogoutOutlined, FundProjectionScreenOutlined } from '@ant-design/icons';
+import {
+    UserOutlined, EditOutlined, ProjectOutlined,
+    LogoutOutlined, FundProjectionScreenOutlined,
+    LockOutlined
+} from '@ant-design/icons';
 
 import Login from "./Login";
 
@@ -32,7 +36,7 @@ const LayoutCom = ({ children }) => {
 
     const [show, setShow] = useState(false);
     const checkLogin = useSelector(isLoggedIn);
-    const { username, role } = useSelector(getUser);
+    const { username, role, password } = useSelector(getUser);
     const dispatch = useDispatch();
 
     const router = useRouter();
@@ -49,6 +53,25 @@ const LayoutCom = ({ children }) => {
 
         }
     };
+
+    const onFinish = async (values) => {
+        try {
+    
+          if (loading === true) return;
+    
+          setLoading(true);
+          // const { payload } =
+    
+          await dispatch(record && record.username ?
+            updateUser({ ...record, ...values }) : createUser(values));
+    
+          setLoading(false); setVisible(false);
+          formRef.current?.resetFields();
+    
+        } catch (err) {
+          console.log("ERR:register:onFinish ", err);
+        }
+      };
 
     const menu = (
         <Menu>
@@ -192,7 +215,35 @@ const LayoutCom = ({ children }) => {
                     visible={show} footer={null}
                     onCancel={() => setShow(false)}
                 >
+                    <Form
+                        name="normal_login"
+                        className="login-form"
+                        onFinish={onFinish}
+                    >
+                        <Form.Item
+                            name="password"
+                            initialValue={password}
+                            rules={[{
+                                required: true,
+                                message: "Please input your password!",
+                            }]}
+                        >
+                            <Input.Password
+                                prefix={<LockOutlined className="site-form-item-icon" />}
+                                type="password"
+                                placeholder="Password"
+                            />
+                        </Form.Item>
 
+                        <Form.Item>
+                            <StyledButton type="submit" style={{ marginBottom: 10 }}>
+                                {
+                                    spining ? <Spin size="small" className={spinStyle} /> : "Update"
+                                }
+                            </StyledButton>
+                        </Form.Item>
+
+                    </Form>
                 </Modal>
 
                 <Footer style={{ textAlign: 'center' }}>
