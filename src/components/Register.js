@@ -33,8 +33,8 @@ const Register = ({ setVisible, record }) => {
         ...record,
         blocked: record.blocked == "true" ? true : false,
         confirmed: record.confirmed == "true" ? true : false,
-        role: record.role === "Authenticated" ? "1" :
-          record.role === "Project Analyst" ? "3" : "4"
+        role: record.role === "Super Admin" ? "1" :
+          record.role === "Super User" ? "3" : "4"
       };
       formRef.current?.setFieldsValue(newRecord);
     }
