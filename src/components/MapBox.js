@@ -28,7 +28,8 @@ const CustomMarker = ({ crashId, inventory, onPress }) => {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        color: '#fff'
+        color: '#fff',
+        cursor: "pointer"
     };
 
     return (
