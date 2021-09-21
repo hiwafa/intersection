@@ -195,10 +195,11 @@ function ProjectDetails({project, crashCostList, setShowDetails, intersection}){
     }
 const pdfExportComponent = createRef()
 const loadTreatments = async () => {
-  const res = await formRequest(`/treatments`, {
+  try{
+    const res = await formRequest(`/treatments`, {
       method: "GET",
     });
-    if(res.status === 200) {
+    if(res.status === 200){
       setTreatments(res.data && res.data.map((treat, index) => {
         return {
           TREATMENT_NAME: treat.TREATMENT_NAME,
@@ -214,8 +215,15 @@ const loadTreatments = async () => {
           add: <Checkbox key={index} onChange={(e) => addTreat(e, treat)} />
         }
       }))
-      
     }
+  }
+  catch(e){
+    notification["error"]({
+      duration: 5,
+      message: e,
+    })
+  }
+  
 }
 
 const addTreat = (e, treat) =>{

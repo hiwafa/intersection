@@ -6,7 +6,7 @@ import ProjectDetails from "../../src/components/projectDetails"
 import EditProject from "../../src/components/editProject"
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { PageTitle, ThemButton } from "../../src/components/styleds"
-import {request} from "../../src/requests"
+import {formRequest} from "../../src/requests"
 const ButtonContainer = styled.div`
     padding: 10px;
 `
@@ -25,20 +25,20 @@ function Projects() {
     const [crashCostList,setCrashCostsList] = useState()
 
     const loadCrashCost = async () => {
-         await formRequest('crash-costs', {
-          method: "GET"
-        }).then((res) => {
-            if(res.status === 200)
-            {    
-              setCrashCostsList(res.data)
+        try{
+        const crashCosts = await formRequest('crash-costs', {
+            method: "GET"
+            })
+            if(crashCosts.status === 200){    
+                setCrashCostsList(crashCosts.data)
             }
-        }).catch((e) => {
+        }
+        catch(e){
             notification["error"]({
                 duration: 5,
                 message: e,
               })
-        });
-        
+        }   
       }
     useEffect(() => {
         loadCrashCost()
