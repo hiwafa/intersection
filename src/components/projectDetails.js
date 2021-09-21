@@ -22,10 +22,28 @@ function ProjectDetails({project, crashCostList, setShowDetails, intersection}){
   const [newTreatments, setNewTreatments] = useState()
   const [projectTreatments, setProjectTreatments] = useState()
   const [deleteListTreats, setDeleteListTreats] = useState()
-
+  const [details, setDetails] = useState()
+  useEffect(()=>{
+    crashCostList && setProjectDetails()
+     setProjectTreatments(project.treatments && project.treatments.map((treat, index) => {
+       return {
+         TREATMENT_NAME: treat.TREATMENT_NAME,
+         TREATMENT_TYPE: treat.TREATMENT_TYPE,
+         SERVICE_LIFE: treat.SERVICE_LIFE,
+         CRF: treat.CRF,
+         CMF: treat.CMF,
+         SALVAGE_PERCENT: treat.SALVAGE_PERCENT,
+         INTEREST_RATE: treat.INTEREST_RATE,
+         TOTAL_TREATMENT_COST: numeral(treat.TOTAL_TREATMENT_COST).format("$0,0.00"),
+         OM_COST: numeral(treat.OM_COST).format("$0,0"),
+         TREATMENT_COST: numeral(treat.TREATMENT_COST).format("$0,0"),
+         remove: <Checkbox key={index} onChange={(e) => removeTreat(e, treat)} />
+       }
+     }))
+       }, [])
   const crashCost = (severity) => {
-    let value =""
-    crashCostList && crashCostList.map((cost) =>{
+    let value = ""
+    crashCostList && crashCostList.map((cost) => {
       if(cost.crashSeverity === severity){
         value = cost.crashCost;
       }
@@ -33,9 +51,8 @@ function ProjectDetails({project, crashCostList, setShowDetails, intersection}){
     return value
   }
   let newTreats = []
-
-  const showModal = () => {
-    loadTreatments()
+  const showModal = async () => {
+    await loadTreatments()
     setVisible(true);
   };
 
@@ -43,7 +60,6 @@ function ProjectDetails({project, crashCostList, setShowDetails, intersection}){
   const handleCancel = () => {
     setVisible(false);
   };
-  const [details, setDetails] = useState()
   const setCrash = () =>{
     let a=0;
     let b=0;
@@ -103,14 +119,14 @@ function ProjectDetails({project, crashCostList, setShowDetails, intersection}){
       if(endDate.diff(startDate, "years") < 1){
         if(endDate.diff(startDate, "months") <1){
            years =  (parseInt(endDate.diff(startDate, "days")) / startDate.daysInMonth()) / 12
-        }
+          }
         else{
            years =  parseInt(endDate.diff(startDate, "months")) / 12
+          }
         }
-      }
-      else {
-         years =  parseInt(endDate.diff(startDate, "years"))
-      }
+        else {
+          years =  parseInt(endDate.diff(startDate, "years"))
+        }
     }
     let aadt = intersection && intersection.AADT;
     let n = years
@@ -297,24 +313,7 @@ const handleRemove = async () =>{
   }
   
 }
-  useEffect(()=>{
-   crashCostList && setProjectDetails()
-    setProjectTreatments(project.treatments && project.treatments.map((treat, index) => {
-      return {
-        TREATMENT_NAME: treat.TREATMENT_NAME,
-        TREATMENT_TYPE: treat.TREATMENT_TYPE,
-        SERVICE_LIFE: treat.SERVICE_LIFE,
-        CRF: treat.CRF,
-        CMF: treat.CMF,
-        SALVAGE_PERCENT: treat.SALVAGE_PERCENT,
-        INTEREST_RATE: treat.INTEREST_RATE,
-        TOTAL_TREATMENT_COST: numeral(treat.TOTAL_TREATMENT_COST).format("$0,0.00"),
-        OM_COST: numeral(treat.OM_COST).format("$0,0"),
-        TREATMENT_COST: numeral(treat.TREATMENT_COST).format("$0,0"),
-        remove: <Checkbox key={index} onChange={(e) => removeTreat(e, treat)} />
-      }
-    }))
-      }, [])
+
     return (<><Wrapper>
             <PageTitle> <LeftCircleOutlined className={"backButton"} onClick={() => setShowDetails(false)} />Project Details
               <ThemButton
