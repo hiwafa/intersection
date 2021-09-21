@@ -1,6 +1,6 @@
 import react, { useState, useContext, useEffect } from "react";
 
-import ReactMapGL, { MapContext, WebMercatorViewport, FlyToInterpolator } from 'react-map-gl';
+import ReactMapGL, { MapContext, WebMercatorViewport, FlyToInterpolator, NavigationControl } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 import d3 from 'd3-ease';
@@ -28,13 +28,14 @@ const CustomMarker = ({ crashId, inventory, onPress }) => {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        color: '#fff'
+        color: '#fff',
+        cursor: "pointer"
     };
 
     return (
         <div style={markerStyle} key={crashId} onClick={() => onPress(inventory)}>
             {/* { lent > 4 ? `${(4 + (lent-5))}+` : lent > 2 ? `${(2 + (lent-3))}+` : lent } */}
-            { lent > 9 ? `9+` : lent }
+            {lent > 9 ? `9+` : lent}
         </div>
     );
 }
@@ -152,6 +153,10 @@ const MapView = ({ onPress, inventories }) => {
                 )
             })}
 
+            <NavigationControl style={{
+                right: 10,
+                top: 10
+            }} />
         </ReactMapGL>
     );
 }
