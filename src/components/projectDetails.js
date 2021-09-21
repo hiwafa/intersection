@@ -249,21 +249,25 @@ const handleOk = async () => {
     newTreatments.map((tr) => {
       project.treatments.push(tr)
     })
-    await request(`projects/${project.id}`, {
-      method: "PUT",
-      data: project,
-    }).then((res) => {
-      if(res.status === 200){
-        setShowDetails(false)
-        notification["success"]({
-          duration: 5,
-          message: "Treatment Added",
-        })
-      }
-
-    }).catch((e) => {
-        console.log(e)
-    });
+    try{
+      const update = await request(`projects/${project.id}`, {
+        method: "PUT",
+        data: project,
+      })
+        if(update.status === 200){
+          setShowDetails(false)
+          notification["success"]({
+            duration: 5,
+            message: "Treatment Added",
+          })
+        }
+    }
+    catch(e){
+      notification["error"]({
+        duration: 5,
+        message: e,
+      })
+    }
   }
   else
   {
@@ -287,23 +291,26 @@ const handleRemove = async () =>{
       })
     }
    
-    await request(`projects/${project.id}`, {
+   try{
+    const update = await request(`projects/${project.id}`, {
       method: "PUT",
       data: project,
-    }).then((res) => {
-      if(res.status === 200){
+      })
+      if(update.status === 200){
         setShowDetails(false)
         notification["success"]({
           duration: 5,
           message: "Treatment Removed",
         })
       }
-    }).catch((e) => {
-      notification["error"]({
-        duration: 5,
-        message: "There was an error ",
-      })
-    });
+   }
+   catch(e)
+   {
+    notification["error"]({
+      duration: 5,
+      message: "There was an error ",
+    })
+   }
   }
   else{
     notification["error"]({
