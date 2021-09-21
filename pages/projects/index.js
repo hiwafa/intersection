@@ -7,6 +7,7 @@ import EditProject from "../../src/components/editProject"
 import { useQueryParam } from "../../src/utils/useQueryParam"
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { PageTitle, ThemButton } from "../../src/components/styleds"
+import {request} from "../../src/requests"
 const ButtonContainer = styled.div`
     padding: 10px;
 `
@@ -23,8 +24,22 @@ function Projects() {
     const [section, setSection] = useState("");
     const [project, setProject] = useState("");
     const [intersection, setInterSection] = useState({});
+    const [crashCostList,setCrashCostsList] = useState()
 
+    const loadCrashCost = async () => {
+        const costs = await request('crash-costs', {
+          method: "GET"
+        });
+        if(costs.status === 200)
+        {
+          console.log("crash1") 
+    
+          setCrashCostsList(costs.data)
+        }
+        return
+      }
     useEffect(() => {
+        loadCrashCost()
         if (role.id !== 1 && role.id !== 3 && role.id !== 4) {
             router.push("deny");
         }
