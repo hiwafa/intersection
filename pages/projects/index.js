@@ -31,9 +31,7 @@ function Projects() {
           method: "GET"
         });
         if(costs.status === 200)
-        {
-          console.log("crash1") 
-    
+        {    
           setCrashCostsList(costs.data)
         }
         return
@@ -49,7 +47,7 @@ function Projects() {
         {showDetails ?
             ((role.id === 1 || role.id === 3) && section && section === "edit" ?
             <EditProject project={project} setShowDetails={setShowDetails} /> :
-            <ProjectDetails project={project} setShowDetails={setShowDetails} intersection={intersection} />) :
+            <ProjectDetails project={project} crashCostList={crashCostList} setShowDetails={setShowDetails} intersection={intersection} />) :
             <ButtonContainer>
                 <PageTitle>Projects 
                 <ThemButton
