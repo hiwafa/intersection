@@ -1,10 +1,9 @@
 import react, { useEffect, useState } from "react"
 import styled from "styled-components"
-import { Button, Row, Col } from "antd"
+import { Button, Row, Col, notification } from "antd"
 import SearchProject from "../../src/components/searchProject"
 import ProjectDetails from "../../src/components/projectDetails"
 import EditProject from "../../src/components/editProject"
-import { useQueryParam } from "../../src/utils/useQueryParam"
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { PageTitle, ThemButton } from "../../src/components/styleds"
 import {request} from "../../src/requests"
@@ -17,7 +16,6 @@ import { getUser } from "../../src/store/actions/UserSlice";
 import { useRouter } from "next/router";
 
 function Projects() {
-
     const router = useRouter();
     const { role } = useSelector(getUser);
     const [showDetails, setShowDetails] = useState(false)
@@ -27,14 +25,20 @@ function Projects() {
     const [crashCostList,setCrashCostsList] = useState()
 
     const loadCrashCost = async () => {
-        const costs = await request('crash-costs', {
+         await request('crash-costs', {
           method: "GET"
+        }).then((res) => {
+            if(res.status === 200)
+            {    
+              setCrashCostsList(res.data)
+            }
+        }).catch((e) => {
+            notification["error"]({
+                duration: 5,
+                message: e,
+              })
         });
-        if(costs.status === 200)
-        {    
-          setCrashCostsList(costs.data)
-        }
-        return
+        
       }
     useEffect(() => {
         loadCrashCost()
@@ -44,8 +48,7 @@ function Projects() {
       }, []);
 
     return <div>
-        {showDetails ?
-            ((role.id === 1 || role.id === 3) && section && section === "edit" ?
+        {showDetails ? ((role.id === 1 || role.id === 3) && section && section === "edit" ?
             <EditProject project={project} setShowDetails={setShowDetails} /> :
             <ProjectDetails project={project} crashCostList={crashCostList} setShowDetails={setShowDetails} intersection={intersection} />) :
             <ButtonContainer>
