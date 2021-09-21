@@ -25,7 +25,7 @@ function Projects() {
     const [crashCostList,setCrashCostsList] = useState()
 
     const loadCrashCost = async () => {
-         await request('crash-costs', {
+         await formRequest('crash-costs', {
           method: "GET"
         }).then((res) => {
             if(res.status === 200)

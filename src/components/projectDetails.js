@@ -55,8 +55,6 @@ function ProjectDetails({project, crashCostList, setShowDetails, intersection}){
     await loadTreatments()
     setVisible(true);
   };
-
-
   const handleCancel = () => {
     setVisible(false);
   };
@@ -197,7 +195,7 @@ function ProjectDetails({project, crashCostList, setShowDetails, intersection}){
     }
 const pdfExportComponent = createRef()
 const loadTreatments = async () => {
-  const res = await request(`/treatments`, {
+  const res = await formRequest(`/treatments`, {
       method: "GET",
     });
     if(res.status === 200) {
@@ -250,7 +248,7 @@ const handleOk = async () => {
       project.treatments.push(tr)
     })
     try{
-      const update = await request(`projects/${project.id}`, {
+      const update = await formRequest(`projects/${project.id}`, {
         method: "PUT",
         data: project,
       })
@@ -292,7 +290,7 @@ const handleRemove = async () =>{
     }
    
    try{
-    const update = await request(`projects/${project.id}`, {
+    const update = await formRequest(`projects/${project.id}`, {
       method: "PUT",
       data: project,
       })
