@@ -7,7 +7,6 @@ import ReactMapGL, {
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-
 function getCursor({ isHovering, isDragging }) {
     return isDragging ? 'grabbing' : isHovering ? 'pointer' : 'default';
 }
@@ -96,8 +95,7 @@ const MapView = ({ onPress, inventories }) => {
                         latitude,
                         zoom,
                         transitionDuration: 2000,
-                        transitionInterpolator: new FlyToInterpolator(),
-                        // transitionEasing: d3.easeCubicIn
+                        transitionInterpolator: new FlyToInterpolator()
                     });
 
                 }
@@ -128,8 +126,7 @@ const MapView = ({ onPress, inventories }) => {
                     latitude,
                     zoom,
                     transitionDuration: 2000,
-                    transitionInterpolator: new FlyToInterpolator(),
-                    // transitionEasing: d3.easeCubicIn
+                    transitionInterpolator: new FlyToInterpolator()
                 });
 
             }
