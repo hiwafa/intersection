@@ -1,10 +1,9 @@
 import react, {useState} from "react";
-import {Button, Row, Col, message, notification, Popconfirm} from "antd"
+import {Button, Row, Col, notification, Popconfirm} from "antd"
 import { Formik } from "formik"
 import {
     Input,
     DatePicker,
-    SubmitButton,
     Select,
     Form
   } from "formik-antd"
@@ -14,8 +13,7 @@ import {PageTitle, ContentContainer, ThemButton} from "./styleds"
 import axios from "axios"
 import styled from "styled-components"
 import { DownloadOutlined, DeleteOutlined } from '@ant-design/icons';
-const BASE_URL = process.env.BASE_URL
-// const BASE_URL = "http://localhost:1337"
+const BASE_URL = process.env.BASE_URL;
 const FileButtonsContainer = styled.div`
   .removeButton{
     margin-left: 20px;
