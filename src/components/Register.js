@@ -1,6 +1,5 @@
 import { Form, Input, Spin, Switch, Select } from "antd";
 import { LockOutlined, UserOutlined, MailOutlined } from "@ant-design/icons";
-import styles from "../../styles/Register.module.css";
 import { createUser, updateUser } from "../store/actions/UserSlice";
 import { useDispatch } from "react-redux";
 import { StyledButton } from "./styleds";

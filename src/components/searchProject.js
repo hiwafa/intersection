@@ -1,6 +1,6 @@
 import react, { useState, useEffect } from "react"
 import { Button, Table, Space, Input } from "antd"
-import { request, formRequest } from "../requests"
+import { formRequest } from "../requests"
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 import styled from "styled-components";
@@ -21,13 +21,13 @@ const ActionContainer = styled.div`
     color: #1890ff;
   }
 `;
+
 function SearchProject({ role, setShowDetails, setProject, setSection, setInterSection }) {
 
   const [projects, setProjects] = useState([])
   const [searchText, setSearchText] = useState("")
   const [searchedColumn, setSearchedColumn] = useState("")
   let searchInput;
-
 
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: function selectKeys({ setSelectedKeys, selectedKeys, confirm, clearFilters }) {
