@@ -1,13 +1,13 @@
 import react, { useEffect, useState, createRef } from "react"
-import styled from "styled-components"
-import {Table, Button, Tooltip, Modal, Tabs, Checkbox, notification} from "antd"
+import styled from "styled-components";
+import {Table, Button, Tooltip, Modal, Tabs, Checkbox, notification} from "antd";
 import { LeftCircleOutlined } from '@ant-design/icons';
-import {PageTitle, TableContainer, ThemButton} from "./styleds"
+import {PageTitle, TableContainer, ThemButton} from "./styleds";
 import { DownloadOutlined } from '@ant-design/icons';
 import {request} from "../requests"
 import { PDFExport } from '@progress/kendo-react-pdf';
-import moment from "moment"
-import numeral, { isNumeral } from "numeral"
+import moment from "moment";
+import numeral from "numeral";
 const { TabPane } = Tabs;
 const BASE_URL = process.env.BASE_URL
 const Wrapper = styled.div`
