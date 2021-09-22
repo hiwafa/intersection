@@ -20,10 +20,8 @@ const Login = () => {
         try {
 
             if (loading === true) return;
-
             setLoading(true);
-
-            const { payload } = await dispatch(signin(values));
+            await dispatch(signin(values));
             setLoading(false);
 
         } catch (err) {
