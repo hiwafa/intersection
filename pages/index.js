@@ -2,9 +2,6 @@ import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 import Analysis from './analysis';
 
-import { Layout } from 'antd';
-const { Header, Footer, Sider, Content } = Layout;
-
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { getUser } from '../src/store/actions/UserSlice';

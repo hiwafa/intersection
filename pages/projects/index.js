@@ -1,16 +1,16 @@
 import react, { useEffect, useState } from "react"
-import styled from "styled-components"
-import { Button, Row, Col } from "antd"
-import SearchProject from "../../src/components/searchProject"
-import ProjectDetails from "../../src/components/projectDetails"
-import EditProject from "../../src/components/editProject"
-import { useQueryParam } from "../../src/utils/useQueryParam"
+
+import { PageTitle, ThemButton } from "../../src/components/styleds";
+import SearchProject from "../../src/components/searchProject";
+import ProjectDetails from "../../src/components/projectDetails";
+import EditProject from "../../src/components/editProject";
 import { PlusCircleOutlined } from '@ant-design/icons';
-import { PageTitle, ThemButton } from "../../src/components/styleds"
-import {request} from "../../src/requests"
+import {request} from "../../src/requests";
+import styled from "styled-components";
+import {  Row, Col } from "antd";
 const ButtonContainer = styled.div`
     padding: 10px;
-`
+`;
 
 import { useSelector } from "react-redux";
 import { getUser } from "../../src/store/actions/UserSlice";
