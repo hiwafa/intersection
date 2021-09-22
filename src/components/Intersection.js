@@ -1,6 +1,5 @@
 import react from "react";
 import { Table } from 'antd';
-import styles from "../../styles/Analys.module.css";
 import { css } from '@emotion/css';
 
 const toRender = text => <a>{text}</a>;

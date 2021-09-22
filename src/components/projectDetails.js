@@ -1,14 +1,16 @@
-import react, { useEffect, useState, createRef } from "react"
-import styled from "styled-components"
-import {Table, Button, Tooltip, Modal, Tabs, Checkbox, notification} from "antd"
+import react, { useEffect, useState, createRef } from "react";
+import {Table, Button, Tooltip, Modal, Tabs, Checkbox, notification} from "antd";
 import { LeftCircleOutlined } from '@ant-design/icons';
-import {PageTitle, TableContainer, ThemButton} from "./styleds"
+import {PageTitle, TableContainer, ThemButton} from "./styleds";
 import { DownloadOutlined } from '@ant-design/icons';
-import {request} from "../requests"
+import {request, formRequest} from "../requests"
 import { PDFExport } from '@progress/kendo-react-pdf';
+import styled from "styled-components";
+
 import moment from "moment"
 import numeral from "numeral"
 import {columns, projectTreatmentColumns, modalTableColumns} from "../constants/projectDetailsConstants"
+
 const { TabPane } = Tabs;
 const BASE_URL = process.env.BASE_URL
 const Wrapper = styled.div`
@@ -197,6 +199,7 @@ const pdfExportComponent = createRef()
 const loadTreatments = async () => {
   try{
     const res = await formRequest(`/treatments`, {
+
       method: "GET",
     });
     if(res.status === 200){
@@ -296,9 +299,9 @@ const handleRemove = async () =>{
         project.treatments.splice(index, 1);
       })
     }
-   
-   try{
+
     const update = await formRequest(`projects/${project.id}`, {
+
       method: "PUT",
       data: project,
       })

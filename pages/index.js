@@ -2,9 +2,6 @@ import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 import Analysis from './analysis';
 
-import { Layout } from 'antd';
-const { Header, Footer, Sider, Content } = Layout;
-
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { getUser } from '../src/store/actions/UserSlice';
@@ -17,15 +14,13 @@ const Home = () => {
   const { role } = useSelector(getUser);
 
   useEffect(() => {
-
-    if (role.id !== 1 && role.id !== 3) {
+    if (![1, 3].includes(role.id)) {
       if (role.id === 4) {
         router.push("projects");
-      }else {
+      } else {
         router.push("deny");
       }
     }
-
   }, []);
 
   return (

@@ -1,15 +1,16 @@
 import react, { useEffect, useState } from "react"
-import styled from "styled-components"
-import { Button, Row, Col, notification } from "antd"
-import SearchProject from "../../src/components/searchProject"
-import ProjectDetails from "../../src/components/projectDetails"
+
+import styled from "styled-components";
+import { Button, Row, Col, notification } from "antd";
+import SearchProject from "../../src/components/searchProject";
+import { PageTitle, ThemButton } from "../../src/components/styleds";
+import ProjectDetails from "../../src/components/projectDetails";
 import EditProject from "../../src/components/editProject"
 import { PlusCircleOutlined } from '@ant-design/icons';
-import { PageTitle, ThemButton } from "../../src/components/styleds"
-import {formRequest} from "../../src/requests"
+import {formRequest} from "../../src/requests";
 const ButtonContainer = styled.div`
     padding: 10px;
-`
+`;
 
 import { useSelector } from "react-redux";
 import { getUser } from "../../src/store/actions/UserSlice";
@@ -25,24 +26,22 @@ function Projects() {
     const [crashCostList,setCrashCostsList] = useState()
 
     const loadCrashCost = async () => {
-        try{
-        const crashCosts = await formRequest('crash-costs', {
-            method: "GET"
-            })
+       try{
+            const crashCosts = await formRequest('crash-costs', { method: "GET" });
             if(crashCosts.status === 200){    
                 setCrashCostsList(crashCosts.data)
             }
-        }
-        catch(e){
+        } catch(e){
             notification["error"]({
                 duration: 5,
                 message: e,
               })
         }   
-      }
+      };
+  
     useEffect(() => {
-        loadCrashCost()
-        if (role.id !== 1 && role.id !== 3 && role.id !== 4) {
+        loadCrashCost();
+        if(![1, 3, 4].includes(role.id)){
             router.push("deny");
         }
       }, []);

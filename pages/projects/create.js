@@ -20,15 +20,13 @@ function Projects() {
     const handleClick = (status) => router.push("/projects");
 
     useEffect(() => {
-
-        if (role.id !== 1 && role.id !== 3) {
+        if(![1, 3].includes(role.id)){
             if (role.id === 4) {
                 router.push("/projects");
             } else {
                 router.push("deny");
             }
         }
-
     }, []);
 
     useEffect(() => {

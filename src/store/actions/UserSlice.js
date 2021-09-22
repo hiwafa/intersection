@@ -125,29 +125,6 @@ export const signout = createAsyncThunk(
   }
 );
 
-export const resetPass = createAsyncThunk(
-  "user/resetPass",
-  async (params, thunkAPI) => {
-    try {
-
-      const { password, confirmPass, code } = params;
-      const { data } = await request("auth/local", {
-        method: "POST",
-        data: {
-          code,
-          password,
-          passwordConfirmation: confirmPass,
-        },
-      });
-
-      return thunkAPI.rejectWithValue(JSON.stringify(data));
-
-    } catch (err) {
-      return thunkAPI.rejectWithValue(err.message);
-    }
-  }
-);
-
 export const loadCredential = createAsyncThunk(
   "user/loadCredential",
   async (params, thunkAPI) => {
@@ -210,7 +187,7 @@ const userSlice = createSlice({
       //   status: "fulfilled",
       // };
     },
-    
+
     /* create user reducer */
     [updatePass.pending]: (state, action) => {
       state.status = "pending";
