@@ -7,139 +7,13 @@ import { DownloadOutlined } from '@ant-design/icons';
 import {request} from "../requests"
 import { PDFExport } from '@progress/kendo-react-pdf';
 import moment from "moment"
-import numeral, { isNumeral } from "numeral"
+import numeral from "numeral"
+import {columns, projectTreatmentColumns, modalTableColumns} from "../constants/projectDetailsConstants"
 const { TabPane } = Tabs;
 const BASE_URL = process.env.BASE_URL
 const Wrapper = styled.div`
     padding: 10px;
 `
-const columns = [
-    {
-    title: 'Field',
-    dataIndex: 'field',
-    align: 'left',
-    },
-
-    {
-    title: 'Value',
-    dataIndex: 'value',
-    align: 'left',
-    }
-  ];
-const modalTableColumns = [ 
-  {
-    title: 'Name',
-    dataIndex: 'TREATMENT_NAME',
-    align: 'center',
-  },
-  {
-    title: 'Type',
-    dataIndex: 'TREATMENT_TYPE',
-    align: 'center',
-  },
-  {
-    title: 'Service Live',
-    dataIndex: 'SERVICE_LIFE',
-    align: 'center',
-  },
-  {
-    title: 'CRF',
-    dataIndex: 'CRF',
-    align: 'center',
-  },
-  {
-    title: 'CMF',
-    dataIndex: 'CMF',
-    align: 'center',
-  },
-  {
-    title: 'Salvage Percent',
-    dataIndex: 'SALVAGE_PERCENT',
-    align: 'center',
-  },
-  {
-    title: 'Interest Rate',
-    dataIndex: 'INTEREST_RATE',
-    align: 'center',
-  },
-  {
-    title: 'Total Treatment Cost',
-    dataIndex: 'TOTAL_TREATMENT_COST',
-    align: 'center',
-  },
-  {
-    title: 'OM Cost',
-    dataIndex: 'OM_COST',
-    align: 'center',
-  },
-  {
-    title: 'Treatment Cost',
-    dataIndex: 'TREATMENT_COST',
-    align: 'center',
-  },
-  {
-    title: 'Add',
-    dataIndex: 'add',
-    align: 'center',
-  },
-]
-const projectTreatmentColumns = [ 
-  {
-    title: 'Name',
-    dataIndex: 'TREATMENT_NAME',
-    align: 'center',
-  },
-  {
-    title: 'Type',
-    dataIndex: 'TREATMENT_TYPE',
-    align: 'center',
-  },
-  {
-    title: 'Service Life',
-    dataIndex: 'SERVICE_LIFE',
-    align: 'center',
-  },
-  {
-    title: 'CRF',
-    dataIndex: 'CRF',
-    align: 'center',
-  },
-  {
-    title: 'CMF',
-    dataIndex: 'CMF',
-    align: 'center',
-  },
-  {
-    title: 'Salvage Percent',
-    dataIndex: 'SALVAGE_PERCENT',
-    align: 'center',
-  },
-  {
-    title: 'Interest Rate',
-    dataIndex: 'INTEREST_RATE',
-    align: 'center',
-  },
-  {
-    title: 'Total Treatment Cost',
-    dataIndex: 'TOTAL_TREATMENT_COST',
-    align: 'center',
-  },
-  {
-    title: 'OM Cost',
-    dataIndex: 'OM_COST',
-    align: 'center',
-  },
-  {
-    title: 'Treatment Cost',
-    dataIndex: 'TREATMENT_COST',
-    align: 'center',
-  },
-  {
-    title: 'Remove',
-    dataIndex: 'remove',
-    align: 'center',
-  },
-]
 function ProjectDetails({project, crashCostList, setShowDetails, intersection}){
   const [visible, setVisible] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
@@ -148,30 +22,42 @@ function ProjectDetails({project, crashCostList, setShowDetails, intersection}){
   const [newTreatments, setNewTreatments] = useState()
   const [projectTreatments, setProjectTreatments] = useState()
   const [deleteListTreats, setDeleteListTreats] = useState()
-
+  const [details, setDetails] = useState()
+  useEffect(()=>{
+    crashCostList && setProjectDetails()
+     setProjectTreatments(project.treatments && project.treatments.map((treat, index) => {
+       return {
+         TREATMENT_NAME: treat.TREATMENT_NAME,
+         TREATMENT_TYPE: treat.TREATMENT_TYPE,
+         SERVICE_LIFE: treat.SERVICE_LIFE,
+         CRF: treat.CRF,
+         CMF: treat.CMF,
+         SALVAGE_PERCENT: treat.SALVAGE_PERCENT,
+         INTEREST_RATE: treat.INTEREST_RATE,
+         TOTAL_TREATMENT_COST: numeral(treat.TOTAL_TREATMENT_COST).format("$0,0.00"),
+         OM_COST: numeral(treat.OM_COST).format("$0,0"),
+         TREATMENT_COST: numeral(treat.TREATMENT_COST).format("$0,0"),
+         remove: <Checkbox key={index} onChange={(e) => removeTreat(e, treat)} />
+       }
+     }))
+       }, [])
   const crashCost = (severity) => {
-    let value =""
-    crashCostList && crashCostList.map((cost) =>{
-      if(cost.crashSeverity === severity)
-      {
+    let value = ""
+    crashCostList && crashCostList.map((cost) => {
+      if(cost.crashSeverity === severity){
         value = cost.crashCost;
       }
     })
     return value
   }
-let newTreats = []
-
-  const showModal = () => {
-    loadTreatments()
+  let newTreats = []
+  const showModal = async () => {
+    await loadTreatments()
     setVisible(true);
   };
-
-
   const handleCancel = () => {
     setVisible(false);
   };
-  const [details, setDetails] = useState()
-
   const setCrash = () =>{
     let a=0;
     let b=0;
@@ -182,7 +68,9 @@ let newTreats = []
     let epdo=0
     let crashRate =0;
     let crashCosts = 0
-
+    let endDate = moment(project.PROJECT_END_DATE)
+    let startDate = moment(project.PROJECT_START_DATE)
+    let years = ""
     intersection.crash_intersections && intersection.crash_intersections.map(async (crash) => {
       a += parseInt(crash.NUMBER_OF_A_INJURIES)
       b += parseInt(crash.NUMBER_OF_B_INJURIES)
@@ -193,25 +81,16 @@ let newTreats = []
       crashCosts = crashCosts + parseInt( crashCost(crash.SEVERITY))
     })
     const NumberOfCrashes = intersection.crash_intersections ? intersection.crash_intersections.length : 0;
-  
-    let endDate = moment(project.PROJECT_END_DATE)
-    let startDate = moment(project.PROJECT_START_DATE)
-    let years = ""
-    if(startDate !== undefined && endDate !== undefined)
-    {
-      if(endDate.diff(startDate, "years") < 1)
-      {
-        if(endDate.diff(startDate, "months") <1)
-        {
+    if(startDate !== undefined && endDate !== undefined){
+      if(endDate.diff(startDate, "years") < 1) {
+        if(endDate.diff(startDate, "months") <1){
            years =  (parseInt(endDate.diff(startDate, "days")) / startDate.daysInMonth()) / 12
         }
-        else
-        {
+        else{
            years =  parseInt(endDate.diff(startDate, "months")) / 12
         }
       }
-      else
-      {
+      else{
          years =  parseInt(endDate.diff(startDate, "years"))
       }
       crashRate = (parseInt(intersection?.crash_intersections?.length) * Math.pow(10, 6)) / (years * 365 * parseInt(intersection && intersection.AADT))
@@ -234,24 +113,18 @@ let newTreats = []
     let endDate = moment(project.CRASH_END_DATE)
     let startDate = moment(project.CRASH_START_DATE)
     let years=""
-    if(startDate !== undefined && endDate !== undefined)
-    {
-      
-      if(endDate.diff(startDate, "years") < 1)
-      {
-        if(endDate.diff(startDate, "months") <1)
-        {
+    if(startDate !== undefined && endDate !== undefined){
+      if(endDate.diff(startDate, "years") < 1){
+        if(endDate.diff(startDate, "months") <1){
            years =  (parseInt(endDate.diff(startDate, "days")) / startDate.daysInMonth()) / 12
-        }
-        else
-        {
+          }
+        else{
            years =  parseInt(endDate.diff(startDate, "months")) / 12
+          }
         }
-      }
-      else
-      {
-         years =  parseInt(endDate.diff(startDate, "years"))
-      }
+        else {
+          years =  parseInt(endDate.diff(startDate, "years"))
+        }
     }
     let aadt = intersection && intersection.AADT;
     let n = years
@@ -319,14 +192,14 @@ let newTreats = []
   }
   const  handleExportWithComponent  = (event) => {
     pdfExportComponent.current.save();
-}
+    }
 const pdfExportComponent = createRef()
 const loadTreatments = async () => {
-  const res = await request(`/treatments`, {
+  try{
+    const res = await formRequest(`/treatments`, {
       method: "GET",
     });
-    if(res.status === 200)
-    {
+    if(res.status === 200){
       setTreatments(res.data && res.data.map((treat, index) => {
         return {
           TREATMENT_NAME: treat.TREATMENT_NAME,
@@ -342,13 +215,19 @@ const loadTreatments = async () => {
           add: <Checkbox key={index} onChange={(e) => addTreat(e, treat)} />
         }
       }))
-      
     }
+  }
+  catch(e){
+    notification["error"]({
+      duration: 5,
+      message: e,
+    })
+  }
+  
 }
 
 const addTreat = (e, treat) =>{
-    if(e.target.checked)
-    {
+    if(e.target.checked){
       if ((!project.treatments.filter(function(ee) { return ee.id === treat.id; }).length > 0) && !newTreats.filter(function(ee) { return ee.id === treat.id; }).length > 0) {
         newTreats.push(treat)
       }
@@ -359,39 +238,42 @@ const addTreat = (e, treat) =>{
         newTreats.splice(index, 1);
         }  
     }
-      setNewTreatments(newTreats)
-  
-}
+    setNewTreatments(newTreats)
+  }
 const removeTreat = (e, treat) => {
   const removeTreat = project.treatments.filter((treatment) => treatment.id !== treat.id);
-  if(removeTreat.length === 0)
-  setDeleteListTreats("empty");
-  else
-  setDeleteListTreats(removeTreat);
+  if(removeTreat.length === 0){
+    setDeleteListTreats("empty");
+  }
+  else{
+    setDeleteListTreats(removeTreat);
+  }
 }
 const handleOk = async () => {
   // setConfirmLoading(true);
-  if(newTreatments?.length > 0)
-  {
+  if(newTreatments?.length > 0){
     newTreatments.map((tr) => {
       project.treatments.push(tr)
     })
-    await request(`projects/${project.id}`, {
-      method: "PUT",
-      data: project,
-    }).then((res) => {
-      if(res.status === 200)
-      {
-        setShowDetails(false)
-        notification["success"]({
-          duration: 5,
-          message: "Treatment Added",
-        })
-      }
-
-    }).catch((e) => {
-        console.log(e)
-    });
+    try{
+      const update = await formRequest(`projects/${project.id}`, {
+        method: "PUT",
+        data: project,
+      })
+        if(update.status === 200){
+          setShowDetails(false)
+          notification["success"]({
+            duration: 5,
+            message: "Treatment Added",
+          })
+        }
+    }
+    catch(e){
+      notification["error"]({
+        duration: 5,
+        message: e,
+      })
+    }
   }
   else
   {
@@ -404,8 +286,7 @@ const handleOk = async () => {
 };
 const handleRemove = async () =>{
   // setConfirmLoading(true);
-  if(deleteListTreats?.length > 0 || deleteListTreats === "empty")
-  {
+  if(deleteListTreats?.length > 0 || deleteListTreats === "empty"){
     if(deleteListTreats === "empty"){
       project.treatments = []
     }
@@ -416,27 +297,28 @@ const handleRemove = async () =>{
       })
     }
    
-    await request(`projects/${project.id}`, {
+   try{
+    const update = await formRequest(`projects/${project.id}`, {
       method: "PUT",
       data: project,
-    }).then((res) => {
-      if(res.status === 200)
-      {
+      })
+      if(update.status === 200){
         setShowDetails(false)
         notification["success"]({
           duration: 5,
           message: "Treatment Removed",
         })
       }
-    }).catch((e) => {
-      notification["error"]({
-        duration: 5,
-        message: "There was an error ",
-      })
-    });
+   }
+   catch(e)
+   {
+    notification["error"]({
+      duration: 5,
+      message: "There was an error ",
+    })
+   }
   }
-  else
-  {
+  else{
     notification["error"]({
       duration: 5,
       message: "There was an error ",
@@ -444,25 +326,8 @@ const handleRemove = async () =>{
   }
   
 }
-  useEffect(()=>{
-   crashCostList && setProjectDetails()
-    setProjectTreatments(project.treatments && project.treatments.map((treat, index) => {
-      return {
-        TREATMENT_NAME: treat.TREATMENT_NAME,
-        TREATMENT_TYPE: treat.TREATMENT_TYPE,
-        SERVICE_LIFE: treat.SERVICE_LIFE,
-        CRF: treat.CRF,
-        CMF: treat.CMF,
-        SALVAGE_PERCENT: treat.SALVAGE_PERCENT,
-        INTEREST_RATE: treat.INTEREST_RATE,
-        TOTAL_TREATMENT_COST: numeral(treat.TOTAL_TREATMENT_COST).format("$0,0.00"),
-        OM_COST: numeral(treat.OM_COST).format("$0,0"),
-        TREATMENT_COST: numeral(treat.TREATMENT_COST).format("$0,0"),
-        remove: <Checkbox key={index} onChange={(e) => removeTreat(e, treat)} />
-      }
-    }))
-      }, [])
-    return <><Wrapper>
+
+    return (<><Wrapper>
             <PageTitle> <LeftCircleOutlined className={"backButton"} onClick={() => setShowDetails(false)} />Project Details
               <ThemButton
                 type="primary"
@@ -502,6 +367,6 @@ const handleRemove = async () =>{
                 </TabPane>
               </Tabs>
             </Modal>
-            </>
+            </>)
 }
 export default ProjectDetails
