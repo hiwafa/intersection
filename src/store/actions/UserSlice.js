@@ -210,7 +210,7 @@ const userSlice = createSlice({
       //   status: "fulfilled",
       // };
     },
-    
+
     /* create user reducer */
     [updatePass.pending]: (state, action) => {
       state.status = "pending";

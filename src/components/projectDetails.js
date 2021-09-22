@@ -4,7 +4,7 @@ import {Table, Button, Tooltip, Modal, Tabs, Checkbox, notification} from "antd"
 import { LeftCircleOutlined } from '@ant-design/icons';
 import {PageTitle, TableContainer, ThemButton} from "./styleds";
 import { DownloadOutlined } from '@ant-design/icons';
-import {request} from "../requests"
+import {request, formRequest} from "../requests"
 import { PDFExport } from '@progress/kendo-react-pdf';
 import moment from "moment";
 import numeral from "numeral";
@@ -322,7 +322,7 @@ let newTreats = []
 }
 const pdfExportComponent = createRef()
 const loadTreatments = async () => {
-  const res = await request(`/treatments`, {
+  const res = await formRequest(`/treatments`, {
       method: "GET",
     });
     if(res.status === 200)
@@ -376,7 +376,7 @@ const handleOk = async () => {
     newTreatments.map((tr) => {
       project.treatments.push(tr)
     })
-    await request(`projects/${project.id}`, {
+    await formRequest(`projects/${project.id}`, {
       method: "PUT",
       data: project,
     }).then((res) => {
@@ -416,7 +416,7 @@ const handleRemove = async () =>{
       })
     }
    
-    await request(`projects/${project.id}`, {
+    await formRequest(`projects/${project.id}`, {
       method: "PUT",
       data: project,
     }).then((res) => {

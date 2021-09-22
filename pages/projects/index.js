@@ -5,7 +5,7 @@ import SearchProject from "../../src/components/searchProject";
 import ProjectDetails from "../../src/components/projectDetails";
 import EditProject from "../../src/components/editProject";
 import { PlusCircleOutlined } from '@ant-design/icons';
-import {request} from "../../src/requests";
+import {request, formRequest} from "../../src/requests";
 import styled from "styled-components";
 import {  Row, Col } from "antd";
 const ButtonContainer = styled.div`
@@ -27,7 +27,7 @@ function Projects() {
     const [crashCostList,setCrashCostsList] = useState()
 
     const loadCrashCost = async () => {
-        const costs = await request('crash-costs', {
+        const costs = await formRequest('crash-costs', {
           method: "GET"
         });
         if(costs.status === 200)
