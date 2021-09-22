@@ -3,8 +3,6 @@ import react, { useState, useContext, useEffect } from "react";
 import ReactMapGL, { MapContext, WebMercatorViewport, FlyToInterpolator, NavigationControl } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-import d3 from 'd3-ease';
-
 const CustomMarker = ({ crashId, inventory, onPress }) => {
 
     const context = useContext(MapContext);
@@ -89,8 +87,7 @@ const MapView = ({ onPress, inventories }) => {
                         latitude,
                         zoom,
                         transitionDuration: 2000,
-                        transitionInterpolator: new FlyToInterpolator(),
-                        // transitionEasing: d3.easeCubicIn
+                        transitionInterpolator: new FlyToInterpolator()
                     });
 
                 }
@@ -121,8 +118,7 @@ const MapView = ({ onPress, inventories }) => {
                     latitude,
                     zoom,
                     transitionDuration: 2000,
-                    transitionInterpolator: new FlyToInterpolator(),
-                    // transitionEasing: d3.easeCubicIn
+                    transitionInterpolator: new FlyToInterpolator()
                 });
 
             }
