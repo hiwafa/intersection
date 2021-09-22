@@ -9,7 +9,7 @@ import { useState } from 'react';
 
 const spinStyle = css({
     '.ant-spin-dot-item': { backgroundColor: `#fff;` }
-  });
+});
 
 const Login = () => {
 
@@ -63,19 +63,16 @@ const Login = () => {
                         },
                     ]}
                 >
-                    <Input
+                    <Input.Password
                         prefix={<LockOutlined className="site-form-item-icon" />}
                         type="password"
                         placeholder="Password"
                     />
                 </Form.Item>
 
-                <Form.Item>
-
-                    {/* <Link target="_blank" href="/reset"> */}
+                {/* <Form.Item>
                     <a className={styles.forgetPass}>Forgot password?</a>
-                    {/* </Link> */}
-                </Form.Item>
+                </Form.Item> */}
 
                 <Form.Item>
                     <StyledButton type="submit">
