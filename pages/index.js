@@ -17,15 +17,13 @@ const Home = () => {
   const { role } = useSelector(getUser);
 
   useEffect(() => {
-
-    if (role.id !== 1 && role.id !== 3) {
+    if (![1, 3].includes(role.id)) {
       if (role.id === 4) {
         router.push("projects");
-      }else {
+      } else {
         router.push("deny");
       }
     }
-
   }, []);
 
   return (
