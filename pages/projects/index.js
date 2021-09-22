@@ -37,8 +37,8 @@ function Projects() {
         return
       }
     useEffect(() => {
-        loadCrashCost()
-        if (role.id !== 1 && role.id !== 3 && role.id !== 4) {
+        loadCrashCost();
+        if(![1, 3, 4].includes(role.id)){
             router.push("deny");
         }
       }, []);
