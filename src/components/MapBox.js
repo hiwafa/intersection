@@ -1,7 +1,16 @@
 import react, { useState, useContext, useEffect } from "react";
 
-import ReactMapGL, { MapContext, WebMercatorViewport, FlyToInterpolator, NavigationControl } from 'react-map-gl';
+import ReactMapGL, {
+    MapContext, WebMercatorViewport,
+    FlyToInterpolator, NavigationControl
+} from 'react-map-gl';
+
 import 'mapbox-gl/dist/mapbox-gl.css';
+
+
+function getCursor({ isHovering, isDragging }) {
+    return isDragging ? 'grabbing' : isHovering ? 'pointer' : 'default';
+}
 
 const CustomMarker = ({ crashId, inventory, onPress }) => {
 
@@ -134,6 +143,7 @@ const MapView = ({ onPress, inventories }) => {
             {...viewport}
             width="100%"
             height="100%"
+            getCursor={getCursor}
             mapStyle="mapbox://styles/mapbox/streets-v11"
             mapboxApiAccessToken="pk.eyJ1IjoibXVoYW1tYWR3YWZhIiwiYSI6ImNrdDd6dXYyMDB4bHgydm45am1iaTM2OWsifQ.hhGRZWzTy2nRqW-gbloMOw"
             onViewportChange={(viewport) => setViewport(viewport)}
