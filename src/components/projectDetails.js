@@ -17,14 +17,16 @@ const Wrapper = styled.div`
     padding: 10px;
 `
 function ProjectDetails({ project, crashCostList, setShowDetails, intersection }) {
+
   const [visible, setVisible] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [treatments, setTreatments] = useState()
-  const [addTreatCheckBox, setAddTreatCheckBox] = useState(false)
-  const [newTreatments, setNewTreatments] = useState()
-  const [projectTreatments, setProjectTreatments] = useState()
-  const [deleteListTreats, setDeleteListTreats] = useState()
-  const [details, setDetails] = useState()
+  const [treatments, setTreatments] = useState();
+  const [addTreatCheckBox, setAddTreatCheckBox] = useState(false);
+  const [newTreatments, setNewTreatments] = useState();
+  const [projectTreatments, setProjectTreatments] = useState();
+  const [deleteListTreats, setDeleteListTreats] = useState();
+  const [details, setDetails] = useState();
+
   useEffect(() => {
     crashCostList && setProjectDetails()
     setProjectTreatments(project.treatments && project.treatments.map((treat, index) => {
@@ -192,9 +194,11 @@ function ProjectDetails({ project, crashCostList, setShowDetails, intersection }
       { field: <b>{"Countermeasures"}</b>, value: <Tooltip title="Countermeasures can be added by clicking" placement="top"><a onClick={showModal} style={{ textDecoration: "underline", color: "blue" }}>{project.treatments?.length ? project.treatments?.length : 0}</a></Tooltip> }
     ])
   }
+
   const handleExportWithComponent = (event) => {
     pdfExportComponent.current.save();
   }
+
   const pdfExportComponent = createRef()
   const loadTreatments = async () => {
     try {
@@ -332,7 +336,7 @@ function ProjectDetails({ project, crashCostList, setShowDetails, intersection }
       >
         Download Project Details
       </ThemButton>
-      {project.projectFile?.url && <a href={`${BASE_URL}${project.projectFile?.url}`}><ThemButton type={"primary"} icon={<DownloadOutlined />} htmlType={"button"} size={"medium"} className={"downloadButton"}>Download Attachments</ThemButton></a>}
+      {project.projectFile?.url && <a target="_blank" href={`${BASE_URL}${project.projectFile?.url}`}><ThemButton type={"primary"} icon={<DownloadOutlined />} htmlType={"button"} size={"medium"} className={"downloadButton"}>Download Attachments</ThemButton></a>}
     </PageTitle>
 
     <TableContainer style={{ maxWidth: "450px", margin: "auto" }}>
