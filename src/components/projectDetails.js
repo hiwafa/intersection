@@ -332,7 +332,7 @@ function ProjectDetails({ project, crashCostList, setShowDetails, intersection }
       >
         Download Project Details
       </ThemButton>
-      {project.projectFile?.url && <a href={`${BASE_URL}${project.projectFile?.url}`}><Button type={"primary"} icon={<DownloadOutlined />} htmlType={"button"} size={"medium"} className={"downloadButton"}>Download Project File</Button></a>}
+      {project.projectFile?.url && <a href={`${BASE_URL}${project.projectFile?.url}`}><Button type={"primary"} icon={<DownloadOutlined />} htmlType={"button"} size={"medium"} className={"downloadButton"}>Download Attachments</Button></a>}
     </PageTitle>
 
     <TableContainer style={{ maxWidth: "450px", margin: "auto" }}>
