@@ -337,7 +337,7 @@ function ProjectDetails({ project, crashCostList, setShowDetails, intersection }
         Download Project Details
       </ThemButton>
       {
-      project.projectFile?.url && <a target="_blank" href={`${BASE_URL}${project.projectFile?.url}`}>
+      project.projectFile?.url && <a rel="noopener noreferrer" target="_blank" href={`${BASE_URL}${project.projectFile?.url}`}>
         <ThemButton type={"primary"} icon={<DownloadOutlined />} htmlType={"button"} size={"medium"} className={"downloadButton"}>Download Attachments</ThemButton>
       </a>
       }
