@@ -7,7 +7,7 @@ import { PageTitle, ThemButton } from "../../src/components/styleds";
 import ProjectDetails from "../../src/components/projectDetails";
 import EditProject from "../../src/components/editProject"
 import { PlusCircleOutlined } from '@ant-design/icons';
-import {formRequest} from "../../src/requests";
+import { formRequest } from "../../src/requests";
 const ButtonContainer = styled.div`
     padding: 10px;
 `;
@@ -23,49 +23,51 @@ function Projects() {
     const [section, setSection] = useState("");
     const [project, setProject] = useState("");
     const [intersection, setInterSection] = useState({});
-    const [crashCostList,setCrashCostsList] = useState()
+    const [crashCostList, setCrashCostsList] = useState()
 
     const loadCrashCost = async () => {
-       try{
+        try {
             const crashCosts = await formRequest('crash-costs', { method: "GET" });
-            if(crashCosts.status === 200){    
+            if (crashCosts.status === 200) {
                 setCrashCostsList(crashCosts.data)
             }
-        } catch(e){
+        } catch (e) {
             notification["error"]({
                 duration: 5,
                 message: e,
-              })
-        }   
-      };
-  
+            })
+        }
+    };
+
     useEffect(() => {
         loadCrashCost();
-        if(![1, 3, 4].includes(role.id)){
+        if (![1, 3, 4].includes(role.id)) {
             router.push("deny");
         }
-      }, []);
+    }, []);
 
     return <div>
         {showDetails ? ((role.id === 1 || role.id === 3) && section && section === "edit" ?
             <EditProject project={project} setShowDetails={setShowDetails} /> :
             <ProjectDetails project={project} crashCostList={crashCostList} setShowDetails={setShowDetails} intersection={intersection} />) :
             <ButtonContainer>
-                <PageTitle>Projects 
-                <ThemButton
-                type="primary"
-                className={"createProject"}
-                size={"medium"}
-                icon={<PlusCircleOutlined />}
-                disabled={role.id !== 1 && role.id !== 3}
-                onClick={() => router.push("projects/create")}
-                >
-                Create Project
-                </ThemButton>
-                    </PageTitle>
+                <PageTitle>Projects
+                    <ThemButton
+                        type="primary"
+                        className={"createProject"}
+                        size={"medium"}
+                        icon={<PlusCircleOutlined />}
+                        disabled={role.id !== 1 && role.id !== 3}
+                        onClick={() => router.push("projects/create")}
+                    >
+                        Create Project
+                    </ThemButton>
+                </PageTitle>
                 <Row gutter={[50, 10]}>
                     <Col md={24} lg={24}>
-                        <SearchProject role={role} setProject={setProject} setShowDetails={setShowDetails} setSection={setSection} setInterSection={setInterSection} />
+                        <SearchProject role={role}
+                            setShowDetails={setShowDetails} setProject={setProject}
+                            setSection={setSection} setInterSection={setInterSection} />
                     </Col>
                 </Row>
             </ButtonContainer>}

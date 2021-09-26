@@ -20,9 +20,17 @@ function CreateProject({ handleClick }) {
         params = JSON.parse(query.project);
     }
 
-    
+    const [intersections, setIntersections] = useState({});
 
-    const [intersections, setIntersections] = useState({})
+    useEffect(() => {
+
+        loadIntersections();
+        return ()=> {
+            params = null;
+        };
+
+    }, []);
+    
     const loadIntersections = async () => {
         const res = await formRequest("/intersection-inventories", {
             method: "GET",
@@ -31,7 +39,9 @@ function CreateProject({ handleClick }) {
             setIntersections(res.data)
         }
     }
+
     const [form] = Form.useForm();
+
     const onFinish = async (values) => {
         values = {...values, CRASH_COUNT: selectIntersection(values.INTERSECTION)}
         await formRequest("projects", {
@@ -52,10 +62,12 @@ function CreateProject({ handleClick }) {
               })
         });
     };
+
     const wrapperCol = {
         xs: { span: 24 },
         sm: { span: 24 },
     }
+
     const selectIntersection = (id) => {
         let crashLength =0;
         intersections.length >0 && intersections.map((intersection) =>{
@@ -66,14 +78,7 @@ function CreateProject({ handleClick }) {
         })
         return crashLength;
     }
-    useEffect(() => {
 
-        loadIntersections();
-        return ()=> {
-            params = null;
-        };
-
-    }, [])
     return <>
         <PageTitle> <LeftCircleOutlined className={"backButton"} onClick={() => handleClick(true)} /> Create Project</PageTitle>
         <ContentContainer>
