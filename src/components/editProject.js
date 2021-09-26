@@ -135,7 +135,7 @@ function EditProject({ setShowDetails }) {
         duration: 5,
         message: "Project Edited",
       })
-      push("projects")
+      push("/projects");
     }).catch((e) => {
       console.log(e)
     });
@@ -144,7 +144,7 @@ function EditProject({ setShowDetails }) {
   }
 
   return <div style={{ margin: "10px" }}>
-    <PageTitle > <LeftCircleOutlined className={"backButton"} onClick={() => push("projects")} /> Edit Project</PageTitle>
+    <PageTitle > <LeftCircleOutlined className={"backButton"} onClick={() => push("/projects")} /> Edit Project</PageTitle>
     <ContentContainer style={{ marginTop: "10px" }}>
       <Formik
         initialValues={pruject}
