@@ -5,6 +5,7 @@ import Highlighter from 'react-highlight-words';
 import { SearchOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 import styled from "styled-components";
 import { TableContainer, ContentContainer } from "./styleds"
+import { useRouter } from "next/router";
 
 const ActionContainer = styled.div`
   text-align: center;
@@ -22,11 +23,12 @@ const ActionContainer = styled.div`
   }
 `;
 
-function SearchProject({ role, setShowDetails, setProject, setSection, setInterSection }) {
+function SearchProject({ role, setShowDetails, setProject, setInterSection }) {
 
   const [projects, setProjects] = useState([])
   const [searchText, setSearchText] = useState("")
-  const [searchedColumn, setSearchedColumn] = useState("")
+  const [searchedColumn, setSearchedColumn] = useState("");
+  const { push } = useRouter();
   let searchInput;
 
   const getColumnSearchProps = (dataIndex) => ({
@@ -159,7 +161,10 @@ function SearchProject({ role, setShowDetails, setProject, setSection, setInterS
           programNumber: project.PROGRAM_NUMBER,
           NumberOfCrashes: project.CRASH_COUNT,
           totalTreatments: project.treatments?.length,
-          action: <ActionContainer> {project.PROJECT_STATUS !== "Completed" && <EditOutlined onClick={() => selectProject(project, "edit")} className={"editProject"} />} <EyeOutlined className={"viewDetails"} onClick={() => selectProject(project, "view")} /></ActionContainer>
+          action: <ActionContainer> {project.PROJECT_STATUS !== "Completed" &&
+            <EditOutlined onClick={() => selectProject(project, "edit")} className={"editProject"} />}
+            <EyeOutlined className={"viewDetails"} onClick={() =>
+              selectProject(project, "view")} /></ActionContainer>
         })
         )
       )
@@ -186,10 +191,13 @@ function SearchProject({ role, setShowDetails, setProject, setSection, setInterS
     try {
       let inter = await loadIntersections(project)
       if (inter) {
-        setInterSection(inter)
-        setProject(project)
-        setSection(section)
-        setShowDetails(true)
+        if (section === "edit") {
+          push(`projects/edit?project=${JSON.stringify(project)}`);
+        } else {
+          setInterSection(inter);
+          setProject(project);
+          setShowDetails(true);
+        }
       }
     } catch (err) {
 

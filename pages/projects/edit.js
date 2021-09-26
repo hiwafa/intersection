@@ -20,6 +20,7 @@ function Projects() {
     const router = useRouter();
     const { role } = useSelector(getUser);
     const [showDetails, setShowDetails] = useState(false)
+    const [section, setSection] = useState("");
     const [project, setProject] = useState("");
     const [intersection, setInterSection] = useState({});
     const [crashCostList, setCrashCostsList] = useState()
@@ -45,34 +46,7 @@ function Projects() {
         }
     }, []);
 
-    return <div>
-        {
-            showDetails ?
-                <ProjectDetails project={project} crashCostList={crashCostList}
-                    setShowDetails={setShowDetails} intersection={intersection} /> :
-                <ButtonContainer>
-                    <PageTitle>Projects
-                        <ThemButton
-                            type="primary"
-                            className={"createProject"}
-                            size={"medium"}
-                            icon={<PlusCircleOutlined />}
-                            disabled={role.id !== 1 && role.id !== 3}
-                            onClick={() => router.push("projects/create")}
-                        >
-                            Create Project
-                        </ThemButton>
-                    </PageTitle>
-                    <Row gutter={[50, 10]}>
-                        <Col md={24} lg={24}>
-                            <SearchProject role={role}
-                                setShowDetails={setShowDetails} setProject={setProject}
-                                setInterSection={setInterSection} />
-                        </Col>
-                    </Row>
-                </ButtonContainer>
-        }
-    </div>
+    return <EditProject project={project} setShowDetails={setShowDetails} />
 }
 
 export default Projects

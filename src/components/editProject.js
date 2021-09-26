@@ -31,7 +31,7 @@ const ProjectFileContainer = styled.div`
 let pruject = {};
 function EditProject({ setShowDetails }) {
 
-  const { query } = useRouter();
+  const { query, push } = useRouter();
   if (query && query.project) {
     pruject = JSON.parse(query.project);
   }
@@ -135,7 +135,7 @@ function EditProject({ setShowDetails }) {
         duration: 5,
         message: "Project Edited",
       })
-      setShowDetails(false)
+      push("projects")
     }).catch((e) => {
       console.log(e)
     });
@@ -144,7 +144,7 @@ function EditProject({ setShowDetails }) {
   }
 
   return <div style={{ margin: "10px" }}>
-    <PageTitle > <LeftCircleOutlined className={"backButton"} onClick={() => setShowDetails(false)} /> Edit Project</PageTitle>
+    <PageTitle > <LeftCircleOutlined className={"backButton"} onClick={() => push("projects")} /> Edit Project</PageTitle>
     <ContentContainer style={{ marginTop: "10px" }}>
       <Formik
         initialValues={pruject}
