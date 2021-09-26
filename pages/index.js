@@ -5,13 +5,25 @@ import Analysis from './analysis';
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { getUser } from '../src/store/actions/UserSlice';
+import { useGetIntersectionsQuery } from '../src/store/query';
 import { useEffect } from 'react';
 
 
 const Home = () => {
 
   const router = useRouter();
-  const { role } = useSelector(getUser);
+  const { role, loginStatus } = useSelector(getUser);
+  const { data, refetch } = useGetIntersectionsQuery("intersection-inventories");
+
+  useEffect(()=> {
+    (()=> {
+      try {
+        refetch();
+      } catch (error) {
+        
+      }
+    })()
+  },[loginStatus]);
 
   useEffect(() => {
     if (![1, 3].includes(role.id)) {
@@ -33,7 +45,7 @@ const Home = () => {
       </Head>
 
       <main className={styles.main} style={{ height: "100%" }}>
-        <Analysis />
+        <Analysis data={data} />
       </main>
     </div>
   );

@@ -2,7 +2,6 @@ import react, { useMemo, useState, useEffect } from "react";
 import CrashData from "../src/components/CrashData";
 import Descriptive from "../src/components/Descriptive";
 import IntersectionInventory from "../src/components/Intersection";
-import { useGetIntersectionsQuery } from "../src/store/query";
 import TopFilter from "../src/components/TopFilter";
 import styles from "../styles/Analys.module.css";
 import { Row, Col, Menu, Layout } from 'antd';
@@ -23,14 +22,13 @@ const getContent = (tab, inventory) => {
 
 }
 
-function Analys() {
+function Analys({data}) {
 
     const { push } = useRouter();
     const [tab, setTab] = useState("tab1");
     const [project, creatProject] = useState(null);
     const [inventory, setInventory] = useState(null);
     const [invntories, setInvntories] = useState([]);
-    const { data } = useGetIntersectionsQuery("intersection-inventories");
 
     const MapBox = useMemo(() => dynamic(() => import("../src/components/MapBox"), {
         loading: () => "Loading...",
