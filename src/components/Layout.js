@@ -53,7 +53,8 @@ const LayoutCom = ({ children }) => {
     let padname = router.pathname;
 
     if (padname === "/") padname = "home";
-    else if (padname === "/projects/create") padname = "projects";
+    else if (padname === "/projects/create" ||
+        padname === "/projects/edit") padname = "projects";
     else padname = padname.substring(1);
 
     const onLogout = async () => {
@@ -200,7 +201,7 @@ const LayoutCom = ({ children }) => {
                         <Dropdown overlay={menu} trigger={"click"} placement="bottomLeft" arrow>
                             <UserNameLabel style={{ fontSize: '18px', fontWeight: 'bold' }}>{username}</UserNameLabel>
                         </Dropdown>
-                        <a onClick={()=> {refetch()}} style={{marginLeft: 10}}>
+                        <a onClick={() => { refetch() }} style={{ marginLeft: 10 }}>
                             <RedoOutlined style={{ fontSize: '18px', fontWeight: 'bold' }} />
                         </a>
                     </LogoutIcon>
