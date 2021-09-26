@@ -378,7 +378,7 @@ function ProjectDetails({ crashCostList, project, intersection }) {
     >
       <Tabs defaultActiveKey="1">
         <TabPane tab="Countermeasures" style={{ textAlign: "center" }} key="1">
-          {treatments && <Table pagination={false} columns={projectTreatmentColumns} dataSource={projectTreatments && projectTreatments} />}
+          {treatments && <Table rowKey="value" pagination={false} columns={projectTreatmentColumns} dataSource={projectTreatments && projectTreatments} />}
           {project.PROJECT_STATUS !== "Completed" && <Button style={{ marginTop: "10px" }} type={"danger"} onClick={handleRemove}>Remove</Button>}
         </TabPane>
         <TabPane tab="Treatments" style={{ textAlign: "center" }} key="2">
