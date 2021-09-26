@@ -22,12 +22,13 @@ let project = {}, intersection = {};
 function ProjectDetails({ crashCostList }) {
 
   const { query, push } = useRouter();
-  if (query && query.project) {
-    const data = JSON.parse(query.data);
-    if(data && data.project) project = data.project;
-    if(data && data.inter) intersection = data.inter;
+  if (query && query.data) {
+    const deta = JSON.parse(query.data);
+    if(deta && deta.project) project = deta.project;
+    if(deta && deta.inter) intersection = deta.inter;
   }
 
+  const [reload, setReload] = useState(false);
   const [visible, setVisible] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [treatments, setTreatments] = useState();
@@ -35,6 +36,10 @@ function ProjectDetails({ crashCostList }) {
   const [projectTreatments, setProjectTreatments] = useState();
   const [deleteListTreats, setDeleteListTreats] = useState();
   const [details, setDetails] = useState();
+
+  useEffect(()=> {
+    setReload(!reload);
+  }, [query.data]);
 
   useEffect(() => {
     crashCostList && setProjectDetails()

@@ -54,7 +54,8 @@ const LayoutCom = ({ children }) => {
 
     if (padname === "/") padname = "home";
     else if (padname === "/projects/create" ||
-        padname === "/projects/edit") padname = "projects";
+        padname === "/projects/edit" ||
+        padname === "/projects/view") padname = "projects";
     else padname = padname.substring(1);
 
     const onLogout = async () => {
