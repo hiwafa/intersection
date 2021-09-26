@@ -8,17 +8,24 @@ import { useSelector } from "react-redux";
 import { getUser } from "../../src/store/actions/UserSlice";
 import { useRouter } from "next/router";
 
+let project = {}, intersection = {};
 function Projects() {
 
-    const router = useRouter();
+    const { query, push } = useRouter();
+    if (query && query.data) {
+        const deta = JSON.parse(query.data);
+        if (deta && deta.project) project = deta.project;
+        if (deta && deta.inter) intersection = deta.inter;
+    }
+
     const { role } = useSelector(getUser);
-    const [crashCostList, setCrashCostsList] = useState()
+    const [crashCostList, setCrashCostsList] = useState([]);
 
     const loadCrashCost = async () => {
         try {
             const crashCosts = await formRequest('crash-costs', { method: "GET" });
             if (crashCosts.status === 200) {
-                setCrashCostsList(crashCosts.data)
+                setCrashCostsList(crashCosts.data);
             }
         } catch (e) {
             notification["error"]({
@@ -31,11 +38,11 @@ function Projects() {
     useEffect(() => {
         loadCrashCost();
         if (![1, 3, 4].includes(role.id)) {
-            router.push("deny");
+            push("deny");
         }
     }, []);
 
-    return  <ProjectDetails crashCostList={crashCostList} />;
+    return <ProjectDetails crashCostList={crashCostList} project={project} intersection={intersection} />;
 }
 
 export default Projects

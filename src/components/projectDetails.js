@@ -18,15 +18,15 @@ const Wrapper = styled.div`
 `;
 
 
-let project = {}, intersection = {};
-function ProjectDetails({ crashCostList }) {
+// let project = {}, intersection = {}, _reload = false;
+function ProjectDetails({ crashCostList, project, intersection }) {
 
-  const { query, push } = useRouter();
-  if (query && query.data) {
-    const deta = JSON.parse(query.data);
-    if(deta && deta.project) project = deta.project;
-    if(deta && deta.inter) intersection = deta.inter;
-  }
+  // const { query, push } = useRouter();
+  // if (query && query.data) {
+  //   const deta = JSON.parse(query.data);
+  //   if(deta && deta.project) project = deta.project;
+  //   if(deta && deta.inter) intersection = deta.inter;
+  // }
 
   const [reload, setReload] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -37,9 +37,10 @@ function ProjectDetails({ crashCostList }) {
   const [deleteListTreats, setDeleteListTreats] = useState();
   const [details, setDetails] = useState();
 
-  useEffect(()=> {
-    setReload(!reload);
-  }, [query.data]);
+  // _reload = reload;
+  // useEffect(()=> {
+  //  setReload(!_reload);
+  // }, [project.id]);
 
   useEffect(() => {
     crashCostList && setProjectDetails()
