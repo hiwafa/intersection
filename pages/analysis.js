@@ -41,6 +41,7 @@ function Analys({data}) {
 
     const onFilter = (values) => {
 
+        setInventory(null);
         const from = new Date(values.from).getTime();
         const to = new Date(values.to).getTime();
 
