@@ -35,7 +35,7 @@ function ProjectDetails({ crashCostList, project, intersection }) {
   const [newTreatments, setNewTreatments] = useState();
   const [projectTreatments, setProjectTreatments] = useState();
   const [deleteListTreats, setDeleteListTreats] = useState();
-  const [details, setDetails] = useState();
+  const [details, setDetails] = useState([]);
 
   // _reload = reload;
   // useEffect(()=> {
@@ -363,7 +363,7 @@ function ProjectDetails({ crashCostList, project, intersection }) {
 
     <TableContainer style={{ maxWidth: "450px", margin: "auto" }}>
       <PDFExport ref={pdfExportComponent} paperSize="A4">
-        <Table pagination={false} columns={columns} dataSource={details && details} tableLayout={"horizontal"} />
+        <Table rowKey="value" pagination={false} columns={columns} dataSource={details} tableLayout={"horizontal"} />
       </PDFExport>
     </TableContainer>
   </Wrapper>
@@ -378,11 +378,11 @@ function ProjectDetails({ crashCostList, project, intersection }) {
     >
       <Tabs defaultActiveKey="1">
         <TabPane tab="Countermeasures" style={{ textAlign: "center" }} key="1">
-          {treatments && <Table rowKey="value" pagination={false} columns={projectTreatmentColumns} dataSource={projectTreatments && projectTreatments} />}
+          {treatments && <Table rowKey="id" pagination={false} columns={projectTreatmentColumns} dataSource={projectTreatments && projectTreatments} />}
           {project.PROJECT_STATUS !== "Completed" && <Button style={{ marginTop: "10px" }} type={"danger"} onClick={handleRemove}>Remove</Button>}
         </TabPane>
         <TabPane tab="Treatments" style={{ textAlign: "center" }} key="2">
-          {treatments && <Table pagination={false} columns={modalTableColumns} dataSource={treatments && treatments} />}
+          {treatments && <Table rowKey="id" pagination={false} columns={modalTableColumns} dataSource={treatments && treatments} />}
           {project.PROJECT_STATUS !== "Completed" && <Button style={{ marginTop: "10px" }} type={"primary"} onClick={handleOk}>Add Treatment</Button>}
         </TabPane>
       </Tabs>
