@@ -42,8 +42,28 @@ function CreateProject({ handleClick }) {
 
     const [form] = Form.useForm();
 
+    const numberOfCrashes = (id, frm, tu)=> {
+       
+        const from = new Date(frm).getTime();
+        const to = new Date(tu).getTime();
+
+        return (intersections.find(i => i.id === id).crash_intersections)
+        .filter(c => (new Date(c.DATE_OF_CRASH)).getTime() >=
+        from && (new Date(c.DATE_OF_CRASH)).getTime() <= to).length;
+
+    }
+
     const onFinish = async (values) => {
-        values = {...values, CRASH_COUNT: selectIntersection(values.INTERSECTION)}
+
+        values = {
+            ...values,
+            CRASH_COUNT: numberOfCrashes(
+                values.INTERSECTION,
+                values.CRASH_START_DATE,
+                values.CRASH_END_DATE,
+            )
+        }
+
         await formRequest("projects", {
             method: "POST",
             data: values,
@@ -61,6 +81,7 @@ function CreateProject({ handleClick }) {
                 message: "Project not created",
               })
         });
+
     };
 
     const wrapperCol = {
