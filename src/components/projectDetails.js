@@ -21,26 +21,14 @@ const Wrapper = styled.div`
 // let project = {}, intersection = {}, _reload = false;
 function ProjectDetails({ crashCostList, project, intersection }) {
 
-  // const { query, push } = useRouter();
-  // if (query && query.data) {
-  //   const deta = JSON.parse(query.data);
-  //   if(deta && deta.project) project = deta.project;
-  //   if(deta && deta.inter) intersection = deta.inter;
-  // }
-
   const [reload, setReload] = useState(false);
   const [visible, setVisible] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [treatments, setTreatments] = useState();
-  const [newTreatments, setNewTreatments] = useState();
-  const [projectTreatments, setProjectTreatments] = useState();
-  const [deleteListTreats, setDeleteListTreats] = useState();
+  const [treatments, setTreatments] = useState([]);
+  const [newTreatments, setNewTreatments] = useState([]);
+  const [projectTreatments, setProjectTreatments] = useState([]);
+  const [deleteListTreats, setDeleteListTreats] = useState([]);
   const [details, setDetails] = useState([]);
-
-  // _reload = reload;
-  // useEffect(()=> {
-  //  setReload(!_reload);
-  // }, [project.id]);
 
   useEffect(() => {
     crashCostList && setProjectDetails()
@@ -184,32 +172,32 @@ function ProjectDetails({ crashCostList, project, intersection }) {
   }
   const setProjectDetails = () => {
     project && setDetails([
-      { field: <b>{"Project Name"}</b>, value: project.PROJECT_NAME },
-      { field: <b>{"Project Number"}</b>, value: project.PROJECT_NUMBER },
-      { field: <b>{"Project Status"}</b>, value: project.PROJECT_STATUS },
-      { field: <b>{"Intersection"}</b>, value: project.INTERSECTION?.INTERSECTION_NAME },
-      { field: <b>{"B/C"}</b>, value: calculateTreatments().BEN_COST > Math.pow(10, 10) ? `${calculateTreatments().BEN_COST.toLocaleString()}` : numeral(calculateTreatments().BEN_COST).format("0,0.00") },
-      { field: <b>{"Crash Count"}</b>, value: intersection?.crash_intersections?.length },
-      { field: <b>{"Crash Start Date"}</b>, value: project.CRASH_START_DATE },
-      { field: <b>{"Crash End Date"}</b>, value: project.CRASH_END_DATE },
-      { field: <b>{"Crash Rate AADT"}</b>, value: !isNaN(crashRate) && crashRate.toFixed(4) },
-      { field: <b>{"EPDO"}</b>, value: epdo },
-      { field: <b>{"EUAB"}</b>, value: calculateTreatments().EUAB > Math.pow(10, 10) ? `$${calculateTreatments().EUAB.toLocaleString()}` : numeral(calculateTreatments().EUAB).format("$0,0.00") },
-      { field: <b>{"EUAC"}</b>, value: numeral(calculateTreatments().EUAC).format("$0,0.00") },
-      { field: <b>{"Number of A injuries"}</b>, value: a },
-      { field: <b>{"Number of B injuries"}</b>, value: b },
-      { field: <b>{"Number of C injuries"}</b>, value: c },
-      { field: <b>{"Number of Fatalities"}</b>, value: fatalities },
-      { field: <b>{"Number of Injuries"}</b>, value: injuries },
-      { field: <b>{"Number of PDO"}</b>, value: pdo },
-      { field: <b>{"Program Name"}</b>, value: project.PROGRAM_NAME },
-      { field: <b>{"Program Number"}</b>, value: project.PROGRAM_NUMBER },
-      { field: <b>{"Project Auth Date"}</b>, value: project.PROJECT_AUTH_DATE },
-      { field: <b>{"Project Comp Date"}</b>, value: project.PROJECT_COMP_DATE },
-      { field: <b>{"Project Start Date"}</b>, value: project.PROJECT_START_DATE },
-      { field: <b>{"Project End Date"}</b>, value: project.PROJECT_END_DATE },
-      { field: <b>{"Project Sub Phase"}</b>, value: project.PROJECT_SUBPHASE },
-      { field: <b>{"Countermeasures"}</b>, value: <Tooltip title="Countermeasures can be added by clicking" placement="top"><a onClick={showModal} style={{ textDecoration: "underline", color: "blue" }}>{project.treatments?.length ? project.treatments?.length : 0}</a></Tooltip> }
+      { id: "1", field: <b>{"Project Name"}</b>, value: project.PROJECT_NAME },
+      { id: "2", field: <b>{"Project Number"}</b>, value: project.PROJECT_NUMBER },
+      { id: "3", field: <b>{"Project Status"}</b>, value: project.PROJECT_STATUS },
+      { id: "4", field: <b>{"Intersection"}</b>, value: project.INTERSECTION?.INTERSECTION_NAME },
+      { id: "5", field: <b>{"B/C"}</b>, value: calculateTreatments().BEN_COST > Math.pow(10, 10) ? `${calculateTreatments().BEN_COST.toLocaleString()}` : numeral(calculateTreatments().BEN_COST).format("0,0.00") },
+      { id: "6", field: <b>{"Crash Count"}</b>, value: intersection?.crash_intersections?.length },
+      { id: "7", field: <b>{"Crash Start Date"}</b>, value: project.CRASH_START_DATE },
+      { id: "8", field: <b>{"Crash End Date"}</b>, value: project.CRASH_END_DATE },
+      { id: "9", field: <b>{"Crash Rate AADT"}</b>, value: !isNaN(crashRate) && crashRate.toFixed(4) },
+      { id: "10", field: <b>{"EPDO"}</b>, value: epdo },
+      { id: "11", field: <b>{"EUAB"}</b>, value: calculateTreatments().EUAB > Math.pow(10, 10) ? `$${calculateTreatments().EUAB.toLocaleString()}` : numeral(calculateTreatments().EUAB).format("$0,0.00") },
+      { id: "12", field: <b>{"EUAC"}</b>, value: numeral(calculateTreatments().EUAC).format("$0,0.00") },
+      { id: "13", field: <b>{"Number of A injuries"}</b>, value: a },
+      { id: "14", field: <b>{"Number of B injuries"}</b>, value: b },
+      { id: "15", field: <b>{"Number of C injuries"}</b>, value: c },
+      { id: "16", field: <b>{"Number of Fatalities"}</b>, value: fatalities },
+      { id: "17", field: <b>{"Number of Injuries"}</b>, value: injuries },
+      { id: "18", field: <b>{"Number of PDO"}</b>, value: pdo },
+      { id: "19", field: <b>{"Program Name"}</b>, value: project.PROGRAM_NAME },
+      { id: "20", field: <b>{"Program Number"}</b>, value: project.PROGRAM_NUMBER },
+      { id: "21", field: <b>{"Project Auth Date"}</b>, value: project.PROJECT_AUTH_DATE },
+      { id: "22", field: <b>{"Project Comp Date"}</b>, value: project.PROJECT_COMP_DATE },
+      { id: "23", field: <b>{"Project Start Date"}</b>, value: project.PROJECT_START_DATE },
+      { id: "24", field: <b>{"Project End Date"}</b>, value: project.PROJECT_END_DATE },
+      { id: "25", field: <b>{"Project Sub Phase"}</b>, value: project.PROJECT_SUBPHASE },
+      { id: "26", field: <b>{"Countermeasures"}</b>, value: <Tooltip title="Countermeasures can be added by clicking" placement="top"><a onClick={showModal} style={{ textDecoration: "underline", color: "blue" }}>{project.treatments?.length ? project.treatments?.length : 0}</a></Tooltip> }
     ])
   }
 
@@ -363,7 +351,7 @@ function ProjectDetails({ crashCostList, project, intersection }) {
 
     <TableContainer style={{ maxWidth: "450px", margin: "auto" }}>
       <PDFExport ref={pdfExportComponent} paperSize="A4">
-        <Table rowKey="value" pagination={false} columns={columns} dataSource={details} tableLayout={"horizontal"} />
+        <Table rowKey="id" pagination={false} columns={columns} dataSource={details} tableLayout={"horizontal"} />
       </PDFExport>
     </TableContainer>
   </Wrapper>
@@ -378,11 +366,11 @@ function ProjectDetails({ crashCostList, project, intersection }) {
     >
       <Tabs defaultActiveKey="1">
         <TabPane tab="Countermeasures" style={{ textAlign: "center" }} key="1">
-          {treatments && <Table rowKey="id" pagination={false} columns={projectTreatmentColumns} dataSource={projectTreatments && projectTreatments} />}
+          {treatments && <Table rowKey="id" pagination={false} columns={projectTreatmentColumns} dataSource={projectTreatments} />}
           {project.PROJECT_STATUS !== "Completed" && <Button style={{ marginTop: "10px" }} type={"danger"} onClick={handleRemove}>Remove</Button>}
         </TabPane>
         <TabPane tab="Treatments" style={{ textAlign: "center" }} key="2">
-          {treatments && <Table rowKey="id" pagination={false} columns={modalTableColumns} dataSource={treatments && treatments} />}
+          {treatments && <Table rowKey="id" pagination={false} columns={modalTableColumns} dataSource={treatments} />}
           {project.PROJECT_STATUS !== "Completed" && <Button style={{ marginTop: "10px" }} type={"primary"} onClick={handleOk}>Add Treatment</Button>}
         </TabPane>
       </Tabs>
