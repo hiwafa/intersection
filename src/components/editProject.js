@@ -29,7 +29,7 @@ const ProjectFileContainer = styled.div`
 `;
 
 let pruject = {};
-function EditProject({ setShowDetails }) {
+function EditProject() {
 
   const { query, push } = useRouter();
   if (query && query.project) {
