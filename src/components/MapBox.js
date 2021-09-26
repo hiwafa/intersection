@@ -13,8 +13,6 @@ function getCursor({ isHovering, isDragging }) {
 
 const CustomMarker = ({ crashId, inventory, onPress }) => {
 
-    console.log("invn: ", inventory.crash_intersections.length);
-
     const context = useContext(MapContext);
     const lent = inventory.crash_intersections ?
         inventory.crash_intersections.length : 0;
