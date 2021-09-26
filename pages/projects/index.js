@@ -19,60 +19,34 @@ import { useRouter } from "next/router";
 function Projects() {
     const router = useRouter();
     const { role } = useSelector(getUser);
-    const [showDetails, setShowDetails] = useState(false)
-    const [project, setProject] = useState("");
-    const [intersection, setInterSection] = useState({});
-    const [crashCostList, setCrashCostsList] = useState()
-
-    const loadCrashCost = async () => {
-        try {
-            const crashCosts = await formRequest('crash-costs', { method: "GET" });
-            if (crashCosts.status === 200) {
-                setCrashCostsList(crashCosts.data)
-            }
-        } catch (e) {
-            notification["error"]({
-                duration: 5,
-                message: e,
-            })
-        }
-    };
 
     useEffect(() => {
-        loadCrashCost();
         if (![1, 3, 4].includes(role.id)) {
             router.push("deny");
         }
     }, []);
 
-    return <div>
-        {
-            showDetails ?
-                <ProjectDetails project={project} crashCostList={crashCostList}
-                    setShowDetails={setShowDetails} intersection={intersection} /> :
-                <ButtonContainer>
-                    <PageTitle>Projects
-                        <ThemButton
-                            type="primary"
-                            className={"createProject"}
-                            size={"medium"}
-                            icon={<PlusCircleOutlined />}
-                            disabled={role.id !== 1 && role.id !== 3}
-                            onClick={() => router.push("projects/create")}
-                        >
-                            Create Project
-                        </ThemButton>
-                    </PageTitle>
-                    <Row gutter={[50, 10]}>
-                        <Col md={24} lg={24}>
-                            <SearchProject
-                                setShowDetails={setShowDetails} setProject={setProject}
-                                setInterSection={setInterSection} />
-                        </Col>
-                    </Row>
-                </ButtonContainer>
-        }
-    </div>
+    return (
+        <ButtonContainer>
+            <PageTitle>Projects
+                <ThemButton
+                    type="primary"
+                    className={"createProject"}
+                    size={"medium"}
+                    icon={<PlusCircleOutlined />}
+                    disabled={role.id !== 1 && role.id !== 3}
+                    onClick={() => router.push("projects/create")}
+                >
+                    Create Project
+                </ThemButton>
+            </PageTitle>
+            <Row gutter={[50, 10]}>
+                <Col md={24} lg={24}>
+                    <SearchProject />
+                </Col>
+            </Row>
+        </ButtonContainer>
+    );
 }
 
 export default Projects

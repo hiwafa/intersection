@@ -23,7 +23,7 @@ const ActionContainer = styled.div`
   }
 `;
 
-function SearchProject({  setShowDetails, setProject, setInterSection }) {
+function SearchProject() {
 
   const [projects, setProjects] = useState([])
   const [searchText, setSearchText] = useState("")
@@ -194,9 +194,6 @@ function SearchProject({  setShowDetails, setProject, setInterSection }) {
         if (section === "edit") {
           push(`projects/edit?project=${JSON.stringify(project)}`);
         } else {
-          // setInterSection(inter);
-          // setProject(project);
-          // setShowDetails(true);
           push(`projects/view?data=${JSON.stringify({project, inter})}`);
         }
       }
