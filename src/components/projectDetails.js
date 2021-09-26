@@ -6,7 +6,7 @@ import { DownloadOutlined } from '@ant-design/icons';
 import { request, formRequest } from "../requests"
 import { PDFExport } from '@progress/kendo-react-pdf';
 import styled from "styled-components";
-
+import { useRouter } from "next/router";
 import moment from "moment"
 import numeral from "numeral"
 import { columns, projectTreatmentColumns, modalTableColumns } from "../constants/projectDetailsConstants"
@@ -15,13 +15,22 @@ const { TabPane } = Tabs;
 const BASE_URL = process.env.BASE_URL
 const Wrapper = styled.div`
     padding: 10px;
-`
-function ProjectDetails({ project, crashCostList, setShowDetails, intersection }) {
+`;
+
+
+let project = {}, intersection = {};
+function ProjectDetails({ crashCostList }) {
+
+  const { query, push } = useRouter();
+  if (query && query.project) {
+    const data = JSON.parse(query.data);
+    if(data && data.project) project = data.project;
+    if(data && data.inter) intersection = data.inter;
+  }
 
   const [visible, setVisible] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [treatments, setTreatments] = useState();
-  const [addTreatCheckBox, setAddTreatCheckBox] = useState(false);
   const [newTreatments, setNewTreatments] = useState();
   const [projectTreatments, setProjectTreatments] = useState();
   const [deleteListTreats, setDeleteListTreats] = useState();
@@ -43,7 +52,10 @@ function ProjectDetails({ project, crashCostList, setShowDetails, intersection }
         TREATMENT_COST: numeral(treat.TREATMENT_COST).format("$0,0"),
         remove: <Checkbox key={index} onChange={(e) => removeTreat(e, treat)} />
       }
-    }))
+    }));
+
+    return ()=> {project = {}}
+
   }, [])
   const crashCost = (severity) => {
     let value = ""
@@ -268,7 +280,7 @@ function ProjectDetails({ project, crashCostList, setShowDetails, intersection }
           data: project,
         })
         if (update.status === 200) {
-          setShowDetails(false)
+          push("/projects");
           notification["success"]({
             duration: 5,
             message: "Treatment Added",
@@ -309,7 +321,7 @@ function ProjectDetails({ project, crashCostList, setShowDetails, intersection }
         });
 
         if (update.status === 200) {
-          setShowDetails(false)
+          push("/projects");
           notification["success"]({
             duration: 5,
             message: "Treatment Removed",
@@ -326,7 +338,7 @@ function ProjectDetails({ project, crashCostList, setShowDetails, intersection }
   }
 
   return (<><Wrapper>
-    <PageTitle> <LeftCircleOutlined className={"backButton"} onClick={() => setShowDetails(false)} />Project Details
+    <PageTitle> <LeftCircleOutlined className={"backButton"} onClick={() => push("/projects")} />Project Details
       <ThemButton
         type="primary"
         className={"downloadButton"}

@@ -65,7 +65,7 @@ function Projects() {
                     </PageTitle>
                     <Row gutter={[50, 10]}>
                         <Col md={24} lg={24}>
-                            <SearchProject role={role}
+                            <SearchProject
                                 setShowDetails={setShowDetails} setProject={setProject}
                                 setInterSection={setInterSection} />
                         </Col>
