@@ -7,7 +7,7 @@ const { Header, Content, Footer, Sider } = Layout;
 import {
     UserOutlined, EditOutlined, ProjectOutlined,
     LogoutOutlined, FundProjectionScreenOutlined,
-    LockOutlined
+    LockOutlined, RedoOutlined
 } from '@ant-design/icons';
 
 
@@ -196,8 +196,11 @@ const LayoutCom = ({ children }) => {
                 }}>
                     <LogoutIcon>
                         <Dropdown overlay={menu} trigger={"click"} placement="bottomLeft" arrow>
-                            <UserNameLabel>{username}</UserNameLabel>
+                            <UserNameLabel style={{ fontSize: '18px', fontWeight: 'bold' }}>{username}</UserNameLabel>
                         </Dropdown>
+                        <a onClick={()=> {alert("hi")}} style={{marginLeft: 10}}>
+                            <RedoOutlined style={{ fontSize: '18px', fontWeight: 'bold' }} />
+                        </a>
                     </LogoutIcon>
 
                 </Header>
