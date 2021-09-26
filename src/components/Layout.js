@@ -12,6 +12,7 @@ import {
 
 
 import { useSelector, useDispatch } from 'react-redux';
+import { useGetIntersectionsQuery } from '../store/query';
 import { isLoggedIn, getUser, signout, updatePass } from '../store/actions/UserSlice';
 
 import { css } from '@emotion/css';
@@ -45,6 +46,7 @@ const LayoutCom = ({ children }) => {
     const [spining, setSpining] = useState(false);
     const checkLogin = useSelector(isLoggedIn);
     const { username, role, password, id } = useSelector(getUser);
+    const { refetch } = useGetIntersectionsQuery("intersection-inventories");
     const dispatch = useDispatch();
 
     const router = useRouter();
@@ -198,7 +200,7 @@ const LayoutCom = ({ children }) => {
                         <Dropdown overlay={menu} trigger={"click"} placement="bottomLeft" arrow>
                             <UserNameLabel style={{ fontSize: '18px', fontWeight: 'bold' }}>{username}</UserNameLabel>
                         </Dropdown>
-                        <a onClick={()=> {alert("hi")}} style={{marginLeft: 10}}>
+                        <a onClick={()=> {refetch()}} style={{marginLeft: 10}}>
                             <RedoOutlined style={{ fontSize: '18px', fontWeight: 'bold' }} />
                         </a>
                     </LogoutIcon>
