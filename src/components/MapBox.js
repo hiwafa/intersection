@@ -55,7 +55,7 @@ const MapView = ({ onPress, inventories }) => {
     });
 
     useEffect(() => {
-        (() => {
+        setTimeout(() => {
             try {
 
                 if (inventories && Array.isArray(inventories) && inventories.length > 0) {
@@ -106,7 +106,7 @@ const MapView = ({ onPress, inventories }) => {
                 }
             } catch (err) {
             }
-        })();
+        }, 1500);
     }, [inventories]);
 
     const goToSF = inventory => {
