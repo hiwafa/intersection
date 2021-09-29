@@ -192,9 +192,9 @@ function SearchProject() {
       let inter = await loadIntersections(project)
       if (inter) {
         if (section === "edit") {
-          push(`projects/edit?project=${JSON.stringify(project)}`);
+          push(`projects/edit?zXk8T=${btoa("zXk8TqO12S"+JSON.stringify(project))}`);
         } else {
-          push(`projects/view?data=${JSON.stringify({project, inter})}`);
+          push(`projects/view?XzfkqLWpaoeR=${btoa("zXkYweO12S"+JSON.stringify({project, inter}))}`);
         }
       }
     } catch (err) {

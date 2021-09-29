@@ -12,8 +12,9 @@ let project = {}, intersection = {};
 function Projects() {
 
     const { query, push } = useRouter();
-    if (query && query.data) {
-        const deta = JSON.parse(query.data);
+    if (query && query.XzfkqLWpaoeR) {
+        const deta = JSON.parse(atob(query.XzfkqLWpaoeR).substring(10));
+        console.log(deta);
         if (deta && deta.project) project = deta.project;
         if (deta && deta.inter) intersection = deta.inter;
     }

@@ -32,8 +32,8 @@ let pruject = {};
 function EditProject() {
 
   const { query, push } = useRouter();
-  if (query && query.project) {
-    pruject = JSON.parse(query.project);
+  if (query && query.zXk8T) {
+    pruject = JSON.parse(atob(query.zXk8T).substring(10));
   }
 
   const [status, setStatus] = useState(pruject.PROJECT_STATUS)
