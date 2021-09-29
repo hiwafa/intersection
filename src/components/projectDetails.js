@@ -80,8 +80,9 @@ function ProjectDetails({ crashCostList, project, intersection }) {
     let crashCosts = 0
     let endDate = moment(project.PROJECT_END_DATE)
     let startDate = moment(project.PROJECT_START_DATE)
-    let years = ""
-    intersection.crash_intersections && intersection.crash_intersections.map(async (crash) => {
+    let years = "";
+
+    intersection.crash_intersections && intersection.crash_intersections.forEach( crash => {
       a += parseInt(crash.NUMBER_OF_A_INJURIES)
       b += parseInt(crash.NUMBER_OF_B_INJURIES)
       c += parseInt(crash.NUMBER_OF_C_INJURIES)
@@ -89,7 +90,8 @@ function ProjectDetails({ crashCostList, project, intersection }) {
       fatalities += parseInt(crash.NUMBER_OF_FATALITIES)
       pdo += parseInt(crash.NUMBER_OF_PDO)
       crashCosts = crashCosts + parseInt(crashCost(crash.SEVERITY))
-    })
+    });
+
     const NumberOfCrashes = intersection.crash_intersections ? intersection.crash_intersections.length : 0;
     if (startDate !== undefined && endDate !== undefined) {
       if (endDate.diff(startDate, "years") < 1) {
