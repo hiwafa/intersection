@@ -21,6 +21,7 @@ const Wrapper = styled.div`
 // let project = {}, intersection = {}, _reload = false;
 function ProjectDetails({ crashCostList, project, intersection }) {
 
+  const router = useRouter();
   const [visible, setVisible] = useState(false);
   const [treatments, setTreatments] = useState([]);
   const [newTreatments, setNewTreatments] = useState([]);
@@ -272,7 +273,7 @@ function ProjectDetails({ crashCostList, project, intersection }) {
           data: project,
         })
         if (update.status === 200) {
-          push("/projects");
+          router.push("/projects");
           notification["success"]({
             duration: 5,
             message: "Treatment Added",
@@ -313,7 +314,7 @@ function ProjectDetails({ crashCostList, project, intersection }) {
         });
 
         if (update.status === 200) {
-          push("/projects");
+          router.push("/projects");
           notification["success"]({
             duration: 5,
             message: "Treatment Removed",
@@ -330,7 +331,7 @@ function ProjectDetails({ crashCostList, project, intersection }) {
   }
 
   return (<><Wrapper>
-    <PageTitle> <LeftCircleOutlined className={"backButton"} onClick={() => push("/projects")} />Project Details
+    <PageTitle> <LeftCircleOutlined className={"backButton"} onClick={() => router.push("/projects")} />Project Details
       <ThemButton
         type="primary"
         className={"downloadButton"}
