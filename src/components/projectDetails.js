@@ -21,9 +21,7 @@ const Wrapper = styled.div`
 // let project = {}, intersection = {}, _reload = false;
 function ProjectDetails({ crashCostList, project, intersection }) {
 
-  const [reload, setReload] = useState(false);
   const [visible, setVisible] = useState(false);
-  const [confirmLoading, setConfirmLoading] = useState(false);
   const [treatments, setTreatments] = useState([]);
   const [newTreatments, setNewTreatments] = useState([]);
   const [projectTreatments, setProjectTreatments] = useState([]);
@@ -53,7 +51,7 @@ function ProjectDetails({ crashCostList, project, intersection }) {
   }, [])
   const crashCost = (severity) => {
     let value = ""
-    crashCostList && crashCostList.map((cost) => {
+    crashCostList && crashCostList.forEach((cost) => {
       if (cost.crashSeverity === severity) {
         value = cost.crashCost;
       }
@@ -83,16 +81,15 @@ function ProjectDetails({ crashCostList, project, intersection }) {
     let years = "";
 
     intersection.crash_intersections && intersection.crash_intersections.forEach( crash => {
-      a += parseInt(crash.NUMBER_OF_A_INJURIES)
-      b += parseInt(crash.NUMBER_OF_B_INJURIES)
-      c += parseInt(crash.NUMBER_OF_C_INJURIES)
-      injuries += parseInt(crash.NUMBER_OF_INJURIES)
-      fatalities += parseInt(crash.NUMBER_OF_FATALITIES)
-      pdo += parseInt(crash.NUMBER_OF_PDO)
+      a += parseInt(crash.NUMBER_OF_A_INJURIES);
+      b += parseInt(crash.NUMBER_OF_B_INJURIES);
+      c += parseInt(crash.NUMBER_OF_C_INJURIES);
+      injuries += parseInt(crash.NUMBER_OF_INJURIES);
+      fatalities += parseInt(crash.NUMBER_OF_FATALITIES);
+      pdo += parseInt(crash.NUMBER_OF_PDO);
       crashCosts = crashCosts + parseInt(crashCost(crash.SEVERITY))
     });
 
-    const NumberOfCrashes = intersection.crash_intersections ? intersection.crash_intersections.length : 0;
     if (startDate !== undefined && endDate !== undefined) {
       if (endDate.diff(startDate, "years") < 1) {
         if (endDate.diff(startDate, "months") < 1) {
@@ -109,9 +106,9 @@ function ProjectDetails({ crashCostList, project, intersection }) {
     }
     epdo = 542 * fatalities + 11 * injuries + 1 * pdo;
 
-    return { a, b, c, injuries, fatalities, pdo, epdo, crashRate, NumberOfCrashes, crashCosts }
+    return { a, b, c, injuries, fatalities, pdo, epdo, crashRate, crashCosts }
   }
-  const { a, b, c, injuries, fatalities, pdo, epdo, crashRate, NumberOfCrashes, crashCosts } = setCrash()
+  const { a, b, c, injuries, fatalities, pdo, epdo, crashRate, crashCosts } = setCrash()
 
   const calculateTreatments = () => {
     let i = 0.0; // interest rate 
@@ -140,7 +137,7 @@ function ProjectDetails({ crashCostList, project, intersection }) {
     }
     let aadt = intersection && intersection.AADT;
     let n = years
-    let cf = NumberOfCrashes
+    let cf = project.CRASH_COUNT;
     let m = project.treatments ? project.treatments.length : 0;
     let cc = crashCosts;
     let crf = 1 //
@@ -265,7 +262,6 @@ function ProjectDetails({ crashCostList, project, intersection }) {
     }
   }
   const handleOk = async () => {
-    // setConfirmLoading(true);
     if (newTreatments?.length > 0) {
       newTreatments.map((tr) => {
         project.treatments.push(tr)
@@ -361,7 +357,6 @@ function ProjectDetails({ crashCostList, project, intersection }) {
       title="Add Treatment"
       visible={visible}
       loading={true}
-      confirmLoading={confirmLoading}
       onCancel={handleCancel}
       footer={false}
       width={1200}
