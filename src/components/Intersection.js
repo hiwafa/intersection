@@ -3,7 +3,6 @@ import { Table } from 'antd';
 import { css } from '@emotion/css';
 
 const toRender = text => <a>{text}</a>;
-const getFactor = text => <a>3</a>;
 
 const columns = [
     {
@@ -29,7 +28,6 @@ const columns = [
         title: 'AADT Growth Factor',
         dataIndex: 'AADT_GROWTH_FACTOR',
         key: 'AADT_GROWTH_FACTOR',
-        render: getFactor,
         responsive: ['md']
     }
 ];
