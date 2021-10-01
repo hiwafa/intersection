@@ -95,27 +95,16 @@ function CreateProject({ handleClick }) {
         params = JSON.parse(query.project);
     }
 
-    const [intersections, setIntersections] = useState({});
-    const crashCosts = useGetIntersectionsQuery("Crash-costs");
     const treatments = useGetIntersectionsQuery("treatments");
+    const crashCosts = useGetIntersectionsQuery("Crash-costs");
+    const intersections = useGetIntersectionsQuery("intersection-inventories");
 
     useEffect(() => {
-
-        loadIntersections();
         return () => {
             params = null;
         };
 
     }, []);
-
-    const loadIntersections = async () => {
-        const res = await formRequest("/intersection-inventories", {
-            method: "GET",
-        });
-        if (res.status === 200) {
-            setIntersections(res.data)
-        }
-    }
 
     const [form] = Form.useForm();
 
