@@ -132,13 +132,12 @@ function CreateProject({ handleClick }) {
         let pCrashCost = crashCosts.find(cos => cos.CrashSeverity === "PDO").CrashCost;
 
         const { a, b, c, injuries, fatalities, pdo, epdo, crashRate } = firstCounter({
-            crashes, CRASH_COUNT: crashes.length,
-            AADT: thisInter.AADT
+            crashes, CRASH_COUNT: crashes.length, AADT: thisInter.AADT
         });
 
         const { EUAC, EUAB, BEN_COST } = getCalculatedData({
-            fCrashCost, iCrashCost, pCrashCost,
             injuries, fatalities, pdo,
+            fCrashCost, iCrashCost, pCrashCost,
             CRASH_END_DATE: values.CRASH_END_DATE,
             CRASH_START_DATE: values.CRASH_START_DATE,
             treatments, AADT_GROWTH_FACTOR: thisInter.AADT_GROWTH_FACTOR,
