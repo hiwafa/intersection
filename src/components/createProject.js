@@ -1,5 +1,6 @@
 import react, { useEffect, useState } from "react";
-import { Button, Row, Col, Form, Select, DatePicker, Input, notification } from "antd"
+import { Button, Row, Col, Form, Select, DatePicker, Input, notification } from "antd";
+import { ContentContainer, ThemButton } from "../components/styleds";
 import { formRequest } from "../requests"
 import { LeftCircleOutlined } from '@ant-design/icons';
 import { PageTitle } from "./styleds"
@@ -8,14 +9,13 @@ import styled from "styled-components";
 import { useRouter } from "next/router";
 import moment from 'moment';
 import 'moment/locale/zh-cn';
-import { ContentContainer, ThemButton } from "../components/styleds"
 
+import { useGetIntersectionsQuery } from "../store/query";
 
-const firstCounter = ({crashes, CRASH_COUNT, AADT}) => {
+const firstCounter = ({ crashes, CRASH_COUNT, AADT }) => {
 
     let a = 0, b = 0, c = 0, pdo = 0, epdo = 0,
-    injuries = 0, fatalities = 0, crashRate = 0,
-    crashCosts = 0;
+        injuries = 0, fatalities = 0, crashRate = 0;
 
     let endDate = moment(CRASH_END_DATE);
     let startDate = moment(CRASH_START_DATE);
@@ -28,20 +28,19 @@ const firstCounter = ({crashes, CRASH_COUNT, AADT}) => {
         injuries += parseInt(crash.NUMBER_OF_INJURIES);
         fatalities += parseInt(crash.NUMBER_OF_FATALITIES);
         pdo += parseInt(crash.NUMBER_OF_PDO);
-        crashCosts += parseInt(crashCost(crash.SEVERITY));
     });
 
     crashRate = (CRASH_COUNT * 1000000) / (years * 365 * AADT);
 
     epdo = 542 * fatalities + 11 * injuries + 1 * pdo;
 
-    return { a, b, c, injuries, fatalities, pdo, epdo, crashRate, crashCosts };
+    return { a, b, c, injuries, fatalities, pdo, epdo, crashRate };
 };
 
-const getEUAC = ({
+const getCalculatedData = ({
     CRASH_END_DATE, CRASH_START_DATE,
-    CRASH_COUNT, crashCosts, treatments,
-    AADT_GROWTH_FACTOR
+    treatments, AADT_GROWTH_FACTOR,
+    fCrashCost, iCrashCost, pCrashCost
 }) => {
 
     if (!(CRASH_END_DATE && CRASH_START_DATE)) return false;
@@ -78,10 +77,10 @@ const getEUAC = ({
     let ccI = crbI * iCrashCost;
     let ccP = crbP * pCrashCost;
 
-    EUAB = ( (ccF + ccI + ccP) / years);
+    EUAB = ((ccF + ccI + ccP) / years);
 
-    const BEN_COST = (EUAB / EUAC).toFixed(3); 
-    
+    const BEN_COST = (EUAB / EUAC).toFixed(3);
+
     EUAC = EUAC.toFixed(3);
 
     return { EUAC, EUAB, BEN_COST }
@@ -97,6 +96,7 @@ function CreateProject({ handleClick }) {
     }
 
     const [intersections, setIntersections] = useState({});
+    const crashCosts = useGetIntersectionsQuery("crash-costs");
 
     useEffect(() => {
 
@@ -142,10 +142,21 @@ function CreateProject({ handleClick }) {
             CRASH_COUNT: crashes.length
         };
 
-        const { a, b, c, injuries, fatalities, pdo, epdo, crashRate, crashCosts } = firstCounter({
+        let fCrashCost = crashCosts.find(cos => cos.CrashSeverity === "Fatal").CrashCost;
+        let iCrashCost = crashCosts.find(cos => cos.CrashSeverity === "Injury").CrashCost;
+        let pCrashCost = crashCosts.find(cos => cos.CrashSeverity === "PDO").CrashCost;
+
+        const { a, b, c, injuries, fatalities, pdo, epdo, crashRate } = firstCounter({
             crashes, CRASH_COUNT: crashes.length,
             AADT: intersections.find(i => i.id === values.INTERSECTION).AADT
         });
+
+        const { } = getCalculatedData({
+            fCrashCost, iCrashCost, pCrashCost,
+            injuries, fatalities, pdo,
+            CRASH_END_DATE, CRASH_START_DATE,
+            treatments, AADT_GROWTH_FACTOR,
+        })
 
         await formRequest("projects", {
             method: "POST",
