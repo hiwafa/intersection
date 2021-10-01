@@ -70,12 +70,6 @@ const getEUAC = ({
     let aADT = Math.pow((1 + AADT_GROWTH_FACTOR / 100), years);
     crf = aADT * crf;
 
-    // let cf = CRASH_COUNT,
-    
-    // cc = crashCosts;
-    // let crb = cf * crf;
-    // crb = cc * crb;
-
     let crbF = fatalities * crf;
     let crbI = injuries * crf;
     let crbP = pdo * crf;
@@ -84,10 +78,7 @@ const getEUAC = ({
     let ccI = crbI * iCrashCost;
     let ccP = crbP * pCrashCost;
 
-    let B = ccF + ccI + ccP;
-
-
-    EUAB = (b / years);
+    EUAB = ( (ccF + ccI + ccP) / years);
 
     const BEN_COST = (EUAB / EUAC).toFixed(3); 
     
