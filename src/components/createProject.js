@@ -145,7 +145,15 @@ function CreateProject({ handleClick }) {
 
         values = {
             ...values,
-            CRASH_COUNT: crashes.length
+            CRASH_COUNT: crashes.length,
+            EPDO: epdo, EUAB, EUAC, BEN_COST,
+            NUMBER_OF_FATALITIES: fatalities,
+            NUMBER_OF_INJURIES: injuries,
+            NUMBER_OF_PDO: pdo,
+            CRASH_RATE_AADT: crashRate,
+            NUMBER_OF_A_INJURIES: a,
+            NUMBER_OF_B_INJURIES: b,
+            NUMBER_OF_C_INJURIES: c
         };
 
         await formRequest("projects", {
