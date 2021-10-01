@@ -179,16 +179,6 @@ function CreateProject({ handleClick }) {
         sm: { span: 24 },
     }
 
-    const selectIntersection = (id) => {
-        let crashLength = 0;
-        intersections.length > 0 && intersections.map((intersection) => {
-            if (intersection.id == id) {
-                crashLength = intersection?.crash_intersections?.length;
-            }
-        })
-        return crashLength;
-    }
-
     return <>
         <PageTitle> <LeftCircleOutlined className={"backButton"} onClick={() => handleClick(true)} /> Create Project</PageTitle>
         <ContentContainer>
