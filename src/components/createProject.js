@@ -40,7 +40,8 @@ const firstCounter = ({ crashes, CRASH_COUNT, AADT }) => {
 const getCalculatedData = ({
     CRASH_END_DATE, CRASH_START_DATE,
     treatments, AADT_GROWTH_FACTOR,
-    fCrashCost, iCrashCost, pCrashCost
+    fCrashCost, iCrashCost, pCrashCost,
+    injuries, fatalities, pdo,
 }) => {
 
     if (!(CRASH_END_DATE && CRASH_START_DATE)) return false;
@@ -51,7 +52,6 @@ const getCalculatedData = ({
 
     let crf = 1, EUAC = 0.0, EUAB = 0.0;
     treatments && treatments.forEach(treat => {
-        // calculating EUAC
         let i = parseFloat(treat.INTEREST_RATE),
             Cest = parseFloat(treat.TOTAL_TREATMENT_COST),
             Sper = parseFloat(treat.SALVAGE_PERCENT),
@@ -96,7 +96,8 @@ function CreateProject({ handleClick }) {
     }
 
     const [intersections, setIntersections] = useState({});
-    const crashCosts = useGetIntersectionsQuery("crash-costs");
+    const crashCosts = useGetIntersectionsQuery("Crash-costs");
+    const treatments = useGetIntersectionsQuery("treatments");
 
     useEffect(() => {
 
@@ -118,12 +119,12 @@ function CreateProject({ handleClick }) {
 
     const [form] = Form.useForm();
 
-    const numberOfCrashes = (id, frm, tu) => {
+    const numberOfCrashes = (thisInter, frm, tu) => {
 
         const from = new Date(frm).getTime();
         const to = new Date(tu).getTime();
 
-        return (intersections.find(i => i.id === id).crash_intersections)
+        return (thisInter.crash_intersections)
             .filter(c => (new Date(c.DATE_OF_CRASH)).getTime() >=
                 from && (new Date(c.DATE_OF_CRASH)).getTime() <= to);
 
@@ -131,8 +132,10 @@ function CreateProject({ handleClick }) {
 
     const onFinish = async (values) => {
 
+        const thisInter = intersections.find(i => i.id === values.INTERSECTION);
+
         const crashes = numberOfCrashes(
-            values.INTERSECTION,
+            thisInter,
             values.CRASH_START_DATE,
             values.CRASH_END_DATE,
         );
@@ -148,14 +151,15 @@ function CreateProject({ handleClick }) {
 
         const { a, b, c, injuries, fatalities, pdo, epdo, crashRate } = firstCounter({
             crashes, CRASH_COUNT: crashes.length,
-            AADT: intersections.find(i => i.id === values.INTERSECTION).AADT
+            AADT: thisInter.AADT
         });
 
         const { } = getCalculatedData({
             fCrashCost, iCrashCost, pCrashCost,
             injuries, fatalities, pdo,
-            CRASH_END_DATE, CRASH_START_DATE,
-            treatments, AADT_GROWTH_FACTOR,
+            CRASH_END_DATE: values.CRASH_END_DATE,
+            CRASH_START_DATE: values.CRASH_START_DATE,
+            treatments, AADT_GROWTH_FACTOR: thisInter.AADT_GROWTH_FACTOR,
         })
 
         await formRequest("projects", {
