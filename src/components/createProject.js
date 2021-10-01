@@ -80,15 +80,19 @@ const getEUAC = ({
     let crbI = injuries * crf;
     let crbP = pdo * crf;
 
+    let ccF = crbF * fCrashCost;
+    let ccI = crbI * iCrashCost;
+    let ccP = crbP * pCrashCost;
+
+    let B = ccF + ccI + ccP;
+
+
+    EUAB = (b / years);
+
+    const BEN_COST = (EUAB / EUAC).toFixed(3); 
     
+    EUAC = EUAC.toFixed(3);
 
-    let b = crb;
-    EUAB = (b / n);
-
-
-
-    const BEN_COST = (EUAB / EUAC).toFixed(3);
-    EUAC = EUAC.toFixed(3)
     return { EUAC, EUAB, BEN_COST }
 }
 
