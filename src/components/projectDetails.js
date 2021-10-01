@@ -109,7 +109,7 @@ function ProjectDetails({ crashCostList, project, intersection }) {
 
     return { a, b, c, injuries, fatalities, pdo, epdo, crashRate, crashCosts }
   }
-  
+
   const { a, b, c, injuries, fatalities, pdo, epdo, crashRate, crashCosts } = setCrash()
 
   const calculateTreatments = () => {
@@ -178,20 +178,20 @@ function ProjectDetails({ crashCostList, project, intersection }) {
       { id: "2", field: <b>{"Project Number"}</b>, value: project.PROJECT_NUMBER },
       { id: "3", field: <b>{"Project Status"}</b>, value: project.PROJECT_STATUS },
       { id: "4", field: <b>{"Intersection"}</b>, value: project.INTERSECTION?.INTERSECTION_NAME },
-      { id: "5", field: <b>{"B/C"}</b>, value: calculateTreatments().BEN_COST > Math.pow(10, 10) ? `${calculateTreatments().BEN_COST.toLocaleString()}` : numeral(calculateTreatments().BEN_COST).format("0,0.00") },
-      { id: "6", field: <b>{"Crash Count"}</b>, value: intersection?.crash_intersections?.length },
+      { id: "5", field: <b>{"B/C"}</b>, value: project.BEN_COST.toLocaleString() },
+      { id: "6", field: <b>{"Crash Count"}</b>, value: project.CRASH_COUNT },
       { id: "7", field: <b>{"Crash Start Date"}</b>, value: project.CRASH_START_DATE },
       { id: "8", field: <b>{"Crash End Date"}</b>, value: project.CRASH_END_DATE },
-      { id: "9", field: <b>{"Crash Rate AADT"}</b>, value: !isNaN(crashRate) && crashRate.toFixed(4) },
-      { id: "10", field: <b>{"EPDO"}</b>, value: epdo },
-      { id: "11", field: <b>{"EUAB"}</b>, value: calculateTreatments().EUAB > Math.pow(10, 10) ? `$${calculateTreatments().EUAB.toLocaleString()}` : numeral(calculateTreatments().EUAB).format("$0,0.00") },
-      { id: "12", field: <b>{"EUAC"}</b>, value: numeral(calculateTreatments().EUAC).format("$0,0.00") },
-      { id: "13", field: <b>{"Number of A injuries"}</b>, value: a },
-      { id: "14", field: <b>{"Number of B injuries"}</b>, value: b },
-      { id: "15", field: <b>{"Number of C injuries"}</b>, value: c },
-      { id: "16", field: <b>{"Number of Fatalities"}</b>, value: fatalities },
-      { id: "17", field: <b>{"Number of Injuries"}</b>, value: injuries },
-      { id: "18", field: <b>{"Number of PDO"}</b>, value: pdo },
+      { id: "9", field: <b>{"Crash Rate AADT"}</b>, value: project.CRASH_RATE_AADT },
+      { id: "10", field: <b>{"EPDO"}</b>, value: project.EPDO },
+      { id: "11", field: <b>{"EUAB"}</b>, value: project.EUAB.toLocaleString() },
+      { id: "12", field: <b>{"EUAC"}</b>, value: numeral(project.EUAC).format("$0,0.00") },
+      { id: "13", field: <b>{"Number of A injuries"}</b>, value: project.NUMBER_OF_A_INJURIES },
+      { id: "14", field: <b>{"Number of B injuries"}</b>, value: project.NUMBER_OF_B_INJURIES },
+      { id: "15", field: <b>{"Number of C injuries"}</b>, value: project.NUMBER_OF_C_INJURIES },
+      { id: "16", field: <b>{"Number of Fatalities"}</b>, value: project.NUMBER_OF_FATALITIES },
+      { id: "17", field: <b>{"Number of Injuries"}</b>, value: project.NUMBER_OF_INJURIES },
+      { id: "18", field: <b>{"Number of PDO"}</b>, value: project.NUMBER_OF_PDO },
       { id: "19", field: <b>{"Program Name"}</b>, value: project.PROGRAM_NAME },
       { id: "20", field: <b>{"Program Number"}</b>, value: project.PROGRAM_NUMBER },
       { id: "21", field: <b>{"Project Auth Date"}</b>, value: project.PROJECT_AUTH_DATE },
