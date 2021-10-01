@@ -39,7 +39,7 @@ const firstCounter = ({crashes, CRASH_COUNT, AADT}) => {
 };
 
 const getEUAC = ({
-    CRASH_END_DATE, CRASH_START_DATE, AADT,
+    CRASH_END_DATE, CRASH_START_DATE,
     CRASH_COUNT, crashCosts, treatments,
     AADT_GROWTH_FACTOR
 }) => {
@@ -70,12 +70,22 @@ const getEUAC = ({
     let aADT = Math.pow((1 + AADT_GROWTH_FACTOR / 100), years);
     crf = aADT * crf;
 
-    let cf = CRASH_COUNT, cc = crashCosts;
-    let crb = cf * crf;
-    crb = cc * crb;
+    // let cf = CRASH_COUNT,
+    
+    // cc = crashCosts;
+    // let crb = cf * crf;
+    // crb = cc * crb;
+
+    let crbF = fatalities * crf;
+    let crbI = injuries * crf;
+    let crbP = pdo * crf;
+
+    
 
     let b = crb;
     EUAB = (b / n);
+
+
 
     const BEN_COST = (EUAB / EUAC).toFixed(3);
     EUAC = EUAC.toFixed(3)
