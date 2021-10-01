@@ -109,6 +109,7 @@ function ProjectDetails({ crashCostList, project, intersection }) {
 
     return { a, b, c, injuries, fatalities, pdo, epdo, crashRate, crashCosts }
   }
+  
   const { a, b, c, injuries, fatalities, pdo, epdo, crashRate, crashCosts } = setCrash()
 
   const calculateTreatments = () => {
@@ -166,6 +167,7 @@ function ProjectDetails({ crashCostList, project, intersection }) {
 
     b = crb;
     EUAB = (b / n);
+
     const BEN_COST = (EUAB / EUAC).toFixed(3);
     EUAC = EUAC.toFixed(3)
     return { EUAC, EUAB, BEN_COST }

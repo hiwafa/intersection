@@ -8,15 +8,86 @@ import styled from "styled-components";
 import { useRouter } from "next/router";
 import moment from 'moment';
 import 'moment/locale/zh-cn';
-import {ContentContainer, ThemButton} from "../components/styleds"
+import { ContentContainer, ThemButton } from "../components/styleds"
 
+
+const firstCounter = ({crashes, CRASH_COUNT, AADT}) => {
+
+    let a = 0, b = 0, c = 0, pdo = 0, epdo = 0,
+    injuries = 0, fatalities = 0, crashRate = 0,
+    crashCosts = 0;
+
+    let endDate = moment(CRASH_END_DATE);
+    let startDate = moment(CRASH_START_DATE);
+    let years = (endDate.diff(startDate, "days") / 365).toFixed(5);
+
+    crashes && crashes.forEach(crash => {
+        a += parseInt(crash.NUMBER_OF_A_INJURIES);
+        b += parseInt(crash.NUMBER_OF_B_INJURIES);
+        c += parseInt(crash.NUMBER_OF_C_INJURIES);
+        injuries += parseInt(crash.NUMBER_OF_INJURIES);
+        fatalities += parseInt(crash.NUMBER_OF_FATALITIES);
+        pdo += parseInt(crash.NUMBER_OF_PDO);
+        crashCosts += parseInt(crashCost(crash.SEVERITY));
+    });
+
+    crashRate = (CRASH_COUNT * 1000000) / (years * 365 * AADT);
+
+    epdo = 542 * fatalities + 11 * injuries + 1 * pdo;
+
+    return { a, b, c, injuries, fatalities, pdo, epdo, crashRate, crashCosts };
+};
+
+const getEUAC = ({
+    CRASH_END_DATE, CRASH_START_DATE, AADT,
+    CRASH_COUNT, crashCosts, treatments,
+    AADT_GROWTH_FACTOR
+}) => {
+
+    if (!(CRASH_END_DATE && CRASH_START_DATE)) return false;
+
+    let endDate = moment(CRASH_END_DATE);
+    let startDate = moment(CRASH_START_DATE);
+    let years = (endDate.diff(startDate, "days") / 365).toFixed(5);
+
+    let crf = 1, EUAC = 0.0, EUAB = 0.0;
+    treatments && treatments.forEach(treat => {
+        // calculating EUAC
+        let i = parseFloat(treat.INTEREST_RATE),
+            Cest = parseFloat(treat.TOTAL_TREATMENT_COST),
+            Sper = parseFloat(treat.SALVAGE_PERCENT),
+            l = parseInt(treat.SERVICE_LIFE),
+
+            cr = (i * Math.pow((1 + i), l)) / (Math.pow((1 + i), l) - 1),
+            sf = i / (Math.pow((1 + i), l) - 1),
+            sv = Cest * Sper;
+
+        EUAC += (Cest * cr) - (sv * sf);
+        crf *= (1 - parseFloat(treat.CRF));
+    });
+
+    crf = 1 - crf;
+    let aADT = Math.pow((1 + AADT_GROWTH_FACTOR / 100), years);
+    crf = aADT * crf;
+
+    let cf = CRASH_COUNT, cc = crashCosts;
+    let crb = cf * crf;
+    crb = cc * crb;
+
+    let b = crb;
+    EUAB = (b / n);
+
+    const BEN_COST = (EUAB / EUAC).toFixed(3);
+    EUAC = EUAC.toFixed(3)
+    return { EUAC, EUAB, BEN_COST }
+}
 
 
 let params = null;
 function CreateProject({ handleClick }) {
 
     const { query } = useRouter();
-    if(query && query.project){
+    if (query && query.project) {
         params = JSON.parse(query.project);
     }
 
@@ -25,12 +96,12 @@ function CreateProject({ handleClick }) {
     useEffect(() => {
 
         loadIntersections();
-        return ()=> {
+        return () => {
             params = null;
         };
 
     }, []);
-    
+
     const loadIntersections = async () => {
         const res = await formRequest("/intersection-inventories", {
             method: "GET",
@@ -42,27 +113,34 @@ function CreateProject({ handleClick }) {
 
     const [form] = Form.useForm();
 
-    const numberOfCrashes = (id, frm, tu)=> {
-       
+    const numberOfCrashes = (id, frm, tu) => {
+
         const from = new Date(frm).getTime();
         const to = new Date(tu).getTime();
 
         return (intersections.find(i => i.id === id).crash_intersections)
-        .filter(c => (new Date(c.DATE_OF_CRASH)).getTime() >=
-        from && (new Date(c.DATE_OF_CRASH)).getTime() <= to).length;
+            .filter(c => (new Date(c.DATE_OF_CRASH)).getTime() >=
+                from && (new Date(c.DATE_OF_CRASH)).getTime() <= to);
 
     }
 
     const onFinish = async (values) => {
 
+        const crashes = numberOfCrashes(
+            values.INTERSECTION,
+            values.CRASH_START_DATE,
+            values.CRASH_END_DATE,
+        );
+
         values = {
             ...values,
-            CRASH_COUNT: numberOfCrashes(
-                values.INTERSECTION,
-                values.CRASH_START_DATE,
-                values.CRASH_END_DATE,
-            )
-        }
+            CRASH_COUNT: crashes.length
+        };
+
+        const { a, b, c, injuries, fatalities, pdo, epdo, crashRate, crashCosts } = firstCounter({
+            crashes, CRASH_COUNT: crashes.length,
+            AADT: intersections.find(i => i.id === values.INTERSECTION).AADT
+        });
 
         await formRequest("projects", {
             method: "POST",
@@ -72,14 +150,14 @@ function CreateProject({ handleClick }) {
                 notification["success"]({
                     duration: 5,
                     message: "Project created",
-                  })
-                  handleClick(true)
+                })
+                handleClick(true)
             }
         }).catch((e) => {
             notification["error"]({
                 duration: 5,
                 message: "Project not created",
-              })
+            })
         });
 
     };
@@ -90,11 +168,10 @@ function CreateProject({ handleClick }) {
     }
 
     const selectIntersection = (id) => {
-        let crashLength =0;
-        intersections.length >0 && intersections.map((intersection) =>{
-            if(intersection.id == id)
-            {
-                crashLength= intersection?.crash_intersections?.length;
+        let crashLength = 0;
+        intersections.length > 0 && intersections.map((intersection) => {
+            if (intersection.id == id) {
+                crashLength = intersection?.crash_intersections?.length;
             }
         })
         return crashLength;
