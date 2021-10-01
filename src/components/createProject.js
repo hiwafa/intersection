@@ -95,9 +95,9 @@ function CreateProject({ handleClick }) {
         params = JSON.parse(query.project);
     }
 
-    const treatments = useGetIntersectionsQuery("treatments");
-    const crashCosts = useGetIntersectionsQuery("Crash-costs");
-    const intersections = useGetIntersectionsQuery("intersection-inventories");
+    const { data: treatments } = useGetIntersectionsQuery("treatments");
+    const { data: crashCosts } = useGetIntersectionsQuery("Crash-costs");
+    const { data: intersections } = useGetIntersectionsQuery("intersection-inventories");
 
     useEffect(() => {
         return () => {
@@ -125,7 +125,7 @@ function CreateProject({ handleClick }) {
 
         const crashes = numberOfCrashes(
             thisInter, values.CRASH_START_DATE, values.CRASH_END_DATE
-        ); 
+        );
 
         let fCrashCost = crashCosts.find(cos => cos.CrashSeverity === "Fatal").CrashCost;
         let iCrashCost = crashCosts.find(cos => cos.CrashSeverity === "Injury").CrashCost;
