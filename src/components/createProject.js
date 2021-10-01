@@ -127,9 +127,9 @@ function CreateProject({ handleClick }) {
             thisInter, values.CRASH_START_DATE, values.CRASH_END_DATE
         );
 
-        let fCrashCost = crashCosts.find(cos => cos.CrashSeverity === "Fatal").CrashCost;
-        let iCrashCost = crashCosts.find(cos => cos.CrashSeverity === "Injury").CrashCost;
-        let pCrashCost = crashCosts.find(cos => cos.CrashSeverity === "PDO").CrashCost;
+        let fCrashCost = crashCosts.find(cos => cos.crashSeverity === "Fatal").crashCost;
+        let iCrashCost = crashCosts.find(cos => cos.crashSeverity === "Injury").crashCost;
+        let pCrashCost = crashCosts.find(cos => cos.crashSeverity === "PDO").crashCost;
 
         const { a, b, c, injuries, fatalities, pdo, epdo, crashRate } = firstCounter({
             crashes, CRASH_COUNT: crashes.length, AADT: thisInter.AADT
