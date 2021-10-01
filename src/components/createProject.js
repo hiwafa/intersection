@@ -135,15 +135,8 @@ function CreateProject({ handleClick }) {
         const thisInter = intersections.find(i => i.id === values.INTERSECTION);
 
         const crashes = numberOfCrashes(
-            thisInter,
-            values.CRASH_START_DATE,
-            values.CRASH_END_DATE,
-        );
-
-        values = {
-            ...values,
-            CRASH_COUNT: crashes.length
-        };
+            thisInter, values.CRASH_START_DATE, values.CRASH_END_DATE
+        ); 
 
         let fCrashCost = crashCosts.find(cos => cos.CrashSeverity === "Fatal").CrashCost;
         let iCrashCost = crashCosts.find(cos => cos.CrashSeverity === "Injury").CrashCost;
@@ -154,13 +147,18 @@ function CreateProject({ handleClick }) {
             AADT: thisInter.AADT
         });
 
-        const { } = getCalculatedData({
+        const { EUAC, EUAB, BEN_COST } = getCalculatedData({
             fCrashCost, iCrashCost, pCrashCost,
             injuries, fatalities, pdo,
             CRASH_END_DATE: values.CRASH_END_DATE,
             CRASH_START_DATE: values.CRASH_START_DATE,
             treatments, AADT_GROWTH_FACTOR: thisInter.AADT_GROWTH_FACTOR,
-        })
+        });
+
+        values = {
+            ...values,
+            CRASH_COUNT: crashes.length
+        };
 
         await formRequest("projects", {
             method: "POST",
