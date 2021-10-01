@@ -129,15 +129,15 @@ function CreateProject({ handleClick }) {
         let iCrashCost = crashCosts.find(cos => cos.crashSeverity === "Injury").crashCost;
         let pCrashCost = crashCosts.find(cos => cos.crashSeverity === "PDO").crashCost;
 
-        const { a, b, c, injuries, fatalities, pdo, epdo, crashRate } = firstCounter({
-            crashes, CRASH_COUNT: crashes.length, AADT: thisInter.AADT
+        const { a, b, c, injuries, fatalities, pdo, epdo, crashRate, years } = firstCounter({
+            crashes, CRASH_COUNT: crashes.length, AADT: thisInter.AADT,
+            CRASH_END_DATE: values.CRASH_END_DATE,
+            CRASH_START_DATE: values.CRASH_START_DATE
         });
 
         const { EUAC, EUAB, BEN_COST } = getCalculatedData({
-            injuries, fatalities, pdo,
+            injuries, fatalities, pdo, years,
             fCrashCost, iCrashCost, pCrashCost,
-            CRASH_END_DATE: values.CRASH_END_DATE,
-            CRASH_START_DATE: values.CRASH_START_DATE,
             treatments, AADT_GROWTH_FACTOR: thisInter.AADT_GROWTH_FACTOR,
         });
 
