@@ -50,129 +50,19 @@ function ProjectDetails({ crashCostList, project, intersection }) {
 
     return () => { project = {} }
 
-  }, [])
-  const crashCost = (severity) => {
-    let value = ""
-    crashCostList && crashCostList.forEach((cost) => {
-      if (cost.crashSeverity === severity) {
-        value = cost.crashCost;
-      }
-    })
-    return value
-  }
-  let newTreats = []
+  }, []);
+  
+  let newTreats = [];
+
   const showModal = async () => {
     await loadTreatments()
     setVisible(true);
   };
+
   const handleCancel = () => {
     setVisible(false);
   };
-  const setCrash = () => {
-    let a = 0;
-    let b = 0;
-    let c = 0;
-    let injuries = 0;
-    let fatalities = 0;
-    let pdo = 0;
-    let epdo = 0
-    let crashRate = 0;
-    let crashCosts = 0
-    let endDate = moment(project.PROJECT_END_DATE)
-    let startDate = moment(project.PROJECT_START_DATE)
-    let years = "";
 
-    intersection.crash_intersections && intersection.crash_intersections.forEach(crash => {
-      a += parseInt(crash.NUMBER_OF_A_INJURIES);
-      b += parseInt(crash.NUMBER_OF_B_INJURIES);
-      c += parseInt(crash.NUMBER_OF_C_INJURIES);
-      injuries += parseInt(crash.NUMBER_OF_INJURIES);
-      fatalities += parseInt(crash.NUMBER_OF_FATALITIES);
-      pdo += parseInt(crash.NUMBER_OF_PDO);
-      crashCosts = crashCosts + parseInt(crashCost(crash.SEVERITY))
-    });
-
-    if (startDate !== undefined && endDate !== undefined) {
-      if (endDate.diff(startDate, "years") < 1) {
-        if (endDate.diff(startDate, "months") < 1) {
-          years = (parseInt(endDate.diff(startDate, "days")) / startDate.daysInMonth()) / 12
-        }
-        else {
-          years = parseInt(endDate.diff(startDate, "months")) / 12
-        }
-      }
-      else {
-        years = parseInt(endDate.diff(startDate, "years"))
-      }
-      crashRate = (parseInt(intersection?.crash_intersections?.length) * Math.pow(10, 6)) / (years * 365 * parseInt(intersection && intersection.AADT))
-    }
-    epdo = 542 * fatalities + 11 * injuries + 1 * pdo;
-
-    return { a, b, c, injuries, fatalities, pdo, epdo, crashRate, crashCosts }
-  }
-
-  const { a, b, c, injuries, fatalities, pdo, epdo, crashRate, crashCosts } = setCrash()
-
-  const calculateTreatments = () => {
-    let i = 0.0; // interest rate 
-    let Cest = 0.0; // estimated total cost
-    let Sper = 0.0; // estimated salvage percent
-    let l = 0; // service life in years
-    let cr = 0.0// capital recovery
-    let sf = 0.0 // sinking fund
-    let sv = 0.0 // salvage value
-    let EUAC = 0.0;
-    let endDate = moment(project.CRASH_END_DATE)
-    let startDate = moment(project.CRASH_START_DATE)
-    let years = ""
-    if (startDate !== undefined && endDate !== undefined) {
-      if (endDate.diff(startDate, "years") < 1) {
-        if (endDate.diff(startDate, "months") < 1) {
-          years = (parseInt(endDate.diff(startDate, "days")) / startDate.daysInMonth()) / 12
-        }
-        else {
-          years = parseInt(endDate.diff(startDate, "months")) / 12
-        }
-      }
-      else {
-        years = parseInt(endDate.diff(startDate, "years"))
-      }
-    }
-    let aadt = intersection && intersection.AADT;
-    let n = years
-    let cf = project.CRASH_COUNT;
-    let m = project.treatments ? project.treatments.length : 0;
-    let cc = crashCosts;
-    let crf = 1 //
-    let crb = 0.0
-    let b = 0.0;
-    let EUAB = 0.0;
-    project.treatments && project.treatments.map((treat) => {
-      // calculating EUAC
-      i = parseFloat(treat.INTEREST_RATE);
-      Cest = parseFloat(treat.TOTAL_TREATMENT_COST);
-      Sper = parseFloat(treat.SALVAGE_PERCENT);
-      l = parseInt(treat.SERVICE_LIFE);
-      cr = (i * Math.pow((1 + i), l)) / (Math.pow((1 + i), l) - 1)
-      sv = Cest * Sper;
-      sf = i / (Math.pow((1 + i), l) - 1)
-      EUAC += (Cest * cr) - (sv * sf)
-      crf *= (1 - parseFloat(treat.CRF))
-    })
-    //calculating EUAB
-    crf = 1 - crf;
-    aadt = Math.pow((1 + aadt), n);
-    crf = aadt * crf;
-    crb = cf * crf;
-    crb = cc * crb;
-
-    b = crb;
-    EUAB = (b / n);
-
-    const BEN_COST = (EUAB / EUAC).toFixed(3);
-    EUAC = EUAC.toFixed(3)
-    return { EUAC, EUAB, BEN_COST }
-  }
   const setProjectDetails = () => {
     project && setDetails([
       { id: "1", field: <b>{"Project Name"}</b>, value: project.PROJECT_NAME },
@@ -302,7 +192,7 @@ function ProjectDetails({ crashCostList, project, intersection }) {
   };
 
     if (newTreatments?.length > 0) {
-      
+
       newTreatments.forEach((tr) => {
         values.treatments.push(tr)
       });
