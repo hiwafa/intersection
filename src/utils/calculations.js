@@ -1,3 +1,6 @@
+import moment from 'moment';
+import 'moment/locale/zh-cn';
+
 const firstCounter = ({
     crashes, CRASH_COUNT, AADT,
     CRASH_END_DATE, CRASH_START_DATE
