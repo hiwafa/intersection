@@ -18,17 +18,19 @@ const Wrapper = styled.div`
 `;
 
 import { firstCounter, getCalculatedData, numberOfCrashes } from "../utils/calculations";
+import { useGetIntersectionsQuery } from "../store/query";
 
 // let project = {}, intersection = {}, _reload = false;
 function ProjectDetails({ crashCostList, project, intersection }) {
 
   const router = useRouter();
+  const [details, setDetails] = useState([]);
   const [visible, setVisible] = useState(false);
   const [treatments, setTreatments] = useState([]);
   const [newTreatments, setNewTreatments] = useState([]);
-  const [projectTreatments, setProjectTreatments] = useState([]);
   const [deleteListTreats, setDeleteListTreats] = useState([]);
-  const [details, setDetails] = useState([]);
+  const [projectTreatments, setProjectTreatments] = useState([]);
+  const { data: crashCosts } = useGetIntersectionsQuery("Crash-costs");
 
   useEffect(() => {
     crashCostList && setProjectDetails()
