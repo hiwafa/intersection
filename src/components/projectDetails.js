@@ -228,7 +228,9 @@ function ProjectDetails({ crashCostList, project, intersection }) {
 
   const handleRemove = async () => {
     try {
+
       if (deleteListTreats?.length > 0 || deleteListTreats === "empty") {
+
         if (deleteListTreats === "empty") {
           project.treatments = []
         } else {
@@ -238,9 +240,11 @@ function ProjectDetails({ crashCostList, project, intersection }) {
           });
         }
 
-        const update = await formRequest(`projects/${project.id}`, {
+        let values = computing(project.treatments);
+
+        const update = await formRequest(`projects/${values.id}`, {
           method: "PUT",
-          data: project,
+          data: values,
         });
 
         if (update.status === 200) {
