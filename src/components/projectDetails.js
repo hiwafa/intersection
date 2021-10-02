@@ -284,18 +284,33 @@ function ProjectDetails({ crashCostList, project, intersection }) {
 
     const { EUAC, EUAB, BEN_COST } = getCalculatedData({
       injuries, fatalities, pdo, years,
-      fCrashCost, iCrashCost, pCrashCost,
-      treatments, AADT_GROWTH_FACTOR: intersection.AADT_GROWTH_FACTOR,
+      fCrashCost, iCrashCost, pCrashCost, treatments: newTreatments,
+      AADT_GROWTH_FACTOR: intersection.AADT_GROWTH_FACTOR,
     });
 
+    let values = {
+      ...project,
+      CRASH_COUNT: crashes.length,
+      EPDO: epdo, EUAB, EUAC, BEN_COST,
+      NUMBER_OF_FATALITIES: fatalities,
+      NUMBER_OF_INJURIES: injuries,
+      NUMBER_OF_PDO: pdo,
+      CRASH_RATE_AADT: crashRate,
+      NUMBER_OF_A_INJURIES: a,
+      NUMBER_OF_B_INJURIES: b,
+      NUMBER_OF_C_INJURIES: c
+  };
+
     if (newTreatments?.length > 0) {
-      newTreatments.map((tr) => {
-        project.treatments.push(tr)
-      })
+      
+      newTreatments.forEach((tr) => {
+        values.treatments.push(tr)
+      });
+
       try {
         const update = await formRequest(`projects/${project.id}`, {
           method: "PUT",
-          data: project,
+          data: values,
         })
         if (update.status === 200) {
           router.push("/projects");
