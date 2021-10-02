@@ -62,7 +62,7 @@ function CreateProject({ handleClick }) {
         values = {
             ...values,
             CRASH_COUNT: crashes.length,
-            EPDO: epdo, EUAB, EUAC, BEN_COST,
+            EPDO: epdo, EUAB, EUAC, BEN_COST: parseFloat(BEN_COST) ? BEN_COST: 0,
             NUMBER_OF_FATALITIES: fatalities,
             NUMBER_OF_INJURIES: injuries,
             NUMBER_OF_PDO: pdo,
@@ -72,6 +72,8 @@ function CreateProject({ handleClick }) {
             NUMBER_OF_C_INJURIES: c
         };
 
+        console.log("values: ", values);
+
         await formRequest("projects", {
             method: "POST",
             data: values,
@@ -80,14 +82,16 @@ function CreateProject({ handleClick }) {
                 notification["success"]({
                     duration: 5,
                     message: "Project created",
-                })
+                });
                 handleClick(true)
             }
         }).catch((e) => {
+
             notification["error"]({
                 duration: 5,
                 message: "Project not created",
-            })
+            });
+
         });
 
     };

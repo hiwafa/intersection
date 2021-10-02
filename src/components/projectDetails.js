@@ -53,7 +53,7 @@ function ProjectDetails({ crashCostList, project, intersection }) {
     return () => { project = {} }
 
   }, []);
-  
+
   let newTreats = [];
 
   const showModal = async () => {
@@ -191,7 +191,7 @@ function ProjectDetails({ crashCostList, project, intersection }) {
       NUMBER_OF_A_INJURIES: a,
       NUMBER_OF_B_INJURIES: b,
       NUMBER_OF_C_INJURIES: c
-  };
+    };
 
     if (newTreatments?.length > 0) {
 
@@ -211,12 +211,11 @@ function ProjectDetails({ crashCostList, project, intersection }) {
             message: "Treatment Added",
           })
         }
-      }
-      catch (e) {
+      } catch (e) {
         notification["error"]({
           duration: 5,
           message: e,
-        })
+        });
       }
     }
     else {
@@ -227,6 +226,7 @@ function ProjectDetails({ crashCostList, project, intersection }) {
     }
 
   };
+  
   const handleRemove = async () => {
     try {
       if (deleteListTreats?.length > 0 || deleteListTreats === "empty") {
