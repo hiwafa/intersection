@@ -75,4 +75,4 @@ const getCalculatedData = ({
 
 
 
-module.exports = {firstCounter, getCalculatedData};
+module.exports = { firstCounter, getCalculatedData };
