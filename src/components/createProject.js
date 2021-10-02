@@ -11,7 +11,7 @@ import moment from 'moment';
 import 'moment/locale/zh-cn';
 
 import { useGetIntersectionsQuery } from "../store/query";
-import { firstCounter, getCalculatedData } from "../utils/calculations";
+import { firstCounter, getCalculatedData, numberOfCrashes } from "../utils/calculations";
 
 
 let params = null;
@@ -22,7 +22,6 @@ function CreateProject({ handleClick }) {
         params = JSON.parse(query.project);
     }
 
-    const { data: treatments } = useGetIntersectionsQuery("treatments");
     const { data: crashCosts } = useGetIntersectionsQuery("Crash-costs");
     const { data: intersections } = useGetIntersectionsQuery("intersection-inventories");
 
@@ -34,17 +33,6 @@ function CreateProject({ handleClick }) {
     }, []);
 
     const [form] = Form.useForm();
-
-    const numberOfCrashes = (thisInter, frm, tu) => {
-
-        const from = new Date(frm).getTime();
-        const to = new Date(tu).getTime();
-
-        return (thisInter.crash_intersections)
-            .filter(c => (new Date(c.DATE_OF_CRASH)).getTime() >=
-                from && (new Date(c.DATE_OF_CRASH)).getTime() <= to);
-
-    }
 
     const onFinish = async (values) => {
 
@@ -67,7 +55,7 @@ function CreateProject({ handleClick }) {
         const { EUAC, EUAB, BEN_COST } = getCalculatedData({
             injuries, fatalities, pdo, years,
             fCrashCost, iCrashCost, pCrashCost,
-            treatments, AADT_GROWTH_FACTOR: thisInter.AADT_GROWTH_FACTOR,
+            treatments: [], AADT_GROWTH_FACTOR: thisInter.AADT_GROWTH_FACTOR,
         });
 
         values = {

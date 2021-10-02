@@ -17,6 +17,7 @@ const Wrapper = styled.div`
     padding: 10px;
 `;
 
+import { firstCounter, getCalculatedData } from "../utils/calculations";
 
 // let project = {}, intersection = {}, _reload = false;
 function ProjectDetails({ crashCostList, project, intersection }) {
@@ -47,7 +48,7 @@ function ProjectDetails({ crashCostList, project, intersection }) {
       }
     }));
 
-    return ()=> {project = {}}
+    return () => { project = {} }
 
   }, [])
   const crashCost = (severity) => {
@@ -81,7 +82,7 @@ function ProjectDetails({ crashCostList, project, intersection }) {
     let startDate = moment(project.PROJECT_START_DATE)
     let years = "";
 
-    intersection.crash_intersections && intersection.crash_intersections.forEach( crash => {
+    intersection.crash_intersections && intersection.crash_intersections.forEach(crash => {
       a += parseInt(crash.NUMBER_OF_A_INJURIES);
       b += parseInt(crash.NUMBER_OF_B_INJURIES);
       c += parseInt(crash.NUMBER_OF_C_INJURIES);
@@ -265,6 +266,20 @@ function ProjectDetails({ crashCostList, project, intersection }) {
     }
   }
   const handleOk = async () => {
+
+    const { a, b, c, injuries, fatalities, pdo, epdo, crashRate, years } = firstCounter({
+      crashes: intersection.crash_intersections ? intersection.crash_intersections : [],
+      CRASH_COUNT: crashes.length, AADT: thisInter.AADT,
+      CRASH_END_DATE: values.CRASH_END_DATE,
+      CRASH_START_DATE: values.CRASH_START_DATE
+    });
+
+    const { EUAC, EUAB, BEN_COST } = getCalculatedData({
+      injuries, fatalities, pdo, years,
+      fCrashCost, iCrashCost, pCrashCost,
+      treatments, AADT_GROWTH_FACTOR: thisInter.AADT_GROWTH_FACTOR,
+    });
+
     if (newTreatments?.length > 0) {
       newTreatments.map((tr) => {
         project.treatments.push(tr)
@@ -344,9 +359,9 @@ function ProjectDetails({ crashCostList, project, intersection }) {
         Download Project Details
       </ThemButton>
       {
-      project.projectFile?.url && <a rel="noopener noreferrer" target="_blank" href={`${BASE_URL}${project.projectFile?.url}`}>
-        <ThemButton type={"primary"} icon={<DownloadOutlined />} htmlType={"button"} size={"medium"} className={"downloadButton"}>Download Attachments</ThemButton>
-      </a>
+        project.projectFile?.url && <a rel="noopener noreferrer" target="_blank" href={`${BASE_URL}${project.projectFile?.url}`}>
+          <ThemButton type={"primary"} icon={<DownloadOutlined />} htmlType={"button"} size={"medium"} className={"downloadButton"}>Download Attachments</ThemButton>
+        </a>
       }
     </PageTitle>
 

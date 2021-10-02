@@ -74,5 +74,15 @@ const getCalculatedData = ({
 }
 
 
+const numberOfCrashes = (thisInter, frm, tu) => {
 
-module.exports = { firstCounter, getCalculatedData };
+    const from = new Date(frm).getTime();
+    const to = new Date(tu).getTime();
+
+    return (thisInter.crash_intersections)
+        .filter(c => (new Date(c.DATE_OF_CRASH)).getTime() >=
+            from && (new Date(c.DATE_OF_CRASH)).getTime() <= to);
+
+}
+
+module.exports = { firstCounter, getCalculatedData, numberOfCrashes };
