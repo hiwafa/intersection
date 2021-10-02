@@ -1,10 +1,9 @@
-import react, { useEffect, useState } from "react";
-import { Button, Row, Col, Form, Select, DatePicker, Input, notification } from "antd";
+import react, { useEffect } from "react";
+import { Row, Col, Form, Select, DatePicker, Input, notification } from "antd";
 import { ContentContainer, ThemButton } from "../components/styleds";
 import { formRequest } from "../requests"
 import { LeftCircleOutlined } from '@ant-design/icons';
-import { PageTitle } from "./styleds"
-import styled from "styled-components";
+import { PageTitle } from "./styleds";
 
 import { useRouter } from "next/router";
 import moment from 'moment';
@@ -34,63 +33,60 @@ function CreateProject({ handleClick }) {
     const [form] = Form.useForm();
 
     const onFinish = async (values) => {
+        try {
+            const thisInter = intersections.find(i => i.id === values.INTERSECTION);
 
-        const thisInter = intersections.find(i => i.id === values.INTERSECTION);
+            const crashes = numberOfCrashes(
+                thisInter.crash_intersections ? thisInter.crash_intersections : [],
+                values.CRASH_START_DATE, values.CRASH_END_DATE
+            );
 
-        const crashes = numberOfCrashes(
-            thisInter.crash_intersections ? thisInter.crash_intersections : [],
-            values.CRASH_START_DATE, values.CRASH_END_DATE
-        );
+            let fCrashCost = crashCosts.find(cos => cos.crashSeverity === "Fatal").crashCost;
+            let iCrashCost = crashCosts.find(cos => cos.crashSeverity === "Injury").crashCost;
+            let pCrashCost = crashCosts.find(cos => cos.crashSeverity === "PDO").crashCost;
 
-        let fCrashCost = crashCosts.find(cos => cos.crashSeverity === "Fatal").crashCost;
-        let iCrashCost = crashCosts.find(cos => cos.crashSeverity === "Injury").crashCost;
-        let pCrashCost = crashCosts.find(cos => cos.crashSeverity === "PDO").crashCost;
+            const { a, b, c, injuries, fatalities, pdo, epdo, crashRate, years } = firstCounter({
+                crashes, CRASH_COUNT: crashes.length, AADT: thisInter.AADT,
+                CRASH_END_DATE: values.CRASH_END_DATE,
+                CRASH_START_DATE: values.CRASH_START_DATE
+            });
 
-        const { a, b, c, injuries, fatalities, pdo, epdo, crashRate, years } = firstCounter({
-            crashes, CRASH_COUNT: crashes.length, AADT: thisInter.AADT,
-            CRASH_END_DATE: values.CRASH_END_DATE,
-            CRASH_START_DATE: values.CRASH_START_DATE
-        });
+            const { EUAC, EUAB, BEN_COST } = getCalculatedData({
+                injuries, fatalities, pdo, years,
+                fCrashCost, iCrashCost, pCrashCost,
+                treatments: [], AADT_GROWTH_FACTOR: thisInter.AADT_GROWTH_FACTOR,
+            });
 
-        const { EUAC, EUAB, BEN_COST } = getCalculatedData({
-            injuries, fatalities, pdo, years,
-            fCrashCost, iCrashCost, pCrashCost,
-            treatments: [], AADT_GROWTH_FACTOR: thisInter.AADT_GROWTH_FACTOR,
-        });
+            values = {
+                ...values,
+                CRASH_COUNT: crashes.length,
+                EPDO: epdo, EUAB, EUAC, BEN_COST: parseFloat(BEN_COST) ? BEN_COST : 0,
+                NUMBER_OF_FATALITIES: fatalities,
+                NUMBER_OF_INJURIES: injuries,
+                NUMBER_OF_PDO: pdo,
+                CRASH_RATE_AADT: crashRate,
+                NUMBER_OF_A_INJURIES: a,
+                NUMBER_OF_B_INJURIES: b,
+                NUMBER_OF_C_INJURIES: c
+            };
 
-        values = {
-            ...values,
-            CRASH_COUNT: crashes.length,
-            EPDO: epdo, EUAB, EUAC, BEN_COST: parseFloat(BEN_COST) ? BEN_COST: 0,
-            NUMBER_OF_FATALITIES: fatalities,
-            NUMBER_OF_INJURIES: injuries,
-            NUMBER_OF_PDO: pdo,
-            CRASH_RATE_AADT: crashRate,
-            NUMBER_OF_A_INJURIES: a,
-            NUMBER_OF_B_INJURIES: b,
-            NUMBER_OF_C_INJURIES: c
-        };
+            const res = await formRequest("projects", {
+                method: "POST",
+                data: values,
+            });
 
-        await formRequest("projects", {
-            method: "POST",
-            data: values,
-        }).then((res) => {
             if (res.status === 200) {
                 notification["success"]({
-                    duration: 5,
-                    message: "Project created",
+                    duration: 5, message: "Project created",
                 });
-                handleClick(true)
+                handleClick(true);
             }
-        }).catch((e) => {
-
+        } catch (err) {
             notification["error"]({
                 duration: 5,
                 message: "Project not created",
             });
-
-        });
-
+        }
     };
 
     const wrapperCol = {
