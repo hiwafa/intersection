@@ -169,7 +169,7 @@ function ProjectDetails({ crashCostList, project, intersection }) {
     let fCrashCost = crashCosts.find(cos => cos.crashSeverity === "Fatal").crashCost;
     let iCrashCost = crashCosts.find(cos => cos.crashSeverity === "Injury").crashCost;
     let pCrashCost = crashCosts.find(cos => cos.crashSeverity === "PDO").crashCost;
-
+    
     const { EUAC, EUAB, BEN_COST } = getCalculatedData({
       injuries, fatalities, pdo, years,
       fCrashCost, iCrashCost, pCrashCost, treatments: newTreatments,
@@ -190,15 +190,13 @@ function ProjectDetails({ crashCostList, project, intersection }) {
     };
 
     if (newTreatments?.length > 0) {
-
       newTreatments.forEach((tr) => {
         values.treatments.push(tr)
       });
-
       try {
         const update = await formRequest(`projects/${project.id}`, {
           method: "PUT",
-          data: values,
+          data: values
         });
         if (update.status === 200) {
           router.push("/projects");
@@ -213,11 +211,10 @@ function ProjectDetails({ crashCostList, project, intersection }) {
           message: e,
         });
       }
-    }
-    else {
+    } else {
       notification["error"]({
         duration: 5,
-        message: "Select a Treatment or the same Treatment may already added",
+        message: "Select a Treatment or the same Treatment may already added"
       })
     }
 
