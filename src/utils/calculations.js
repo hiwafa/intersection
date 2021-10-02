@@ -25,7 +25,6 @@ const firstCounter = ({
     });
 
     crashRate = (CRASH_COUNT * 1000000) / (years * 365 * AADT);
-
     epdo = 542 * fatalities + 11 * injuries + 1 * pdo;
 
     return { a, b, c, injuries, fatalities, pdo, epdo, crashRate, years };
@@ -65,9 +64,7 @@ const getCalculatedData = ({
     let ccP = crbP * pCrashCost;
 
     EUAB = ((ccF + ccI + ccP) / years);
-
     const BEN_COST = (EUAB / EUAC).toFixed(3);
-
     EUAC = EUAC.toFixed(3);
 
     return { EUAC, EUAB, BEN_COST }
@@ -78,7 +75,6 @@ const numberOfCrashes = (crashes, frm, tu) => {
 
     const from = new Date(frm).getTime();
     const to = new Date(tu).getTime();
-
     return crashes.filter(c => (new Date(c.DATE_OF_CRASH)).getTime() >=
         from && (new Date(c.DATE_OF_CRASH)).getTime() <= to);
 
