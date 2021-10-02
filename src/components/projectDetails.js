@@ -29,6 +29,7 @@ function ProjectDetails({ crashCostList, project, intersection }) {
   const [deleteListTreats, setDeleteListTreats] = useState([]);
   const [projectTreatments, setProjectTreatments] = useState([]);
   const { data: crashCosts } = useGetIntersectionsQuery("Crash-costs");
+  const tereats = useGetIntersectionsQuery("treatments");
 
   useEffect(() => {
     crashCostList && setProjectDetails()
@@ -94,24 +95,20 @@ function ProjectDetails({ crashCostList, project, intersection }) {
 
   const handleExportWithComponent = (event) => {
     pdfExportComponent.current.save();
-  }
+  };
 
-  const pdfExportComponent = createRef()
+  const pdfExportComponent = createRef();
+
   const loadTreatments = async () => {
     try {
 
-      const res = await formRequest(`/treatments`, {
-        method: "GET",
-      });
-
-      if (res.status === 200) {
-        setTreatments(res.data && res.data.map((treat, index) => {
+      if (tereats.data && tereats.data.length) {
+        setTreatments(tereats.data.map((treat, index) => {
           return {
             TREATMENT_NAME: treat.TREATMENT_NAME,
             TREATMENT_TYPE: treat.TREATMENT_TYPE,
             SERVICE_LIFE: treat.SERVICE_LIFE,
-            CRF: treat.CRF,
-            CMF: treat.CMF,
+            CRF: treat.CRF, CMF: treat.CMF,
             SALVAGE_PERCENT: treat.SALVAGE_PERCENT,
             INTEREST_RATE: treat.INTEREST_RATE,
             TOTAL_TREATMENT_COST: numeral(treat.TOTAL_TREATMENT_COST).format("$0,0.00"),
@@ -121,20 +118,19 @@ function ProjectDetails({ crashCostList, project, intersection }) {
           }
         }))
       }
-    }
-    catch (e) {
+    } catch (e) {
       notification["error"]({
         duration: 5,
         message: e,
       })
     }
 
-  }
+  };
 
   const addTreat = (e, treat) => {
     if (e.target.checked) {
       if ((!project.treatments.filter(function (ee) { return ee.id === treat.id; }).length > 0)
-      && !newTreats.filter(function (ee) { return ee.id === treat.id; }).length > 0) {
+        && !newTreats.filter(function (ee) { return ee.id === treat.id; }).length > 0) {
         newTreats.push(treat)
       }
     }
@@ -203,13 +199,13 @@ function ProjectDetails({ crashCostList, project, intersection }) {
         const update = await formRequest(`projects/${project.id}`, {
           method: "PUT",
           data: values,
-        })
+        });
         if (update.status === 200) {
           router.push("/projects");
           notification["success"]({
-            duration: 5,
-            message: "Treatment Added",
-          })
+            duration: 5, message: "Treatment Added",
+          });
+          tereats.refetch();
         }
       } catch (e) {
         notification["error"]({
