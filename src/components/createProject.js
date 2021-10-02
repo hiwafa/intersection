@@ -39,7 +39,8 @@ function CreateProject({ handleClick }) {
         const thisInter = intersections.find(i => i.id === values.INTERSECTION);
 
         const crashes = numberOfCrashes(
-            thisInter, values.CRASH_START_DATE, values.CRASH_END_DATE
+            thisInter.crash_intersections ? thisInter.crash_intersections : [],
+            values.CRASH_START_DATE, values.CRASH_END_DATE
         );
 
         let fCrashCost = crashCosts.find(cos => cos.crashSeverity === "Fatal").crashCost;

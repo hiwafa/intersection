@@ -17,7 +17,7 @@ const Wrapper = styled.div`
     padding: 10px;
 `;
 
-import { firstCounter, getCalculatedData } from "../utils/calculations";
+import { firstCounter, getCalculatedData, numberOfCrashes } from "../utils/calculations";
 
 // let project = {}, intersection = {}, _reload = false;
 function ProjectDetails({ crashCostList, project, intersection }) {
@@ -267,17 +267,25 @@ function ProjectDetails({ crashCostList, project, intersection }) {
   }
   const handleOk = async () => {
 
+    const crashes = numberOfCrashes(
+      intersection.crash_intersections ? intersection.crash_intersections : [],
+      project.CRASH_START_DATE, project.CRASH_END_DATE
+    );
+
     const { a, b, c, injuries, fatalities, pdo, epdo, crashRate, years } = firstCounter({
-      crashes: intersection.crash_intersections ? intersection.crash_intersections : [],
-      CRASH_COUNT: crashes.length, AADT: thisInter.AADT,
-      CRASH_END_DATE: values.CRASH_END_DATE,
-      CRASH_START_DATE: values.CRASH_START_DATE
+      crashes, CRASH_COUNT: crashes.length, AADT: intersection.AADT,
+      CRASH_END_DATE: project.CRASH_END_DATE,
+      CRASH_START_DATE: project.CRASH_START_DATE
     });
+
+    let fCrashCost = crashCosts.find(cos => cos.crashSeverity === "Fatal").crashCost;
+    let iCrashCost = crashCosts.find(cos => cos.crashSeverity === "Injury").crashCost;
+    let pCrashCost = crashCosts.find(cos => cos.crashSeverity === "PDO").crashCost;
 
     const { EUAC, EUAB, BEN_COST } = getCalculatedData({
       injuries, fatalities, pdo, years,
       fCrashCost, iCrashCost, pCrashCost,
-      treatments, AADT_GROWTH_FACTOR: thisInter.AADT_GROWTH_FACTOR,
+      treatments, AADT_GROWTH_FACTOR: intersection.AADT_GROWTH_FACTOR,
     });
 
     if (newTreatments?.length > 0) {
