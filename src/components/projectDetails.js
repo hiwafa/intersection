@@ -3,7 +3,7 @@ import { Table, Button, Tooltip, Modal, Tabs, Checkbox, notification } from "ant
 import { LeftCircleOutlined } from '@ant-design/icons';
 import { PageTitle, TableContainer, ThemButton } from "./styleds";
 import { DownloadOutlined } from '@ant-design/icons';
-import { request, formRequest } from "../requests"
+import { formRequest } from "../requests"
 import { PDFExport } from '@progress/kendo-react-pdf';
 import styled from "styled-components";
 import { useRouter } from "next/router";
@@ -19,7 +19,6 @@ const Wrapper = styled.div`
 import { firstCounter, getCalculatedData, numberOfCrashes } from "../utils/calculations";
 import { useGetIntersectionsQuery } from "../store/query";
 
-// let project = {}, intersection = {}, _reload = false;
 function ProjectDetails({ crashCostList, project, intersection }) {
 
   const router = useRouter();
@@ -38,8 +37,7 @@ function ProjectDetails({ crashCostList, project, intersection }) {
         TREATMENT_NAME: treat.TREATMENT_NAME,
         TREATMENT_TYPE: treat.TREATMENT_TYPE,
         SERVICE_LIFE: treat.SERVICE_LIFE,
-        CRF: treat.CRF,
-        CMF: treat.CMF,
+        CRF: treat.CRF, CMF: treat.CMF,
         SALVAGE_PERCENT: treat.SALVAGE_PERCENT,
         INTEREST_RATE: treat.INTEREST_RATE,
         TOTAL_TREATMENT_COST: numeral(treat.TOTAL_TREATMENT_COST).format("$0,0.00"),
@@ -75,7 +73,7 @@ function ProjectDetails({ crashCostList, project, intersection }) {
       { id: "8", field: <b>{"Crash End Date"}</b>, value: project.CRASH_END_DATE },
       { id: "9", field: <b>{"Crash Rate AADT"}</b>, value: project.CRASH_RATE_AADT },
       { id: "10", field: <b>{"EPDO"}</b>, value: project.EPDO },
-      { id: "11", field: <b>{"EUAB"}</b>, value: project.EUAB.toLocaleString() },
+      { id: "11", field: <b>{"EUAB"}</b>, value: numeral(project.EUAB).format("$0,0.00") },
       { id: "12", field: <b>{"EUAC"}</b>, value: numeral(project.EUAC).format("$0,0.00") },
       { id: "13", field: <b>{"Number of A injuries"}</b>, value: project.NUMBER_OF_A_INJURIES },
       { id: "14", field: <b>{"Number of B injuries"}</b>, value: project.NUMBER_OF_B_INJURIES },
