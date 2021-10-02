@@ -153,7 +153,7 @@ function ProjectDetails({ crashCostList, project, intersection }) {
     }
   };
 
-  const handleOk = async () => {
+  const computing = treatments => {
 
     const crashes = numberOfCrashes(
       intersection.crash_intersections ? intersection.crash_intersections : [],
@@ -169,14 +169,14 @@ function ProjectDetails({ crashCostList, project, intersection }) {
     let fCrashCost = crashCosts.find(cos => cos.crashSeverity === "Fatal").crashCost;
     let iCrashCost = crashCosts.find(cos => cos.crashSeverity === "Injury").crashCost;
     let pCrashCost = crashCosts.find(cos => cos.crashSeverity === "PDO").crashCost;
-    
+
     const { EUAC, EUAB, BEN_COST } = getCalculatedData({
       injuries, fatalities, pdo, years,
-      fCrashCost, iCrashCost, pCrashCost, treatments: newTreatments,
+      fCrashCost, iCrashCost, pCrashCost, treatments,
       AADT_GROWTH_FACTOR: intersection.AADT_GROWTH_FACTOR,
     });
 
-    let values = {
+    return {
       ...project,
       CRASH_COUNT: crashes.length,
       EPDO: epdo, EUAB, EUAC, BEN_COST,
@@ -189,12 +189,18 @@ function ProjectDetails({ crashCostList, project, intersection }) {
       NUMBER_OF_C_INJURIES: c
     };
 
+  }
+
+  const handleOk = async () => {
+
+    let values = computing(newTreatments);
+
     if (newTreatments?.length > 0) {
       newTreatments.forEach((tr) => {
         values.treatments.push(tr)
       });
       try {
-        const update = await formRequest(`projects/${project.id}`, {
+        const update = await formRequest(`projects/${values.id}`, {
           method: "PUT",
           data: values
         });
@@ -225,12 +231,11 @@ function ProjectDetails({ crashCostList, project, intersection }) {
       if (deleteListTreats?.length > 0 || deleteListTreats === "empty") {
         if (deleteListTreats === "empty") {
           project.treatments = []
-        }
-        else {
-          deleteListTreats.map((tr) => {
+        } else {
+          deleteListTreats.forEach((tr) => {
             var index = project.treatments.indexOf(tr);
             project.treatments.splice(index, 1);
-          })
+          });
         }
 
         const update = await formRequest(`projects/${project.id}`, {
