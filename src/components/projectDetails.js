@@ -244,7 +244,7 @@ function ProjectDetails({ crashCostList, project, intersection }) {
 
         const update = await formRequest(`projects/${values.id}`, {
           method: "PUT",
-          data: values,
+          data: values
         });
 
         if (update.status === 200) {
@@ -252,7 +252,8 @@ function ProjectDetails({ crashCostList, project, intersection }) {
           notification["success"]({
             duration: 5,
             message: "Treatment Removed",
-          })
+          });
+          tereats.refetch();
         }
 
       }
