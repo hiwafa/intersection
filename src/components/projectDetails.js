@@ -7,7 +7,6 @@ import { request, formRequest } from "../requests"
 import { PDFExport } from '@progress/kendo-react-pdf';
 import styled from "styled-components";
 import { useRouter } from "next/router";
-import moment from "moment"
 import numeral from "numeral"
 import { columns, projectTreatmentColumns, modalTableColumns } from "../constants/projectDetailsConstants"
 
@@ -55,7 +54,6 @@ function ProjectDetails({ crashCostList, project, intersection }) {
   }, []);
 
   let newTreats = [];
-
   const showModal = async () => {
     await loadTreatments()
     setVisible(true);
@@ -103,10 +101,11 @@ function ProjectDetails({ crashCostList, project, intersection }) {
   const pdfExportComponent = createRef()
   const loadTreatments = async () => {
     try {
-      const res = await formRequest(`/treatments`, {
 
+      const res = await formRequest(`/treatments`, {
         method: "GET",
       });
+
       if (res.status === 200) {
         setTreatments(res.data && res.data.map((treat, index) => {
           return {
@@ -136,7 +135,8 @@ function ProjectDetails({ crashCostList, project, intersection }) {
 
   const addTreat = (e, treat) => {
     if (e.target.checked) {
-      if ((!project.treatments.filter(function (ee) { return ee.id === treat.id; }).length > 0) && !newTreats.filter(function (ee) { return ee.id === treat.id; }).length > 0) {
+      if ((!project.treatments.filter(function (ee) { return ee.id === treat.id; }).length > 0)
+      && !newTreats.filter(function (ee) { return ee.id === treat.id; }).length > 0) {
         newTreats.push(treat)
       }
     }
@@ -147,7 +147,8 @@ function ProjectDetails({ crashCostList, project, intersection }) {
       }
     }
     setNewTreatments(newTreats)
-  }
+  };
+
   const removeTreat = (e, treat) => {
     const removeTreat = project.treatments.filter((treatment) => treatment.id !== treat.id);
     if (removeTreat.length === 0) {
@@ -156,7 +157,8 @@ function ProjectDetails({ crashCostList, project, intersection }) {
     else {
       setDeleteListTreats(removeTreat);
     }
-  }
+  };
+
   const handleOk = async () => {
 
     const crashes = numberOfCrashes(
@@ -226,7 +228,7 @@ function ProjectDetails({ crashCostList, project, intersection }) {
     }
 
   };
-  
+
   const handleRemove = async () => {
     try {
       if (deleteListTreats?.length > 0 || deleteListTreats === "empty") {

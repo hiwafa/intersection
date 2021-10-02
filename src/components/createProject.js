@@ -29,7 +29,6 @@ function CreateProject({ handleClick }) {
         return () => {
             params = null;
         };
-
     }, []);
 
     const [form] = Form.useForm();
@@ -71,8 +70,6 @@ function CreateProject({ handleClick }) {
             NUMBER_OF_B_INJURIES: b,
             NUMBER_OF_C_INJURIES: c
         };
-
-        console.log("values: ", values);
 
         await formRequest("projects", {
             method: "POST",
