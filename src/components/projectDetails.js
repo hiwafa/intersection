@@ -183,8 +183,9 @@ function ProjectDetails({ crashCostList, project, intersection }) {
 
   const handleOk = async () => {
 
-    let trts = tereats.filter(tr => selectedTreatsAdd[tr.id] === true), values;
-    console.log("trts", trts);
+    if(!Array.isArray(tereats.data)) return;
+
+    let trts = tereats.data.filter(tr => selectedTreatsAdd[tr.id] === true), values;
     if (project.treatments && Array.isArray(project.treatments)) {
       values = computing([...trts, ...project.treatments]);
     } else {
