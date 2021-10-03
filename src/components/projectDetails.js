@@ -19,7 +19,7 @@ const Wrapper = styled.div`
 import { firstCounter, getCalculatedData, numberOfCrashes } from "../utils/calculations";
 import { useGetIntersectionsQuery } from "../store/query";
 
-let tereats = {}, selectedTreatsRemove = {};
+let tereats = {}, selectedTreatsRemove = {}, selectedTreatsAdd = {};
 function ProjectDetails({ crashCostList, project, intersection }) {
 
   const router = useRouter();
@@ -27,7 +27,6 @@ function ProjectDetails({ crashCostList, project, intersection }) {
   const [visible, setVisible] = useState(false);
   const [treatments, setTreatments] = useState([]);
   const [newTreatments, setNewTreatments] = useState([]);
-  const [deleteListTreats, setDeleteListTreats] = useState({});
   const [projectTreatments, setProjectTreatments] = useState([]);
   const { data: crashCosts } = useGetIntersectionsQuery("Crash-costs");
   const tData = useGetIntersectionsQuery("treatments");
@@ -57,7 +56,7 @@ function ProjectDetails({ crashCostList, project, intersection }) {
 
   let newTreats = [];
   const showModal = async () => {
-    await loadTreatments()
+    await loadTreatments();
     setVisible(true);
   };
 
@@ -130,19 +129,10 @@ function ProjectDetails({ crashCostList, project, intersection }) {
   };
 
   const addTreat = (e, treat) => {
-    if (e.target.checked) {
-      if ((!project.treatments.filter(function (ee) { return ee.id === treat.id; }).length > 0)
-        && !newTreats.filter(function (ee) { return ee.id === treat.id; }).length > 0) {
-        newTreats.push(treat)
-      }
+    selectedTreatsAdd = {
+      ...selectedTreatsAdd,
+      [treat.id]: e.target.checked
     }
-    else {
-      if (newTreats.filter(function (ee) { return ee.id === treat.id; }).length > 0) {
-        var index = newTreats.indexOf(treat);
-        newTreats.splice(index, 1);
-      }
-    }
-    setNewTreatments(newTreats)
   };
 
 
@@ -193,11 +183,11 @@ function ProjectDetails({ crashCostList, project, intersection }) {
 
   const handleOk = async () => {
 
-    let values;
+    let trts = project.treatments.filter(tr => selectedTreatsAdd[tr.id]), values;
     if (project.treatments && Array.isArray(project.treatments)) {
-      values = computing([...newTreatments, ...project.treatments]);
+      values = computing([...trts, ...project.treatments]);
     } else {
-      values = computing(newTreatments);
+      values = computing(trts);
     }
 
     if (newTreatments?.length > 0) {
@@ -238,7 +228,7 @@ function ProjectDetails({ crashCostList, project, intersection }) {
       let trts = project.treatments.filter(tr => !selectedTreatsRemove[tr.id]);
 
       if (trts.length > 0) {
-        
+
         let values = computing();
         const update = await formRequest(`projects/${values.id}`, {
           method: "PUT",
