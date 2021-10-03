@@ -36,6 +36,7 @@ function ProjectDetails({ crashCostList, project, intersection }) {
     crashCostList && setProjectDetails()
     setProjectTreatments(project.treatments && project.treatments.map((treat, index) => {
       return {
+        id: treat.id,
         TREATMENT_NAME: treat.TREATMENT_NAME,
         TREATMENT_TYPE: treat.TREATMENT_TYPE,
         SERVICE_LIFE: treat.SERVICE_LIFE,
@@ -105,6 +106,7 @@ function ProjectDetails({ crashCostList, project, intersection }) {
       if (tereats.data && tereats.data.length) {
         setTreatments(tereats.data.map((treat, index) => {
           return {
+            id: treat.id,
             TREATMENT_NAME: treat.TREATMENT_NAME,
             TREATMENT_TYPE: treat.TREATMENT_TYPE,
             SERVICE_LIFE: treat.SERVICE_LIFE,
@@ -226,24 +228,21 @@ function ProjectDetails({ crashCostList, project, intersection }) {
 
       let trts = project.treatments.filter(tr => !selectedTreatsRemove[tr.id]);
 
-      if (trts.length > 0) {
+      let values = computing(trts);
+      const update = await formRequest(`projects/${values.id}`, {
+        method: "PUT", data: { ...values, treatments: trts }
+      });
 
-        let values = computing(trts);
-        const update = await formRequest(`projects/${values.id}`, {
-          method: "PUT", data: { ...values, treatments: trts }
+      if (update.status === 200) {
+        router.push("/projects");
+        notification["success"]({
+          duration: 5,
+          message: "Treatment Removed",
         });
-
-        if (update.status === 200) {
-          router.push("/projects");
-          notification["success"]({
-            duration: 5,
-            message: "Treatment Removed",
-          });
-          tereats.refetch();
-          prujects.refetch();
-        }
-
+        tereats.refetch();
+        prujects.refetch();
       }
+
     } catch (e) {
       notification["error"]({
         duration: 5,
