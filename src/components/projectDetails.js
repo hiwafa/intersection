@@ -195,7 +195,12 @@ function ProjectDetails({ crashCostList, project, intersection }) {
 
   const handleOk = async () => {
 
-    let values = computing(newTreatments);
+    let values;
+    if (project.treatments && Array.isArray(project.treatments)) {
+      values = computing({ ...newTreatments, ...project.treatments });
+    } else {
+      values = computing(newTreatments);
+    }
 
     if (newTreatments?.length > 0) {
       newTreatments.forEach((tr) => {
