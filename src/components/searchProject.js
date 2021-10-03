@@ -6,6 +6,7 @@ import { SearchOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 import styled from "styled-components";
 import { TableContainer, ContentContainer } from "./styleds"
 import { useRouter } from "next/router";
+import { useGetIntersectionsQuery } from "../store/query";
 
 const ActionContainer = styled.div`
   text-align: center;
@@ -28,6 +29,7 @@ function SearchProject() {
   const [projects, setProjects] = useState([])
   const [searchText, setSearchText] = useState("")
   const [searchedColumn, setSearchedColumn] = useState("");
+  const { data: prujects } = useGetIntersectionsQuery("projects");
   const { push } = useRouter();
   let searchInput;
 
@@ -147,12 +149,9 @@ function SearchProject() {
 
 
   const loadProjects = async () => {
-    const res = await formRequest("projects", {
-      method: "GET",
-    });
-    if (res.status === 200) {
+    if (prujects && prujects.length) {
       setProjects(
-        res.data.map((project, index) => ({
+        prujects.map((project, index) => ({
           key: index,
           name: project.PROJECT_NAME,
           status: project.PROJECT_STATUS,
@@ -192,9 +191,9 @@ function SearchProject() {
       let inter = await loadIntersections(project)
       if (inter) {
         if (section === "edit") {
-          push(`projects/edit?zXk8T=${btoa("zXk8TqO12S"+JSON.stringify(project))}`);
+          push(`projects/edit?zXk8T=${btoa("zXk8TqO12S" + JSON.stringify(project))}`);
         } else {
-          push(`projects/view?XzfkqLWpaoeR=${btoa("zXkYweO12S"+JSON.stringify({project, inter}))}`);
+          push(`projects/view?XzfkqLWpaoeR=${btoa("zXkYweO12S" + JSON.stringify({ project, inter }))}`);
         }
       }
     } catch (err) {
