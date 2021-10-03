@@ -73,7 +73,7 @@ function ProjectDetails({ crashCostList, project, intersection }) {
       { id: "2", field: <b>{"Project Number"}</b>, value: project.PROJECT_NUMBER },
       { id: "3", field: <b>{"Project Status"}</b>, value: project.PROJECT_STATUS },
       { id: "4", field: <b>{"Intersection"}</b>, value: project.INTERSECTION?.INTERSECTION_NAME },
-      { id: "5", field: <b>{"B/C"}</b>, value: project.BEN_COST.toLocaleString() },
+      { id: "5", field: <b>{"B/C"}</b>, value: project.BEN_COST },
       { id: "6", field: <b>{"Crash Count"}</b>, value: project.CRASH_COUNT },
       { id: "7", field: <b>{"Crash Start Date"}</b>, value: project.CRASH_START_DATE },
       { id: "8", field: <b>{"Crash End Date"}</b>, value: project.CRASH_END_DATE },
