@@ -19,6 +19,7 @@ const Wrapper = styled.div`
 import { firstCounter, getCalculatedData, numberOfCrashes } from "../utils/calculations";
 import { useGetIntersectionsQuery } from "../store/query";
 
+let tereats = {};
 function ProjectDetails({ crashCostList, project, intersection }) {
 
   const router = useRouter();
@@ -29,8 +30,9 @@ function ProjectDetails({ crashCostList, project, intersection }) {
   const [deleteListTreats, setDeleteListTreats] = useState([]);
   const [projectTreatments, setProjectTreatments] = useState([]);
   const { data: crashCosts } = useGetIntersectionsQuery("Crash-costs");
-  const tereats = useGetIntersectionsQuery("treatments");
+  const tData = useGetIntersectionsQuery("treatments");
   const prujects = useGetIntersectionsQuery("projects");
+  tereats = tData;
 
   useEffect(() => {
     crashCostList && setProjectDetails()
@@ -102,7 +104,6 @@ function ProjectDetails({ crashCostList, project, intersection }) {
 
   const loadTreatments = async () => {
     try {
-
       if (tereats.data && tereats.data.length) {
         setTreatments(tereats.data.map((treat, index) => {
           return {
