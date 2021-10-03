@@ -54,7 +54,6 @@ function ProjectDetails({ crashCostList, project, intersection }) {
 
   }, []);
 
-  let newTreats = [];
   const showModal = async () => {
     await loadTreatments();
     setVisible(true);
@@ -227,7 +226,6 @@ function ProjectDetails({ crashCostList, project, intersection }) {
     try {
 
       let trts = project.treatments.filter(tr => !selectedTreatsRemove[tr.id]);
-
       let values = computing(trts);
       const update = await formRequest(`projects/${values.id}`, {
         method: "PUT", data: { ...values, treatments: trts }
@@ -251,49 +249,52 @@ function ProjectDetails({ crashCostList, project, intersection }) {
     }
   }
 
-  return (<><Wrapper>
-    <PageTitle> <LeftCircleOutlined className={"backButton"} onClick={() => router.push("/projects")} />Project Details
-      <ThemButton
-        type="primary"
-        className={"downloadButton"}
-        size={"medium"}
-        icon={<DownloadOutlined />}
-        onClick={handleExportWithComponent}
-      >
-        Download Project Details
-      </ThemButton>
-      {
-        project.projectFile?.url && <a rel="noopener noreferrer" target="_blank" href={`${BASE_URL}${project.projectFile?.url}`}>
-          <ThemButton type={"primary"} icon={<DownloadOutlined />} htmlType={"button"} size={"medium"} className={"downloadButton"}>Download Attachments</ThemButton>
-        </a>
-      }
-    </PageTitle>
+  return (
+    <>
+      <Wrapper>
+        <PageTitle> <LeftCircleOutlined className={"backButton"} onClick={() => router.push("/projects")} />Project Details
+          <ThemButton
+            type="primary"
+            className={"downloadButton"}
+            size={"medium"}
+            icon={<DownloadOutlined />}
+            onClick={handleExportWithComponent}
+          >
+            Download Project Details
+          </ThemButton>
+          {
+            project.projectFile?.url && <a rel="noopener noreferrer" target="_blank" href={`${BASE_URL}${project.projectFile?.url}`}>
+              <ThemButton type={"primary"} icon={<DownloadOutlined />} htmlType={"button"} size={"medium"} className={"downloadButton"}>Download Attachments</ThemButton>
+            </a>
+          }
+        </PageTitle>
 
-    <TableContainer style={{ maxWidth: "450px", margin: "auto" }}>
-      <PDFExport ref={pdfExportComponent} paperSize="A4">
-        <Table rowKey="id" pagination={false} columns={columns} dataSource={details} tableLayout={"horizontal"} />
-      </PDFExport>
-    </TableContainer>
-  </Wrapper>
-    <Modal
-      title="Add Treatment"
-      visible={visible}
-      loading={true}
-      onCancel={handleCancel}
-      footer={false}
-      width={1200}
-    >
-      <Tabs defaultActiveKey="1">
-        <TabPane tab="Countermeasures" style={{ textAlign: "center" }} key="1">
-          {treatments && <Table rowKey="id" pagination={false} columns={projectTreatmentColumns} dataSource={projectTreatments} />}
-          {project.PROJECT_STATUS !== "Completed" && <Button style={{ marginTop: "10px" }} type={"danger"} onClick={handleRemove}>Remove</Button>}
-        </TabPane>
-        <TabPane tab="Treatments" style={{ textAlign: "center" }} key="2">
-          {treatments && <Table rowKey="id" pagination={false} columns={modalTableColumns} dataSource={treatments} />}
-          {project.PROJECT_STATUS !== "Completed" && <Button style={{ marginTop: "10px" }} type={"primary"} onClick={handleOk}>Add Treatment</Button>}
-        </TabPane>
-      </Tabs>
-    </Modal>
-  </>)
+        <TableContainer style={{ maxWidth: "450px", margin: "auto" }}>
+          <PDFExport ref={pdfExportComponent} paperSize="A4">
+            <Table rowKey="id" pagination={false} columns={columns} dataSource={details} tableLayout={"horizontal"} />
+          </PDFExport>
+        </TableContainer>
+      </Wrapper>
+      <Modal
+        title="Add Treatment"
+        visible={visible}
+        loading={true}
+        onCancel={handleCancel}
+        footer={false}
+        width={1200}
+      >
+        <Tabs defaultActiveKey="1">
+          <TabPane tab="Countermeasures" style={{ textAlign: "center" }} key="1">
+            {treatments && <Table rowKey="id" pagination={false} columns={projectTreatmentColumns} dataSource={projectTreatments} />}
+            {project.PROJECT_STATUS !== "Completed" && <Button style={{ marginTop: "10px" }} type={"danger"} onClick={handleRemove}>Remove</Button>}
+          </TabPane>
+          <TabPane tab="Treatments" style={{ textAlign: "center" }} key="2">
+            {treatments && <Table rowKey="id" pagination={false} columns={modalTableColumns} dataSource={treatments} />}
+            {project.PROJECT_STATUS !== "Completed" && <Button style={{ marginTop: "10px" }} type={"primary"} onClick={handleOk}>Add Treatment</Button>}
+          </TabPane>
+        </Tabs>
+      </Modal>
+    </>
+  )
 }
 export default ProjectDetails
