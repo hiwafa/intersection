@@ -1,12 +1,12 @@
 import react, { useState, useEffect } from "react"
 import { Button, Table, Space, Input } from "antd"
-import { formRequest } from "../requests"
-import Highlighter from 'react-highlight-words';
-import { SearchOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
+import { formRequest } from "../requests";
 import styled from "styled-components";
-import { TableContainer, ContentContainer } from "./styleds"
 import { useRouter } from "next/router";
+import Highlighter from 'react-highlight-words';
 import { useGetIntersectionsQuery } from "../store/query";
+import { TableContainer, ContentContainer } from "./styleds";
+import { SearchOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 
 const ActionContainer = styled.div`
   text-align: center;
@@ -147,7 +147,6 @@ function SearchProject() {
     },
   ];
 
-
   const loadProjects = async () => {
     if (prujects && prujects.length) {
       setProjects(
@@ -168,7 +167,8 @@ function SearchProject() {
         )
       )
     }
-  }
+  };
+
   const loadIntersections = async (project) => {
     try {
       const res = await formRequest(`/intersection-inventories/${project.INTERSECTION?.id}`, {
@@ -184,7 +184,7 @@ function SearchProject() {
 
   useEffect(() => {
     loadProjects()
-  }, []);
+  }, [prujects]);
 
   const selectProject = async (project, section) => {
     try {

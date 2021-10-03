@@ -30,6 +30,7 @@ function ProjectDetails({ crashCostList, project, intersection }) {
   const [projectTreatments, setProjectTreatments] = useState([]);
   const { data: crashCosts } = useGetIntersectionsQuery("Crash-costs");
   const tereats = useGetIntersectionsQuery("treatments");
+  const prujects = useGetIntersectionsQuery("projects");
 
   useEffect(() => {
     crashCostList && setProjectDetails()
@@ -210,6 +211,7 @@ function ProjectDetails({ crashCostList, project, intersection }) {
             duration: 5, message: "Treatment Added",
           });
           tereats.refetch();
+          prujects.refetch();
         }
       } catch (e) {
         notification["error"]({
@@ -254,6 +256,7 @@ function ProjectDetails({ crashCostList, project, intersection }) {
             message: "Treatment Removed",
           });
           tereats.refetch();
+          prujects.refetch();
         }
 
       }
