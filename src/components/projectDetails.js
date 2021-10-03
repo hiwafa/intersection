@@ -189,8 +189,19 @@ function ProjectDetails({ crashCostList, project, intersection }) {
 
     if (!Array.isArray(tereats.data)) return;
 
+    let checkOldArr = project.treatments && Array.isArray(project.treatments);
+
+    if(checkOldArr){
+      project.treatments.forEach(tr => {
+        if(selectedTreatsAdd[tr.id] !== undefined){
+          delete selectedTreatsAdd[tr.id];
+        }
+      });
+    }
+
     let trts = tereats.data.filter(tr => selectedTreatsAdd[tr.id] === true), values;
-    if (project.treatments && Array.isArray(project.treatments)) {
+
+    if (checkOldArr) {
       values = computing([...trts, ...project.treatments]);
     } else {
       values = computing(trts);
