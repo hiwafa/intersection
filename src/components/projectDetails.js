@@ -190,8 +190,8 @@ function ProjectDetails({ crashCostList, project, intersection }) {
       values = computing(trts);
     }
 
-    if (newTreatments?.length > 0) {
-      newTreatments.forEach((tr) => {
+    if (trts?.length > 0) {
+      trts.forEach((tr) => {
         values.treatments.push(tr)
       });
       try {
