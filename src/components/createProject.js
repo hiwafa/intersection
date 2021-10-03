@@ -21,6 +21,7 @@ function CreateProject({ handleClick }) {
         params = JSON.parse(query.project);
     }
 
+    const { refetch } = useGetIntersectionsQuery("projects");
     const { data: crashCosts } = useGetIntersectionsQuery("Crash-costs");
     const { data: intersections } = useGetIntersectionsQuery("intersection-inventories");
 
@@ -80,6 +81,7 @@ function CreateProject({ handleClick }) {
                     duration: 5, message: "Project created",
                 });
                 handleClick(true);
+                refetch();
             }
         } catch (err) {
             notification["error"]({
