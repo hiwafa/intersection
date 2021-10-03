@@ -255,7 +255,7 @@ const LayoutCom = ({ children }) => {
                     </Form>
                 </Modal>
 
-                <Footer style={{ textAlign: 'center' }}>
+                <Footer style={{ textAlign: 'center', fontSize: 12 }}>
                     Safety Analytica ©2021 Developed by TheCodeGiant
                 </Footer>
             </Layout>
