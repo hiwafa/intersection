@@ -26,7 +26,6 @@ function ProjectDetails({ crashCostList, project, intersection }) {
   const [details, setDetails] = useState([]);
   const [visible, setVisible] = useState(false);
   const [treatments, setTreatments] = useState([]);
-  const [newTreatments, setNewTreatments] = useState([]);
   const [projectTreatments, setProjectTreatments] = useState([]);
   const { data: crashCosts } = useGetIntersectionsQuery("Crash-costs");
   const tData = useGetIntersectionsQuery("treatments");
@@ -229,10 +228,9 @@ function ProjectDetails({ crashCostList, project, intersection }) {
 
       if (trts.length > 0) {
 
-        let values = computing();
+        let values = computing(trts);
         const update = await formRequest(`projects/${values.id}`, {
-          method: "PUT",
-          data: values
+          method: "PUT", data: { ...values, treatments: trts }
         });
 
         if (update.status === 200) {
