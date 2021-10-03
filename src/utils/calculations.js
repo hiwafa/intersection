@@ -64,10 +64,13 @@ const getCalculatedData = ({
     let ccP = crbP * pCrashCost;
 
     EUAB = ((ccF + ccI + ccP) / years);
-    const BEN_COST = (EUAB / EUAC).toFixed(3);
+    const benCost = (EUAB / EUAC).toFixed(3);
     EUAC = EUAC.toFixed(3);
 
-    return { EUAC, EUAB, BEN_COST }
+    return {
+        EUAC, EUAB, BEN_COST: benCost === "Infinity"
+            || benCost === "NaN" ? "0.000" : benCost
+    }
 }
 
 
