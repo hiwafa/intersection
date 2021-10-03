@@ -14,6 +14,7 @@ import axios from "axios"
 import styled from "styled-components";
 import { useRouter } from "next/router";
 import { DownloadOutlined, DeleteOutlined } from '@ant-design/icons';
+import { useGetIntersectionsQuery } from "../store/query";
 const BASE_URL = process.env.BASE_URL;
 const FileButtonsContainer = styled.div`
   .removeButton{
@@ -36,6 +37,7 @@ function EditProject() {
     pruject = JSON.parse(atob(query.zXk8T).substring(10));
   }
 
+  const { refetch } = useGetIntersectionsQuery("projects");
   const [status, setStatus] = useState(pruject.PROJECT_STATUS)
   const [removeLoading, setRemoveLoading] = useState(false)
   const [showUploadInput, setShowUploadInput] = useState(false)
@@ -124,7 +126,7 @@ function EditProject() {
       console.log("no file selected")
     }
 
-    await formRequest(`projects/${values.id}`, {
+    formRequest(`projects/${values.id}`, {
       method: "PUT",
       data: values,
       headers: {
@@ -134,7 +136,8 @@ function EditProject() {
       notification["success"]({
         duration: 5,
         message: "Project Edited",
-      })
+      });
+      refetch();
       push("/projects");
     }).catch((e) => {
       console.log(e)
