@@ -57,10 +57,14 @@ function ProjectDetails({ crashCostList, project, intersection }) {
   const showModal = async () => {
     await loadTreatments();
     setVisible(true);
+    selectedTreatsAdd = {};
+    selectedTreatsRemove = {};
   };
 
   const handleCancel = () => {
     setVisible(false);
+    selectedTreatsAdd = {};
+    selectedTreatsRemove = {};
   };
 
   const setProjectDetails = () => {
@@ -183,7 +187,7 @@ function ProjectDetails({ crashCostList, project, intersection }) {
 
   const handleOk = async () => {
 
-    if(!Array.isArray(tereats.data)) return;
+    if (!Array.isArray(tereats.data)) return;
 
     let trts = tereats.data.filter(tr => selectedTreatsAdd[tr.id] === true), values;
     if (project.treatments && Array.isArray(project.treatments)) {
@@ -277,25 +281,28 @@ function ProjectDetails({ crashCostList, project, intersection }) {
           </PDFExport>
         </TableContainer>
       </Wrapper>
-      <Modal
-        title="Add Treatment"
-        visible={visible}
-        loading={true}
-        onCancel={handleCancel}
-        footer={false}
-        width={1200}
-      >
-        <Tabs defaultActiveKey="1">
-          <TabPane tab="Countermeasures" style={{ textAlign: "center" }} key="1">
-            {treatments && <Table rowKey="id" pagination={false} columns={projectTreatmentColumns} dataSource={projectTreatments} />}
-            {project.PROJECT_STATUS !== "Completed" && <Button style={{ marginTop: "10px" }} type={"danger"} onClick={handleRemove}>Remove</Button>}
-          </TabPane>
-          <TabPane tab="Treatments" style={{ textAlign: "center" }} key="2">
-            {treatments && <Table rowKey="id" pagination={false} columns={modalTableColumns} dataSource={treatments} />}
-            {project.PROJECT_STATUS !== "Completed" && <Button style={{ marginTop: "10px" }} type={"primary"} onClick={handleOk}>Add Treatment</Button>}
-          </TabPane>
-        </Tabs>
-      </Modal>
+      {
+        visible &&
+        <Modal
+          title="Add Treatment"
+          visible={visible}
+          loading={true}
+          onCancel={handleCancel}
+          footer={false}
+          width={1200}
+        >
+          <Tabs defaultActiveKey="1">
+            <TabPane tab="Countermeasures" style={{ textAlign: "center" }} key="1">
+              {treatments && <Table rowKey="id" pagination={false} columns={projectTreatmentColumns} dataSource={projectTreatments} />}
+              {project.PROJECT_STATUS !== "Completed" && <Button style={{ marginTop: "10px" }} type={"danger"} onClick={handleRemove}>Remove</Button>}
+            </TabPane>
+            <TabPane tab="Treatments" style={{ textAlign: "center" }} key="2">
+              {treatments && <Table rowKey="id" pagination={false} columns={modalTableColumns} dataSource={treatments} />}
+              {project.PROJECT_STATUS !== "Completed" && <Button style={{ marginTop: "10px" }} type={"primary"} onClick={handleOk}>Add Treatment</Button>}
+            </TabPane>
+          </Tabs>
+        </Modal>
+      }
     </>
   )
 }
