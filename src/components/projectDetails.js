@@ -19,7 +19,7 @@ const Wrapper = styled.div`
 import { firstCounter, getCalculatedData, numberOfCrashes } from "../utils/calculations";
 import { useGetIntersectionsQuery } from "../store/query";
 
-let tereats = {};
+let tereats = {}, selectedTreatsRemove = {};
 function ProjectDetails({ crashCostList, project, intersection }) {
 
   const router = useRouter();
@@ -27,7 +27,7 @@ function ProjectDetails({ crashCostList, project, intersection }) {
   const [visible, setVisible] = useState(false);
   const [treatments, setTreatments] = useState([]);
   const [newTreatments, setNewTreatments] = useState([]);
-  const [deleteListTreats, setDeleteListTreats] = useState([]);
+  const [deleteListTreats, setDeleteListTreats] = useState({});
   const [projectTreatments, setProjectTreatments] = useState([]);
   const { data: crashCosts } = useGetIntersectionsQuery("Crash-costs");
   const tData = useGetIntersectionsQuery("treatments");
@@ -145,13 +145,11 @@ function ProjectDetails({ crashCostList, project, intersection }) {
     setNewTreatments(newTreats)
   };
 
+
   const removeTreat = (e, treat) => {
-    const removeTreat = project.treatments.filter((treatment) => treatment.id !== treat.id);
-    if (removeTreat.length === 0) {
-      setDeleteListTreats("empty");
-    }
-    else {
-      setDeleteListTreats(removeTreat);
+    selectedTreatsRemove = {
+      ...selectedTreatsRemove,
+      [treat.id]: e.target.checked
     }
   };
 
@@ -237,19 +235,11 @@ function ProjectDetails({ crashCostList, project, intersection }) {
   const handleRemove = async () => {
     try {
 
-      if (deleteListTreats?.length > 0 || deleteListTreats === "empty") {
+      let trts = project.treatments.filter(tr => !selectedTreatsRemove[tr.id]);
 
-        if (deleteListTreats === "empty") {
-          project.treatments = []
-        } else {
-          deleteListTreats.forEach((tr) => {
-            var index = project.treatments.indexOf(tr);
-            project.treatments.splice(index, 1);
-          });
-        }
-
-        let values = computing(project.treatments);
-
+      if (trts.length > 0) {
+        
+        let values = computing();
         const update = await formRequest(`projects/${values.id}`, {
           method: "PUT",
           data: values
