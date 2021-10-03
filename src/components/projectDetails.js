@@ -7,7 +7,10 @@ import { formRequest } from "../requests"
 import { PDFExport } from '@progress/kendo-react-pdf';
 import styled from "styled-components";
 import { useRouter } from "next/router";
-import numeral from "numeral"
+import numeral from "numeral";
+import { useSelector } from "react-redux";
+import {getUser} from "../store/actions/UserSlice";
+
 import { columns, projectTreatmentColumns, modalTableColumns } from "../constants/projectDetailsConstants"
 
 const { TabPane } = Tabs;
@@ -23,6 +26,7 @@ let tereats = {}, selectedTreatsRemove = {}, selectedTreatsAdd = {};
 function ProjectDetails({ crashCostList, project, intersection }) {
 
   const router = useRouter();
+  const { role } = useSelector(getUser);
   const [details, setDetails] = useState([]);
   const [visible, setVisible] = useState(false);
   const [treatments, setTreatments] = useState([]);
@@ -305,11 +309,11 @@ function ProjectDetails({ crashCostList, project, intersection }) {
           <Tabs defaultActiveKey="1">
             <TabPane tab="Countermeasures" style={{ textAlign: "center" }} key="1">
               {treatments && <Table rowKey="id" pagination={false} columns={projectTreatmentColumns} dataSource={projectTreatments} />}
-              {project.PROJECT_STATUS !== "Completed" && <Button style={{ marginTop: "10px" }} type={"danger"} onClick={handleRemove}>Remove</Button>}
+              {project.PROJECT_STATUS !== "Completed" && <Button disabled={role.id !== 1 && role.id !== 3} style={{ marginTop: "10px" }} type={"danger"} onClick={handleRemove}>Remove</Button>}
             </TabPane>
             <TabPane tab="Treatments" style={{ textAlign: "center" }} key="2">
               {treatments && <Table rowKey="id" pagination={false} columns={modalTableColumns} dataSource={treatments} />}
-              {project.PROJECT_STATUS !== "Completed" && <Button style={{ marginTop: "10px" }} type={"primary"} onClick={handleOk}>Add Treatment</Button>}
+              {project.PROJECT_STATUS !== "Completed" && <Button disabled={role.id !== 1 && role.id !== 3} style={{ marginTop: "10px" }} type={"primary"} onClick={handleOk}>Add Treatment</Button>}
             </TabPane>
           </Tabs>
         </Modal>

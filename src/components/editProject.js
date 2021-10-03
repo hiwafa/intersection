@@ -115,11 +115,8 @@ function EditProject() {
         },
       })
       if (upload.status === 200) {
-        let filee = values.files[0];
-        let newFile = upload.data.url;
         values.projectFile = upload.data
-        setShowUploadInput(true)
-
+        setShowUploadInput(true);
       }
     }
     catch (e) {
