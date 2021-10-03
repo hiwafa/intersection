@@ -197,7 +197,7 @@ function ProjectDetails({ crashCostList, project, intersection }) {
 
     let values;
     if (project.treatments && Array.isArray(project.treatments)) {
-      values = computing({ ...newTreatments, ...project.treatments });
+      values = computing([...newTreatments, ...project.treatments]);
     } else {
       values = computing(newTreatments);
     }
